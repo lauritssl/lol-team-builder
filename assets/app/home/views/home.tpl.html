@@ -1,0 +1,56 @@
+  <div class="content-bg">
+                    
+                    <!-- Single BG -->
+                    <div id="single-login-bg-container">
+                    <div class="col-xs-12" style="padding: 0px;">
+                        <video autoplay loop id="login_bg-render">
+                        <source src="../../images/webm/Darius.webm" type="video/webm">
+                        </video>
+                    </div>
+                    </div>
+                    
+
+                <!-- Double BG -->
+                <!-- <div class="col-sm-12" style="padding: 0px;">
+                <div class="col-sm-6" style="padding: 0px;">
+                        <video autoplay loop id="login_bg-render">
+                        <source src="C:/Users/Poul/Dropbox/Ultimate%20Bravery/images/webm/Draven.webm" type="video/webm">
+                        </video>
+                        <img id="login_seperator-line" src="C:/Users/Poul/Dropbox/Ultimate%20Bravery/images/line_vert.png">
+
+                    </div>
+                    <div class="col-sm-6" style="padding: 0px;">
+                        <video autoplay loop id="login_bg-render">
+                        <source src="C:/Users/Poul/Dropbox/Ultimate%20Bravery/images/webm/Annie.webm" type="video/webm">
+                        </video>
+                    </div>
+                </div> 
+                </div> -->
+
+
+        <div class="content-wrapper" id="home-content">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-12 game-input-container  text-center">
+                    <div class="form-group">
+                         <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">
+                    </div>
+                        <button type="button" class="btn btn-default " ng-click="main.go('games/'+home.gameId)">Join game</button>
+                    </div>
+                    
+                    
+                    <div class="col-sm-12 game-input-container text-center" ng-if="main.currentUser">
+                    <div class="form-group">
+                         <input type="text" class="form-control" name="" value="" placeholder="Enter game title" ng-model="home.newGame.title">
+                    </div>
+                        <button type="button" class="btn btn-default " ng-click="home.createGame(home.newGame.title)">Create game</button>
+                
+                    </div>
+                   
+                    <!-- <div class="col-sm-12">
+                        <a href="#" id="login-btn_frontpage"></a>
+                    </div> -->
+                </div>    
+            </div>
+        </div>
+    </div>
