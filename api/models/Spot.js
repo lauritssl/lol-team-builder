@@ -17,15 +17,15 @@ module.exports = {
   },
 
   removeUser: function(id) {
-  	Spot.update(id).
+  	Spot.findOne(id).
 		exec(function(err, spot){
 			if (err) {
 				return res.serverError(err);
 			}
 			else if(typeof spot != 'undefined'){
-				spot.user = null;
-				console.log(spot);
-				spot.save(function(err){});
+				spot.update({user: null}, function(err, model){
+
+				});
 			}
 
 

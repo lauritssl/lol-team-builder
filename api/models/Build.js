@@ -4,6 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
+var request = require("request");
 
 module.exports = {
 
@@ -12,6 +13,9 @@ module.exports = {
   			type: 'string',
   			required: true
   		},
+      champion: {
+        type: 'string',
+      },
   		boots: {
   			type:  'number'
   		},
@@ -49,6 +53,21 @@ module.exports = {
   		mastery3: {
   			type: 'number'
   		}
+  },
+
+  rollBuild: function(id) {
+
+
+    var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
+    
+    request({
+      url: url,
+      json: true
+    }, function(error, response, body){
+       if (!error && response.statusCode === 200) {
+        console.log(body) // Print the json response
+    }
+    })
   }
 };
 
