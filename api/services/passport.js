@@ -83,14 +83,16 @@ passport.connect = function (req, query, profile, next) {
   // If neither an email or a username was available in the profile, we don't
   // have a way of identifying the user in the future. Throw an error and let
   // whoever's next in the line take care of it.
-  if (!user.username && !user.email) {
-    return next(new Error('Neither a username nor email was available'));
+  if (!Object.keys(user).length) {
+    return next(new Error('Neither a username or email was available', null));
   }
 
   Passport.findOne({
     provider   : profile.provider
-  , identifier : query.identifier.toString()
-  }, function (err, passport) {
+  , identifier : query.identifier
+  })
+  .populate('user')
+  .exec(function (err, passport) {
     if (err) return next(err);
 
     if (!req.user) {
@@ -98,18 +100,12 @@ passport.connect = function (req, query, profile, next) {
       //           authentication provider.
       // Action:   Create a new user and assign them a passport.
       if (!passport) {
-        User.create(user, function (err, user) {
-          if (err) {
-            if(err.code === "E_VALIDATION"){
-              req.flash('error', err.invalidAttributes.email ? 
-                'Error.Passport.Email.Exists' : 'Error.Passport.User.Exists');
-            }
-            return next(err);
-          }
-          
+        User.create(user).exec(function (err, user) {
+          if (err) return next(err);
+
           query.user = user.id;
 
-          Passport.create(query, function (err, passport) {
+          Passport.create(query).exec(function (err, passport) {
             // If a passport wasn't created, bail out
             if (err) return next(err);
 
@@ -121,18 +117,7 @@ passport.connect = function (req, query, profile, next) {
       //           connected passport.
       // Action:   Get the user associated with the passport.
       else {
-        // If the tokens have changed since the last session, update them
-        if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
-          passport.tokens = query.tokens;
-        }
-
-        // Save any updates to the Passport before moving on
-        passport.save(function (err, passport) {
-          if (err) return next(err);
-
-          // Fetch the user associated with the Passport
-          User.findOne(passport.user.id, next);
-        });
+        next(null, passport.user);
       }
     } else {
       // Scenario: A user is currently logged in and trying to connect a new
@@ -141,7 +126,7 @@ passport.connect = function (req, query, profile, next) {
       if (!passport) {
         query.user = req.user.id;
 
-        Passport.create(query, function (err, passport) {
+        Passport.create(query).exec(function (err, passport) {
           // If a passport wasn't created, bail out
           if (err) return next(err);
 
@@ -156,6 +141,7 @@ passport.connect = function (req, query, profile, next) {
     }
   });
 };
+
 
 /**
  * Create an authentication endpoint
@@ -181,6 +167,8 @@ passport.endpoint = function (req, res) {
   if (strategies[provider].hasOwnProperty('scope')) {
     options.scope = strategies[provider].scope;
   }
+  // Load authentication strategies
+  this.loadStrategies(req);
 
   // Redirect the user to the provider for authentication. When complete,
   // the provider will redirect the user back to the application at
@@ -215,7 +203,8 @@ passport.callback = function (req, res, next) {
       next(new Error('Invalid action'));
     }
   } else {
-
+// Load authentication strategies
+    this.loadStrategies(req);
     // The provider will redirect the user to this URL after approval. Finish
     // the authentication process by attempting to obtain an access token. If
     // access was granted, the user will be logged in. Otherwise, authentication
@@ -250,7 +239,8 @@ passport.loadStrategies = function () {
     , strategies = sails.config.passport;
 
   Object.keys(strategies).forEach(function (key) {
-    var options = { passReqToCallback: true }, Strategy;
+    var Strategy = require('passport-' + key).Strategy
+      , options  = { passReqToCallback: true };
 
     if (key === 'local') {
       // Since we need to allow users to login using both usernames as well as
@@ -258,32 +248,22 @@ passport.loadStrategies = function () {
       _.extend(options, { usernameField: 'identifier' });
 
       // Only load the local strategy if it's enabled in the config
-      if (strategies.local) {
-        Strategy = strategies[key].strategy;
-
+      if (strategies[key]) {
         self.use(new Strategy(options, self.protocols.local.login));
       }
     } else {
-      var protocol = strategies[key].protocol
-        , callback = strategies[key].callback;
+      var protocol   = strategies[key].protocol
+        , callback   = path.join('auth', key, 'callback');
 
-      if (!callback) {
-        callback = path.join('auth', key, 'callback');
-      }
-
-      Strategy = strategies[key].strategy;
-      
-      var baseUrl = sails.getBaseurl();
-      
       switch (protocol) {
         case 'oauth':
         case 'oauth2':
-          options.callbackURL = url.resolve(baseUrl, callback);
+          options.callbackURL = url.resolve(req.baseUrl, callback);
           break;
 
         case 'openid':
-          options.returnURL = url.resolve(baseUrl, callback);
-          options.realm     = baseUrl;
+          options.returnURL = url.resolve(req.baseUrl, callback);
+          options.realm     = req.baseUrl;
           options.profile   = true;
           break;
       }
@@ -303,7 +283,7 @@ passport.serializeUser(function (user, next) {
 });
 
 passport.deserializeUser(function (id, next) {
-  User.findOne(id, next);
+  User.findOne(id).exec(next);
 });
 
 module.exports = passport;

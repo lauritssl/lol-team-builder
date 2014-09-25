@@ -1,3 +1,4 @@
+  <div ng-include="'header/views/header.tpl.html'"></div>
   <div class="content-bg">
                     
                     <!-- Single BG -->
@@ -28,25 +29,22 @@
                 </div> -->
 
 
-        <div class="content-wrapper" id="home-content">
+        <div class="content-wrapper">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
-                    <div class="col-sm-12 game-input-container  text-center">
-                    <div class="form-group">
-                         <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">
+                    <div class="col-sm-12">
+                    <form action="auth/local" ole="form" method="post" accept-charset="utf-8">
+                      <div class="form-group">
+                         <input type="text" class="form-control" id="inputUsername3" name="identifier" placeholder="Username">
+                         <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
                     </div>
-                        <button type="button" class="btn btn-default " ng-click="main.go('games/'+home.game.id)">Join game</button>
+                        <button type="submit" id="login-btn_frontpage"></button>
                     </div>
+                    </form>
                     
-                    
-                    <div class="col-sm-12 game-input-container text-center" ng-if="main.currentUser.id">
-                    <div class="form-group">
-                         <input type="text" class="form-control" name="" value="" placeholder="Enter game title" ng-model="home.newGame.title">
+                    <div class="col-sm-12">
+                        <a href="/register" id="signup-btn_frontpage"></a>
                     </div>
-                        <button type="button" class="btn btn-default " ng-click="home.createGame(home.newGame)">Create game</button>
-                
-                    </div>
-                   
                     <!-- <div class="col-sm-12">
                         <a href="#" id="login-btn_frontpage"></a>
                     </div> -->

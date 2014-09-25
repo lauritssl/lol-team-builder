@@ -1,282 +1,84 @@
   <div class="content-bg">
-        <div class="content-wrapper">
+    <div >
 
-            <!-- Game title -->
-            <div class="col-sm-12">
-                <div class="col-sm-5 col-sm-offset-2">
-                    <p>{{game.title}}</p>
-                </div>
-            </div>
-
-            <!-- Roll - reroll button -->
-            <div class="col-sm-12">
-                <div id="roll-btn_lobby"></div>
-            </div>
-
-            <!-- Player shields -->
-            <div id="player_shield_container">
-                <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>  
-                        </div>
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="player_shield">
-                                <h2 id="player_name">Scrappycoco</h2>
-                                <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
-                                <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                                <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                                <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
-                                <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
-                                <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                    <li class="masteries_text">5</li>
-                                    <li class="masteries_text">6</li>
-                                    <li class="masteries_text">7</li>
-                                </ul>
-                            </div>
-                            <div class="player_reroll">
-                                <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Game title -->
+        <div class="col-sm-12">
+            <div class="col-sm-5 col-sm-offset-2">
+                <p>{{gameLobby.game.title}}</p>
             </div>
         </div>
+
+        <!-- Roll - reroll button -->
+        <div class="col-sm-12">
+            <div id="roll-btn_lobby"></div>
+        </div>
+
+        <!-- Player shields -->
+        <div id="player_shield_container">
+            <div class="row" ng-repeat="spot in gameLobby.game.spots">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="col-md-6">
+                        <div class="player_shield" ng-click="gameLobby.joinGame(gameLobby.game)" >
+                            <h2 id="player_name">Scrappycoco</h2>
+                            <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
+                            <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
+                            <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
+                            <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
+                            <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
+                                <li class="masteries_text">5</li>
+                                <li class="masteries_text">6</li>
+                                <li class="masteries_text">7</li>
+                            </ul>
+                        </div>
+                        <div class="player_reroll">
+                            <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
+                        </div>  
+                    </div>
+                    <div class="col-md-6">
+                        <div class="player_shield">
+                            <h2 id="player_name">Scrappycoco</h2>
+                            <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
+                            <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
+                            <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
+                            <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
+                            <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
+                                <li class="masteries_text">5</li>
+                                <li class="masteries_text">6</li>
+                                <li class="masteries_text">7</li>
+                            </ul>
+                        </div>
+                        <div class="player_reroll">
+                            <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
     </div>
-    <script type="text/javascript">
+</div>
+<script type="text/javascript">
 
-        $(document).ready(function(){
-            var classCycle=['bgImage1','bgImage2','bgImage3','bgImage4','bgImage5','bgImage6','bgImage7','bgImage8','bgImage9'];
+    $(document).ready(function(){
+        var classCycle=['bgImage1','bgImage2','bgImage3','bgImage4','bgImage5','bgImage6','bgImage7','bgImage8','bgImage9'];
 
-            var randomNumber = Math.floor(Math.random() * classCycle.length);
-            var classToAdd = classCycle[randomNumber];
+        var randomNumber = Math.floor(Math.random() * classCycle.length);
+        var classToAdd = classCycle[randomNumber];
 
-            $('body').addClass(classToAdd);
+        $('body').addClass(classToAdd);
 
-        });
-    </script>
+    });
+</script>

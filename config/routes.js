@@ -49,8 +49,11 @@ module.exports.routes = {
   ***************************************************************************/
 // Custom routes here...
 
-  'post /api/login': 'AuthController.login',
-  'post /api/logout': 'AuthController.logout',
+  'get /login': 'AuthController.login',
+  'get /logout': 'AuthController.logout',
+  'get /register': 'AuthController.register',
+  'post /auth/local': 'AuthController.callback',
+  'post /auth/local/:action': 'AuthController.callback',
 
     /**
      * User routes
@@ -83,7 +86,6 @@ module.exports.routes = {
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options
   // and examples.
   'get /home': 'HomeController.index',
-  'get /login': 'HomeController.index',
   'get /about': 'HomeController.index',
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',

@@ -23,6 +23,7 @@ var validator = require('validator');
  * @param {Function} next
  */
 exports.register = function (req, res, next) {
+  console.log("i start creating!");
   var email    = req.param('email')
     , username = req.param('username')
     , password = req.param('password');
@@ -46,7 +47,7 @@ exports.register = function (req, res, next) {
     username : username
   , email    : email
   }, function (err, user) {
-    if (err) {
+    if (err) {      
       if (err.code === 'E_VALIDATION') {
         if (err.invalidAttributes.email) {
           req.flash('error', 'Error.Passport.Email.Exists');
@@ -58,12 +59,14 @@ exports.register = function (req, res, next) {
       return next(err);
     }
 
+    console.log(user);
     Passport.create({
       protocol : 'local'
     , password : password
     , user     : user.id
     }, function (err, passport) {
       if (err) {
+        console.log(err);
         if (err.code === 'E_VALIDATION') {
           req.flash('error', 'Error.Passport.Password.Invalid');
         }

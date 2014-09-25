@@ -21,8 +21,13 @@ module.exports = {
 		user: {
 			model: 'user'
 		},
+		numberOfSpots: {
+			type: 'integer',
+			defaultsTo: 10
+		},
 		spots: {
-			type: 'number',
+			collection: 'spot',
+			via: 'id',
 		},
 		builds: {
 			collection: 'build',
@@ -33,9 +38,36 @@ module.exports = {
 		// set message.user = to appropriate user model
 		User.getOne(game.user)
 		.spread(function(user) {
-			game.user = user;
+			game.user = user;			
 			next(null, game);
 		});
+		console.log(game);
+		Game.findOne(game.id).
+		populate("spots").
+		exec(function(err, currentGame){
+			if (err) {
+				return res.serverError(err);
+			}
+			else if(typeof currentGame != 'undefined'){
+				for (var i = 0; i < currentGame.numberOfSpots; i++) {
+				Spot.create({}).exec(function(err, spot) {
+					if (err) {
+						return console.log(err);
+					}
+					else {
+						currentGame.spots.add(spot);
+						currentGame.save(function(err, result){
+				});
+					}
+				});
+				
+			};
+
+			}
+
+
+		});
+			
 	},
 	getAll: function() {
 		return Game.find()
@@ -49,6 +81,7 @@ module.exports = {
 		.populate('user')
 		.populate('builds')
 		.populate('users')
+		.populate('spots')
 		.then(function (model) {
 			return [model];
 		});

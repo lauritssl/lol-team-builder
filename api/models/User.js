@@ -14,7 +14,6 @@ module.exports = {
 		},
 		first_name: {
 			type: 'string',
-			required: true
 		},
 		message_count: {
 			type: 'number'

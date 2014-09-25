@@ -13,22 +13,24 @@ angular.module( 'ubteambuilder.home', [])
 	})
 }]).controller( 'HomeCtrl', HomeCtrl);
 
-HomeCtrl.$inject = ['config', 'titleService', 'GameModel' ];
+HomeCtrl.$inject = ['Session', 'titleService', 'GameModel' ];
 
- function HomeCtrl(config, titleService, GameModel ) {
+ function HomeCtrl(Session, titleService, GameModel ) {
+ 	console.log("i get here!");
  	var vm = this;  
 	vm.game = {};
 	vm.newGame = {};
 
    	titleService.setTitle('Home');
-	vm.currentUser = config.currentUser;
+	vm.currentUser = Session.currentUser;
 
-
+	
 	vm.createGame = function(newGame) {
-		newGame.user = config.currentUser.id;
+		console.log(newGame);
+		newGame.user = Session.currentUser.id;
 		GameModel.create(newGame).then(function(model) {
-
-			vm.newGame = {};
+			console.log(model);
+			$location.path("/games/"+model.id);
 		});
 	};
 };

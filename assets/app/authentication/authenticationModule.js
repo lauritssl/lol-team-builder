@@ -9,16 +9,16 @@ angular.module('ubteambuilder.authentication', [
 
 ]).config(["$stateProvider",function ($stateProvider){
 
-	$stateProvider.state( 'login', {
-		url: '/login',
-		views: {
-			"main": {
-				controller: 'LoginCtrl',
-				templateUrl: 'authentication/views/login.tpl.html',
-				controllerAs: 'authentication',				
-			}
-		}
-	});
+	// $stateProvider.state( 'login', {
+	// 	url: '/login',
+	// 	views: {
+	// 		"main": {
+	// 			controller: 'LoginCtrl',
+	// 			templateUrl: 'authentication/views/login.tpl.html',
+	// 			controllerAs: 'authentication',				
+	// 		}
+	// 	}
+	// });
 }]);
 
 angular.module('ubteambuilder.authentication.controllers', []);

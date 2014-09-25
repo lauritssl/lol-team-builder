@@ -31,16 +31,26 @@
    * @param {Object} res
    */
    login: function (req, res, next) {
-    console.log(req.userName);
+    var strategies = sails.config.passport
+      , providers  = {};
+
+      console.log(strategies);
+
     // Get a list of available providers for use in your templates.
-    passport.authenticate('local', function(err, user, info) {
-      var error = err || info;
-      if (error) { return res.json(400, error); }
-      req.logIn(user, function(err) {
-        if (err) { return res.send(err); }
-        res.json(req.user.user_info);
-      });
-    })(req, res, next);
+    Object.keys(strategies).forEach(function (key) {
+      if (key === 'local') return;
+
+      providers[key] = {
+        name : strategies[key].name
+      , slug : key
+      };
+    });
+
+    // Render the `auth/login.ext` view
+    res.view({
+      providers : providers
+    , errors    : req.flash('error')
+    });
 
     
   },
@@ -60,12 +70,8 @@
    * @param {Object} res
    */
    logout: function (req, res) {
-     if(req.user) {
-      req.logout();
-      res.send(200);
-    } else {
-      res.send(400, "Not logged in");
-    }
+     req.logout();
+    res.redirect('/');
   },
 
   /**
@@ -116,21 +122,21 @@
    * @param {Object} res
    */
    callback: function (req, res) {
-    function tryAgain () {
-      // If an error was thrown, redirect the user to the login which should
-      // take care of rendering the error messages.
-      req.flash('form', req.body);
-    }
-
+    console.log("i get to the callback");
     passport.callback(req, res, function (err, user) {
-      if (err) return tryAgain();
-
-      req.login(user, function (loginErr) {
-        if (loginErr) return tryAgain();
-
+      req.login(user, function (err) {
+        // If an error was thrown, redirect the user to the login which should
+        // take care of rendering the error messages.
+        if (err) {
+          console.log(err);
+          res.redirect('/login');
+        }
         // Upon successful login, send the user to the homepage were req.user
         // will available.
-        res.redirect('/');
+        else {
+          console.log('currently logged in user is: ' + req.user.username);
+          res.redirect('/');
+        }
       });
     });
   }

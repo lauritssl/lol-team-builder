@@ -4,8 +4,7 @@ angular.module('ubteambuilder.authentication.services').factory('Session', Sessi
 function Session () {
     this.create = function (userEmail, userId, token, organizationId, currentAccount) {
         console.log("user: " + userEmail, " Token: " + token, "organizationId: " + organizationId);
-        this.userEmail = userEmail;
-        this.userId = userId;
+      
         //this.userRole = userRole;
         this.token = token;
         this.organizationId = organizationId;
@@ -18,6 +17,7 @@ function Session () {
         this.organizationId = null;
         //this.userRole = null;
         this.currentAccount = null;
+         this.currentUser = null;
     };
     return this;
 }

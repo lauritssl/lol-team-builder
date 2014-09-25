@@ -9,6 +9,7 @@ module.exports = {
 	getAll: function(req, res) {
 		Game.getAll()
 		.spread(function(models) {
+			console.log("I get this one");
 			Game.watch(req);
 			Game.subscribe(req.socket, models);
 
@@ -22,10 +23,11 @@ module.exports = {
 	getOne: function(req, res) {
 		Game.getOne(req.param('id'))
 		.spread(function(model) {
+			console.log(model);
 			if(model == null){
 				res.send(404);
 			};
-			Game.watch(req.socket, model);
+			Game.subscribe(req.socket, model);
 			res.json(model);
 		})
 		.fail(function(err) {
@@ -98,6 +100,29 @@ module.exports = {
 		});
 
 
+
+	},
+	addUserToSpot : function(req, res){
+		var userId = req.param('user');
+		var id = req.param('id');
+		var spotId = req.param('spotId');
+		Game.findOne(id).
+		populate("users").
+		exec(function(err, game){
+			if (err) {
+				return res.serverError(err);
+			}
+			else if(typeof game != 'undefined'){
+				game.users.add(userId)
+				game.save(function(err, result){
+					Game.publishUpdate(game.id,result);
+				res.json(result);
+				});
+
+			}
+
+
+		});
 
 	},
 	destroyUser: function (req, res) {

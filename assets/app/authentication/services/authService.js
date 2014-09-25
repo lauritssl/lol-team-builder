@@ -10,11 +10,11 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
             var deferred = $q.defer();
             var url = utils.prepareUrl('login');
             $sails.post(url, credentials, function(model) {
-                console.log(model);
-            return deferred.resolve(model);
-        });
+                return deferred.resolve(model);
+            });
         },
         logOut: function () {
+            console.log("but I also logout!");
             Session.destroy();
             $cookieStore.remove("Session");
             delete $http.defaults.headers.common['Authorization'];
@@ -22,10 +22,15 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
 
         },
         checkAuthentication: function(scope, session) {
+            console.log(session);
+            if(typeof session.currentUser != 'undefined'){
 
-            if (typeof session.userId != 'undefined') {
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            } else {
+
+                if (typeof session.currentUser.id != 'undefined') {
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                } 
+            } 
+            else {
                 this.logOut();
             }
 
@@ -44,7 +49,7 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
             //Events
             $rootScope.$on("$locationChangeStart", function (event, current) {
 
-                if (Session.currentAccount == null) {
+                if (Session.currentUser == null) {
                     $location.path("/login");
                 }
             });
@@ -56,12 +61,15 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
             });
 
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, function (event, next) {
+
                 vm.scope.loggedIn = false;
                 $location.path("/login");
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
-               
-            });
+
+               console.log("I log in!");
+               $location.path("/home");
+           });
         }
     };
 

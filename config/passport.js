@@ -16,9 +16,7 @@
 
 module.exports.passport = {
 
-  local: {
-    strategy: require('passport-local').Strategy
-  },
+  local: true
 
   // twitter: {
   //   name: 'Twitter',

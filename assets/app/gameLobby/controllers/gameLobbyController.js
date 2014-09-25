@@ -6,11 +6,12 @@ angular.module( 'ubteambuilder.gamelobby', [])
 		views: {
 			"main": {
 				controller: 'GameLobbyCtrl',
-				templateUrl: 'gameLobby/views/gamelobby.tpl.html',
+				templateUrl: 'gamelobby/views/gamelobby.tpl.html',
 				controllerAs: 'gameLobby',	
 				resolve: {
 
 				 game: ["GameModel", "$stateParams", function(GameModel, $stateParams){
+
 					return GameModel.getOne($stateParams.id)
 				}]
 				}			
@@ -20,18 +21,17 @@ angular.module( 'ubteambuilder.gamelobby', [])
 }])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'config', 'titleService', 'GameModel', 'game', '$location'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location'];
 
- function GameLobbyCtrl($sails, lodash, config, titleService, GameModel, game, $location) {
+ function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location) {
  	if(game.statusCode == 404){
  		$location.path('/home');
  	}
    	var vm = this;
 	vm.game = game;
-	console.log(game);
 	titleService.setTitle('Game');
-	vm.currentUser = config.currentUser;
-
+	vm.currentUser = Session.currentUser;
+	console.log(game);
 	$sails.on('game', function (envelope) {
 
 		console.log(envelope);
@@ -61,7 +61,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'config', 'titleService', 'GameMod
 	}
 	vm.createGame = function(newGame) {
 		console.log(newGame);
-		newGame.user = config.currentUser.id;
+		newGame.user = Session.currentUser.id;
 		GameModel.create(newGame).then(function(model) {
 
 			vm.newGame = {};
@@ -69,6 +69,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'config', 'titleService', 'GameMod
 	};
 
 	vm.joinGame = function(game){
+		console.log("game id: " + game.id + " user id: " + vm.currentUser.id);
 		GameModel.addUser(game.id, vm.currentUser.id).then(function(model){
 		})
 	},
@@ -78,7 +79,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'config', 'titleService', 'GameMod
 	}
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
-		if (game.user.id == config.currentUser.id) {
+		if (game.user.id == Session.currentUser.id) {
 			GameModel.delete(game).then(function(model) {
 				// message has been deleted, and removed from vm.messages
 			});
