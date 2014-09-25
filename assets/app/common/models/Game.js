@@ -42,6 +42,16 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 		return deferred.promise;
 	};
+
+	this.addUserToSpot = function(gameId, userId, spotId) {
+		var deferred = $q.defer();
+		var url = utils.prepareUrl('game/'+gameId+'/spot/'+spotId+'/user');
+		$sails.post(url, {user: userId}, function(model) {
+			return deferred.resolve(model);
+		});
+
+		return deferred.promise;
+	};
 	this.removeUser = function(gameId, userId) {
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/user');

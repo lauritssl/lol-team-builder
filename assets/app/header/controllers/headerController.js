@@ -1,10 +1,10 @@
 angular.module('ubteambuilder.header', [])
 .controller( 'HeaderCtrl', HeaderCtrl);
 
-HeaderCtrl.$inject = ['$scope', '$state', 'config'];
+HeaderCtrl.$inject = ['$scope', '$state', 'Session'];
 
- function HeaderCtrl( $scope, $state, config ) {
-    $scope.currentUser = config.currentUser;
+ function HeaderCtrl( $scope, $state, Session ) {
+    $scope.currentUser = Session.currentUser;
 
     var navItems = [
         // {title: 'Games', translationKey: 'navigation:Games', url: '/games', cssClass: 'fa fa-comments'},

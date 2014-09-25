@@ -13,9 +13,9 @@ angular.module( 'ubteambuilder.home', [])
 	})
 }]).controller( 'HomeCtrl', HomeCtrl);
 
-HomeCtrl.$inject = ['Session', 'titleService', 'GameModel' ];
+HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location' ];
 
- function HomeCtrl(Session, titleService, GameModel ) {
+ function HomeCtrl(Session, titleService, GameModel, $location ) {
  	console.log("i get here!");
  	var vm = this;  
 	vm.game = {};

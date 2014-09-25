@@ -5,59 +5,59 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-module.exports = {
-	getAll: function(req, res) {
-		Game.getAll()
-		.spread(function(models) {
-			console.log("I get this one");
-			Game.watch(req);
-			Game.subscribe(req.socket, models);
+ module.exports = {
+ 	getAll: function(req, res) {
+ 		Game.getAll()
+ 		.spread(function(models) {
+ 			Game.watch(req);
+ 			Game.subscribe(req.socket, models);
 
-			res.json(models);
-		})
-		.fail(function(err) {
+ 			res.json(models);
+ 		})
+ 		.fail(function(err) {
 			// An error occured
 		});
-	},
+ 	},
 
-	getOne: function(req, res) {
-		Game.getOne(req.param('id'))
-		.spread(function(model) {
-			console.log(model);
-			if(model == null){
-				res.send(404);
-			};
-			Game.subscribe(req.socket, model);
-			res.json(model);
-		})
-		.fail(function(err) {
-			res.send(404);
-		});
-	},
+ 	getOne: function(req, res) {
+ 		Game.getOne(req.param('id'))
+ 		.spread(function(model) {
 
-	create: function (req, res) {
-		var userId = req.param('user');
-		var model = {
-			title: req.param('title'),
-			user: userId
-		};
+ 			if(model == null){
+ 				res.send(404);
+ 			};
+ 			console.log("Updated!");
+ 			Game.subscribe(req.socket, model);
+ 			res.json(model);
+ 		})
+ 		.fail(function(err) {
+ 			res.send(404);
+ 		});
+ 	},
 
-		Game.create(model)
-		.exec(function(err, game) {
-			if (err) {
-				return console.log(err);
-			}
-			else {
-				Game.publishCreate(game);
-				res.json(game);
-			}
-		});
-	},
-	destroy: function (req, res) {
-		var id = req.param('id');
-		if (!id) {
-			return res.badRequest('No id provided.');
-		}
+ 	create: function (req, res) {
+ 		var userId = req.param('user');
+ 		var model = {
+ 			title: req.param('title'),
+ 			user: userId
+ 		};
+
+ 		Game.create(model)
+ 		.exec(function(err, game) {
+ 			if (err) {
+ 				return console.log(err);
+ 			}
+ 			else {
+ 				Game.publishCreate(game);
+ 				res.json(game);
+ 			}
+ 		});
+ 	},
+ 	destroy: function (req, res) {
+ 		var id = req.param('id');
+ 		if (!id) {
+ 			return res.badRequest('No id provided.');
+ 		}
 
 		// Otherwise, find and destroy the model in question
 		Game.findOne(id).exec(function(err, model) {
@@ -90,8 +90,13 @@ module.exports = {
 			else if(typeof game != 'undefined'){
 				game.users.add(userId)
 				game.save(function(err, result){
-					Game.publishUpdate(game.id,result);
-				res.json(result);
+					if(err){
+						res.json(err);
+					}else{
+						Game.publishUpdate(game.id,result);
+						res.json(result);
+					}
+					
 				});
 
 			}
@@ -107,17 +112,42 @@ module.exports = {
 		var id = req.param('id');
 		var spotId = req.param('spotId');
 		Game.findOne(id).
-		populate("users").
+		populate("spots").
 		exec(function(err, game){
 			if (err) {
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-				game.users.add(userId)
-				game.save(function(err, result){
-					Game.publishUpdate(game.id,result);
-				res.json(result);
+
+				for(var key in game.spots){
+					if(game.spots[key].user == userId){
+						Spot.removeUser(key);
+					}
+				}
+				Spot.findOne(spotId).exec(function(err,spot){
+					if (err) {
+						return res.serverError(err);
+					}
+					else if(spot != 'undefined'){
+						User.getOne(userId).spread(function(user){
+						console.log(spot.user);
+						if(typeof spot.user == 'undefined'){
+							spot.user = user;
+						spot.save(function(err, result){
+							game.save(function(err, result){
+								Game.publishUpdate(game.id,result);
+								res.json(result);
+							});
+						})
+					}else{
+						return res.serverError("spot already taken");
+					}
+						
+						})
+						
+					}
 				});
+				
 
 			}
 
@@ -128,6 +158,7 @@ module.exports = {
 	destroyUser: function (req, res) {
 		var userId = req.param('user');
 		var id = req.param('id');
+		console.log("started deleting user");
 		Game.findOne(id).
 		exec(function(err, game){
 			if (err) {
@@ -138,7 +169,7 @@ module.exports = {
 				game.save(function(err, result){
 					console.log(result);
 					Game.publishUpdate(result.id,result);
-				res.json(game);
+					res.json(game);
 				});
 				return game;
 			}

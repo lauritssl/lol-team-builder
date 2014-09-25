@@ -21,24 +21,36 @@ angular.module( 'ubteambuilder.gamelobby', [])
 }])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location) {
+ function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope) {
  	if(game.statusCode == 404){
  		$location.path('/home');
  	}
+
+
+ 	//initialize variables
    	var vm = this;
 	vm.game = game;
+	console.log(game);
 	titleService.setTitle('Game');
 	vm.currentUser = Session.currentUser;
-	console.log(game);
-	$sails.on('game', function (envelope) {
 
-		console.log(envelope);
+	//Initialization function
+	vm.init = function(){
+		vm.joinGame(vm.game);
+
+	}
+
+	//add listeners
+	$rootScope.$on("$locationChangeStart", function (event, current) {
+		vm.leaveGame(vm.game);
+    });
+
+	$sails.on('game', function (envelope) {
 		switch(envelope.verb) {
 			case 'created':
 				vm.games.unshift(envelope.data);
-				console.log(vm.games);
 				break;
 			case 'updated':
 				console.log(envelope.data);
@@ -50,6 +62,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 	});
 
+	//functions
 	vm.isUserInGame = function(game){
 		if(typeof vm.currentUser == 'undefined') return true;
 		var users = [];
@@ -60,7 +73,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return lodash.contains(users, vm.currentUser.username);
 	}
 	vm.createGame = function(newGame) {
-		console.log(newGame);
 		newGame.user = Session.currentUser.id;
 		GameModel.create(newGame).then(function(model) {
 
@@ -69,9 +81,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.joinGame = function(game){
-		console.log("game id: " + game.id + " user id: " + vm.currentUser.id);
-		GameModel.addUser(game.id, vm.currentUser.id).then(function(model){
-		})
+		GameModel.addUser(vm.game.id, vm.currentUser.id).then(function(model){
+		});
+		
+	},
+
+	vm.joinSpot = function(game, spot){
+		GameModel.addUserToSpot(vm.game.id, vm.currentUser.id, spot.id).then(function(model){
+		});
+		
 	},
 	vm.leaveGame = function(game){
 		GameModel.removeUser(game.id, vm.currentUser.id).then(function(model){
@@ -89,8 +107,19 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		if(gameId == vm.currentUser.id)	return true
 			return false;
 	}
-	GameModel.getAll(vm).then(function(models) {
 
-		vm.games = models;
-	});
+	vm.getUserFromGame = function(game, userId){
+		var gameUser = {};
+		angular.forEach(game.users, function(user, key){
+			if(user.id == userId){
+				gameUser = user;
+			}
+		});
+
+			console.log(gameUser);
+		return gameUser;
+	}
+
+	vm.init();
+	
 };

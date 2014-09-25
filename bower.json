@@ -17,6 +17,6 @@
     "angular-translate-loader-static-files": "~2.1.0"
   },
   "dependencies": {
-
+    "angular-pmkr-components": "*"
   }
 }

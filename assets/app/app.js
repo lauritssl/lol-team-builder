@@ -1,6 +1,7 @@
 angular.module('ubteambuilder', [
 	'ngCookies',
-	'ui.router',
+	'ui.router',	
+	'pmkr.components',
 	'ngSails',
 	'angularMoment',
 	'lodash',

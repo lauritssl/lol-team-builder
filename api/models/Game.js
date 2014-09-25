@@ -101,6 +101,18 @@ module.exports = {
 
 
 		})
+	},
+	removeUserFromAllSpots: function(id, userId){
+		return Game.findOne(id)
+		.populate('spots')
+		.then(function (game) {
+			for(var key in game.spots){
+				if(game.spots[key].user == userId){
+					Spot.removeUser(key);
+				}
+			}
+			return game;
+		});
 	}
 };
 
