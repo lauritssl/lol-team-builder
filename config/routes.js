@@ -80,6 +80,7 @@ module.exports.routes = {
     'post /api/game': 'GameController.create',
     'delete /api/game/:id': 'GameController.destroy',
     'post /api/game/:id/user' : 'GameController.addUser',
+    'post /api/game/:id/spot/:spotId/user' : 'GameController.addUserToSpot',
     'delete /api/game/:id/user' : 'GameController.destroyUser',
   
    // If a request to a URL doesn't match any of the custom routes above, it is matched

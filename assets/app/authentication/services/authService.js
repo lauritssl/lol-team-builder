@@ -66,9 +66,9 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
                 $location.path("/login");
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
-
-               console.log("I log in!");
-               $location.path("/home");
+                console.log(event);
+                console.log(next);
+                $location.path($location.$$url);
            });
         }
     };
