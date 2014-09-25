@@ -50,7 +50,11 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
             $rootScope.$on("$locationChangeStart", function (event, current) {
 
                 if (Session.currentUser == null) {
-                    $location.path("/login");
+                    if($location.$$url == "/register"){
+                        $location.path($location.$$url);
+                     }else{                        
+                        $location.path("/login");
+                     }
                 }
             });
 
@@ -66,8 +70,6 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
                 $location.path("/login");
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function (event, next) {
-                console.log(event);
-                console.log(next);
                 $location.path($location.$$url);
            });
         }
