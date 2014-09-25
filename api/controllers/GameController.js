@@ -119,11 +119,8 @@
 			}
 			else if(typeof game != 'undefined'){
 
-				for(var key in game.spots){
-					if(game.spots[key].user == userId){
-						Spot.removeUser(key);
-					}
-				}
+				Spot.update({user: userId}, {user: null}, function(err, model){});
+			
 				Spot.findOne(spotId).exec(function(err,spot){
 					if (err) {
 						return res.serverError(err);
@@ -131,7 +128,7 @@
 					else if(spot != 'undefined'){
 						User.getOne(userId).spread(function(user){
 						console.log(spot.user);
-						if(typeof spot.user == 'undefined'){
+						if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
 							spot.user = user;
 						spot.save(function(err, result){
 							game.save(function(err, result){
@@ -165,17 +162,24 @@
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-				game.users.remove(userId)
+				Spot.update({user: userId}, {user: null}, function(err, model){
+					game.users.remove(userId)
 				game.save(function(err, result){
 					console.log(result);
 					Game.publishUpdate(result.id,result);
 					res.json(game);
 				});
 				return game;
+				});
+				
 			}
 
 
 		});
 	},
+
+	rollBuilds : function(req, res){
+		Build.rollBuild(1);
+	}
 };
 

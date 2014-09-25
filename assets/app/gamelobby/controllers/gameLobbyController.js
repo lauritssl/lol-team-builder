@@ -115,9 +115,14 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 				gameUser = user;
 			}
 		});
-
-			console.log(gameUser);
 		return gameUser;
+	}
+
+	vm.rollBuilds = function(game) {
+		console.log("I don't get called");
+		GameModel.rollBuilds(game.id).then(function(model) {
+				// message has been deleted, and removed from vm.messages
+			});;
 	}
 
 	vm.init();

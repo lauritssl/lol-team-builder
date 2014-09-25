@@ -72,4 +72,14 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 		return deferred.promise;
 	};
+
+	this.rollBuilds = function(gameId){
+		var deferred = $q.defer();
+		var url = utils.prepareUrl('game/'+gameId+'/build');
+		$sails.post(url, {}, function(model) {
+			return deferred.resolve(model);
+		});
+
+		return deferred.promise;
+	}
 });
