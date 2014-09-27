@@ -181,6 +181,7 @@
 	rollBuilds : function(req, res){
 		var id = req.param('id');
 		lolService.getChampions(id, Game.rollChampions);
+		lolService.getItems(id, Game.rollItems);
 	}
 };
 

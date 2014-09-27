@@ -42,10 +42,10 @@ module.exports = {
 			game.user = user;			
 			next(null, game);
 		});
-		console.log(game);
-		Game.findOne(game.id).
-		populate("spots").
-		exec(function(err, currentGame){
+		Game.findOne(game.id)
+		.populate("spots")
+		.populate("builds")
+		.exec(function(err, currentGame){
 			if (err) {
 				return res.serverError(err);
 			}
@@ -56,14 +56,22 @@ module.exports = {
 							return console.log(err);
 						}
 						else {
-							currentGame.spots.add(spot);
-							currentGame.save(function(err, result){
-							});
+							Build.create({}).exec(function(err, build){
+								spot.build = build;
+								spot.save(function(err, result){
+									currentGame.spots.add(result);
+									currentGame.builds.add(build);
+									currentGame.save(function(err, result){
+									
+									});
+								});
+								
+							})
+							
 						}
 					});
 
 				};
-
 			}
 
 
@@ -117,8 +125,8 @@ module.exports = {
 	},
 	rollChampions : function(id, champions){
 		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
-		var champions = [];
-		
+		var champions = Object.keys(champions).map(function(k) { return champions[k] });;
+
 
 
 		Game.findOne(id)
@@ -143,15 +151,35 @@ module.exports = {
 						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
 						// });							
-		
-		
+
+
 	}
-	
-});	
+
+});
 		
 	},
-	rollItems : function() {
-		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
+	rollItems : function(id, items) {
+		Game.findOne(id)
+		.populate('spots')
+		.populate('builds')
+		.exec(function(err, game) {
+			if (err) {
+				return res.serverError(err);
+			}
+			else if(typeof game != 'undefined'){
+				game.spots.forEach(function(spot){
+
+					var build = game.builds.filter(function(build){ 
+						return build.id == spot.build})[0];
+					lolService.rollBuild(build, items);					
+
+					build.save(function(err, result){});
+				});
+				game.save(function(err, result){
+					Game.publishUpdate(result.id, result)
+				})
+			}
+		})
 	}
 };
 
