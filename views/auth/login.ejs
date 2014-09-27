@@ -1,24 +1,22 @@
-  <!--<div ng-include="'header/views/header.tpl.html'"></div>-->
+  <!-- BG animated -->
+    <div id="single-login-bg-container">
+    <div class="col-xs-12" style="padding: 0px;">
+        <video autoplay loop id="login_bg-render">
+        <source src="../../images/webm/BG_animated.webm" type="video/webm">
+        </video>
+    </div>
+    </div>
+
+<!-- Main content - Login -->
   <div class="content-bg">
-                    
-                    <!-- Single BG -->
-                    <!-- <div id="single-login-bg-container">
-                    <div class="col-xs-12" style="padding: 0px;">
-                        <video autoplay loop id="login_bg-render">
-                        <source src="../../images/webm/Draven.webm" type="video/webm">
-                        </video>
-                    </div>
-                    </div> -->
-
-
         <div class="sidebar-wrapper">
                 <div id="login_sidebar-iconholder">
                     <img src="../../images/UB_logo.png" />
                 </div>
                 <div id="login_sidebar-formholder">
-                    <div class="col-sm-8 col-sm-offset-2">
+                    <div class="col-xs-8 col-xs-offset-2">
                     <p class="p_bluetext">ACCOUNT LOGIN</p>
-                    <form class="form-horizontal" role="form" action="/auth/local" method="post">
+                    <form role="form" action="/auth/local" method="post">
                     
                    
                     <div class="form-group">
