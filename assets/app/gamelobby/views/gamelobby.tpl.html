@@ -21,11 +21,11 @@
                             <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
                             <img id="hero_icon" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}" />
                             <img class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'boots')}}" />
-                            <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_2" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}"/>
+                            <img class="hero_items" id="item_3" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item2')}}"/>
+                            <img class="hero_items" id="item_4" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item3')}}"/>
+                            <img class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
+                            <img class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
                             <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
                             <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
                             <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />

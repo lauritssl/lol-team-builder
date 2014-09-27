@@ -15,6 +15,9 @@ module.exports = {
   		boots: {
   			type:  'string'
   		},
+      bootsEnchantment: {
+        type:  'string'
+      },
   		item1: {
   			type:  'string'
   		},
