@@ -2,7 +2,8 @@ angular.module( 'ubteambuilder.home', [])
 .config(["$stateProvider",function ($stateProvider){
 
 	$stateProvider.state( 'home', {
-		url: '/home',
+		url: '/home',		
+				authenticate: true,
 		views: {
 			"main": {
 				controller: 'HomeCtrl',

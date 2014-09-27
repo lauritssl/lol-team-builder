@@ -13,21 +13,17 @@ module.exports = {
 		},
 		build: {
 			model: 'build'
+		},
+		champion: {
+			type: 'string'
 		}
   },
 
   removeUser: function(id) {
-  	Spot.findOne(id).
-		exec(function(err, spot){
+  	Spot.update({id: id}, {user: null}, function(err, spot){
 			if (err) {
 				return res.serverError(err);
 			}
-			else if(typeof spot != 'undefined'){
-				spot.update({user: null}, function(err, model){
-
-				});
-			}
-
 
 		})
   }

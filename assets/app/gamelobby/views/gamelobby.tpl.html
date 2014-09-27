@@ -20,7 +20,7 @@
                     <div class="col-md-6" ng-repeat="spot in rows">
                         <div class="player_shield" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" >
                             <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
-                            <img id="hero_icon" src="../../images/shield_icons/tryndamere_icon.png" />
+                            <img id="hero_icon" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}" />
                             <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
                             <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
                             <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />

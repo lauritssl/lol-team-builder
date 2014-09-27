@@ -16,7 +16,7 @@ angular.module('ubteambuilder', [
 
     //MOCKSERVICE
     //'cardable.services.MockService' //TODO: Delete when done with mocking
-]).config( function myAppConfig ( $stateProvider, $urlRouterProvider, $locationProvider ) {
+    ]).config( function  ( $stateProvider, $urlRouterProvider, $locationProvider ) {
 	// $urlRouterProvider.otherwise( '/home' );
 	$urlRouterProvider.otherwise(function ($injector, $location) {
 		if ($location.$$url === '/') {
@@ -30,6 +30,17 @@ angular.module('ubteambuilder', [
 	$locationProvider.html5Mode(true);
 })
 
-.run( function run () {
-	moment.lang('en');
-})
+    .run( ['$rootScope', 'Session', 'AuthService', '$location',
+    	function($rootScope, Session, AuthService, $location) {
+
+    		moment.lang('en');
+    		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+    			console.log(toState);
+    			console.log(AuthService.checkAuthentication(Session));
+    			if (toState.authenticate && !AuthService.checkAuthentication(Session)){
+    				console.log("boom!");
+        			// User isn’t authenticated
+       				$location.path("/login");
+   				}
+			});
+	}]);

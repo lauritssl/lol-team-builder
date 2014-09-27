@@ -23,6 +23,8 @@ function LoginCtrl($rootScope, AUTH_EVENTS, AuthService) {
 
 };
 
+
+
 LoginCtrl.prototype.login = function(credentials) {
     var vm = this;
     vm.AuthService.login(credentials).then(function() {
