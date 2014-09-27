@@ -16,15 +16,15 @@
                     <div class="form-group">
                          <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">
                     </div>
-                        <button type="button" class="btn btn-default " ng-click="main.go('games/'+home.game.id)">Join game</button>
+                        <button type="button" class="btn custom_btn-red" ng-click="main.go('games/'+home.game.id)">Join game</button>
                     </div>
                     
                     
-                    <div class="col-sm-12 game-input-container text-center" ng-if="main.currentUser.id">
+                    <div class="col-sm-6 col-sm-offset-3 game-input-container text-center" ng-if="main.currentUser.id">
                     <div class="form-group">
                          <input type="text" class="form-control" name="" value="" placeholder="Enter game title" ng-model="home.newGame.title">
                     </div>
-                        <button type="button" class="btn btn-default " ng-click="home.createGame(home.newGame)">Create game</button>
+                        <button type="button" class="btn custom_btn-red" ng-click="home.createGame(home.newGame)">Create game</button>
                 
                     </div>
                    
