@@ -115,47 +115,43 @@ module.exports = {
 			return game;
 		});
 	},
-	rollChampions : function(id){
+	rollChampions : function(id, champions){
 		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
 		var champions = [];
-		request({
-			url: url,
-			json: true
-		}, function(error, response, body){
-			if (!error && response.statusCode === 200) {
-				champions =  Object.keys(body.data).map(function(k) { return body.data[k] });
+		
 
 
-				Game.findOne(id)
-				.populate('spots')
-				.exec(function(err, game){
-					if (err) {
-						return res.serverError(err);
-					}
-					else if(typeof game != 'undefined'){
+		Game.findOne(id)
+		.populate('spots')
+		.exec(function(err, game){
+			if (err) {
+				return res.serverError(err);
+			}
+			else if(typeof game != 'undefined'){
 
-						game.spots.forEach(function(spot){
-							var randomIndex = Math.floor(Math.random()*(champions.length));
-							spot.champion = champions[randomIndex].id;
-							champions.splice(randomIndex, 1);
-							spot.save(function(err, result){});
-						})
+				game.spots.forEach(function(spot){
+					var randomIndex = Math.floor(Math.random()*(champions.length));
+					spot.champion = champions[randomIndex].id;
+					champions.splice(randomIndex, 1);
+					spot.save(function(err, result){});
+				})
 
-						game.save(function(err, result){
-							Game.publishUpdate(result.id, result)
-						})
+				game.save(function(err, result){
+					Game.publishUpdate(result.id, result)
+				})
 
 						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
 						// });							
-						
-						
-					}
-				
-			});		
-			}
-		});
 		
+		
+	}
+	
+});	
+		
+	},
+	rollItems : function() {
+		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
 	}
 };
 
