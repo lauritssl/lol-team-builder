@@ -22,9 +22,7 @@ html {
 }
 
 body{
-    background-color: #242424;
-    // background: url(../images/body_bg_grunge.jpg) no-repeat top center;
-    // background-size: cover;
+    background-color: #222;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -91,6 +89,45 @@ li {
 
 .content-bg{
     padding-top: 75px;
+
+    .custom_btn-red{
+    background-color: @main-red-button;
+    width: 40%;
+    min-width: 100px;
+    height: 40px;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    margin-top: 20px;
+    margin-bottom: 50px;
+    z-index: 2;
+    border: none;
+    border-radius: 5px;
+
+&:hover{
+    background-color: @main-red-button-dark;
+    border-color: @main-red-button-dark;
+  }
+&:focus{
+    outline-color: @main-red-button !important;
+}
+}
+
+.form-group{
+    .form-control{
+      margin-bottom: 10px;
+      background-color: #222222;
+      border-color: #1a1a1a;
+      border-radius: 0px;
+
+      &:focus{
+        border-color: @main-red;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(160, 80, 80, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(160, 80, 80, 0.6);
+      }
+    } 
+  }
+
 }
 }
 
@@ -113,57 +150,17 @@ li {
 }
 }
 
-.bgImage1{
-    background:url(../../../images/bg_img/bg-ahri.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage2{
-    background:url(../../../images/bg_img/bg-annie.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage3{
-    background:url(../../../images/bg_img/bg-ashe.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage4{
-    background:url(../../../images/bg_img/bg-darius.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage5{
-    background:url(../../../images/bg_img/bg-garen.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage6{
-    background:url(../../../images/bg_img/bg-jax.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage7{
-    background:url(../../../images/bg_img/bg-katarina.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage8{
-    background:url(../../../images/bg_img/bg-kayle.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
-}
-.bgImage9{
-    background:url(../../../images/bg_img/bg-pantheon.jpg) no-repeat top center;
-    background-size:cover;
-    -webkit-background-size: cover;
-    -moz-background-size:cover;
+
+//Browser specific styles
+.form-group{
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #222 inset;
+    -webkit-text-fill-color: #555 !important;
+ }
+
+ input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #222 inset !important;
+    -webkit-text-fill-color: #555 !important;
+ } 
+
 }
