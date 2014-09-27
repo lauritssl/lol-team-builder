@@ -17,10 +17,26 @@ function ChampionService ($http, $q) {
             return deferred.promise;
         },
 
+        getItems: function () {
+            var deferred = $q.defer();
+            var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/item.json';
+            $http.get(url).success(function(result) {
+                return deferred.resolve(result.data);
+            });
+
+            return deferred.promise;
+        },
+
         getChampionImage: function(championsImageId){
         	url = "http://ddragon.leagueoflegends.com/cdn/4.15.1/img/champion/";
 
         	return url + championsImageId;
+        },
+
+         getItemImage: function(itemImageId){
+            url = "http://ddragon.leagueoflegends.com/cdn/4.15.1/img/item/";
+
+            return url + itemImageId;
         }
 	};
 };

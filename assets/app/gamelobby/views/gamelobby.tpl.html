@@ -12,7 +12,6 @@
         <div class="col-sm-12">
             <div ng-click="gameLobby.rollBuilds(gameLobby.game)" id="roll-btn_lobby"></div>
         </div>
-
         <!-- Player shields -->
         <div id="player_shield_container">
             <div class="row" ng-repeat="rows in gameLobby.game.spots | pmkr.partition:10">
@@ -21,7 +20,7 @@
                         <div class="player_shield" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" >
                             <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
                             <img id="hero_icon" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}" />
-                            <img class="hero_items" id="item_1" src="../../images/shield_icons/zephyr.png" />
+                            <img class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'boots')}}" />
                             <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
                             <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
                             <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />

@@ -11,28 +11,24 @@ module.exports = {
   attributes: {
   		title: {
   			type: 'string',
-  			required: true
   		},
-      champion: {
-        type: 'string',
-      },
   		boots: {
-  			type:  'number'
+  			type:  'string'
   		},
   		item1: {
-  			type:  'number'
+  			type:  'string'
   		},
   		item2: {
-  			type:  'number'
+  			type:  'string'
   		},
   		item3: {
-  			type:  'number'
+  			type:  'string'
   		},
   		item4: {
-  			type:  'number'
+  			type:  'string'
   		},
   		item5: {
-  			type:  'number'
+  			type:  'string'
   		},
   		skill_to_level: {
   			type: 'string',
@@ -55,19 +51,20 @@ module.exports = {
   		}
   },
 
-  rollBuild: function(id) {
+  rollBuild : function(id, items){
+    var boots = items[1001];
+    Build.findOne(id)
+    .exec(function(err, build){
+      if (err) {
+        return res.serverError(err);
+      }
+        else if(typeof build != 'undefined'){
 
-
-    var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
-    
-    request({
-      url: url,
-      json: true
-    }, function(error, response, body){
-       if (!error && response.statusCode === 200) {
-         // Print the json response
-    }
+      }
     })
+  },
+  rollBoots: function(id, items){
+
   }
 };
 
