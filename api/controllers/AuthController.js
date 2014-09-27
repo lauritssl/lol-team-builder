@@ -124,6 +124,11 @@
    callback: function (req, res) {
     console.log("i get to the callback");
     passport.callback(req, res, function (err, user) {
+      if (! user) {
+             return res.redirect('/login');;
+      }
+      else{
+        
       req.login(user, function (err) {
         // If an error was thrown, redirect the user to the login which should
         // take care of rendering the error messages.
@@ -134,10 +139,13 @@
         // Upon successful login, send the user to the homepage were req.user
         // will available.
         else {
-          console.log('currently logged in user is: ' + req.user.username);
-          res.redirect('/');
+           console.log('currently logged in user is: ' + req.user.username);
+          return res.redirect('/');
+         
+          
         }
-      });
+      }); 
+    }
     });
   }
 };

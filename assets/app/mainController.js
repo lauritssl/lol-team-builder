@@ -5,7 +5,6 @@ MainCtrl['$inject'] = ["$scope", '$location', 'AuthService', 'Session'];
 
 
 function MainCtrl($scope, $location, AuthService, Session) {
-	console.log("Hej!");
 
 	var vm = this;
 	var vm = this;
@@ -19,10 +18,8 @@ function MainCtrl($scope, $location, AuthService, Session) {
 	vm.currentUser = Session.currentUser;
 	//Run initiation methods
     AuthService.registerAuthEvents(vm);
-    AuthService.checkAuthentication(vm, Session);
 
 	vm.go = function(location) {
-		console.log(location);
 		$location.path(location);
 	}
 }

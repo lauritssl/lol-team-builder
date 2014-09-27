@@ -4,6 +4,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
+var request = require("request");
 
 module.exports = {
 
@@ -50,24 +51,24 @@ module.exports = {
 			}
 			else if(typeof currentGame != 'undefined'){
 				for (var i = 0; i < currentGame.numberOfSpots; i++) {
-				Spot.create({}).exec(function(err, spot) {
-					if (err) {
-						return console.log(err);
-					}
-					else {
-						currentGame.spots.add(spot);
-						currentGame.save(function(err, result){
-				});
-					}
-				});
-				
-			};
+					Spot.create({}).exec(function(err, spot) {
+						if (err) {
+							return console.log(err);
+						}
+						else {
+							currentGame.spots.add(spot);
+							currentGame.save(function(err, result){
+							});
+						}
+					});
+
+				};
 
 			}
 
 
 		});
-			
+
 	},
 	getAll: function() {
 		return Game.find()
@@ -113,6 +114,48 @@ module.exports = {
 			}
 			return game;
 		});
+	},
+	rollChampions : function(id){
+		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
+		var champions = [];
+		request({
+			url: url,
+			json: true
+		}, function(error, response, body){
+			if (!error && response.statusCode === 200) {
+				champions =  Object.keys(body.data).map(function(k) { return body.data[k] });
+
+
+				Game.findOne(id)
+				.populate('spots')
+				.exec(function(err, game){
+					if (err) {
+						return res.serverError(err);
+					}
+					else if(typeof game != 'undefined'){
+
+						game.spots.forEach(function(spot){
+							var randomIndex = Math.floor(Math.random()*(champions.length));
+							spot.champion = champions[randomIndex].id;
+							champions.splice(randomIndex, 1);
+							spot.save(function(err, result){});
+						})
+
+						game.save(function(err, result){
+							Game.publishUpdate(result.id, result)
+						})
+
+						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
+						// 	console.log(spot);
+						// });							
+						
+						
+					}
+				
+			});		
+			}
+		});
+		
 	}
 };
 

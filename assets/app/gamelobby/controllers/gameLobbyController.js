@@ -3,6 +3,8 @@ angular.module( 'ubteambuilder.gamelobby', [])
 
 	$stateProvider.state( 'game', {
 		url: '/games/:id',
+		
+				authenticate: true,
 		views: {
 			"main": {
 				controller: 'GameLobbyCtrl',
@@ -13,6 +15,9 @@ angular.module( 'ubteambuilder.gamelobby', [])
 				 game: ["GameModel", "$stateParams", function(GameModel, $stateParams){
 
 					return GameModel.getOne($stateParams.id)
+				}],
+				champions: ["ChampionService", function(ChampionService){
+					return ChampionService.getChampions();
 				}]
 				}			
 			}
@@ -21,17 +26,21 @@ angular.module( 'ubteambuilder.gamelobby', [])
 }])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'ChampionService'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope) {
+ function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, ChampionService) {
  	if(game.statusCode == 404){
  		$location.path('/home');
  	}
 
 
+
+
+
  	//initialize variables
    	var vm = this;
 	vm.game = game;
+	vm.champions = champions;
 	console.log(game);
 	titleService.setTitle('Game');
 	vm.currentUser = Session.currentUser;
@@ -123,6 +132,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		GameModel.rollBuilds(game.id).then(function(model) {
 				// message has been deleted, and removed from vm.messages
 			});;
+	}
+
+	vm.getChampionImage = function(championImageId){
+		return ChampionService.getChampionImage(championImageId);
 	}
 
 	vm.init();

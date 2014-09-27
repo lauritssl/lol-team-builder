@@ -179,7 +179,8 @@
 	},
 
 	rollBuilds : function(req, res){
-		Build.rollBuild(1);
+		var id = req.param('id');
+		Game.rollChampions(id);
 	}
 };
 

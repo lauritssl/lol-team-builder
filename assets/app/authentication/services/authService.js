@@ -1,4 +1,4 @@
-﻿
+
 angular.module('ubteambuilder.authentication.services').factory('AuthService', AuthService);
 
 
@@ -8,30 +8,25 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
     return {
         login: function (credentials) {
             var deferred = $q.defer();
-            var url = utils.prepareUrl('login');
-            $sails.post(url, credentials, function(model) {
+            $sails.post("auth/local", credentials, function(model) {
                 return deferred.resolve(model);
             });
         },
         logOut: function () {
-            console.log("but I also logout!");
             Session.destroy();
             $cookieStore.remove("Session");
             delete $http.defaults.headers.common['Authorization'];
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
 
         },
-        checkAuthentication: function(scope, session) {
-            console.log(session);
+        checkAuthentication: function(session) {
             if(typeof session.currentUser != 'undefined'){
-
-
                 if (typeof session.currentUser.id != 'undefined') {
-                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                    return true;
                 } 
             } 
-            else {
-                this.logOut();
+            else{                
+                return false;
             }
 
         },
@@ -49,13 +44,13 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
             //Events
             $rootScope.$on("$locationChangeStart", function (event, current) {
 
-                if (Session.currentUser == null) {
-                    if($location.$$url == "/register"){
-                        $location.path($location.$$url);
-                     }else{                        
-                        $location.path("/login");
-                     }
-                }
+                // if (Session.currentUser == null) {
+                //     console.log($location.$$absUrl);
+                //     if($location.$$url != "/register"){
+                //      }else{                      
+                //         $location.path("/login");
+                //      }
+                // }
             });
 
             $rootScope.$on(AUTH_EVENTS.notAuthenticated, function (event, next) {
@@ -65,7 +60,6 @@ function AuthService($http, Session, $cookieStore, AUTH_EVENTS, $rootScope, $loc
             });
 
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, function (event, next) {
-
                 vm.scope.loggedIn = false;
                 $location.path("/login");
             });

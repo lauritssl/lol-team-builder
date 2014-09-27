@@ -18,17 +18,21 @@
                 <div id="login_sidebar-formholder">
                     <div class="col-sm-8 col-sm-offset-2">
                     <p class="p_bluetext">ACCOUNT LOGIN</p>
+                    <form class="form-horizontal" role="form" action="/auth/local" method="post">
+                    
+                   
                     <div class="form-group">
                         <label for="login_username">USERNAME</label>
-                         <input type="text" class="form-control" id="login_username" name="" value="" ng-model="authentication.credentials.username">
+                         <input type="text" class="form-control" id="login_username"  name="identifier">
                          <label for="login_password">PASSWORD</label>
-                         <input type="text" class="form-control" id="login_password" name="" value="" ng-model="authentication.credentials.password">
+                         <input type="password" class="form-control" id="login_password" name="password">
                     </div>
-                        <button type="button" class="btn btn-default" id="login-btn_frontpage" ng-click="authentication.login(authentication.credentials)">Login</button>
+                        <input type="submit" class="btn btn-default" id="login-btn_frontpage" value="Login">
                     </div>
+                     </form>
                     <div class="col-sm-8 col-sm-offset-2" id="login_signup-router">
                         <p>NEED AN ACCOUNT?</p>
-                        <p><a href="/register" class="p_bluetext">SIGN UP NOW!</a></p>
+                        <p><a href="/register" ng-click="$event.stopPropagation()" class="p_bluetext">SIGN UP NOW!</a></p>
                     </div>
                 </div>    
             </div>
