@@ -1,6 +1,7 @@
 
 
 var request = require("request");
+var async = require("async");
 
 module.exports = {
 	
@@ -63,16 +64,42 @@ module.exports = {
 		
 
 		var vm = this;
-
-		vm.rollBoots(build, items, groups, function(result1){
-			vm.rollItems(result1, items, function(result2){
-				vm.rollMasteries(result2, function(result3){
-					vm.rollSummoners(result3, summoners, function(result4){						
-						callback();
-					})
+		async.parallel([
+			function(callback){
+				vm.rollBoots(build, items, groups, function(){
+					callback();
 				});
+			},
+			function(callback){
+				vm.rollItems(build, items, function(){
+					callback();
+				});
+			},
+			function(callback){
+				vm.rollMasteries(build, function(){
+					callback();
+				});
+			},
+			function(callback){
+				vm.rollSummoners(build, summoners, function(){
+					callback();
+				})
+			}
+			
+
+
+			], function(err){
+				callback();
 			});
-		});	
+		// vm.rollBoots(build, items, groups, function(result1){
+		// 	vm.rollItems(result1, items, function(result2){
+		// 		vm.rollMasteries(result2, function(result3){
+		// 			vm.rollSummoners(result3, summoners, function(result4){						
+		// 				callback();
+		// 			})
+		// 		});
+		// 	});
+		// });	
 
 		
 	},
@@ -145,6 +172,13 @@ module.exports = {
 		summoners.splice(randomNumber, 1);
 		randomNumber = Math.floor(Math.random()*(summoners.length));
 		build.summoner2 = summoners[randomNumber].id;
+
+		callback(build);
+	},
+	rollAbility: function(build, callback){
+		var abilities = ['Q', 'W', 'E'];
+
+		build.skill_to_level = abilities[Math.floor(Math.random()*(abilities.length))];
 
 		callback(build);
 	}

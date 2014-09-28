@@ -5,6 +5,7 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 var request = require("request");
+var async = require("async");
 
 module.exports = {
 
@@ -54,34 +55,39 @@ module.exports = {
 				return res.serverError(err);
 			}
 			else if(typeof currentGame != 'undefined'){
-				for (var i = 0; i < currentGame.numberOfSpots; i++) {
-					var timesThroughLoop = 0;
-					Spot.create({}).exec(function(err, spot) {
-						if (err) {
-							return console.log(err);
-						}
-						else {
+				var count = 0;
+				async.whilst(
+					function() {return count < currentGame.numberOfSpots},
+					function(callback){
+						Spot.create({}).exec(function(err, spot) {
+							if (err) {
+								return console.log(err);
+							}
+							else {
 
-							currentGame.spots.add(spot);
-							Build.create({}).exec(function(err, build){
+								currentGame.spots.add(spot);
+								Build.create({}).exec(function(err, build){
 
-								currentGame.builds.add(build);
-								spot.build = build;
-								spot.save(function(err, result){
-									timesThroughLoop++;
-									if(timesThroughLoop ==  currentGame.numberOfSpots){										
-										currentGame.save(function(err, gameResult){
-											Game.publishUpdate(gameResult.id, gameResult);
-										});
-									}
-								});
-								
-							})
-							
-						}
-					});
+									currentGame.builds.add(build);
+									spot.build = build;
+									spot.save(function(err, result){
+										count++;
+										callback();
+									});
 
-				};
+								})
+
+							}
+						});
+
+					},
+					function(err){
+						currentGame.save(function(err, gameResult){
+							Game.publishUpdate(gameResult.id, gameResult);
+						});
+					})
+
+				
 			}
 
 
@@ -153,7 +159,7 @@ module.exports = {
 						timesThroughSpots++;
 						if(timesThroughSpots == game.spots.length){
 
-								Game.republishGame(id);
+							Game.republishGame(id);
 						}
 					});
 				});
@@ -161,9 +167,9 @@ module.exports = {
 						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
 						// });	
-			}
+	}
 
-		});
+});
 		
 	},
 	rollBuilds : function(id, items, champions, summoners) {
@@ -173,52 +179,70 @@ module.exports = {
 		.populate('builds')
 		.exec(function(err, game) {
 			if (err) {
-				return res.serverError(err);
+				//return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
 				var timesThroughSpots = 0;
 				var newChampions = Object.keys(champions.data).map(function(k) { 
-						return champions.data[k]
-			 		});
-				game.spots.forEach(function(spot){
-
-					
-
-			 		var randomIndex = Math.floor(Math.random()*(newChampions.length));
+					return champions.data[k]
+				});
+				async.forEach(game.spots, function(spot, callback){
+					var randomIndex = Math.floor(Math.random()*(newChampions.length));
 					spot.champion = newChampions[randomIndex].id;
 					newChampions.splice(randomIndex, 1);
 
-					//builds
 					var build = game.builds.filter(function(build){ 
 						return build.id == spot.build})[0];
+
 					lolService.rollBuild(build, spot, items, summoners, function(){
-						spot.save(function(err, result){
+						async.parallel([
+							function(callback){
+								spot.save(function(err, result){
+									if(err) callback(err);
+									callback();
+								});
+							},
+							function(callback){
+								build.save(function(err){
+									if(err) callback(err)
+										callback();
 
-						});
+								});
+							},
 
-						build.save(function(err){
-							timesThroughSpots++;
-							if(timesThroughSpots == game.spots.length){
-								game.gameStarted = true;
-								game.save(function(err, result){
-									Game.publishUpdate(result.id, result);
-								})
-							}
-						});
+							], function(err){
+								if(err) callback(err)
+									callback();
+							})
+						
+
+						
 					});
+				}, function(err){
+					if(err){}
+						else{
+							game.gameStarted = true;
+							game.save(function(err, result){
+								if(err){
+										//return res.serverError(err);
+									}else{										
+										Game.publishUpdate(result.id, result);
+									}
+								})
+						}
 
 
-				});
-			}
-		})
-	},
+					})
+}
+})
+},
 
 
-	republishGame : function(id){
-		var game = this.getOne(id);
-		game.spread(function(result){
-			Game.publishUpdate(id, result)
-		});
-	}
+republishGame : function(id){
+	var game = this.getOne(id);
+	game.spread(function(result){
+		Game.publishUpdate(id, result)
+	});
+}
 };
 
