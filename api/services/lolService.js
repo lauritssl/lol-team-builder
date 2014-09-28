@@ -84,6 +84,11 @@ module.exports = {
 				vm.rollSummoners(build, summoners, function(){
 					callback();
 				})
+			},
+			function(callback){
+				vm.rollAbility(build, function(){
+					callback();
+				})
 			}
 			
 
