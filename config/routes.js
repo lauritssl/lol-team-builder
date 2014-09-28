@@ -83,6 +83,7 @@ module.exports.routes = {
     'post /api/game/:id/spot/:spotId/user' : 'GameController.addUserToSpot',
     'delete /api/game/:id/user' : 'GameController.destroyUser',
     'post /api/game/:id/build' : 'GameController.rollBuilds',
+    'put /api/game/:id/spot/:spotId' : 'GameController.rerollBuild',
   
    // If a request to a URL doesn't match any of the custom routes above, it is matched
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options

@@ -10,7 +10,7 @@
 
         <!-- Roll - reroll button -->
         <div class="col-sm-12">
-            <div ng-disabled="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="roll-btn_lobby"></div>
+            <div  ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="roll-btn_lobby"></div>
         </div>
         <!-- Player shields -->
         <div id="player_shield_container">
@@ -35,8 +35,8 @@
                                 <li class="masteries_text">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery3}}</li>
                             </ul>
                         </div>
-                        <div class="player_reroll">
-                            <button type="button" class="btn btn-danger btn-lg">Reroll player</button>
+                        <div class="player_reroll" ng-if="gameLobby.userOwnsGame()">
+                            <button type="button" class="btn btn-danger btn-lg" ng-click="gameLobby.rerollSpot(gameLobby.game.id, spot.id)">Reroll player</button>
                         </div>  
                     </div>                   
                 </div>

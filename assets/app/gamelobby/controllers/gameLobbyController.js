@@ -174,6 +174,14 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return vm.items[build[type]];
 	}
 
+	vm.rerollSpot = function(id, spotId){
+		if (vm.game.user.id == Session.currentUser.id) {
+			GameModel.rollBuild(id, spotId).then(function(model) {
+				// message has been deleted, and removed from vm.messages
+			});
+		}
+	}
+
 	vm.init();
 	
 };

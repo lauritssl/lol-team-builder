@@ -121,25 +121,33 @@
 			}
 			else if(typeof game != 'undefined'){
 
-				Spot.update({user: userId}, {user: null}, function(err, model){});
-				
+
 				Spot.findOne(spotId).exec(function(err,spot){
 					if (err) {
 						return res.serverError(err);
 					}
 					else if(spot != 'undefined'){
-						User.getOne(userId).spread(function(user){
 							console.log(spot.user);
 							if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
-								spot.user = user;
-								spot.save(function(err, result){
-									Game.republishGame(game.id);
-								})
+
+								async.series([
+									function(callback){
+										Spot.update({user: userId}, {user: null}, function(err, model){ callback()});
+									},
+									function(callback){
+										spot.user = userId;
+										spot.save(function(err, result){
+									callback();
+									})
+									}
+
+									], function(err){
+										Game.republishGame(game.id);
+									})						
+								
 							}else{
 								return res.serverError("spot already taken");
 							}
-							
-						})
 						
 					}
 				});
@@ -209,9 +217,35 @@
 		
 	},
 
-	rollBuild: function(req, res) {
+	rerollBuild: function(req, res) {
 		var id = req.param('id');
-		var buildId = req.param('buildId');
+		var spotId = req.param('spotId');
+
+		var champions, items, summoners = {}
+		var existingChampions = [];
+		async.parallel([
+			function(callback){
+				lolService.getChampions(function(result){
+					champions = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getItems(function(result){
+					items = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getSummoners(function(result){
+					summoners = result;
+					callback();
+				})
+			}
+
+			], function(err){
+				Game.rollBuild(id, spotId, items, champions, summoners);
+			});		
 	}
 };
 

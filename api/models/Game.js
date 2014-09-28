@@ -42,56 +42,54 @@ module.exports = {
 	},
 	afterCreate: function (game, next) {
 		// set message.user = to appropriate user model
-		User.getOne(game.user)
-		.spread(function(user) {
-			game.user = user;			
-			next(null, game);
-		});
-		Game.findOne(game.id)
-		.populate("spots")
-		.populate("builds")
-		.exec(function(err, currentGame){
-			if (err) {
-				return res.serverError(err);
-			}
-			else if(typeof currentGame != 'undefined'){
-				var count = 0;
-				async.whilst(
-					function() {return count < currentGame.numberOfSpots},
-					function(callback){
-						Spot.create({}).exec(function(err, spot) {
-							if (err) {
-								return console.log(err);
-							}
-							else {
+		Game.getOne(game.id)
+		.spread(function(currentGame){
+			async.parallel([
+				function(callback){
+					User.getOne(game.user)
+					.spread(function(user) {
+						currentGame.user = user;			
 
-								currentGame.spots.add(spot);
-								Build.create({}).exec(function(err, build){
+						callback();
+					});
+				},
+				function(callback){
+					var count = 0;
+					async.whilst(
+						function() {return count < currentGame.numberOfSpots},
+						function(callback){
+							Spot.create({}).exec(function(err, spot) {
+								if (err) {
+									return console.log(err);
+								}
+								else {
 
-									currentGame.builds.add(build);
-									spot.build = build;
-									spot.save(function(err, result){
-										count++;
-										callback();
-									});
+									currentGame.spots.add(spot);
+									Build.create({}).exec(function(err, build){
 
-								})
+										currentGame.builds.add(build);
+										spot.build = build;
+										spot.save(function(err, result){
+											count++;
+											callback();
+										});
 
-							}
-						});
+									})
 
-					},
-					function(err){
-						currentGame.save(function(err, gameResult){
-							Game.publishUpdate(gameResult.id, gameResult);
-						});
+								}
+							});
+
+						},
+						function(err){
+							callback();
+						})
+				}], function(err){
+					currentGame.save(function(err, result){					
+						next(null, result);
 					})
+				});	
+		});	
 
-				
-			}
-
-
-		});
 
 	},
 	getAll: function() {
@@ -139,46 +137,88 @@ module.exports = {
 			return game;
 		});
 	},
-	rollChampions : function(id, champions){
-		
+	rollBuild : function(id, spotId, items, champions, summoners){
 
 
 		Game.findOne(id)
 		.populate('spots')
+		.populate('builds')
 		.exec(function(err, game){
 			if (err) {
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-				var timesThroughSpots = 0;
-				game.spots.forEach(function(spot){
-					var randomIndex = Math.floor(Math.random()*(champions.length));
-					spot.champion = champions[randomIndex].id;
-					champions.splice(randomIndex, 1);
-					spot.save(function(err, result){
-						timesThroughSpots++;
-						if(timesThroughSpots == game.spots.length){
 
-							Game.republishGame(id);
-						}
-					});
-				});
+				var existingChampions = [];
+				var newChampions = Object.keys(champions.data).map(function(k) { 
+					return champions.data[k]});
 
-						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
+
+				async.forEach(game.spots, function(spot, callback){
+					if(typeof spot.champion != 'undefined'){							
+						existingChampions.push(spot.champion)
+					}
+					callback();
+				}, function(err){
+
+
+
+					newChampions = newChampions.filter(function(champion){return existingChampions.indexOf(champion.id) < 0});
+
+					//TODO: Could lead to an index out of bounds exception
+					var spot = game.spots.filter(function(spot){return spot.id == spotId})[0];
+					var build = game.builds.filter(function(build){return build.id = spot.build})[0];
+
+					if(typeof spot == 'undefined'){
+						err = "spot was not found";
+						return;
+					}
+					if(typeof build == 'undefined'){
+						err = "build was not found";
+						return;
+
+					}
+
+					spot.champion = newChampions[Math.floor(Math.random()*(newChampions.length))].id;
+
+					lolService.rollBuild(build, spot, items, summoners, function(){
+						async.parallel([
+							function(callback){
+								spot.save(function(err, result){
+									if(err) callback(err);
+									callback();
+								});
+							},
+							function(callback){
+								build.save(function(err){
+									if(err) callback(err)
+										callback();
+
+								});
+							},
+
+							], function(err){
+								if(err) callback(err)
+									Game.republishGame(game.id);
+							})
+
+					});		
+
+	});					// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
 						// });	
-	}
+}
 
 });
-		
-	},
-	rollBuilds : function(id, items, champions, summoners) {
-		
-		Game.findOne(id)
-		.populate('spots')
-		.populate('builds')
-		.exec(function(err, game) {
-			if (err) {
+
+},
+rollBuilds : function(id, items, champions, summoners) {
+
+	Game.findOne(id)
+	.populate('spots')
+	.populate('builds')
+	.exec(function(err, game) {
+		if (err) {
 				//return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
@@ -202,7 +242,7 @@ module.exports = {
 
 					}
 
-					
+
 					var randomIndex = Math.floor(Math.random()*(newChampions.length));
 					spot.champion = newChampions[randomIndex].id;
 					newChampions.splice(randomIndex, 1);
