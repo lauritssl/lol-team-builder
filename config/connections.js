@@ -58,7 +58,7 @@ module.exports.connections = {
   ***************************************************************************/
   mongo: {
     adapter: 'sails-mongo',
-    urlkey:  process.env.MONGOLAB_URI || 'mongodb://localhost:27017/' 
+    url:  process.env.MONGOLAB_URI || 'mongodb://localhost:27017/' 
   },
 
   remoteMongo: {

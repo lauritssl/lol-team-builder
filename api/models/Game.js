@@ -187,13 +187,28 @@ module.exports = {
 					return champions.data[k]
 				});
 				async.forEach(game.spots, function(spot, callback){
+
+					var build = game.builds.filter(function(build){ 
+						return build.id == spot.build})[0];
+					if(typeof spot == 'undefined'){
+						err = "spot was not found";
+						callback(err);
+						return;
+					}
+					if(typeof build == 'undefined'){
+						err = "build was not found";
+						callback(err);
+						return;
+
+					}
+
+					
 					var randomIndex = Math.floor(Math.random()*(newChampions.length));
 					spot.champion = newChampions[randomIndex].id;
 					newChampions.splice(randomIndex, 1);
 
-					var build = game.builds.filter(function(build){ 
-						return build.id == spot.build})[0];
 
+					
 					lolService.rollBuild(build, spot, items, summoners, function(){
 						async.parallel([
 							function(callback){
@@ -218,8 +233,9 @@ module.exports = {
 
 						
 					});
+					
 				}, function(err){
-					if(err){}
+					if(err){ console.log(err)}
 						else{
 							game.gameStarted = true;
 							game.save(function(err, result){
