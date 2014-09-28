@@ -5,6 +5,8 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+ var async = require('async');
+
  module.exports = {
  	getAll: function(req, res) {
  		Game.getAll()
@@ -120,26 +122,23 @@
 			else if(typeof game != 'undefined'){
 
 				Spot.update({user: userId}, {user: null}, function(err, model){});
-			
+				
 				Spot.findOne(spotId).exec(function(err,spot){
 					if (err) {
 						return res.serverError(err);
 					}
 					else if(spot != 'undefined'){
 						User.getOne(userId).spread(function(user){
-						console.log(spot.user);
-						if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
-							spot.user = user;
-						spot.save(function(err, result){
-							game.save(function(err, result){
-								Game.publishUpdate(game.id,result);
-								res.json(result);
-							});
-						})
-					}else{
-						return res.serverError("spot already taken");
-					}
-						
+							console.log(spot.user);
+							if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
+								spot.user = user;
+								spot.save(function(err, result){
+									Game.republishGame(game.id);
+								})
+							}else{
+								return res.serverError("spot already taken");
+							}
+							
 						})
 						
 					}
@@ -164,12 +163,12 @@
 			else if(typeof game != 'undefined'){
 				Spot.update({user: userId}, {user: null}, function(err, model){
 					game.users.remove(userId)
-				game.save(function(err, result){
-					console.log(result);
-					Game.publishUpdate(result.id,result);
-					res.json(game);
-				});
-				return game;
+					game.save(function(err, result){
+						console.log(result);
+						Game.publishUpdate(result.id,result);
+						res.json(game);
+					});
+					return game;
 				});
 				
 			}
@@ -180,8 +179,39 @@
 
 	rollBuilds : function(req, res){
 		var id = req.param('id');
-		lolService.getChampions(id, Game.rollChampions);
-		lolService.getItems(id, Game.rollItems);
+		var itemsReceived = 0;
+
+		var champions, items, summoners = {}
+		
+		async.parallel([
+			function(callback){
+				lolService.getChampions(function(result){
+					champions = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getItems(function(result){
+					items = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getSummoners(function(result){
+					summoners = result;
+					callback();
+				})
+			}
+
+			], function(err){
+				Game.rollBuilds(id, items, champions, summoners);
+			});		
+		
+	},
+
+	rollBuild: function(req, res) {
+		var id = req.param('id');
+		var buildId = req.param('buildId');
 	}
 };
 

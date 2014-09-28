@@ -5,6 +5,7 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 var request = require("request");
+var async = require("async");
 
 module.exports = {
 
@@ -25,6 +26,10 @@ module.exports = {
 		numberOfSpots: {
 			type: 'integer',
 			defaultsTo: 10
+		},
+		gameStarted: {
+			type: 'boolean',
+			defaultsTo: false
 		},
 		spots: {
 			collection: 'spot',
@@ -50,28 +55,39 @@ module.exports = {
 				return res.serverError(err);
 			}
 			else if(typeof currentGame != 'undefined'){
-				for (var i = 0; i < currentGame.numberOfSpots; i++) {
-					Spot.create({}).exec(function(err, spot) {
-						if (err) {
-							return console.log(err);
-						}
-						else {
-							Build.create({}).exec(function(err, build){
-								spot.build = build;
-								spot.save(function(err, result){
-									currentGame.spots.add(result);
-									currentGame.builds.add(build);
-									currentGame.save(function(err, result){
-									
-									});
-								});
-								
-							})
-							
-						}
-					});
+				var count = 0;
+				async.whilst(
+					function() {return count < currentGame.numberOfSpots},
+					function(callback){
+						Spot.create({}).exec(function(err, spot) {
+							if (err) {
+								return console.log(err);
+							}
+							else {
 
-				};
+								currentGame.spots.add(spot);
+								Build.create({}).exec(function(err, build){
+
+									currentGame.builds.add(build);
+									spot.build = build;
+									spot.save(function(err, result){
+										count++;
+										callback();
+									});
+
+								})
+
+							}
+						});
+
+					},
+					function(err){
+						currentGame.save(function(err, gameResult){
+							Game.publishUpdate(gameResult.id, gameResult);
+						});
+					})
+
+				
 			}
 
 
@@ -124,9 +140,7 @@ module.exports = {
 		});
 	},
 	rollChampions : function(id, champions){
-		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
-		var champions = Object.keys(champions).map(function(k) { return champions[k] });;
-
+		
 
 
 		Game.findOne(id)
@@ -136,50 +150,99 @@ module.exports = {
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-
+				var timesThroughSpots = 0;
 				game.spots.forEach(function(spot){
 					var randomIndex = Math.floor(Math.random()*(champions.length));
 					spot.champion = champions[randomIndex].id;
 					champions.splice(randomIndex, 1);
-					spot.save(function(err, result){});
-				})
+					spot.save(function(err, result){
+						timesThroughSpots++;
+						if(timesThroughSpots == game.spots.length){
 
-				game.save(function(err, result){
-					Game.publishUpdate(result.id, result)
-				})
+							Game.republishGame(id);
+						}
+					});
+				});
 
 						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
-						// });							
-
-
+						// });	
 	}
 
 });
 		
 	},
-	rollItems : function(id, items) {
+	rollBuilds : function(id, items, champions, summoners) {
+		
 		Game.findOne(id)
 		.populate('spots')
 		.populate('builds')
 		.exec(function(err, game) {
 			if (err) {
-				return res.serverError(err);
+				//return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-				game.spots.forEach(function(spot){
+				var timesThroughSpots = 0;
+				var newChampions = Object.keys(champions.data).map(function(k) { 
+					return champions.data[k]
+				});
+				async.forEach(game.spots, function(spot, callback){
+					var randomIndex = Math.floor(Math.random()*(newChampions.length));
+					spot.champion = newChampions[randomIndex].id;
+					newChampions.splice(randomIndex, 1);
 
 					var build = game.builds.filter(function(build){ 
 						return build.id == spot.build})[0];
-					lolService.rollBuild(build, items);					
 
-					build.save(function(err, result){});
-				});
-				game.save(function(err, result){
-					Game.publishUpdate(result.id, result)
-				})
-			}
-		})
-	}
+					lolService.rollBuild(build, spot, items, summoners, function(){
+						async.parallel([
+							function(callback){
+								spot.save(function(err, result){
+									if(err) callback(err);
+									callback();
+								});
+							},
+							function(callback){
+								build.save(function(err){
+									if(err) callback(err)
+										callback();
+
+								});
+							},
+
+							], function(err){
+								if(err) callback(err)
+									callback();
+							})
+						
+
+						
+					});
+				}, function(err){
+					if(err){}
+						else{
+							game.gameStarted = true;
+							game.save(function(err, result){
+								if(err){
+										//return res.serverError(err);
+									}else{										
+										Game.publishUpdate(result.id, result);
+									}
+								})
+						}
+
+
+					})
+}
+})
+},
+
+
+republishGame : function(id){
+	var game = this.getOne(id);
+	game.spread(function(result){
+		Game.publishUpdate(id, result)
+	});
+}
 };
 

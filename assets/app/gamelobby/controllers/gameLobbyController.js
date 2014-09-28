@@ -21,6 +21,9 @@ angular.module( 'ubteambuilder.gamelobby', [])
 				}],
 				items: ["ChampionService", function(ChampionService){
 					return ChampionService.getItems();
+				}],
+				summoners: ["ChampionService", function(ChampionService){
+					return ChampionService.getSummoners();
 				}]
 				}			
 			}
@@ -29,9 +32,9 @@ angular.module( 'ubteambuilder.gamelobby', [])
 }])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'ChampionService'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, ChampionService) {
+ function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService) {
  	if(game.statusCode == 404){
  		$location.path('/home');
  	}
@@ -44,6 +47,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
    	var vm = this;
 	vm.game = game;
 	vm.champions = champions;
+	vm.summoners = summoners;
 	vm.items = items;
 	console.log(game);
 	titleService.setTitle('Game');
@@ -116,8 +120,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			});
 		}
 	};
-	vm.userOwnsGame = function (gameId){
-		if(gameId == vm.currentUser.id)	return true
+	vm.userOwnsGame = function (){
+		if(vm.game.user.id == vm.currentUser.id)	return true
 			return false;
 	}
 
@@ -156,6 +160,12 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		var build = vm.getBuildFromGame(vm.game, build);
 
 		return ChampionService.getItemImage(vm.items[build[type]].image.full);
+	}
+
+	vm.getSummonerImageFromBuild = function(build, type){
+		var build = vm.getBuildFromGame(vm.game, build);
+
+		return ChampionService.getSummonerImage(vm.summoners[build[type]].image.full);
 	}
 
 	vm.getItemFromBuild = function(build, type) {

@@ -10,7 +10,7 @@
 
         <!-- Roll - reroll button -->
         <div class="col-sm-12">
-            <div ng-click="gameLobby.rollBuilds(gameLobby.game)" id="roll-btn_lobby"></div>
+            <div ng-disabled="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="roll-btn_lobby"></div>
         </div>
         <!-- Player shields -->
         <div id="player_shield_container">
@@ -19,20 +19,20 @@
                     <div class="col-md-6" ng-repeat="spot in rows">
                         <div class="player_shield" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" >
                             <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
-                            <img id="hero_icon" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}" />
-                            <img class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'boots')}}" />
-                            <img class="hero_items" id="item_2" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_3" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_4" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_5" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_items" id="item_6" src="../../images/shield_icons/zephyr.png" />
-                            <img class="hero_passives" id="passive_1" src="../../images/shield_icons/passive1.png" />
-                            <img class="hero_passives" id="passive_2" src="../../images/shield_icons/passive2.png" />
+                            <img title="{{gameLobby.champions[spot.champion].id}}" alt="{{gameLobby.champions[spot.champion].id}}" id="hero_icon" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}" />
+                            <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['boots']].name +' with '+ gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['bootsEnchantment']].name}}" class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}}" />
+                            <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item1']].name}}" class="hero_items" id="item_2" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}"/>
+                            <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item2']].name}}" class="hero_items" id="item_3" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item2')}}"/>
+                            <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item3']].name}}" class="hero_items" id="item_4" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item3')}}"/>
+                            <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item4']].name}}" class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
+                            <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item5']].name}}" class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
+                            <img title="{{gameLobby.summoners[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['summoner1']].name}}" class="hero_passives" id="passive_1" ng-src="{{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}}" />
+                            <img title="{{gameLobby.summoners[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['summoner2']].name}}" class="hero_passives" id="passive_2" ng-src="{{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner2')}}" />
                             <img id="hero_masteries_bg" src="../../images/shield_icons/masteries.png" />
                             <ul id="hero_masteries" src="../../images/shield_icons/masteries.png">
-                                <li class="masteries_text">5</li>
-                                <li class="masteries_text">6</li>
-                                <li class="masteries_text">7</li>
+                                <li class="masteries_text">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery1}}</li>
+                                <li class="masteries_text">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery2}}</li>
+                                <li class="masteries_text">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery3}}</li>
                             </ul>
                         </div>
                         <div class="player_reroll">
