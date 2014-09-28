@@ -26,6 +26,10 @@ module.exports = {
 			type: 'integer',
 			defaultsTo: 10
 		},
+		gameStarted: {
+			type: 'boolean',
+			defaultsTo: false
+		},
 		spots: {
 			collection: 'spot',
 			via: 'id',
@@ -51,19 +55,25 @@ module.exports = {
 			}
 			else if(typeof currentGame != 'undefined'){
 				for (var i = 0; i < currentGame.numberOfSpots; i++) {
+					var timesThroughLoop = 0;
 					Spot.create({}).exec(function(err, spot) {
 						if (err) {
 							return console.log(err);
 						}
 						else {
+
+							currentGame.spots.add(spot);
 							Build.create({}).exec(function(err, build){
+
+								currentGame.builds.add(build);
 								spot.build = build;
 								spot.save(function(err, result){
-									currentGame.spots.add(result);
-									currentGame.builds.add(build);
-									currentGame.save(function(err, result){
-									
-									});
+									timesThroughLoop++;
+									if(timesThroughLoop ==  currentGame.numberOfSpots){										
+										currentGame.save(function(err, gameResult){
+											Game.publishUpdate(gameResult.id, gameResult);
+										});
+									}
 								});
 								
 							})
@@ -124,9 +134,7 @@ module.exports = {
 		});
 	},
 	rollChampions : function(id, champions){
-		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
-		var champions = Object.keys(champions).map(function(k) { return champions[k] });;
-
+		
 
 
 		Game.findOne(id)
@@ -136,29 +144,30 @@ module.exports = {
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-
+				var timesThroughSpots = 0;
 				game.spots.forEach(function(spot){
 					var randomIndex = Math.floor(Math.random()*(champions.length));
 					spot.champion = champions[randomIndex].id;
 					champions.splice(randomIndex, 1);
-					spot.save(function(err, result){});
-				})
+					spot.save(function(err, result){
+						timesThroughSpots++;
+						if(timesThroughSpots == game.spots.length){
 
-				game.save(function(err, result){
-					Game.publishUpdate(result.id, result)
-				})
+								Game.republishGame(id);
+						}
+					});
+				});
 
 						// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
-						// });							
+						// });	
+			}
 
-
-	}
-
-});
+		});
 		
 	},
-	rollItems : function(id, items) {
+	rollBuilds : function(id, items, champions, summoners) {
+		
 		Game.findOne(id)
 		.populate('spots')
 		.populate('builds')
@@ -167,19 +176,49 @@ module.exports = {
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
+				var timesThroughSpots = 0;
+				var newChampions = Object.keys(champions.data).map(function(k) { 
+						return champions.data[k]
+			 		});
 				game.spots.forEach(function(spot){
 
+					
+
+			 		var randomIndex = Math.floor(Math.random()*(newChampions.length));
+					spot.champion = newChampions[randomIndex].id;
+					newChampions.splice(randomIndex, 1);
+
+					//builds
 					var build = game.builds.filter(function(build){ 
 						return build.id == spot.build})[0];
-					lolService.rollBuild(build, items);					
+					lolService.rollBuild(build, spot, items, summoners, function(){
+						spot.save(function(err, result){
 
-					build.save(function(err, result){});
+						});
+
+						build.save(function(err){
+							timesThroughSpots++;
+							if(timesThroughSpots == game.spots.length){
+								game.gameStarted = true;
+								game.save(function(err, result){
+									Game.publishUpdate(result.id, result);
+								})
+							}
+						});
+					});
+
+
 				});
-				game.save(function(err, result){
-					Game.publishUpdate(result.id, result)
-				})
 			}
 		})
+	},
+
+
+	republishGame : function(id){
+		var game = this.getOne(id);
+		game.spread(function(result){
+			Game.publishUpdate(id, result)
+		});
 	}
 };
 

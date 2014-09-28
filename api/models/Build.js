@@ -35,7 +35,7 @@ module.exports = {
   		},
   		skill_to_level: {
   			type: 'string',
-  			enum: ['Q', 'W', 'E', 'R']
+  			enum: ['Q', 'W', 'E']
   		},
   		summoner1: {
   			type: 'string'
@@ -44,13 +44,13 @@ module.exports = {
   			type: 'string'
   		},
   		mastery1: {
-  			type: 'number'
+  			type: 'integer'
   		},
   		mastery2: {
-  			type: 'number'
+  			type: 'integer'
   		},
   		mastery3: {
-  			type: 'number'
+  			type: 'integer'
   		}
   },
 

@@ -131,10 +131,7 @@
 						if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
 							spot.user = user;
 						spot.save(function(err, result){
-							game.save(function(err, result){
-								Game.publishUpdate(game.id,result);
-								res.json(result);
-							});
+							Game.republishGame(game.id);
 						})
 					}else{
 						return res.serverError("spot already taken");
@@ -180,8 +177,37 @@
 
 	rollBuilds : function(req, res){
 		var id = req.param('id');
-		lolService.getChampions(id, Game.rollChampions);
-		lolService.getItems(id, Game.rollItems);
+		var itemsReceived = 0;
+
+		var champions, items, summoners = {}
+		
+		lolService.getChampions(function(result){
+			champions = result;
+			itemsReceived++;
+			if(itemsReceived == 3){
+				Game.rollBuilds(id, items, champions, summoners);
+			}
+		});
+		lolService.getItems(function(result){
+			items = result;
+			itemsReceived++;
+			if(itemsReceived == 3){
+				Game.rollBuilds(id, items, champions, summoners);
+			}
+		});
+		lolService.getSummoners(function(result){
+			summoners = result;
+			itemsReceived++;
+			if(itemsReceived == 3){
+				Game.rollBuilds(id, items, champions, summoners);
+			}
+		});
+		
+	},
+
+	rollBuild: function(req, res) {
+		var id = req.param('id');
+		var buildId = req.param('buildId');
 	}
 };
 
