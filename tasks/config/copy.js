@@ -28,6 +28,12 @@ module.exports = function(grunt) {
  				cwd: './assets/images', 
  				src: ['**/*.*'], 
  				dest:'.tmp/public/images' 
+ 			},
+ 			{ 
+ 				expand: true,
+ 				cwd: './assets/fonts', 
+ 				src: ['**/*.*'], 
+ 				dest:'.tmp/public/fonts' 
  			}]
 		},
 		build: {
