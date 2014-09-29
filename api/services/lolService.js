@@ -43,7 +43,7 @@ module.exports = {
 			}
 		});
 	},
-	rollBuild: function(build, spot,  items, summoners,  callback){
+	rollBuild: function(spot,  items, summoners, champions, callback){
 
 	
 
@@ -64,37 +64,46 @@ module.exports = {
 		
 
 		var vm = this;
+		var build = {};
 		async.parallel([
 			function(callback){
-				vm.rollBoots(build, items, groups, function(){
+				vm.rollChampion(champions, function(result){
+					build.champion = result.champion;
+					build.randomIndex = result.randomIndex;
 					callback();
 				});
 			},
 			function(callback){
-				vm.rollItems(build, items, function(){
+				vm.rollBoots(items, groups, function(result){
+					build.boots = result;
 					callback();
 				});
 			},
 			function(callback){
-				vm.rollMasteries(build, function(){
+				vm.rollItems(items, function(result){
+					build.items = result;
 					callback();
 				});
 			},
 			function(callback){
-				vm.rollSummoners(build, summoners, function(){
+				vm.rollMasteries(function(result){
+					build.masteries = result;
+					callback();
+				});
+			},
+			function(callback){
+				vm.rollSummoners(summoners, function(result){
+					build.summoners = result;
 					callback();
 				})
 			},
 			function(callback){
-				vm.rollAbility(build, function(){
+				vm.rollAbility(function(result){
+					build.skill_to_level = result.skill_to_level;
 					callback();
 				})
-			}
-			
-
-
-			], function(err){
-				callback();
+			}], function(err){
+				callback(build);
 			});
 		// vm.rollBoots(build, items, groups, function(result1){
 		// 	vm.rollItems(result1, items, function(result2){
@@ -109,7 +118,17 @@ module.exports = {
 		
 	},
 
-	rollBoots: function(build, items, groups, callback){
+	rollChampion: function(champions, callback) {
+		var build = {};
+		var randomIndex = Math.floor(Math.random()*(champions.length));
+		build.champion = champions[randomIndex].id;
+		build.randomIndex = randomIndex;
+		callback(build);
+	},
+
+	rollBoots: function(items, groups, callback){
+		var build = {};
+
 		var boots = items.filter(function(item){return item.tags.indexOf('Boots') > -1 && item.depth == 2});
 
 		var enchantmentGroups = groups.filter(function(group){return group.id.indexOf('Boots') > -1 && group.id.indexOf('BootsNormal') < 0});
@@ -128,7 +147,9 @@ module.exports = {
 		
 		callback(build);
 	},
-	rollItems: function(build, items, callback){
+	rollItems: function(items, callback){
+		var build = {};
+
 		var items = items.filter(function(item){return item.into.length ==0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0 && ((typeof item.maps != 'undefined' && item.maps[1] != false) || typeof item.maps == 'undefined')});
 		items = items.filter(function(item) {
 				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  || typeof item.group == 'undefined';
@@ -157,7 +178,9 @@ module.exports = {
 		callback(build);
 	},
 
-	rollMasteries: function(build, callback){
+	rollMasteries: function(callback){
+		var build = {}; 
+
 		var totalMasteries = 30;
 		build.mastery1 = Math.floor(Math.random()*(totalMasteries));
 		totalMasteries -= build.mastery1;
@@ -168,8 +191,8 @@ module.exports = {
 		callback(build);
 	},
 
-	rollSummoners: function(build, summoners, callback){
-		var totalMasteries = 30;
+	rollSummoners: function(summoners, callback){
+		var build = {};
 		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1})
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
 
@@ -180,7 +203,8 @@ module.exports = {
 
 		callback(build);
 	},
-	rollAbility: function(build, callback){
+	rollAbility: function(callback){
+		var build = {};
 		var abilities = ['Q', 'W', 'E'];
 
 		build.skill_to_level = abilities[Math.floor(Math.random()*(abilities.length))];

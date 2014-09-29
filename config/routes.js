@@ -84,6 +84,7 @@ module.exports.routes = {
     'delete /api/game/:id/user' : 'GameController.destroyUser',
     'post /api/game/:id/build' : 'GameController.rollBuilds',
     'put /api/game/:id/spot/:spotId' : 'GameController.rerollBuild',
+     'delete /api/game/:id/spot/:spotId/user/:userId' : 'GameController.removeUserFromSpot',
   
    // If a request to a URL doesn't match any of the custom routes above, it is matched
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options
@@ -92,5 +93,6 @@ module.exports.routes = {
   'get /about': 'HomeController.index',
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',
-  'get /games/:id': 'HomeController.index'
+  'get /games/:id': 'HomeController.index',
+  'get /new/game': 'HomeController.index'
 };

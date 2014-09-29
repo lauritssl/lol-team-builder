@@ -1,4 +1,4 @@
-angular.module( 'ubteambuilder.gamelobby').factory('ChampionService', ChampionService);
+angular.module( 'ubteambuilder.gamelobby.services', []).factory('ChampionService', ChampionService);
 
 
 ChampionService.$inject =  ['$http', '$q'];

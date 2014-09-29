@@ -1,35 +1,4 @@
-angular.module( 'ubteambuilder.gamelobby', [])
-.config(["$stateProvider",function ($stateProvider){
-
-	$stateProvider.state( 'game', {
-		url: '/games/:id',
-		
-				authenticate: true,
-		views: {
-			"main": {
-				controller: 'GameLobbyCtrl',
-				templateUrl: 'gamelobby/views/gamelobby.tpl.html',
-				controllerAs: 'gameLobby',	
-				resolve: {
-
-				 game: ["GameModel", "$stateParams", function(GameModel, $stateParams){
-
-					return GameModel.getOne($stateParams.id)
-				}],
-				champions: ["ChampionService", function(ChampionService){
-					return ChampionService.getChampions();
-				}],
-				items: ["ChampionService", function(ChampionService){
-					return ChampionService.getItems();
-				}],
-				summoners: ["ChampionService", function(ChampionService){
-					return ChampionService.getSummoners();
-				}]
-				}			
-			}
-		}
-	});
-}])
+angular.module( 'ubteambuilder.gamelobby.controllers', [])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
 GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService'];
@@ -104,7 +73,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	},
 
 	vm.joinSpot = function(game, spot){
-		GameModel.addUserToSpot(vm.game.id, vm.currentUser.id, spot.id).then(function(model){
+		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id).then(function(model){
+		});
+		
+	},
+
+	vm.removeUserFromSpot = function(gameId, userId, spotId){
+		GameModel.removeUserFromSpot(gameId, userId, spotId).then(function(model){
 		});
 		
 	},

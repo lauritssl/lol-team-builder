@@ -28,7 +28,6 @@
  			if(model == null){
  				res.send(404);
  			};
- 			console.log("Updated!");
  			Game.subscribe(req.socket, model);
  			res.json(model);
  		})
@@ -127,7 +126,6 @@
 						return res.serverError(err);
 					}
 					else if(spot != 'undefined'){
-							console.log(spot.user);
 							if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
 
 								async.series([
@@ -158,6 +156,16 @@
 
 		});
 
+	},
+	removeUserFromSpot: function(req, res) {
+		var userId = req.param('userId');
+		var id = req.param('id');
+		var spotId = req.param('spotId');
+
+		Spot.update({id: spotId}, {user: null}, function(err, result){
+			if(err) return res.serverError(err);
+			Game.republishGame(id);
+		})
 	},
 	destroyUser: function (req, res) {
 		var userId = req.param('user');
