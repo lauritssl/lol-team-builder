@@ -174,7 +174,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return vm.items[build[type]];
 	}
 
-	vm.isUserInspot = function(slot){
+	vm.isUserInSpot = function(slot){
 		if(typeof slot.user == 'undefined' || slot.user == null) return false;
 		return true;
 	}

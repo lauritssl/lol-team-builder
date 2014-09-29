@@ -20,6 +20,11 @@
 
 .gamelobby_content{
     padding-top: 75px !important;
+    height: 100%;
+    background: url(../../../images/bg_img/BG_still.jpg) no-repeat top center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
 
 #player_shield_container{
     padding-top: 100px;
@@ -28,6 +33,23 @@
     .partition_row{
         margin-bottom: 100px;
     }
+
+.player_shield_not_taken{
+    display: block;
+    width: 200px;
+    height: 300px;
+    position: relative;
+    margin: 10px auto 10px auto;
+    text-align: center;
+    z-index: 2;
+    float: none !important;
+    background-color: @main-red;
+    border: 3px solid @main-grey;
+
+    &:hover{
+        background-color: pink;
+    }
+}
 
 .player_shield{
     display: block;
