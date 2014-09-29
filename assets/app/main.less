@@ -87,29 +87,27 @@ li {
   border: none;
 }
 
-.content-bg{
-    padding-top: 75px;
-
-    .custom_btn-red{
-    background-color: @main-red-button;
-    width: 40%;
-    min-width: 100px;
-    height: 40px;
-    text-align: center;
-    color: rgba(255,255,255,0.8);
-    margin-top: 20px;
-    margin-bottom: 50px;
-    z-index: 2;
-    border: none;
-    border-radius: 5px;
+.custom_btn-red{
+  background-color: @main-red-button;
+  width: 40%;
+  min-width: 100px;
+  height: 40px;
+  text-align: center;
+  color: rgba(255,255,255,0.8) !important;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  z-index: 2;
+  border: none;
+  border-radius: 5px;
 
 &:hover{
     background-color: @main-red-button-dark;
     border-color: @main-red-button-dark;
+    color: rgba(255,255,255,0.8);
   }
 &:focus{
     outline-color: @main-red-button !important;
-}
+  }
 }
 
 .form-group{
@@ -127,8 +125,6 @@ li {
       }
     } 
   }
-
-}
 }
 
 // Animated BG

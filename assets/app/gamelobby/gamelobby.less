@@ -1,105 +1,275 @@
+/* Mixins */
+
+@main-bgcolor-blue: #141D24;
+@main-bgcolor-blue-50: rgba(20, 29, 36, 0.65);
+
+//blue
+@main-blue: #078CE8;
+@main-blue-button: #056eb6;
+@main-blue-button-dark: #045f9d;
+
+//red
+@main-red: #A05050;
+@main-red-button: #7e3f3f;
+@main-red-button-dark: #6d3737;
+
+//grey
+@main-grey: #222222;
+
 /* Main content - Login*/
 
-.content-bg{
-
-#roll-btn_lobby{
-    background: transparent url(../../../images/orange_btn_roll.png) no-repeat 50% 0%;
-    display: block;
-    width: 290px;
-    height: 84px;
-    position: relative;
-    margin: 0 auto;
-    text-align: center;
-    color: rgba(255,255,255,0.8);
-    margin-top: 50px;
-    z-index: 2;
-
-&:hover{
-    background-position: 50% -83px;
-    cursor: pointer;
-}
-}
-
+.gamelobby_content{
+    padding-top: 75px !important;
 
 #player_shield_container{
     padding-top: 100px;
     margin-bottom: 200px;
 
+    .partition_row{
+        margin-bottom: 100px;
+    }
+
 .player_shield{
-    background-color: red;
-    background: transparent url(../../../images/shield.png) no-repeat 50% 0%;
     display: block;
-    width: 410px;
-    height: 164px;
+    width: 200px;
+    height: 300px;
     position: relative;
     margin: 10px auto 10px auto;
     text-align: center;
-    z-index: 2;
-
-&:hover{
-    background-position: 50% -164px;
-}
+    z-index: 1;
+    float: none !important;
 
 #player_name{
     position: absolute;
-    color: #fff;
+    color: rgba(255,255,255,0.75);
     font-size: 18px;
-    left: 150px;
-    top: 5px;
+    left: 9px;
+    top: -48px;
+    background-color: @main-bgcolor-blue-50;
+    width: 180px;
+    height: 30px;
+    padding-top: 5px;
+    border: 2px solid @main-grey;
+    z-index: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#hero_icon{
-    width: 80px;
-    height: 80px;
-    margin-top: 64px;
-    position: relative;
+.action_button_left{
+    position: absolute;
+    font-size: 15px;
+    z-index: 0;
+    width: 30px;
+    height: 25px;
+    left: -28px;
+    top: 8px;
+    background-color: rgba(20, 29, 36, 0.65);
+    color: rgba(255, 255, 255, 0.75);
+    border: 2px solid #222;
+    padding: 4px 0px 0px 1px;
+    cursor: pointer;
+
+    &:hover{
+        color: rgba(255, 255, 255, 1);
+    }
+}
+
+#action_button_reroll{
+    top: 38px;
+}
+
+#hero_backdrop{
+    background: url(http://cdn.leagueoflegends.com/game-info/1.1.9/images/champion/backdrop/bg-volibear.jpg) no-repeat 75% 0%;
+    background-size: 533px 300px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    border: 2px solid @main-grey;
+
+    &:hover, &:hover + #build_info_backdrop{
+     -webkit-filter: blur(3px);
+      -moz-filter: blur(3px);
+      -o-filter: blur(3px);
+      -ms-filter: blur(3px);
+      filter: blur(3px);
+}
+}
+
+#build_info_backdrop{
+    background-color: @main-bgcolor-blue-50;
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
 }
 
 .hero_items{
     width: 45px;
     height: 45px;
-    margin-top: 28px;
+    top: 25px;
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid @main-grey;
+    z-index: 3;
+
+    &:hover{
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+        z-index: 10;
+        cursor: default;
+    }
 }
+
+#item_1 {
+  left: 175px !important;
+}
+#item_2 {
+  left: 175px !important;
+  top: 70px !important;
+}
+#item_3 {
+  left: 175px !important;
+  top: 115px !important;
+}
+#item_4 {
+  left: 175px !important;
+  top: 160px !important;
+}
+#item_5 {
+  left: 175px !important;
+  top: 205px !important;
+}
+#item_6 {
+  left: 175px !important;
+  top: 250px !important;
+}
+
+#champion_name{
+    z-index: 3;
+    color: @main-red;
+    font-size: 16px;
+    position: absolute;
+    bottom: 80px;
+    left: 11px;
+}
+
+#main_lvl_skill{
+    position: absolute;
+    color: #fff;
+    z-index: 3;
+    background-color: @main-grey;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid @main-grey;
+    bottom: 25px;
+    left: 10px;
+    font-size: 12px;
+    cursor: default;
+    opacity: 0.75;
+}
+
+#main_lvl_skill_bg{
+    position: absolute;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid @main-grey;
+    bottom: 10px;
+    left: 10px;
+
+    &:hover, &:hover + #main_lvl_skill{
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+        z-index: 10;
+        cursor: default;
+    }
+}
+
+#hero_passives_container{
+    width: 125px;
+    height: 35px;
+    position: absolute;
+    border-left: 1px solid @main-red;
+    bottom: 13px;
+    left: 60px;
+    z-index: 2;
 
 .hero_passives{
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
     position: absolute;
+    border-radius: 50%;
+    z-index: 2;
+    border: 2px solid @main-grey;
+
+    &:hover{
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+        z-index: 10;
+        cursor: default;
+        }
+    }
 }
 
+
 #passive_1{
-    bottom: 20px;
-    left: 104px;
+    bottom: -1px;
+    left: 12px;
 }
 
 #passive_2{
-    bottom: 20px;
-    left: 141px;
-}
-
-#hero_masteries_bg{
-    position: absolute;
-    bottom: 18px;
-    right: 20px;
+    bottom: -1px;
+    left: 50px;
 }
 
 #hero_masteries{
     position: absolute;
-    top: 130px;
-    right: 0;
-    padding-right: 26px;
-    list-style: none;
+    top: 38px;
+    left: 4px;
 
     .masteries_text{
+        color: rgba(255,255,255,0.75);
         float: left;
-        width: 29px;
-        color: #fff;
-        font-size: 9px;
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
         font-weight: bold;
         text-align: center;
+        margin: 0px 9px 0px 9px;
+        cursor: default;
+    }
+
+    #mastery_1{
+        background-color: #6d3737;
+        border-radius: 50%;
+        border: 2px solid @main-grey;
+    }
+
+    #mastery_2{
+        background-color: #37526d;
+        border-radius: 50%;
+        border: 2px solid @main-grey;
+    }
+
+    #mastery_3{
+        background-color: #376d52;
+        border-radius: 50%;
+        border: 2px solid @main-grey;
     }
   }
 }
+
 .player_reroll{
     button{
     display: block;
@@ -109,6 +279,7 @@
 }
 }
 
+//BG image dynamic change
 
 .bgImage1{
     background:url(../../../images/bg_img/bg-ahri.jpg) no-repeat top center;
@@ -163,4 +334,12 @@
     background-size:cover;
     -webkit-background-size: cover;
     -moz-background-size:cover;
+}
+
+
+// Media queries
+@media (min-width: 1200px) {
+    .player_shield_regulator{
+    width: 20% !important;
+    }
 }
