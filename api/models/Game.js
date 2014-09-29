@@ -342,7 +342,7 @@ rollBuilds : function(id, items, champions, summoners) {
 									console.log(err);
 							}else{					
 							game.gameStarted = true;					
-							Game.publishUpdate(game.id, game);
+							Game.republishGame(game.id);
 							}
 						})
 					}else{

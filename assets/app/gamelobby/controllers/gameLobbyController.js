@@ -73,7 +73,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	},
 
 	vm.joinSpot = function(game, spot){
-		GameModel.addUserToSpot(vm.game.id, vm.currentUser.id, spot.id).then(function(model){
+		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id).then(function(model){
+		});
+		
+	},
+
+	vm.removeUserFromSpot = function(gameId, userId, spotId){
+		GameModel.removeUserFromSpot(gameId, userId, spotId).then(function(model){
 		});
 		
 	},

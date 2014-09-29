@@ -157,6 +157,16 @@
 		});
 
 	},
+	removeUserFromSpot: function(req, res) {
+		var userId = req.param('userId');
+		var id = req.param('id');
+		var spotId = req.param('spotId');
+
+		Spot.update({id: spotId}, {user: null}, function(err, result){
+			if(err) return res.serverError(err);
+			Game.republishGame(id);
+		})
+	},
 	destroyUser: function (req, res) {
 		var userId = req.param('user');
 		var id = req.param('id');

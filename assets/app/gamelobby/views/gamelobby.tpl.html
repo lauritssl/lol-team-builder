@@ -18,13 +18,14 @@
                 <div class="col-sm-12">
                     <div class="col-sm-6 col-lg-2 player_shield_regulator" ng-repeat="spot in rows">
                     <div class="row">
+                    <span class="glyphicon glyphicon-remove action_button_left" title="Leave slot" ng-if="gameLobby.userOwnsGame() || gameLobby.currentUser.id == spot.user" ng-click="gameLobby.removeUserFromSpot(gameLobby.game.id, spot.user, spot.id)"></span>
+
+                            <span class="glyphicon glyphicon-retweet action_button_left" id="action_button_reroll" title="Reroll player" ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rerollSpot(gameLobby.game.id, spot.id)"></span>
                         <div class="player_shield col-sm-12" ng-click="gameLobby.joinSpot(gameLobby.game, spot)">
                             <!-- title="{{gameLobby.champions[spot.champion].id}}" alt="{{gameLobby.champions[spot.champion].id}}" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}-->
                             <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
 
-                            <span class="glyphicon glyphicon-remove action_button_left" title="Leave slot" ng-if="gameLobby.userOwnsGame()"></span>
-
-                            <span class="glyphicon glyphicon-retweet action_button_left" id="action_button_reroll" title="Reroll player" ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rerollSpot(gameLobby.game.id, spot.id)"></span>
+                            
 
                             <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['boots']].name +' with '+ gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['bootsEnchantment']].name}}" class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}}" />
                             <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item1']].name}}" class="hero_items" id="item_2" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}"/>
