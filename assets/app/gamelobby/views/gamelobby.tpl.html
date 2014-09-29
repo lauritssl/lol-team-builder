@@ -31,10 +31,10 @@
                             <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item4']].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
                             <img title="{{gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['item5']].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
                             
-                            <div ng-show="gameLobby.game.gameStarted" id="hero_backdrop"></div>
+                            <div ng-show="gameLobby.game.gameStarted" id="hero_backdrop" ng-style="{{gameLobby.getChampionBackground(spot)}}"></div>
                             <div id="build_info_backdrop">
                             <p id="champion_name">{{spot.champion}}</p>
-                            <img id="main_lvl_skill_bg" ng-show="gameLobby.game.gameStarted" ng-src="http://ddragon.leagueoflegends.com/cdn/4.15.1/img/spell/VolibearQ.png" />
+                            <img id="main_lvl_skill_bg" ng-show="gameLobby.game.gameStarted" ng-src="{{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.champion)}}" />
                             <h2 id="main_lvl_skill" ng-show="gameLobby.game.gameStarted">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).skill_to_level}}</h2>
                             <div id="hero_passives_container" ng-show="gameLobby.game.gameStarted">
                                 <img title="{{gameLobby.summoners[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['summoner1']].name}}" class="glyphicon glyphicon-headphone hero_passives" id="passive_1" ng-src="{{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}}" />

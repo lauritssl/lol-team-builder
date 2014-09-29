@@ -143,14 +143,34 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return ChampionService.getSummonerImage(vm.summoners[build[type]].image.full);
 	}
 
+	vm.getChampionSkillImageFromBuild = function(build, champion){
+
+		var build = vm.getBuildFromGame(vm.game, build);
+		var index = 0;
+		switch(build.skill_to_level){
+			case "Q":
+			index = 0;
+			 break;
+			 case "W":
+			index = 1;
+			 break;
+			 case "E":
+			index = 2;
+			 break;
+			 default:
+			 	index = 0;
+		}
+		return ChampionService.getAbilityImage(champion, vm.champions[champion].spells[index].image.full);
+	}
+
 	vm.getItemFromBuild = function(build, type) {
 		var build = vm.getBuildFromGame(vm.game, build);
 
 		return vm.items[build[type]];
 	}
 
-	vm.isUserInSpot = function(slot){
-		if(typeof slot.user == 'undefined' || slot.user == null) return false;
+	vm.isUserInSpot = function(spot){
+		if(typeof spot.user == 'undefined' || spot.user == null) return false;
 		return true;
 	}
 
@@ -160,6 +180,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 				// message has been deleted, and removed from vm.messages
 			});
 		}
+	}
+
+	vm.getChampionBackground = function(spot) {
+		return "{'background': 'url(http://cdn.leagueoflegends.com/game-info/1.1.9/images/champion/backdrop/bg-"+spot.champion.toLowerCase()+".jpg) no-repeat 75% 0%', 'background-size': '533px 300px'}"
 	}
 
 	vm.init();

@@ -5,11 +5,15 @@ ChampionService.$inject =  ['$http', '$q'];
 
 function ChampionService ($http, $q) {
 	
-
+    var apiKey = "9b6c3016-6c52-4c6f-9deb-8d5fcfbf0fde";
+    var lolBasePath = "https://global.api.pvp.net";
+    var staticPath = "/api/lol/static-data/euw/v1.2";    
 	return {
 		 getChampions: function () {
             var deferred = $q.defer();
-            var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
+            var queryParameters = "champData=image,passive,spells,stats,tags&api_key="+apiKey;
+            var url = lolBasePath + staticPath + "/champion?" + queryParameters;
+            var test = "";
             $http.get(url).success(function(result) {
                 return deferred.resolve(result.data);
             });
@@ -55,11 +59,11 @@ function ChampionService ($http, $q) {
             return url + itemImageId;
         },
         
-        getAbilityImage: function(champion, abilityButton){
+        getAbilityImage: function(champion, ability){
             
             url = "http://ddragon.leagueoflegends.com/cdn/4.15.1/img/spell/";
 
-            return url + champion+abilityButton+".png";
+            return url + ability;
         }
 	};
 };
