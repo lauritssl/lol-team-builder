@@ -92,5 +92,6 @@ module.exports.routes = {
   'get /about': 'HomeController.index',
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',
-  'get /games/:id': 'HomeController.index'
+  'get /games/:id': 'HomeController.index',
+  'get /new/game': 'HomeController.index'
 };

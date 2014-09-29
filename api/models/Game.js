@@ -179,22 +179,48 @@ module.exports = {
 
 					}
 
-					spot.champion = newChampions[Math.floor(Math.random()*(newChampions.length))].id;
 
-					lolService.rollBuild(build, spot, items, summoners, function(){
+					lolService.rollBuild(spot, items, summoners, newChampions, function(result){
 						async.parallel([
 							function(callback){
-								spot.save(function(err, result){
-									if(err) callback(err);
+								Spot.update({id: spot.id}, {champion: result.champion}, function(err, result){
+									if(err) {
+										console.log(err);
+										callback(err);
+									}else{
+
 									callback();
-								});
+									}
+								})
 							},
 							function(callback){
-								build.save(function(err){
-									if(err) callback(err)
-										callback();
+								Build.update({id: build.id}, 
+									{boots: result.boots.boots,
+									bootsEnchantment: result.boots.bootsEnchantment, 
+									item1: result.items.item1,
+									item2: result.items.item2,
+									item3: result.items.item3,
+									item4: result.items.item4,
+									item5: result.items.item5,
+									mastery1: result.masteries.mastery1,
+									mastery2: result.masteries.mastery2,
+									mastery3: result.masteries.mastery3,
+									summoner1: result.summoners.summoner1,									
+									summoner2: result.summoners.summoner2,
+									skill_to_level: result.skill_to_level}, function(err, result){
+										if(err) {
+											console.log(err);
+											callback(err);
+										}
+										else{											
+											callback();
+										}
+									})
+								// build.save(function(err){
+								// 	if(err) callback(err)
+								// 		callback();
 
-								});
+								// });
 							},
 
 							], function(err){
@@ -227,65 +253,101 @@ rollBuilds : function(id, items, champions, summoners) {
 					return champions.data[k]
 				});
 				async.forEach(game.spots, function(spot, callback){
-
+					
 					var build = game.builds.filter(function(build){ 
 						return build.id == spot.build})[0];
 					if(typeof spot == 'undefined'){
 						err = "spot was not found";
+						console.log(err);
 						callback(err);
 						return;
 					}
-					if(typeof build == 'undefined'){
+					else if(typeof build == 'undefined'){
 						err = "build was not found";
+						console.log(err);
 						callback(err);
 						return;
 
-					}
+					}else{
+						lolService.rollBuild(spot, items, summoners, newChampions, function(result){
+							newChampions.splice(result.randomIndex, 1);
+							async.parallel([
+								function(callback){
+									Spot.update({id: spot.id}, {champion: result.champion}, function(err, result){
+										if(err) {
+											console.log(err);
+											callback(err);
+										}else{
 
-
-					var randomIndex = Math.floor(Math.random()*(newChampions.length));
-					spot.champion = newChampions[randomIndex].id;
-					newChampions.splice(randomIndex, 1);
-
-
-					
-					lolService.rollBuild(build, spot, items, summoners, function(){
-						async.parallel([
-							function(callback){
-								spot.save(function(err, result){
-									if(err) callback(err);
-									callback();
-								});
-							},
-							function(callback){
-								build.save(function(err){
-									if(err) callback(err)
 										callback();
+										}
+									})
+									// spot.save(function(err, result){
+									// 	if(err) callback(err);
+									// 	callback();
+									// });
+								},
+								function(callback){
+									Build.update({id: build.id}, 
+										{boots: result.boots.boots,
+										bootsEnchantment: result.boots.bootsEnchantment, 
+										item1: result.items.item1,
+										item2: result.items.item2,
+										item3: result.items.item3,
+										item4: result.items.item4,
+										item5: result.items.item5,
+										mastery1: result.masteries.mastery1,
+										mastery2: result.masteries.mastery2,
+										mastery3: result.masteries.mastery3,
+										summoner1: result.summoners.summoner1,									
+										summoner2: result.summoners.summoner2,
+										skill_to_level: result.skill_to_level}, function(err, result){
+											if(err) {
+												console.log(err);
+												callback(err);
+											}
+											else{											
+												callback();
+											}
+										})
+									// build.save(function(err){
+									// 	if(err) callback(err)
+									// 		callback();
 
-								});
-							},
+									// });
+								},
 
-							], function(err){
-								if(err) callback(err)
-									callback();
-							})
-						
+								], function(err){
+									if(err) {
+										console.log(err);
+										 callback(err)
+										}
+										else{
+											callback();
+										}
+								})
+							
 
-						
-					});
+							
+						});
+					}
 					
 				}, function(err){
-					if(err){ console.log(err)}
-						else{
-							game.gameStarted = true;
-							game.save(function(err, result){
-								if(err){
-										//return res.serverError(err);
-									}else{										
-										Game.publishUpdate(result.id, result);
-									}
-								})
-						}
+					if(err){ 
+						console.log(err)
+					}
+					else if(!game.gameStarted){
+						Game.update({id:game.id},{gameStarted: true},function(err, result){
+							if(err){
+									console.log(err);
+							}else{					
+							game.gameStarted = true;					
+							Game.publishUpdate(game.id, game);
+							}
+						})
+					}else{
+						Game.republishGame(game.id);
+					}
 
 
 					})

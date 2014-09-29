@@ -38,7 +38,7 @@ angular.module('ubteambuilder', [
     			console.log(toState);
     			console.log(AuthService.checkAuthentication(Session));
     			if (toState.authenticate && !AuthService.checkAuthentication(Session)){
-    				console.log("boom!");
+    				
         			// User isn’t authenticated
        				$location.path("/login");
    				}

@@ -28,7 +28,6 @@
  			if(model == null){
  				res.send(404);
  			};
- 			console.log("Updated!");
  			Game.subscribe(req.socket, model);
  			res.json(model);
  		})
@@ -127,7 +126,6 @@
 						return res.serverError(err);
 					}
 					else if(spot != 'undefined'){
-							console.log(spot.user);
 							if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
 
 								async.series([
