@@ -9,7 +9,7 @@
 
 
  	<div class="auth_content content-bg row">
- 		<div class="col-md-4 create-game-sidebar-wrapper">
+ 		<div class="col-md-4 main-sidebar-wrapper">
  			<div id="create-game-sidebar">
  				<div class="col-xs-8 col-xs-offset-2">
  					<p class="p_bluetext">CREATE NEW GAME</p>
@@ -17,7 +17,7 @@
  						<label for="game_name">GAME NAME</label>
  						<input type="text" class="form-control" id="game_name"  name="game_name" ng-model="createGame.game.title"> 
  						<label for="game_private">PRIVATE</label>
- 						<input type="checkbox" ng-model="createGame.game.private" ng-true-value="true" ng-false-value="false" ng-false class="form-control" id="game_private"  name="game_private"> 
+ 						<input type="checkbox" ng-model="createGame.game.private" ng-true-value="true" ng-false-value="false" ng-false class="form-control" id="game_name"  name="game_private"> 
  						<label for="game_name">NUMBER OF PLAYERS</label>
  						<input type="range" ng-model="createGame.game.numberOfSpots" min="1" max="10" step="1" style="width: 140px" class="ng-valid ng-dirty">
  						<p>{{createGame.game.numberOfSpots}}</p>                
