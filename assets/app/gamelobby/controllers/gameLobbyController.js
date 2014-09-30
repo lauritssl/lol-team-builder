@@ -145,6 +145,18 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.getChampionSkillImageFromBuild = function(build, champion){
 
+		var spell = vm.getSkillFromChampion(build, champion);
+
+		return ChampionService.getAbilityImage(champion, spell.image.full);
+	}
+
+	vm.getItemFromBuild = function(build, type) {
+		var build = vm.getBuildFromGame(vm.game, build);
+
+		return vm.items[build[type]];
+	}
+
+	vm.getSkillFromChampion = function(buildId, champion) {
 		var build = vm.getBuildFromGame(vm.game, build);
 		var index = 0;
 		switch(build.skill_to_level){
@@ -160,13 +172,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			 default:
 			 	index = 0;
 		}
-		return ChampionService.getAbilityImage(champion, vm.champions[champion].spells[index].image.full);
-	}
 
-	vm.getItemFromBuild = function(build, type) {
-		var build = vm.getBuildFromGame(vm.game, build);
-
-		return vm.items[build[type]];
+		return vm.champions[champion].spells[index];
 	}
 
 	vm.isUserInSpot = function(spot){

@@ -5,8 +5,16 @@ var async = require("async");
 
 module.exports = {
 	
+
+	apiKey : "9b6c3016-6c52-4c6f-9deb-8d5fcfbf0fde",
+    lolBasePath : "https://global.api.pvp.net",
+    staticPath : "/api/lol/static-data/euw/v1.2",   
+    cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
+    cdnVersion: "4.17.1", 
+    localization: "en_GB",
+
 	getChampions: function(callback) {
-		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/champion.json';
+		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/champion.json";
 		var champions = [];
 		request({
 			url: url,
@@ -20,7 +28,7 @@ module.exports = {
 		});
 	},
 	getItems: function(callback){
-		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/item.json';
+		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/item.json";
 		request({
 			url: url,
 			json: true
@@ -32,7 +40,7 @@ module.exports = {
 		});
 	},
 	getSummoners: function(callback){
-		var url = 'http://ddragon.leagueoflegends.com/cdn/4.15.1/data/en_GB/summoner.json';
+		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/summoner.json";
 		request({
 			url: url,
 			json: true

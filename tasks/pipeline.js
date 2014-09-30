@@ -15,6 +15,7 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
+ 'bower_components/angularjs-slider/dist/rzslider.min.css',
   'styles/**/*.css'
 ];
 
@@ -27,6 +28,7 @@ var jsFilesToInject = [
   'bower_components/angular-cookies/angular-cookies.js',
     'bower_components/angular-cookies/angular-cookies.js',
     'bower_components/angular-pmkr-components/build/components.js',
+       'bower_components/angular-cache/dist/angular-cache.js',
   'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
   'bower_components/angular-ui-router/release/angular-ui-router.js',
   'bower_components/angular-ui-utils/ui-utils.js',
