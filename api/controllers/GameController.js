@@ -340,7 +340,7 @@ resetBuilds: function(req, res) {
 						console.log(err);
 						return res.serverError(err);
 					}
-					Game.update({id: game.id}, {gameStarted: false}, function(err, game){
+					Game.update({id: game.id}, {gameStarted: false}, function(err, model){
 						if(err){
 						console.log(err);
 						return res.serverError(err);
