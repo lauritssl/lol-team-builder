@@ -193,6 +193,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.champion+"_0.jpg) no-repeat top center', 'background-size': '200px 364px'}"
 	}
 
+	vm.resetBuilds = function(gameId) {
+		GameModel.resetBuilds(gameId).then(function(result){
+
+		});
+	}
 	vm.init();
 	
 };

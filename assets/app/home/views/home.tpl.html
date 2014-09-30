@@ -28,14 +28,24 @@
                <div class="games-list">                
                    <div class="panel panel-default">
                    <div class="panel-body">
+                   <div class="row">
+                   <div class="col-md-2"> TITLE</div>
+                     <div class="col-md-2"> CREATED AT</div>
+                     <div class="col-md-3"> OWNER</div>
+                     <div class="col-md-1"> SPOTS</div>
+                     <div class="col-md-2"> MAP</div>
+                     <div class="col-md-2"></div>
+                    </div>
                    <div ng-repeat="game in home.currentUser.games" class="row">
 
-                     <div class="col-md-3"> <h4> {{game.title}}</h4></div>
-                     <div class="col-md-3"> <span am-time-ago="game.createdAt"></span></div>
-                     <div class="col-md-3"> {{game.users.length}}/{{game.numberOfSpots}}</div>
-                     <div class="col-md-3">
+                     <div class="col-md-2"> <b>{{game.title}}</b></div>
+                     <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
+                     <div class="col-md-3"> {{game.user.username}}</div>
+                     <div class="col-md-1"> {{game.users.length}}/{{game.numberOfSpots}}</div>
+                     <div class="col-md-2"> Summoners Rift</div>
+                     <div class="col-md-2">
                      <button class="btn btn-success" ng-click="home.joinGame(game)">JOIN</button>
-                      <button class="btn btn-danger" ng-click="home.deleteGame(game)">DELETE</button>
+                      <button class="btn btn-danger" ng-click="home.deleteGame(game)">D</button>
                     </div>
                </div>
                </div>
@@ -46,13 +56,24 @@
                <div class="games-list">
                    <div class="panel panel-default">
                    <div class="panel-body">
+                   <div class="row">
+                    <div class="col-md-2"> TITLE</div>
+                     <div class="col-md-2"> CREATED AT</div>
+                     <div class="col-md-3"> OWNER</div>
+                     <div class="col-md-1"> SPOTS</div>
+                     <div class="col-md-2"> MAP</div>
+                     <div class="col-md-2"></div>
+                    </div>
                      <div ng-repeat="game in home.games" class="row"> 
 
-                     <div class="col-md-3"> <h4> {{game.title}}</h4></div>
-                     <div class="col-md-3"> <span am-time-ago="game.createdAt"></span></div>
-                     <div class="col-md-3"> {{game.users.length}}/{{game.numberOfSpots}}</div>
-                     <button class="btn btn-danger" ng-click="home.deleteGame(game)">DELETE</button>
-                     <div class="col-md-3"><button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button></div>
+                     <div class="col-md-2"> <b>{{game.title}}</b></div>
+                     <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
+                       <div class="col-md-3"> {{game.user.username}}</div>
+                     <div class="col-md-1"> {{game.users.length}}/{{game.numberOfSpots}}</div>
+                     <div class="col-md-2"> Summoners Rift</div>
+                     <div class="col-md-2">
+                     <button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button>   
+                     </div>
                     
 
 

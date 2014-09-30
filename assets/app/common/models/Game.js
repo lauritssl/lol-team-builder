@@ -102,4 +102,15 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 		return deferred.promise;
 	}
+
+	this.resetBuilds = function(gameId) {
+		var deferred = $q.defer();
+		var url = utils.prepareUrl('game/'+gameId+'/build/');
+
+		$sails.delete(url, {}, function(model) {
+			return deferred.resolve(model);
+		});
+
+		return deferred.promise;
+	}
 });

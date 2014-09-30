@@ -261,6 +261,55 @@
 			], function(err){
 				Game.rollBuild(id, spotId, items, champions, summoners);
 			});		
+	},
+
+	resetBuilds: function(req, res) {
+		var id = req.param('id');
+
+		Game.findOne(id).
+		exec(function(err, game){
+			if (err) {
+				return res.serverError(err);
+			}
+			else if(typeof game != 'undefined'){
+				async.parallel([
+					function(callback) {
+						Spot.update({game: game.id}, {champion: null}, function(err, spot){
+							if(err)callback(err);
+							callback();
+						});
+					},
+					function(callback) {
+						Build.update({game: game.id}, {
+									boots: null,
+									bootsEnchantment: null, 
+									item1: null,
+									item2: null,
+									item3: null,
+									item4: null,
+									item5: null,
+									mastery1: null,
+									mastery2: null,
+									mastery3: null,
+									summoner1: null,									
+									summoner2: null,
+									skill_to_level: null}, function(err, spot){
+							if(err)callback(err);
+							callback();
+						});
+					}], function(err) {
+						if(err){
+							console.log(err);
+							return res.serverError(err);
+						}
+							Game.republishGame(game.id);
+						})
+				
+				
+			}
+
+
+		});
 	}
 };
 

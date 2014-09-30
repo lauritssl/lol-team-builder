@@ -11,7 +11,7 @@
         <div class="col-xs-6 col-xs-offset-3" style="text-align: center;">
             <div class="btn-group">
             <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-red center">ROLL ALL</button>
-            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-grey center">RESET ALL</button>
+            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.resetBuilds(gameLobby.game.id)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-grey center">RESET ALL</button>
             </div>
         </div>
         
