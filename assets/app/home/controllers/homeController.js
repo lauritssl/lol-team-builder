@@ -33,7 +33,13 @@ HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails
 				break;
 			case 'updated':
 				console.log(envelope.data);
-				vm.games[envelope.id] = envelope.data;
+				console.log(vam.games);
+				for(var key in vm.games){
+					if(vm.games[key] == envelope.id){
+						vm.games[key] = envelope.data;
+					}
+				}
+				console.log(vm.games);
 				break;
 			case 'destroyed':
 				lodash.remove(vm.currentUser.games, {id: envelope.id});
@@ -48,8 +54,8 @@ HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails
 		});
 	};
 
-	vm.joinGame = function(game){
-		$location.path("/games/"+game.id);
+	vm.joinGame = function(gameId){
+		$location.path("/games/"+gameId);
 	}
 
 	GameModel.getAll(vm).then(function(models) {
