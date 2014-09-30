@@ -198,6 +198,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 		});
 	}
+
+	vm.getColWidth = function(game) {
+		var colWidth = "col-lg-" +Math.floor(12/(game.numberOfSpots/2));
+
+		if(colWidth == "col-lg-2") colWidth = "player_shield_regulator";
+		return colWidth;
+	}
 	vm.init();
 	
 };

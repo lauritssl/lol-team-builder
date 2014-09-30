@@ -40,7 +40,8 @@
  		var userId = req.param('user');
  		var model = {
  			title: req.param('title'),
- 			user: userId
+ 			user: userId,
+ 			numberOfSpots: req.param('numberOfSpots')
  		};
 
  		Game.create(model)
@@ -226,8 +227,7 @@ destroyUser: function (req, res) {
 				game.users.remove(userId)
 				game.save(function(err, result){
 					console.log(result);
-					Game.publishUpdate(result.id,result);
-					res.json(game);
+					Game.republishGame(game.id);
 				});
 				return game;
 			});
