@@ -190,11 +190,19 @@ module.exports = {
 		var build = {}; 
 
 		var totalMasteries = 30;
-		build.mastery1 = Math.floor(Math.random()*(totalMasteries));
-		totalMasteries -= build.mastery1;
-		build.mastery2 = Math.floor(Math.random()*(totalMasteries));
-		totalMasteries -= build.mastery2;
-		build.mastery3 =  totalMasteries;
+		var masteryArray = ["1", "2", "3"];
+
+		var randomNumber =  Math.floor(Math.random()*(masteryArray.length));
+		build["mastery"+masteryArray[randomNumber]] = Math.floor(Math.random()*(totalMasteries));
+		totalMasteries -= build["mastery"+masteryArray[randomNumber]];
+		masteryArray.splice(randomNumber, 1);
+
+		randomNumber =  Math.floor(Math.random()*(masteryArray.length));
+		build["mastery"+masteryArray[randomNumber]] = Math.floor(Math.random()*(totalMasteries));
+		totalMasteries -= build["mastery"+masteryArray[randomNumber]];
+		masteryArray.splice(randomNumber, 1);
+
+		build["mastery"+masteryArray[0]] =  totalMasteries;
 
 		callback(build);
 	},

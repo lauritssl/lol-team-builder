@@ -157,7 +157,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.getSkillFromChampion = function(buildId, champion) {
-		var build = vm.getBuildFromGame(vm.game, build);
+		var build = vm.getBuildFromGame(vm.game, buildId);
 		var index = 0;
 		switch(build.skill_to_level){
 			case "Q":
