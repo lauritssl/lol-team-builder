@@ -33,7 +33,7 @@ HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails
 				break;
 			case 'updated':
 				console.log(envelope.data);
-				console.log(vam.games);
+				console.log(vm.games);
 				for(var key in vm.games){
 					if(vm.games[key] == envelope.id){
 						vm.games[key] = envelope.data;

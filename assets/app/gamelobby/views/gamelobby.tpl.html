@@ -20,65 +20,8 @@
             <div class="row partition_row" ng-repeat="rows in gameLobby.game.spots | pmkr.partition: gameLobby.game.numberOfSpots/2" >
                 <div class="col-sm-12">
                     <div ng-class="gameLobby.getColWidth(gameLobby.game)" class="col-sm-6" ng-repeat="spot in rows" ng-init="spot.showChampionDetails = false">
-                        <div class="row">
-                        <div class="player_shield col-sm-12">
-                            <!-- title="{{gameLobby.champions[spot.champion].id}}" alt="{{gameLobby.champions[spot.champion].id}}" ng-src="{{gameLobby.getChampionImage(gameLobby.champions[spot.champion].image.full)}}-->
-                            <span class="glyphicon glyphicon-remove action_button_left" title="Leave slot" ng-if="gameLobby.userOwnsGame() || gameLobby.currentUser.id == spot.user" ng-click="gameLobby.removeUserFromSpot(gameLobby.game.id, spot.user, spot.id)"></span>
-
-                            <span class="glyphicon glyphicon-retweet action_button_left" id="action_button_reroll" title="Reroll player" ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rerollSpot(gameLobby.game.id, spot.id)"></span>
-
-                            <div id="game_join-slot" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" ng-class="{player_shield_not_taken: !gameLobby.isUserInSpot(spot)}"></div>
-                                
-                            <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
-
-                            <img title="{{gameLobby.getItemFromBuild(spot.build,'boots').name +' with '+ gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['bootsEnchantment']].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}}" />
-                            <img title="{{gameLobby.getItemFromBuild(spot.build, 'item1').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_2" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}"/>
-                            <img title="{{gameLobby.getItemFromBuild(spot.build,'item2').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_3" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item2')}}"/>
-                            <img title="{{gameLobby.getItemFromBuild(spot.build,'item3').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_4" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item3')}}"/>
-                            <img title="{{gameLobby.getItemFromBuild(spot.build,'item4').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
-                            <img title="{{gameLobby.getItemFromBuild(spot.build,'item5').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
-                            
-                            <!-- <div class="hero-hover-stats" id="hero-stats-ap" ng-show="spot.showChampionDetails">
-                                <img src="../../../images/icons/magic.png" />
-                                <p class="p_bluetext" style="float: left;">500</p>
-                            </div> 
-                            <div class="hero-hover-stats stats-second" id="hero-stats-ad" title="Attack damage" ng-show="spot.showChampionDetails">
-                                <img src="../../../images/icons/sword.png" />
-                                <p class="p_bluetext">600</p>
-                            </div> 
-                            <div class="hero-hover-stats" id="hero-stats-arm" title="Armor" ng-show="spot.showChampionDetails">
-                                <img src="../../../images/icons/shield.png" />
-                                <p class="p_bluetext">200</p>
-                            </div>
-                            <div class="hero-hover-stats stats-second" id="hero-stats-ms" ng-show="spot.showChampionDetails">
-                                <img src="../../../images/icons/movespeed.png" style="width: 25px; height: 25px;" />
-                                <p class="p_bluetext">200</p>
-                            </div> 
-                            <div class="hero-hover-stats" id="hero-stats-mr" ng-show="spot.showChampionDetails">
-                                <img src="../../../images/icons/MagicResistance.png" />
-                                <p class="p_bluetext">200</p>
-                            </div>
-                            <div class="hero-hover-stats stats-second" id="hero-stats-sv" ng-show="spot.showChampionDetails">
-                                <img src="../../../images/icons/shield.png" />
-                                <p class="p_bluetext">200</p>
-                            </div> -->
-
-                            <div id="hero_backdrop" ng-show="gameLobby.game.gameStarted" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" ng-style="{{gameLobby.getChampionBackground(spot)}}" ng-mouseover="spot.showChampionDetails = true" ng-mouseleave="spot.showChampionDetails = false"></div>
-                            <div id="build_info_backdrop">
-                            <p id="champion_name">{{spot.champion}}</p>
-                            <img id="main_lvl_skill_bg" ng-show="gameLobby.game.gameStarted" title="{{gameLobby.getSkillFromChampion(spot.build, spot.champion).name}}" ng-src="{{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.champion)}}" />
-                            <h2 id="main_lvl_skill" ng-show="gameLobby.game.gameStarted">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).skill_to_level}}</h2>
-                            <div id="hero_passives_container" ng-show="gameLobby.game.gameStarted">
-                                <img title="{{gameLobby.summoners[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['summoner1']].name}}" class="glyphicon glyphicon-headphone hero_passives" id="passive_1" ng-src="{{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}}" />
-                                <img title="{{gameLobby.summoners[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['summoner2']].name}}" class="hero_passives" id="passive_2" ng-src="{{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner2')}}" />
-                            </div>
-                            <div id="hero_masteries" ng-show="gameLobby.game.gameStarted">
-                                <p class="masteries_text" id="mastery_1">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery1}}</p>
-                                <p class="masteries_text" id="mastery_2">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery2}}</p>
-                                <p class="masteries_text" id="mastery_3">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).mastery3}}</p>
-                            </div>
-                            </div>
-                        </div>
+                        <div class="row" ng-include="'gamelobby/views/championShield.tpl.html'">
+                       
                         </div>
                     </div>                   
                 </div>
