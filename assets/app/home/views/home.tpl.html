@@ -18,23 +18,23 @@
                         <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">     
                          <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="home.joinGame(home.game.id)">Join game</button>
                     </div>
-                    <input type="submit" class="btn ub-custom-btn custom_btn-red" value="Create a new game" ng-click="main.go('/new/game')">
+                    <input type="submit" class="btn ub-custom-btn custom-btn-red" style="width: auto !important;"value="Create a new game" ng-click="main.go('/new/game')">
                 </div>              
             </div>    
         </div>
-        <div class="content-wrapper col-md-8" id="home-content">
+        <div class="content-wrapper col-md-7" id="home-content">
            <div>
                <h2>My games</h2>
                <div class="games-list">                
                    <div class="panel panel-default">
                    <div class="panel-body">
                    <div class="row">
-                   <div class="col-md-2"> TITLE</div>
-                     <div class="col-md-2"> CREATED AT</div>
-                     <div class="col-md-3"> OWNER</div>
-                     <div class="col-md-1"> SPOTS</div>
-                     <div class="col-md-2"> MAP</div>
-                     <div class="col-md-2"></div>
+                    <div class="col-md-2"> TITLE</div>
+                    <div class="col-md-2"> CREATED</div>
+                    <div class="col-md-3"> OWNER</div>
+                    <div class="col-md-1"> SPOTS</div>
+                    <div class="col-md-2"> MAP</div>
+                    <div class="col-md-2"></div>
                     </div>
                    <div ng-repeat="game in home.currentUser.games" class="row">
 
