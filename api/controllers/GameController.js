@@ -126,190 +126,228 @@
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-
-
-				Spot.findOne(spotId).exec(function(err,spot){
-					if (err) {
-						return res.serverError(err);
-					}
-					else if(spot != 'undefined'){
-							if(typeof spot.user == 'undefined' ||spot.user == null ||spot.user == -1){
-
-								async.series([
-									function(callback){
-										Spot.update({user: userId}, {user: null}, function(err, model){ callback()});
-									},
-									function(callback){
-										spot.user = userId;
-										spot.save(function(err, result){
-									callback();
-									})
-									}
-
-									], function(err){
-										Game.republishGame(game.id);
-									})						
-								
-							}else{
-								return res.serverError("spot already taken");
-							}
-						
-					}
-				});
 				
-
-			}
-
-
-		});
-
-	},
-	removeUserFromSpot: function(req, res) {
-		var userId = req.param('userId');
-		var id = req.param('id');
-		var spotId = req.param('spotId');
-
-		Spot.update({id: spotId}, {user: null}, function(err, result){
-			if(err) return res.serverError(err);
-			Game.republishGame(id);
-		})
-	},
-	destroyUser: function (req, res) {
-		var userId = req.param('user');
-		var id = req.param('id');
-		console.log("started deleting user");
-		Game.findOne(id).
-		exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			}
-			else if(typeof game != 'undefined'){
-				Spot.update({user: userId}, {user: null}, function(err, model){
-					game.users.remove(userId)
-					game.save(function(err, result){
-						console.log(result);
-						Game.publishUpdate(result.id,result);
-						res.json(game);
-					});
-					return game;
-				});
-				
-			}
-
-
-		});
-	},
-
-	rollBuilds : function(req, res){
-		var id = req.param('id');
-		var itemsReceived = 0;
-
-		var champions, items, summoners = {}
-		
-		async.parallel([
-			function(callback){
-				lolService.getChampions(function(result){
-					champions = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getItems(function(result){
-					items = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getSummoners(function(result){
-					summoners = result;
-					callback();
-				})
-			}
-
-			], function(err){
-				Game.rollBuilds(id, items, champions, summoners);
-			});		
-		
-	},
-
-	rerollBuild: function(req, res) {
-		var id = req.param('id');
-		var spotId = req.param('spotId');
-
-		var champions, items, summoners = {}
-		var existingChampions = [];
-		async.parallel([
-			function(callback){
-				lolService.getChampions(function(result){
-					champions = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getItems(function(result){
-					items = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getSummoners(function(result){
-					summoners = result;
-					callback();
-				})
-			}
-
-			], function(err){
-				Game.rollBuild(id, spotId, items, champions, summoners);
-			});		
-	},
-
-	resetBuilds: function(req, res) {
-		var id = req.param('id');
-
-		Game.findOne(id).
-		exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			}
-			else if(typeof game != 'undefined'){
-				async.parallel([
+				var spot;
+				var newUser = false;
+				async.series([
 					function(callback) {
-						Spot.update({game: game.id}, {champion: null}, function(err, spot){
-							if(err)callback(err);
+						Spot.findOne(spotId).exec(function(err,result){
+							if (err) {
+								callback(err);
+							}else if(typeof result.user != 'undefined' && result.user != null && result.user != -1){
+								var fakeErr = new Error();
+								fakeErr.break = true;
+								return callback(fakeErr);
+
+							}else{								
+							spot = result;
 							callback();
+							}
+						});
+										// body...
+					},
+					function(callback){
+						Spot.update({user: userId}, {user: null}, function(err, model){
+						if(model.length < 1) newUser = true;
+						 callback()
 						});
 					},
-					function(callback) {
-						Build.update({game: game.id}, {
-									boots: null,
-									bootsEnchantment: null, 
-									item1: null,
-									item2: null,
-									item3: null,
-									item4: null,
-									item5: null,
-									mastery1: null,
-									mastery2: null,
-									mastery3: null,
-									summoner1: null,									
-									summoner2: null,
-									skill_to_level: null}, function(err, spot){
-							if(err)callback(err);
+					function(callback){
+						spot.user = userId;
+						spot.save(function(err, result){
 							callback();
 						});
-					}], function(err) {
-						if(err){
-							console.log(err);
-							return res.serverError(err);
-						}
-							Game.republishGame(game.id);
-						})
-				
-				
+					}], function(err){
+							if(err){
+								return res.serverError("spot already taken");
+							}
+							if(newUser){
+								game.spotsTaken += 1;
+								Game.update({id: game.id}, {spotsTaken: game.spotsTaken}, function(err, result){
+								Game.republishGame(game.id);
+							});
+							} else{
+								Game.republishGame(game.id);
+							}
+							
+							
+					})	
+
+
 			}
 
 
 		});
-	}
+
+},
+removeUserFromSpot: function(req, res) {
+	var userId = req.param('userId');
+	var id = req.param('id');
+	var spotId = req.param('spotId');
+
+	var game;
+	async.parallel([
+		function(callback) {
+			Spot.update({id: spotId}, {user: null}, function(err, spot){
+				if(err) callback(err);
+				callback();
+			});
+		},
+		function(callback) {
+			Game.findOne(id).exec(function(err, result) {
+				if(err) callback(err);
+				game = result;
+				callback()
+			})
+		}], function(err) {
+			if(err) res.serverError(err)
+				Game.update({id: id}, {spotsTaken : game.spotsTaken-1}, function(err, game){
+					Game.republishGame(id);
+				});
+		})
+
+},
+destroyUser: function (req, res) {
+	var userId = req.param('user');
+	var id = req.param('id');
+	console.log("started deleting user");
+	Game.findOne(id).
+	populate("spots").
+	exec(function(err, game){
+		if (err) {
+			return res.serverError(err);
+		}
+		else if(typeof game != 'undefined'){
+			Spot.update({user: userId}, {user: null}, function(err, model){
+				var users = game.spots.filter(function(spot) {	
+					 if(typeof spot.user != 'undefined' && spot.user != null) return spot.user.id == userId;
+				});
+				if(users.indexOf(userId) > -1) game.spotsTaken -= 1;
+				game.users.remove(userId)
+				game.save(function(err, result){
+					console.log(result);
+					Game.publishUpdate(result.id,result);
+					res.json(game);
+				});
+				return game;
+			});
+
+		}
+
+
+	});
+},
+
+rollBuilds : function(req, res){
+	var id = req.param('id');
+	var itemsReceived = 0;
+
+	var champions, items, summoners = {}
+
+	async.parallel([
+		function(callback){
+			lolService.getChampions(function(result){
+				champions = result;
+				callback();
+			})
+		},
+		function(callback){
+			lolService.getItems(function(result){
+				items = result;
+				callback();
+			})
+		},
+		function(callback){
+			lolService.getSummoners(function(result){
+				summoners = result;
+				callback();
+			})
+		}
+
+		], function(err){
+			Game.rollBuilds(id, items, champions, summoners);
+		});		
+
+},
+
+rerollBuild: function(req, res) {
+	var id = req.param('id');
+	var spotId = req.param('spotId');
+
+	var champions, items, summoners = {}
+	var existingChampions = [];
+	async.parallel([
+		function(callback){
+			lolService.getChampions(function(result){
+				champions = result;
+				callback();
+			})
+		},
+		function(callback){
+			lolService.getItems(function(result){
+				items = result;
+				callback();
+			})
+		},
+		function(callback){
+			lolService.getSummoners(function(result){
+				summoners = result;
+				callback();
+			})
+		}
+
+		], function(err){
+			Game.rollBuild(id, spotId, items, champions, summoners);
+		});		
+},
+
+resetBuilds: function(req, res) {
+	var id = req.param('id');
+
+	Game.findOne(id).
+	exec(function(err, game){
+		if (err) {
+			return res.serverError(err);
+		}
+		else if(typeof game != 'undefined'){
+			async.parallel([
+				function(callback) {
+					Spot.update({game: game.id}, {champion: null}, function(err, spot){
+						if(err)callback(err);
+						callback();
+					});
+				},
+				function(callback) {
+					Build.update({game: game.id}, {
+						boots: null,
+						bootsEnchantment: null, 
+						item1: null,
+						item2: null,
+						item3: null,
+						item4: null,
+						item5: null,
+						mastery1: null,
+						mastery2: null,
+						mastery3: null,
+						summoner1: null,									
+						summoner2: null,
+						skill_to_level: null}, function(err, spot){
+							if(err)callback(err);
+							callback();
+						});
+				}], function(err) {
+					if(err){
+						console.log(err);
+						return res.serverError(err);
+					}
+					Game.republishGame(game.id);
+				})
+
+
+		}
+
+
+	});
+}
 };
 

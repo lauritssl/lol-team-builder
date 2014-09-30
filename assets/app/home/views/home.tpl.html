@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label for="game_name">GAME ID</label>
                         <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">     
-                         <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="main.go('games/'+home.game.id)">Join game</button>
+                         <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="home.joinGame(home.game.id)">Join game</button>
                     </div>
                     <input type="submit" class="btn ub-custom-btn custom_btn-red" value="Create a new game" ng-click="main.go('/new/game')">
                 </div>              
@@ -41,10 +41,10 @@
                      <div class="col-md-2"> <b>{{game.title}}</b></div>
                      <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
                      <div class="col-md-3"> {{game.user.username}}</div>
-                     <div class="col-md-1"> {{game.users.length}}/{{game.numberOfSpots}}</div>
+                     <div class="col-md-1"> Coming soon <!-- {{game.spotsTaken}}/{{game.numberOfSpots}} --></div>
                      <div class="col-md-2"> Summoners Rift</div>
                      <div class="col-md-2">
-                     <button class="btn btn-success" ng-click="home.joinGame(game)">JOIN</button>
+                     <button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button>
                       <button class="btn btn-danger" ng-click="home.deleteGame(game)">D</button>
                     </div>
                </div>
@@ -69,7 +69,7 @@
                      <div class="col-md-2"> <b>{{game.title}}</b></div>
                      <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
                        <div class="col-md-3"> {{game.user.username}}</div>
-                     <div class="col-md-1"> {{game.users.length}}/{{game.numberOfSpots}}</div>
+                     <div class="col-md-1"> Coming soon <!-- {{game.spotsTaken}}/{{game.numberOfSpots}} --></div>
                      <div class="col-md-2"> Summoners Rift</div>
                      <div class="col-md-2">
                      <button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button>   

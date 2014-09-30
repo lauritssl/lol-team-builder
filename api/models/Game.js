@@ -27,6 +27,10 @@ module.exports = {
 			type: 'integer',
 			defaultsTo: 10
 		},
+		spotsTaken: {
+			type: 'integer',
+			defaultsTo: 0
+		},
 		gameStarted: {
 			type: 'boolean',
 			defaultsTo: false
