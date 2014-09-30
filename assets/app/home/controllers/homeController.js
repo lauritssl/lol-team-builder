@@ -14,24 +14,46 @@ angular.module( 'ubteambuilder.home', [])
 	})
 }]).controller( 'HomeCtrl', HomeCtrl);
 
-HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location' ];
+HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails', 'lodash'];
 
- function HomeCtrl(Session, titleService, GameModel, $location ) {
+ function HomeCtrl(Session, titleService, GameModel, $location,$sails, lodash ) {
  	console.log("i get here!");
  	var vm = this;  
 	vm.game = {};
-	vm.newGame = {};
-
+	vm.newGame = {};	
    	titleService.setTitle('Home');
 	vm.currentUser = Session.currentUser;
+	vm.games = [];
 
-	
-	vm.createGame = function(newGame) {
-		console.log(newGame);
-		newGame.user = Session.currentUser.id;
-		GameModel.create(newGame).then(function(model) {
-			console.log(model);
-			$location.path("/games/"+model.id);
+	$sails.on('game', function (envelope) {
+		console.log(envelope);
+		switch(envelope.verb) {
+			case 'created':
+				vm.games.unshift(envelope.data);
+				break;
+			case 'updated':
+				console.log(envelope.data);
+				vm.games[envelope.id] = envelope.data;
+				break;
+			case 'destroyed':
+				lodash.remove(vm.currentUser.games, {id: envelope.id});
+				lodash.remove(vm.games, {id: envelope.id});
+				break;
+		}
+	});
+
+
+	vm.deleteGame = function(game) {
+		GameModel.delete(game).then(function(model) {
 		});
 	};
+
+	vm.joinGame = function(game){
+		$location.path("/games/"+game.id);
+	}
+
+	GameModel.getAll(vm).then(function(models) {
+		vm.currentUser.games = models.filter(function(game){if(typeof game.user != 'undefined') return game.user.id == vm.currentUser.id});
+			vm.games = models.filter(function(game){if(typeof game.user != 'undefined') {game.user.id != vm.currentUser.id} else{return true}});
+	})
 };

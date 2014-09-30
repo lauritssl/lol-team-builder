@@ -58,14 +58,14 @@ module.exports = {
 					async.whilst(
 						function() {return count < currentGame.numberOfSpots},
 						function(callback){
-							Spot.create({}).exec(function(err, spot) {
+							Spot.create({game: game}).exec(function(err, spot) {
 								if (err) {
 									return console.log(err);
 								}
 								else {
 
 									currentGame.spots.add(spot);
-									Build.create({}).exec(function(err, build){
+									Build.create({game: game}).exec(function(err, build){
 
 										currentGame.builds.add(build);
 										spot.build = build;

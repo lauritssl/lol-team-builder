@@ -73,6 +73,13 @@
 				if (err) {
 					return res.serverError(err);
 				}
+				Spot.destroy({game: model.id}).exec(function(err, spots){
+					
+				})
+				Build.destroy({game: model.id}).exec(function(err, builds){
+					
+				})
+
 
 				Game.publishDestroy(model.id);
 				return res.json(model);

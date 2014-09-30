@@ -16,6 +16,10 @@ module.exports = {
 		},
 		champion: {
 			type: 'string'
+		},
+
+		game: {
+			model: 'game'
 		}
   },
 

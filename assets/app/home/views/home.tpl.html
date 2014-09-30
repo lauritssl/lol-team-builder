@@ -8,49 +8,58 @@
     </div>
 
 
-  <div class="home_content content-bg">
+  <div class="home_content-wrapper content-bg">
         <div class="col-md-4 main-sidebar-wrapper">
-            <div id="create-game-sidebar">
+            <div class="main-sidebar">
                 <div class="col-xs-8 col-xs-offset-2">
-                    <p class="p_bluetext">CREATE NEW GAME</p>
+                    <p class="p_bluetext">JOIN OR CREATE A GAME</p>
                     <div class="form-group">
-                        <label for="game_name">GAME NAME</label>
-                        <input type="text" class="form-control" id="game_name"  name="game_name"> 
-                        <label for="game_private">PRIVATE</label>
-                        <input type="checkbox" ng-model="createGame.game.private" ng-true-value="true" ng-false-value="false" ng-false class="form-control" id="game_private"  name="game_private"> 
-                        <label for="game_name">NUMBER OF PLAYERS</label>
-                        <input type="range" ng-model="createGame.game.numberOfSpots" min="1" max="10" step="1" style="width: 140px" class="ng-valid ng-dirty">
-                        <p>{{createGame.game.numberOfSpots}}</p>                
+                        <label for="game_name">GAME ID</label>
+                        <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">            
                     </div>
-                    <input type="submit" class="btn custom_btn-red" value="Create">
+                    <input type="submit" class="btn custom_btn-red" value="Create a new game" ng-click="main.go('/new/game')">
                 </div>              
             </div>    
         </div>
-        <div class="content-wrapper" id="home-content">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="col-sm-6 col-sm-offset-3 game-input-container text-center">
-                    <div class="form-group">
-                         <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">
-                    </div>
-                        <button type="button" class="btn custom_btn-red" ng-click="main.go('games/'+home.game.id)">Join game</button>
-                    </div>
-                    
-                    
-                    <div class="col-sm-6 col-sm-offset-3 game-input-container text-center" ng-if="main.currentUser.id">
-                    <div class="form-group">
-                         <input type="text" class="form-control" name="" value="" placeholder="Enter game title" ng-model="home.newGame.title">
-                    </div>
-                        <button type="button" class="btn custom_btn-red" ng-click="main.go('/new/game')">Create game</button>
+        <div class="content-wrapper col-md-8" id="home-content">
+           <div>
+               <h2>My games</h2>
+               <div class="games-list">
                 
+                   <div class="panel panel-default">
+                   <div class="panel-body">
+                   <div ng-repeat="game in home.currentUser.games" class="row">
+
+                     <div class="col-md-3"> <h4> {{game.title}}</h4></div>
+                     <div class="col-md-3"> <span am-time-ago="game.createdAt"></span></div>
+                     <div class="col-md-3"> {{game.users.length}}/{{game.numberOfSpots}}</div>
+                     <div class="col-md-3">
+                     <button class="btn btn-success" ng-click="home.joinGame(game)">JOIN</button>
+                      <button class="btn btn-danger" ng-click="home.deleteGame(game)">DELETE</button>
                     </div>
-                   
-                    <!-- <div class="col-sm-12">
-                        <a href="#" id="login-btn_frontpage"></a>
-                    </div> -->
-                </div>
-                <div class="col-sm-6">
-                </div>    
-            </div>
+               </div>
+               </div>
+             </div>
+               </div>
+
+               <h2>Games</h2>
+               <div class="games-list">
+                   <div class="panel panel-default">
+                   <div class="panel-body">
+                     <div ng-repeat="game in home.games" class="row"> 
+
+                     <div class="col-md-3"> <h4> {{game.title}}</h4></div>
+                     <div class="col-md-3"> <span am-time-ago="game.createdAt"></span></div>
+                     <div class="col-md-3"> {{game.users.length}}/{{game.numberOfSpots}}</div>
+                     <button class="btn btn-danger" ng-click="home.deleteGame(game)">DELETE</button>
+                     <div class="col-md-3"><button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button></div>
+                    
+
+
+</div>
+                   </div>
+                   </div>
+               </div>
+           </div>
         </div>
     </div>

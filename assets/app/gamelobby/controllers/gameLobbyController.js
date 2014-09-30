@@ -190,7 +190,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.getChampionBackground = function(spot) {
-		return "{'background': 'url(http://cdn.leagueoflegends.com/game-info/1.1.9/images/champion/backdrop/bg-"+spot.champion.toLowerCase()+".jpg) no-repeat 75% 0%', 'background-size': '533px 300px'}"
+		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.champion+"_0.jpg) no-repeat top center', 'background-size': '200px 364px'}"
 	}
 
 	vm.init();

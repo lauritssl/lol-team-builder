@@ -51,7 +51,11 @@ module.exports = {
   		},
   		mastery3: {
   			type: 'integer'
-  		}
+  		},
+
+    game: {
+      model: 'game'
+    }
   },
 
   rollBuild : function(id, items){
