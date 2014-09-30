@@ -15,17 +15,17 @@
                     <p class="p_bluetext">JOIN OR CREATE A GAME</p>
                     <div class="form-group">
                         <label for="game_name">GAME ID</label>
-                        <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">            
+                        <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">     
+                         <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="main.go('games/'+home.game.id)">Join game</button>
                     </div>
-                    <input type="submit" class="btn custom_btn-red" value="Create a new game" ng-click="main.go('/new/game')">
+                    <input type="submit" class="btn ub-custom-btn custom_btn-red" value="Create a new game" ng-click="main.go('/new/game')">
                 </div>              
             </div>    
         </div>
         <div class="content-wrapper col-md-8" id="home-content">
            <div>
                <h2>My games</h2>
-               <div class="games-list">
-                
+               <div class="games-list">                
                    <div class="panel panel-default">
                    <div class="panel-body">
                    <div ng-repeat="game in home.currentUser.games" class="row">

@@ -1,7 +1,8 @@
 /* Mixins */
 
 @main-bgcolor-blue: #141D24;
-@main-bgcolor-blue-50: rgba(20, 29, 36, 0.5);
+@main-bgcolor-blue-50: rgba(20, 29, 36, 0.50);
+@main-bgcolor-blue-75: rgba(20, 29, 36, 0.75);
 
 //blue
 @main-blue: #078CE8;
@@ -12,6 +13,11 @@
 @main-red: #A05050;
 @main-red-button: #7e3f3f;
 @main-red-button-dark: #6d3737;
+
+//grey
+@main-grey: #222222;
+@main-grey-dark: #1d1d1d;
+@main-grey-darker: #101010;
 
 
 /* General styles */
@@ -88,8 +94,7 @@ li {
   border: none;
 }
 
-.custom_btn-red{
-  background-color: @main-red-button;
+.ub-custom-btn{
   width: 40%;
   min-width: 100px;
   height: 40px;
@@ -100,8 +105,13 @@ li {
   z-index: 2;
   border: none;
   border-radius: 5px;
+}
 
-&:hover{
+
+.custom-btn-red{
+    background-color: @main-red-button;
+
+  &:hover{
     background-color: @main-red-button-dark;
     border-color: @main-red-button-dark;
     color: rgba(255,255,255,0.8);
@@ -111,6 +121,18 @@ li {
   }
 }
 
+.custom-btn-grey{
+    background-color: @main-grey;
+
+  &:hover{
+    background-color: @main-grey-dark;
+    border-color: @main-grey-dark;
+    color: rgba(255,255,255,0.8);
+  }
+&:focus{
+    outline-color: @main-grey-dark !important;
+  }
+}
 
 .main-sidebar-wrapper{
   padding-left: 0;

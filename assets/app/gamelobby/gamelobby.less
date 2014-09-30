@@ -1,7 +1,8 @@
 /* Mixins */
 
 @main-bgcolor-blue: #141D24;
-@main-bgcolor-blue-50: rgba(20, 29, 36, 0.65);
+@main-bgcolor-blue-50: rgba(20, 29, 36, 0.50);
+@main-bgcolor-blue-75: rgba(20, 29, 36, 0.75);
 
 //blue
 @main-blue: #078CE8;
@@ -15,9 +16,10 @@
 
 //grey
 @main-grey: #222222;
+@main-grey-dark: #1d1d1d;
+
 
 /* Main content - Login*/
-
 .gamelobby_content{
     padding-top: 75px !important;
     height: 100%;
@@ -26,6 +28,8 @@
     -moz-background-size: cover;
     background-size: cover;
 
+
+//Player shield
 #player_shield_container{
     padding-top: 100px;
 
@@ -41,10 +45,12 @@
     text-align: center;
     z-index: 2;
     float: none !important;
-    background-color: @main-red;
+    background-color: @main-grey-dark;
+    background: url(../../../images/UB_slot-bg.png) no-repeat top center;
+    cursor: pointer;
 
     &:hover{
-        background-color: pink;
+        background-position: 50% -300px;
     }
 }
 
@@ -58,7 +64,9 @@
     z-index: 1;
     float: none !important;
     border: 2px solid @main-grey;
-
+    background: url(../../../images/UB_slot-bg.png) no-repeat top center;
+    background-color: @main-grey-dark;
+    
 #game_join-slot{
     position: absolute;
     width: 100%;
@@ -129,13 +137,14 @@
 }
 
 #build_info_backdrop{
-    background-color: @main-bgcolor-blue-50;
+    background-color: @main-bgcolor-blue-75;
     width: 100%;
     height: 40%;
     position: absolute;
     bottom: 0;
     left: 0;
     z-index: 2;
+    border-top: 1px solid @main-bgcolor-blue;
 }
 
 .hero_items{

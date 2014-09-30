@@ -8,8 +8,11 @@
         </div>
 
         <!-- Roll - reroll button -->
-        <div class="col-xs-6 col-xs-offset-3">
-            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn custom_btn-red center">ROLL ALL</button>
+        <div class="col-xs-6 col-xs-offset-3" style="text-align: center;">
+            <div class="btn-group">
+            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-red center">ROLL ALL</button>
+            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-grey center">RESET ALL</button>
+            </div>
         </div>
         
         <!-- Player shields -->
@@ -35,7 +38,7 @@
                             <img title="{{gameLobby.getItemFromBuild(spot.build,'item4').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
                             <img title="{{gameLobby.getItemFromBuild(spot.build,'item5').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
                             
-                            <div ng-show="gameLobby.game.gameStarted" id="hero_backdrop" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" ng-style="{{gameLobby.getChampionBackground(spot)}}"></div>
+                            <div id="hero_backdrop" ng-show="gameLobby.game.gameStarted" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" ng-style="{{gameLobby.getChampionBackground(spot)}}"></div>
                             <div id="build_info_backdrop">
                             <p id="champion_name">{{spot.champion}}</p>
                             <img id="main_lvl_skill_bg" ng-show="gameLobby.game.gameStarted" title="{{gameLobby.getSkillFromChampion(spot.build, spot.champion).name}}" ng-src="{{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.champion)}}" />
