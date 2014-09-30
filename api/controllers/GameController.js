@@ -340,7 +340,15 @@ resetBuilds: function(req, res) {
 						console.log(err);
 						return res.serverError(err);
 					}
-					Game.republishGame(game.id);
+					Game.update({id: game.id}, {gameStarted: false}, function(err, game){
+						if(err){
+						console.log(err);
+						return res.serverError(err);
+					}else{
+						Game.republishGame(game.id);
+					}
+					})
+					
 				})
 
 
