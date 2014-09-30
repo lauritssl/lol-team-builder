@@ -22,7 +22,7 @@
                         <input type="range" ng-model="createGame.game.numberOfSpots" min="1" max="10" step="1" style="width: 140px" class="ng-valid ng-dirty">
                         <p>{{createGame.game.numberOfSpots}}</p>                
                     </div>
-                    <input type="submit" class="btn custom_btn-red" value="Create">
+                    <input type="submit" class="btn ub-custom-btn custom-btn-red" value="Create">
                 </div>              
             </div>    
         </div>
@@ -33,7 +33,7 @@
                     <div class="form-group">
                          <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">
                     </div>
-                        <button type="button" class="btn custom_btn-red" ng-click="main.go('games/'+home.game.id)">Join game</button>
+                        <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="main.go('games/'+home.game.id)">Join game</button>
                     </div>
                     
                     
@@ -41,7 +41,7 @@
                     <div class="form-group">
                          <input type="text" class="form-control" name="" value="" placeholder="Enter game title" ng-model="home.newGame.title">
                     </div>
-                        <button type="button" class="btn custom_btn-red" ng-click="main.go('/new/game')">Create game</button>
+                        <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="main.go('/new/game')">Create game</button>
                 
                     </div>
                    
