@@ -27,6 +27,9 @@
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 200px;
 
 
 //Player shield
@@ -116,37 +119,6 @@
     top: 38px;
 }
 
-#hero_backdrop{
-    background: transparent;
-    background-size: 533px 300px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    border: 2px solid @main-grey;
-
-    &:hover, &:hover + #build_info_backdrop{
-     -webkit-filter: blur(3px);
-      -moz-filter: blur(3px);
-      -o-filter: blur(3px);
-      -ms-filter: blur(3px);
-      filter: blur(3px);
-}
-}
-
-#build_info_backdrop{
-    background-color: @main-bgcolor-blue-75;
-    width: 100%;
-    height: 40%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    border-top: 1px solid @main-bgcolor-blue;
-}
-
 .hero_items{
     width: 45px;
     height: 45px;
@@ -187,6 +159,76 @@
 #item_6 {
   left: 175px !important;
   top: 250px !important;
+}
+
+
+.hero-hover-stats{
+    position: absolute;
+    z-index: 4;
+    max-width: 40%;
+    top: 30px;
+    left: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 20px;
+
+    img, p{
+        float: left;
+    }
+
+    img{
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.stats-second{
+    left: 50%;
+}
+
+#hero-stats-arm, #hero-stats-ms{
+    top: 80px;
+}
+
+#hero-stats-mr, #hero-stats-sv{
+    top: 130px;
+}
+
+#hero_backdrop{
+    background: transparent;
+    background-size: 200px 364px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    border: 2px solid @main-grey;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
+
+    &:hover, &:hover + #build_info_backdrop{
+     -webkit-filter: blur(5px);
+      -moz-filter: blur(5px);
+      -o-filter: blur(5px);
+      -ms-filter: blur(5px);
+      filter: blur(5px);
+}
+}
+
+#build_info_backdrop{
+    background-color: @main-bgcolor-blue-75;
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    border-top: 1px solid @main-bgcolor-blue;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    transition: all 0.25s;
 }
 
 #champion_name{
