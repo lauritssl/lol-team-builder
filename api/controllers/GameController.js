@@ -41,7 +41,8 @@
  		var model = {
  			title: req.param('title'),
  			user: userId,
- 			numberOfSpots: req.param('numberOfSpots')
+ 			numberOfSpots: req.param('numberOfSpots'),
+ 			private: req.param'private')
  		};
 
  		Game.create(model)
