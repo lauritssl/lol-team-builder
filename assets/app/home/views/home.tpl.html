@@ -64,7 +64,7 @@
                      <div class="col-md-2"> MAP</div>
                      <div class="col-md-2"></div>
                     </div>
-                     <div ng-repeat="game in home.games" class="row"> 
+                     <div ng-repeat="game in home.games" class="row" ng-show="game.public"> 
 
                      <div class="col-md-2"> <b>{{game.title}}</b></div>
                      <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
