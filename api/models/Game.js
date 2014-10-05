@@ -43,9 +43,9 @@ module.exports = {
 			collection: 'build',
 			via: 'id'
 		},
-		public: {
+		private: {
 			type: 'boolean',
-			defaultsTo: true
+			defaultsTo: false
 		}
 	},
 	afterCreate: function (game, next) {
