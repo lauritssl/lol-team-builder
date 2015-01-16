@@ -9,7 +9,7 @@ function ChampionService ($http, $q) {
     var lolBasePath = "https://global.api.pvp.net";
     var staticPath = "/api/lol/static-data/euw/v1.2";   
     var cdnUrl =    "http://ddragon.leagueoflegends.com/cdn";
-    var cdnVersion = "4.17.1"; 
+    var cdnVersion: "4.21.5", 
     var localization = "en_GB";
 
 

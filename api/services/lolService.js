@@ -10,7 +10,7 @@ module.exports = {
     lolBasePath : "https://global.api.pvp.net",
     staticPath : "/api/lol/static-data/euw/v1.2",   
     cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
-    cdnVersion: "4.17.1", 
+    cdnVersion: "4.21.5", 
     localization: "en_GB",
 
 	getChampions: function(callback) {
