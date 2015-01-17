@@ -58,6 +58,11 @@ HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails
 		$location.path("/games/"+gameId);
 	}
 
+	vm.getMapName = function(mapId){
+		if(mapId === 11) return "Summoners Rift";
+		if(mapId === 12) return "Howling Abyss";
+	}
+
 	GameModel.getAll(vm).then(function(models) {
 		vm.currentUser.games = models.filter(function(game){if(typeof game.user != 'undefined') return game.user.id == vm.currentUser.id});
 		vm.games = models.filter(function(game){if(typeof game.user != 'undefined') {return game.user.id != vm.currentUser.id} else{return true}});
