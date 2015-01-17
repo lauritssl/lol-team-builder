@@ -42,6 +42,7 @@
  			title: req.param('title'),
  			user: userId,
  			numberOfSpots: req.param('numberOfSpots'),
+ 			map: req.param('map'),
  			private: req.param('private')
  		};
 

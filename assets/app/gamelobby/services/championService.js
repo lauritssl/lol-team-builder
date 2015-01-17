@@ -71,10 +71,10 @@ function ChampionService ($http, $q) {
             return url + ability;
         },
 
-        getMapImage = function(mapImageId){
+        getMapImage: function(mapImageId){
              url = cdnUrl +"/"+cdnVersion + "/img/map/map";
 
-            return url + itemImageId+".png";
+            return url + mapImageId+".png";
         }
 	};
 };

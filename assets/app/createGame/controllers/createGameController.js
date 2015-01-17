@@ -17,7 +17,11 @@ function CreateGameCtrl(GameModel, Session, $location, ChampionService){
 		});
 	};
 
+	vm.changeMap = function(mapId){
+		vm.game.map = mapId;
+	};
 	vm.getMapImage = function(mapImageId){
-		return ChampionService.getMapImage(mapImageId);
-	}
+		var image = ChampionService.getMapImage(mapImageId);
+		return image;
+	};
 };

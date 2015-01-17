@@ -41,7 +41,7 @@ module.exports = {
 		},
 		map: {
 			type: 'integer',			
-			defaultsTo: 1
+			defaultsTo: 11
 		},
 		builds: {
 			collection: 'build',

@@ -28,8 +28,8 @@
  		</div>
  		<div class="col-md-8 content-wrapper create-game-content-wrapper">
  			<div class="row  create-game-content">
-				<div ng-click="createGame.game.map = 11" ng-class="{highlighted: createGame.game.map == 11}" class="col-md-6 map-image-container"><img src="createGame.getMapImage(11)" alt="" title="Summoners rift"></div>
-				<div ng-click="createGame.game.map = 12" ng-class="{highlighted: createGame.game.map == 12}" class="col-md-6 map-image-container"><img src="createGame.getMapImage(12)" alt="" title="Howling abyss"></div>
+				<div ng-click="createGame.changeMap(11)" ng-class="{highlighted: createGame.game.map == 11}" class="col-md-6 map-image-container"><img src="{{createGame.getMapImage(11)}}" alt="" title="Summoners rift"></div>
+				<div ng-click="createGame.changeMap(12)" ng-class="{highlighted: createGame.game.map == 12}" class="col-md-6 map-image-container"><img src="{{createGame.getMapImage(12)}}" alt="" title="Howling abyss"></div>
  			</div>
  		</div>
  	</div>
