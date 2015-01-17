@@ -69,6 +69,12 @@ function ChampionService ($http, $q) {
             url = cdnUrl +"/"+cdnVersion + "/img/spell/";
 
             return url + ability;
+        },
+
+        getMapImage = function(mapImageId){
+             url = cdnUrl +"/"+cdnVersion + "/img/map/";
+
+            return url + itemImageId;
         }
 	};
 };
