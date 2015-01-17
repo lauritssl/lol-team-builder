@@ -51,23 +51,35 @@ module.exports = {
 			}
 		});
 	},
-	rollBuild: function(spot,  items, summoners, champions, callback){
+	getMaps: function(callback){
+		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/map.json";
+		request({
+			url: url,
+			json: true
+		}, function(error, response, body){
+
+			if (!error && response.statusCode === 200) {
+				 callback(body);
+			}
+		});
+	},
+	rollBuild: function(currentMapId, spot,  items, summoners, champions, maps, callback){
 
 	
 
-		var groups = Object.keys(items.groups).map(function(k) { 
+		groups = Object.keys(items.groups).map(function(k) { 
 			return items.groups[k]
 			 });
-		var items = Object.keys(items.data).map(function(k) { 
+		items = Object.keys(items.data).map(function(k) { 
 			items.data[k].id = k;
 			return items.data[k]
 			 });
 
-		var summoners = Object.keys(summoners.data).map(function(k) { 
+		summoners = Object.keys(summoners.data).map(function(k) { 
 			return summoners.data[k]
 			 });
 
-
+		maps = maps.data;
 		
 		
 
@@ -88,7 +100,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollItems(items, function(result){
+				vm.rollItems(currentMapId, items, maps, function(result){
 					build.items = result;
 					callback();
 				});
@@ -155,36 +167,45 @@ module.exports = {
 		
 		callback(build);
 	},
-	rollItems: function(items, callback){
+	rollItems: function(currentMapId, items, maps, callback){
 		var build = {};
 
-		var items = items.filter(function(item){return item.into.length ==0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0 && ((typeof item.maps != 'undefined' && item.maps[1] != false) || typeof item.maps == 'undefined')});
+		var items = items.filter(function(item){return item.into.length ==0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0});
 		items = items.filter(function(item) {
 				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  || typeof item.group == 'undefined';
 		});
+		//sort out unpurchasable items
+		items = items.filter(function(item){
+			return !_.contains(maps[currentMapId].UnpurchasableItemList, item.id);
+		})
 
-		var randomNumber = Math.floor(Math.random()*(items.length));
-		build.item1 = items[randomNumber].id;
-		items.splice(randomNumber, 1);
 
-		randomNumber = Math.floor(Math.random()*(items.length));
-		build.item2 = items[randomNumber].id;
-		items.splice(randomNumber, 1);
 
-		randomNumber = Math.floor(Math.random()*(items.length));
-		build.item3 = items[randomNumber].id;
-		items.splice(randomNumber, 1);
-
-		randomNumber = Math.floor(Math.random()*(items.length));
-		build.item4 = items[randomNumber].id;
-		items.splice(randomNumber, 1);
-
-		randomNumber = Math.floor(Math.random()*(items.length));
-		build.item5 = items[randomNumber].id;
-		items.splice(randomNumber, 1);
+		for(var i = 1; i <= 5; i++){
+			var randomNumber = Math.floor(Math.random()*(items.length));
+			build["item" + i] = items[randomNumber].id;
+			if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
+			else items.splice(randomNumber, 1);
+		}		
 
 		callback(build);
+
+
+		function removeSingleTypeItemsIfTaken(item, items){
+			if(item.group == "JungleItems"){
+				 items = _.filter(items, function(i){
+					return (typeof i.group !== 'undefined' && i.group.indexOf("JungleItems") < 0) || typeof i.group === 'undefined';
+				})
+			}
+			if(item.group == "GoldBase"){
+				items = _.filter(items, function(i){
+					return (typeof i.group !== 'undefined' && i.group.indexOf("GoldBase") < 0) || typeof i.group === 'undefined';
+				})
+			}
+			return items;
+		}
 	},
+
 
 	rollMasteries: function(callback){
 		var build = {}; 

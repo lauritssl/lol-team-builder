@@ -243,7 +243,7 @@ rollBuilds : function(req, res){
 	var id = req.param('id');
 	var itemsReceived = 0;
 
-	var champions, items, summoners = {}
+	var champions, items, summoners, maps = {}
 
 	async.parallel([
 		function(callback){
@@ -263,10 +263,16 @@ rollBuilds : function(req, res){
 				summoners = result;
 				callback();
 			})
+		},
+		function(callback){
+			lolService.getMaps(function(result){
+				maps = result;
+				callback();
+			})
 		}
 
 		], function(err){
-			Game.rollBuilds(id, items, champions, summoners);
+			Game.rollBuilds(id, items, champions, summoners, maps);
 		});		
 
 },
@@ -275,7 +281,7 @@ rerollBuild: function(req, res) {
 	var id = req.param('id');
 	var spotId = req.param('spotId');
 
-	var champions, items, summoners = {}
+	var champions, items, summoners, maps = {}
 	var existingChampions = [];
 	async.parallel([
 		function(callback){
@@ -293,6 +299,12 @@ rerollBuild: function(req, res) {
 		function(callback){
 			lolService.getSummoners(function(result){
 				summoners = result;
+				callback();
+			})
+		},
+		function(callback){
+			lolService.getMaps(function(result){
+				maps = result;
 				callback();
 			})
 		}

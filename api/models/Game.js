@@ -39,6 +39,10 @@ module.exports = {
 			collection: 'spot',
 			via: 'id',
 		},
+		map: {
+			type: 'integer',			
+			defaultsTo: 1
+		},
 		builds: {
 			collection: 'build',
 			via: 'id'
@@ -145,7 +149,7 @@ module.exports = {
 			return game;
 		});
 	},
-	rollBuild : function(id, spotId, items, champions, summoners){
+	rollBuild : function(id, spotId, items, champions, summoners, maps){
 
 
 		Game.findOne(id)
@@ -188,7 +192,7 @@ module.exports = {
 					}
 
 
-					lolService.rollBuild(spot, items, summoners, newChampions, function(result){
+					lolService.rollBuild(game.map || 1,spot, items, summoners, newChampions, maps, function(result){
 						async.parallel([
 							function(callback){
 								Spot.update({id: spot.id}, {champion: result.champion}, function(err, result){
@@ -246,7 +250,7 @@ module.exports = {
 });
 
 },
-rollBuilds : function(id, items, champions, summoners) {
+rollBuilds : function(id, items, champions, summoners, maps) {
 
 	Game.findOne(id)
 	.populate('spots')
@@ -277,7 +281,7 @@ rollBuilds : function(id, items, champions, summoners) {
 						return;
 
 					}else{
-						lolService.rollBuild(spot, items, summoners, newChampions, function(result){
+						lolService.rollBuild(game.map || 1, spot, items, summoners, newChampions, maps, function(result){
 							newChampions.splice(result.randomIndex, 1);
 							async.parallel([
 								function(callback){
