@@ -152,8 +152,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.getItemFromBuild = function(build, type) {
 		var build = vm.getBuildFromGame(vm.game, build);
-
-		return vm.items[build[type]];
+		var item = angular.copy(vm.items[build[type]]);
+		if(item.group === "JungleItems") {
+			item = angular.copy(vm.items[build.jungleItemEnchantment]);
+			var name = vm.items[build[type]].name + " with " + item.name;
+			item.name = name;
+	}
+		return item;
 	}
 
 	vm.getSkillFromChampion = function(buildId, champion) {

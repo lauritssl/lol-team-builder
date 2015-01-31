@@ -10,7 +10,7 @@ module.exports = {
     lolBasePath : "https://global.api.pvp.net",
     staticPath : "/api/lol/static-data/euw/v1.2",   
     cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
-    cdnVersion: "5.1.1", 
+    cdnVersion: "5.2.2", 
     localization: "en_GB",
 
 	getChampions: function(callback) {
@@ -56,6 +56,19 @@ module.exports = {
 		request({
 			url: url,
 			json: true
+		}, function(error, response, body){
+
+			if (!error && response.statusCode === 200) {
+				 callback(body);
+			}
+		});
+	},
+	getVersion: function(callback){
+		var url = this.lolBasePath +this.staticPath + "/versions";
+		request({
+			url: url,
+			json: true,
+			qs:  {api_key: this.apiKey}
 		}, function(error, response, body){
 
 			if (!error && response.statusCode === 200) {
@@ -170,20 +183,47 @@ module.exports = {
 	rollItems: function(currentMapId, items, maps, callback){
 		var build = {};
 
-		var items = items.filter(function(item){return item.into.length ==0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0});
+
+
+
+		//Get jungle items and jungle enchantments before they're pulled from the array
+		var jungleEnchantments = _.filter(items, function(item){
+					return (typeof item.group !== 'undefined' && item.group === "JungleItems")&&  item.into.length === 0;
+				});
+		var jungleItems = _.filter(items, function(item){
+					return (typeof item.group !== 'undefined' && item.group === "JungleItems") && item.depth === 2;
+				});
+
+
+
+		var items = items.filter(function(item){return item.into.length === 0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0  && item.name.indexOf("Wrig") < 0});
+		
+		
+
+
 		items = items.filter(function(item) {
-				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  || typeof item.group == 'undefined';
+				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  && item.group.indexOf("JungleItems") < 0  || typeof item.group == 'undefined';
 		});
+
+		//add the jungle items back in.
+		items = items.concat(jungleItems);
 		//sort out unpurchasable items
 		items = items.filter(function(item){
 			return !_.contains(maps[currentMapId].UnpurchasableItemList, item.id);
-		})
+		});
+
+		
 
 
 
 		for(var i = 1; i <= 5; i++){
 			var randomNumber = Math.floor(Math.random()*(items.length));
 			build["item" + i] = items[randomNumber].id;
+			if(items[randomNumber].group === "JungleItems"){
+				jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, build["item" + i])}); 		
+				var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
+				build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
+			};
 			if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
 			else items.splice(randomNumber, 1);
 		}		

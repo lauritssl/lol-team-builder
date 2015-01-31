@@ -9,11 +9,12 @@ function ChampionService ($http, $q) {
     var lolBasePath = "https://global.api.pvp.net";
     var staticPath = "/api/lol/static-data/euw/v1.2";   
     var cdnUrl =    "http://ddragon.leagueoflegends.com/cdn";
-    var cdnVersion = "5.1.1"; 
+    var cdnVersion = "5.2.2"; 
     var localization = "en_GB";
 
 
 	return {
+        cdnVersion : cdnVersion,
 		 getChampions: function () {
             var deferred = $q.defer();
             var queryParameters = "champData=image,passive,spells,stats,tags&api_key="+apiKey;
@@ -28,7 +29,7 @@ function ChampionService ($http, $q) {
 
         getItems: function () {
             var deferred = $q.defer();
-            var url = cdnUrl +"/"+cdnVersion + "/data/"+ localization  +"/item.json";
+            var url = cdnUrl +"/"+this.cdnVersion + "/data/"+ localization  +"/item.json";
             $http({url:url, cache:true, method: 'GET'}).success(function(result) {
                 return deferred.resolve(result.data);
             });
@@ -38,41 +39,51 @@ function ChampionService ($http, $q) {
 
         getSummoners: function () {
             var deferred = $q.defer();
-            var url = cdnUrl +"/"+cdnVersion + "/data/"+ localization  +"/summoner.json";
+            var url = cdnUrl +"/"+this.cdnVersion + "/data/"+ localization  +"/summoner.json";
             $http({url:url, cache:true, method: 'GET'}).success(function(result) {
                 return deferred.resolve(result.data);
             });
 
             return deferred.promise;
         },
+        getVersion: function () {
+            var deferred = $q.defer();
+            var url = lolBasePath +staticPath + "/versions?api_key="+apiKey;
+            $http({url:url, cache:true, method: 'GET'}).success(function(result) {
+                return deferred.resolve(result);
+            });
+
+            return deferred.promise;
+        },
+
 
         getChampionImage: function(championsImageId){
-        	url = cdnUrl +"/"+cdnVersion + "/img/champion/";
+        	url = cdnUrl +"/"+this.cdnVersion + "/img/champion/";
 
         	return url + championsImageId;
         },
 
         getItemImage: function(itemImageId){
-            url = cdnUrl +"/"+cdnVersion + "/img/item/";
+            url = cdnUrl +"/"+this.cdnVersion + "/img/item/";
 
             return url + itemImageId;
         },
 
         getSummonerImage: function(itemImageId){
-            url = cdnUrl +"/"+cdnVersion + "/img/spell/";
+            url = cdnUrl +"/"+this.cdnVersion + "/img/spell/";
 
             return url + itemImageId;
         },
         
         getAbilityImage: function(champion, ability){
             
-            url = cdnUrl +"/"+cdnVersion + "/img/spell/";
+            url = cdnUrl +"/"+this.cdnVersion + "/img/spell/";
 
             return url + ability;
         },
 
         getMapImage: function(mapImageId){
-             url = cdnUrl +"/"+cdnVersion + "/img/map/map";
+             url = cdnUrl +"/"+this.cdnVersion + "/img/map/map";
 
             return url + mapImageId+".png";
         }

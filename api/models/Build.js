@@ -33,6 +33,9 @@ module.exports = {
   		item5: {
   			type:  'string'
   		},
+      jungleItemEnchantment: {
+        type:  'string'
+      },
   		skill_to_level: {
   			type: 'string',
   			enum: ['Q', 'W', 'E']

@@ -143,44 +143,44 @@
 								return callback(fakeErr);
 
 							}else{								
-							spot = result;
-							callback();
+								spot = result;
+								callback();
 							}
 						});
 										// body...
-					},
-					function(callback){
-						Spot.update({user: userId}, {user: null}, function(err, model){
-						if(model.length < 1) newUser = true;
-						 callback()
-						});
-					},
-					function(callback){
-						spot.user = userId;
-						spot.save(function(err, result){
-							callback();
-						});
-					}], function(err){
-							if(err){
-								return res.serverError("spot already taken");
-							}
-							if(newUser){
-								game.spotsTaken += 1;
-								Game.update({id: game.id}, {spotsTaken: game.spotsTaken}, function(err, result){
-								Game.republishGame(game.id);
-							});
-							} else{
-								Game.republishGame(game.id);
-							}
-							
-							
-					})	
+									},
+									function(callback){
+										Spot.update({user: userId}, {user: null}, function(err, model){
+											if(model.length < 1) newUser = true;
+											callback()
+										});
+									},
+									function(callback){
+										spot.user = userId;
+										spot.save(function(err, result){
+											callback();
+										});
+									}], function(err){
+										if(err){
+											return res.serverError("spot already taken");
+										}
+										if(newUser){
+											game.spotsTaken += 1;
+											Game.update({id: game.id}, {spotsTaken: game.spotsTaken}, function(err, result){
+												Game.republishGame(game.id);
+											});
+										} else{
+											Game.republishGame(game.id);
+										}
 
 
-			}
+									})	
 
 
-		});
+}
+
+
+});
 
 },
 removeUserFromSpot: function(req, res) {
@@ -223,7 +223,7 @@ destroyUser: function (req, res) {
 		else if(typeof game != 'undefined'){
 			Spot.update({user: userId}, {user: null}, function(err, model){
 				var users = game.spots.filter(function(spot) {	
-					 if(typeof spot.user != 'undefined' && spot.user != null) return spot.user.id == userId;
+					if(typeof spot.user != 'undefined' && spot.user != null) return spot.user.id == userId;
 				});
 				if(users.indexOf(userId) > -1) game.spotsTaken -= 1;
 				game.users.remove(userId)
@@ -245,37 +245,38 @@ rollBuilds : function(req, res){
 	var itemsReceived = 0;
 
 	var champions, items, summoners, maps = {}
+	lolService.getVersion(function(result){
+		lolService.cdnVersion = result[0];
+		async.parallel([
+			function(callback){
+				lolService.getChampions(function(result){
+					champions = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getItems(function(result){
+					items = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getSummoners(function(result){
+					summoners = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getMaps(function(result){
+					maps = result;
+					callback();
+				})
+			}
+			], function(err){
+				Game.rollBuilds(id, items, champions, summoners, maps);
+			});		
 
-	async.parallel([
-		function(callback){
-			lolService.getChampions(function(result){
-				champions = result;
-				callback();
-			})
-		},
-		function(callback){
-			lolService.getItems(function(result){
-				items = result;
-				callback();
-			})
-		},
-		function(callback){
-			lolService.getSummoners(function(result){
-				summoners = result;
-				callback();
-			})
-		},
-		function(callback){
-			lolService.getMaps(function(result){
-				maps = result;
-				callback();
-			})
-		}
-
-		], function(err){
-			Game.rollBuilds(id, items, champions, summoners, maps);
-		});		
-
+	})
 },
 
 rerollBuild: function(req, res) {
@@ -284,35 +285,38 @@ rerollBuild: function(req, res) {
 
 	var champions, items, summoners, maps = {}
 	var existingChampions = [];
-	async.parallel([
-		function(callback){
-			lolService.getChampions(function(result){
-				champions = result;
-				callback();
-			})
-		},
-		function(callback){
-			lolService.getItems(function(result){
-				items = result;
-				callback();
-			})
-		},
-		function(callback){
-			lolService.getSummoners(function(result){
-				summoners = result;
-				callback();
-			})
-		},
-		function(callback){
-			lolService.getMaps(function(result){
-				maps = result;
-				callback();
-			})
-		}
+	lolService.getVersion(function(result){
+		lolService.cdnVersion = result[0];
+		async.parallel([
+			function(callback){
+				lolService.getChampions(function(result){
+					champions = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getItems(function(result){
+					items = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getSummoners(function(result){
+					summoners = result;
+					callback();
+				})
+			},
+			function(callback){
+				lolService.getMaps(function(result){
+					maps = result;
+					callback();
+				})
+			}
+			], function(err){
+				Game.rollBuilds(id, items, champions, summoners, maps);
+			});		
 
-		], function(err){
-			Game.rollBuild(id, spotId, items, champions, summoners, maps);
-		});		
+	})
 },
 
 resetBuilds: function(req, res) {
@@ -356,11 +360,11 @@ resetBuilds: function(req, res) {
 					}
 					Game.update({id: game.id}, {gameStarted: false}, function(err, model){
 						if(err){
-						console.log(err);
-						return res.serverError(err);
-					}else{
-						Game.republishGame(game.id);
-					}
+							console.log(err);
+							return res.serverError(err);
+						}else{
+							Game.republishGame(game.id);
+						}
 					})
 					
 				})
