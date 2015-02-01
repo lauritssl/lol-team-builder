@@ -234,12 +234,12 @@ module.exports = {
 		function removeSingleTypeItemsIfTaken(item, items){
 			if(item.group == "JungleItems"){
 				 items = _.filter(items, function(i){
-					return (typeof i.group !== 'undefined' && i.group.indexOf("JungleItems") < 0) || typeof i.group === 'undefined';
+					return (typeof i.group !== 'undefined' && i.group.indexOf("JungleItems") < 0 && i.group.indexOf("GoldBase") < 0) || typeof i.group === 'undefined';
 				})
 			}
 			if(item.group == "GoldBase"){
 				items = _.filter(items, function(i){
-					return (typeof i.group !== 'undefined' && i.group.indexOf("GoldBase") < 0) || typeof i.group === 'undefined';
+					return (typeof i.group !== 'undefined' && i.group.indexOf("GoldBase") < 0 && i.group.indexOf("JungleItems") <0) || typeof i.group === 'undefined';
 				})
 			}
 			return items;

@@ -313,7 +313,7 @@ rerollBuild: function(req, res) {
 				})
 			}
 			], function(err){
-				Game.rollBuilds(id, items, champions, summoners, maps);
+				Game.rollBuild(id, spotId, items, champions, summoners, maps);
 			});		
 
 	})
