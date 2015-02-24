@@ -66,21 +66,20 @@ module.exports = {
 	},
 
 	destroyUser: function(id, userId){
-
-		Game.findOne(id).
-		exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			}
-			else if(typeof game != 'undefined'){
-				game.users.remove(userId)
-				game.save(function(err){});
-				return game;
-			}
-
-
-		})
+		Game
+			.findOne(id)
+			.exec(function(err, game){
+				if (err) {
+					return res.serverError(err);
+				}
+				else if(typeof game != 'undefined'){
+					game.users.remove(userId)
+					game.save(function(err){});
+					return game;
+				}
+			})
 	},
+
 	removeUserFromAllSpots: function(id, userId){
 		return Game.findOne(id)
 		.then(function (game) {

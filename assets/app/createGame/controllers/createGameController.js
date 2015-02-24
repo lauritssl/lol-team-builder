@@ -11,12 +11,20 @@ function CreateGameCtrl(GameModel, Session, $location, ChampionService, $cookieS
 
 
 	vm.createGame = function(game) {
+
 		game.user = {};
 		game.user.nickname = "Aleksander";
-		GameModel.create(game).then(function(model) {
-			$cookieStore.put(model.id, model.user);
-			$location.path("/games/"+model.id);
-		});
+
+		GameModel
+			.create(game)
+			.then(function(model) {
+				$cookieStore.put(model.id, model.user);
+				$location.path("/games/"+model.id);
+			})
+			.catch(function(error){
+				alert("Error! - " + error.summary +" - Check console.log");
+				console.log(error);
+			});
 	};
 
 	vm.changeMap = function(mapId){

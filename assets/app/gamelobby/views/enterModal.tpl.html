@@ -1,12 +1,12 @@
 <div class="modal-header">
-            <h3 class="modal-title">
-            I'm a modal!
-            </h3>
+  <h3 class="modal-title">
+  Your nickname
+  </h3>
 </div>
-        <div class="modal-body">
-            Selected: <b>{{ modalCtrl.test }}</b>
-        </div>
+<div class="modal-body">
+  <input ng-model="user.nickname" type="text">
+</div>
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="modalCtrl.ok()">OK</button>
-   <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Cancel</button>
- </div>
+  <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Join</button>
+  <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Cancel</button>
+</div>

@@ -1,22 +1,16 @@
-
 angular.module('ubteambuilder.gamelobby.modals',[])
 .controller( 'EnterModalCtrl', EnterModalCtrl);
 
+EnterModalCtrl.$inject = ["$modalInstance", 'GameModel', 'gameId'];
 
-
-
-EnterModalCtrl.$inject = ["$scope", 'GameModel', 'gameId'];
-
- function EnterModalCtrl($scope, GameModel, gameId) {
+function EnterModalCtrl($modalInstance, GameModel, gameId) {
  	var vm = this;
 
+ 	vm.ok = function(user) {
+    $modalInstance.close(user);
+  };
 
- 	vm.test = "TEST";
- 	vm.ok = function() {
-        $scope.$dismiss();
-    };
-
-    vm.cancel = function() {
-    	$scope.$close(true);
-    };
+  vm.cancel = function() {
+  	$modalInstance.dismiss('cancel');
+  };
 }
