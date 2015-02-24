@@ -43,6 +43,7 @@ angular.module( 'ubteambuilder.gamelobby', [
 		onEnter: ['$state', '$cookieStore', '$stateParams', '$modal', function($state, $cookieStore, $stateParams, $modal){
 
 			 $modal.open({
+			 	scope: {gameId: $stateParams.id},
 	            templateUrl: 'gamelobby/views/enterModal.tpl.html',
 	            controller: 'EnterModalCtrl as modalCtrl'
 	        }).result.then(function(result) {

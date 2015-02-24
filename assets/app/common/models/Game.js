@@ -38,10 +38,10 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return deferred.promise;
 	};
 
-	this.addUser = function(gameId, userId) {
+	this.addUser = function(gameId, user) {
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/user');
-		$sails.post(url, {user: userId}, function(model) {
+		$sails.post(url, {user: user}, function(model) {
 			return deferred.resolve(model);
 		});
 
