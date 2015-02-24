@@ -1,19 +1,15 @@
-angular.module( 'ubteambuilder.gamelobby.controllers', [])
+angular.module( 'ubteambuilder.gamelobby.controllers', ['pmkr.components'])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
 GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService) {
+function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService) {
  	if(game.statusCode == 404){
  		$location.path('/home');
  	}
 
-
-
-
-
  	//initialize variables
-   	var vm = this;
+  var vm = this;
 	vm.game = game;
 	vm.champions = champions;
 	vm.summoners = summoners;
@@ -25,7 +21,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	//Initialization function
 	vm.init = function(){
 		vm.joinGame(vm.game);
-
 	}
 
 	//add listeners
@@ -69,19 +64,19 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.joinGame = function(game){
 		GameModel.addUser(vm.game.id, vm.currentUser.id).then(function(model){
 		});
-		
+
 	},
 
 	vm.joinSpot = function(game, spot){
 		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id).then(function(model){
 		});
-		
+
 	},
 
 	vm.removeUserFromSpot = function(gameId, userId, spotId){
 		GameModel.removeUserFromSpot(gameId, userId, spotId).then(function(model){
 		});
-		
+
 	},
 	vm.leaveGame = function(game){
 		GameModel.removeUser(game.id, vm.currentUser.id).then(function(model){
@@ -210,6 +205,32 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		if(colWidth == "col-lg-2") colWidth = "player_shield_regulator";
 		return colWidth;
 	}
+
+	vm.divideSpots = function(spots){
+		var result = [[],[]];
+
+		if(spots !== undefined){
+			var spotLength = Object.keys(spots).length;
+			var splitSize  = Math.floor(spotLength/2);
+
+			var c = 0;
+			var _index = 0;
+
+			for(var key in spots){
+				if( spots.hasOwnProperty(key) ){
+
+					result[_index].push( spots[key] );
+
+					c++;
+				}
+				if(c === splitSize)
+					_index++;
+			}
+		}
+
+		return result;
+	}
+
 	vm.init();
-	
+
 };

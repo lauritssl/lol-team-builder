@@ -16,9 +16,7 @@ module.exports = {
 			unique: true
 		},
 		users: {
-			collection: 'user',
-			via: 'username',
-			dominant: true
+			type : "array"
 		},
 		user: {
 			model: 'user'
@@ -36,11 +34,10 @@ module.exports = {
 			defaultsTo: false
 		},
 		spots: {
-			collection: 'spot',
-			via: 'id',
+			type : "json"
 		},
 		map: {
-			type: 'integer',			
+			type: 'integer',
 			defaultsTo: 11
 		},
 		builds: {
@@ -52,58 +49,7 @@ module.exports = {
 			defaultsTo: false
 		}
 	},
-	afterCreate: function (game, next) {
-		// set message.user = to appropriate user model
-		Game.getOne(game.id)
-		.spread(function(currentGame){
-			async.parallel([
-				function(callback){
-					User.getOne(game.user)
-					.spread(function(user) {
-						currentGame.user = user;			
 
-						callback();
-					});
-				},
-				function(callback){
-					var count = 0;
-					async.whilst(
-						function() {return count < currentGame.numberOfSpots},
-						function(callback){
-							Spot.create({game: game}).exec(function(err, spot) {
-								if (err) {
-									return console.log(err);
-								}
-								else {
-
-									currentGame.spots.add(spot);
-									Build.create({game: game}).exec(function(err, build){
-
-										currentGame.builds.add(build);
-										spot.build = build;
-										spot.save(function(err, result){
-											count++;
-											callback();
-										});
-
-									})
-
-								}
-							});
-
-						},
-						function(err){
-							callback();
-						})
-				}], function(err){
-					currentGame.save(function(err, result){					
-						next(null, result);
-					})
-				});	
-		});	
-
-
-	},
 	getAll: function() {
 		return Game.find()
 		.populate('user')
@@ -111,16 +57,15 @@ module.exports = {
 			return [models];
 		});
 	},
+
 	getOne: function(id) {
 		return Game.findOne(id)
 		.populate('user')
-		.populate('builds')
-		.populate('users')
-		.populate('spots')
 		.then(function (model) {
 			return [model];
 		});
 	},
+
 	destroyUser: function(id, userId){
 
 		Game.findOne(id).
@@ -162,12 +107,12 @@ module.exports = {
 			else if(typeof game != 'undefined'){
 
 				var existingChampions = [];
-				var newChampions = Object.keys(champions.data).map(function(k) { 
+				var newChampions = Object.keys(champions.data).map(function(k) {
 					return champions.data[k]});
 
 
 				async.forEach(game.spots, function(spot, callback){
-					if(typeof spot.champion != 'undefined'){							
+					if(typeof spot.champion != 'undefined'){
 						existingChampions.push(spot.champion)
 					}
 					callback();
@@ -206,9 +151,9 @@ module.exports = {
 								})
 							},
 							function(callback){
-								Build.update({id: build.id}, 
+								Build.update({id: build.id},
 									{boots: result.boots.boots,
-									bootsEnchantment: result.boots.bootsEnchantment, 
+									bootsEnchantment: result.boots.bootsEnchantment,
 									item1: result.items.item1,
 									item2: result.items.item2,
 									item3: result.items.item3,
@@ -218,14 +163,14 @@ module.exports = {
 									mastery1: result.masteries.mastery1,
 									mastery2: result.masteries.mastery2,
 									mastery3: result.masteries.mastery3,
-									summoner1: result.summoners.summoner1,									
+									summoner1: result.summoners.summoner1,
 									summoner2: result.summoners.summoner2,
 									skill_to_level: result.skill_to_level}, function(err, result){
 										if(err) {
 											console.log(err);
 											callback(err);
 										}
-										else{											
+										else{
 											callback();
 										}
 									})
@@ -241,11 +186,11 @@ module.exports = {
 								else {Game.republishGame(game.id); }
 							})
 
-					});		
+					});
 
 	});					// Spot.update({id: ids}, {champion: randomChapmions}, function(err, spot){
 						// 	console.log(spot);
-						// });	
+						// });
 }
 
 });
@@ -262,12 +207,12 @@ rollBuilds : function(id, items, champions, summoners, maps) {
 			}
 			else if(typeof game != 'undefined'){
 				var timesThroughSpots = 0;
-				var newChampions = Object.keys(champions.data).map(function(k) { 
+				var newChampions = Object.keys(champions.data).map(function(k) {
 					return champions.data[k]
 				});
 				async.forEach(game.spots, function(spot, callback){
-					
-					var build = game.builds.filter(function(build){ 
+
+					var build = game.builds.filter(function(build){
 						return build.id == spot.build})[0];
 					if(typeof spot == 'undefined'){
 						err = "spot was not found";
@@ -301,9 +246,9 @@ rollBuilds : function(id, items, champions, summoners, maps) {
 									// });
 								},
 								function(callback){
-									Build.update({id: build.id}, 
+									Build.update({id: build.id},
 										{boots: result.boots.boots,
-										bootsEnchantment: result.boots.bootsEnchantment, 
+										bootsEnchantment: result.boots.bootsEnchantment,
 										item1: result.items.item1,
 										item2: result.items.item2,
 										item3: result.items.item3,
@@ -313,14 +258,14 @@ rollBuilds : function(id, items, champions, summoners, maps) {
 										mastery1: result.masteries.mastery1,
 										mastery2: result.masteries.mastery2,
 										mastery3: result.masteries.mastery3,
-										summoner1: result.summoners.summoner1,									
+										summoner1: result.summoners.summoner1,
 										summoner2: result.summoners.summoner2,
 										skill_to_level: result.skill_to_level}, function(err, result){
 											if(err) {
 												console.log(err);
 												callback(err);
 											}
-											else{											
+											else{
 												callback();
 											}
 										})
@@ -340,22 +285,22 @@ rollBuilds : function(id, items, champions, summoners, maps) {
 											callback();
 										}
 								})
-							
 
-							
+
+
 						});
 					}
-					
+
 				}, function(err){
-					if(err){ 
+					if(err){
 						console.log(err)
 					}
 					else if(!game.gameStarted){
 						Game.update({id:game.id},{gameStarted: true},function(err, result){
 							if(err){
 									console.log(err);
-							}else{					
-							game.gameStarted = true;					
+							}else{
+							game.gameStarted = true;
 							Game.republishGame(game.id);
 							}
 						})

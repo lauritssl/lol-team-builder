@@ -26,9 +26,14 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game');
 		console.log("start creating");
-		$sails.post(url, newModel, function(model) {
-			return deferred.resolve(model);
-		});
+
+		$sails.post(url, newModel)
+			.then(function(response){
+				return deferred.resolve(response.data);
+			})
+			.catch(function(response){
+				return deferred.reject();
+			})
 
 		return deferred.promise;
 	};
