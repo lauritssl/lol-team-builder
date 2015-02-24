@@ -47,10 +47,9 @@ var generateGUID = function() {
  	},
 
  	create: function (req, res) {
- 		var userId = req.param('user');
  		var model = {
  			title: req.param('title'),
- 			user: userId,
+ 			user: generateGUID(),
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
