@@ -47,12 +47,10 @@ angular.module('ubteambuilder', [
     $http.defaults.cache = DSCacheFactory.get('defaultCache');
 
     		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-    			console.log(toState);
-    			console.log(AuthService.checkAuthentication(Session));
+    			
     			if (toState.authenticate && !AuthService.checkAuthentication(Session)){
     				
         			// User isn’t authenticated
-       				$location.path("/login");
    				}
 			});
 	}]);

@@ -3,7 +3,6 @@ angular.module( 'ubteambuilder.home', [])
 
 	$stateProvider.state( 'home', {
 		url: '/home',		
-				authenticate: true,
 		views: {
 			"main": {
 				controller: 'HomeCtrl',
@@ -17,7 +16,8 @@ angular.module( 'ubteambuilder.home', [])
 HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails', 'lodash'];
 
  function HomeCtrl(Session, titleService, GameModel, $location,$sails, lodash ) {
- 	console.log("i get here!");
+
+
  	var vm = this;  
 	vm.game = {};
 	vm.newGame = {};	
@@ -64,7 +64,6 @@ HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails
 	}
 
 	GameModel.getAll(vm).then(function(models) {
-		vm.currentUser.games = models.filter(function(game){if(typeof game.user != 'undefined') return game.user.id == vm.currentUser.id});
-		vm.games = models.filter(function(game){if(typeof game.user != 'undefined') {return game.user.id != vm.currentUser.id} else{return true}});
+		vm.games = models;
 	})
 };

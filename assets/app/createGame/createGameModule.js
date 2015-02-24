@@ -5,8 +5,6 @@ angular.module( 'ubteambuilder.createGame', [
 
 	$stateProvider.state( 'createGame', {
 		url: '/new/game',
-		
-				authenticate: true,
 		views: {
 			"main": {
 				controller: 'CreateGameCtrl',

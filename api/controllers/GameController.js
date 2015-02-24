@@ -5,7 +5,17 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
- var async = require('async');
+var async = require('async');
+
+var generateGUID = function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
 
  module.exports = {
  	getAll: function(req, res) {
@@ -18,44 +28,43 @@
  		})
  		.fail(function(err) {
 			// An error occured
+			return res.send(404);
 		});
  	},
 
  	getOne: function(req, res) {
  		Game.getOne(req.param('id'))
  		.spread(function(model) {
-
  			if(model == null){
- 				res.send(404);
- 			};
+ 				return res.send(404);
+ 			}
  			Game.subscribe(req.socket, model);
- 			res.json(model);
+ 			return res.json(model);
  		})
  		.fail(function(err) {
- 			res.send(404);
+ 			return res.send(404);
  		});
  	},
 
  	create: function (req, res) {
- 		var userId = req.param('user');
  		var model = {
  			title: req.param('title'),
- 			user: userId,
+ 			user: generateGUID(),
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
  		};
 
- 		Game.create(model)
- 		.exec(function(err, game) {
- 			if (err) {
- 				return console.log(err);
- 			}
- 			else {
- 				Game.publishCreate(game);
- 				res.json(game);
- 			}
- 		});
+ 		Game
+ 			.create(model)
+ 			.exec(function(err, game) {
+	 			if (err) {
+	 				return res.status(400).json(err);
+	 			} else {
+	 				Game.publishCreate(game);
+	 				return res.json(game);
+	 			}
+	 		});
  	},
  	destroy: function (req, res) {
  		var id = req.param('id');
@@ -77,10 +86,10 @@
 					return res.serverError(err);
 				}
 				Spot.destroy({game: model.id}).exec(function(err, spots){
-					
+
 				})
 				Build.destroy({game: model.id}).exec(function(err, builds){
-					
+
 				})
 
 
@@ -90,33 +99,39 @@
 		});
 	},
 	addUser: function (req, res) {
-		var userId = req.param('user');
+		var user = req.param('user');
 		var id = req.param('id');
-		Game.findOne(id).
-		populate("users").
-		exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			}
-			else if(typeof game != 'undefined'){
-				game.users.add(userId)
-				game.save(function(err, result){
-					if(err){
-						res.json(err);
-					}else{
-						Game.publishUpdate(game.id,result);
-						res.json(result);
-					}
-					
+
+		if( user.id !== undefined ){
+			// Generate GUID for the user.
+			user.id = generateGUID();
+		}
+
+		Game
+			.findOne(id)
+			.exec(function(err, game){
+				if (err) {
+					return res.serverError(err);
+				} else if(typeof game != 'undefined'){
+					game.spots = game.spots || {};
+					game.users = game.users || [];
+
+					game.users.push(user);
+
+					// Create a spot for the user
+					var currentNumberOfSpots = Object.keys(game.spots).length;
+					game.spots[currentNumberOfSpots] = {};
+
+					game.save(function(err, result){
+						if(err){
+							return res.json(err);
+						} else {
+							Game.publishUpdate(game.id,result);
+							return res.json(result);
+						}
 				});
-
 			}
-
-
 		});
-
-
-
 	},
 	addUserToSpot : function(req, res){
 		var userId = req.param('user');
@@ -129,7 +144,7 @@
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-				
+
 				var spot;
 				var newUser = false;
 				async.series([
@@ -245,7 +260,7 @@ rollBuilds : function(req, res){
 	var itemsReceived = 0
 
 	var buildRollOptions = {};
-	async.paralles([
+	async.parallel([
 		function(callback){
 			lolDataServie.getGameData(function(err, result){
 				if(err) callback(err);

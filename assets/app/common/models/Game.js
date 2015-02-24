@@ -26,17 +26,22 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game');
 		console.log("start creating");
-		$sails.post(url, newModel, function(model) {
-			return deferred.resolve(model);
-		});
+
+		$sails.post(url, newModel)
+			.then(function(response){
+				return deferred.resolve(response.data);
+			})
+			.catch(function(response){
+				return deferred.reject();
+			})
 
 		return deferred.promise;
 	};
 
-	this.addUser = function(gameId, userId) {
+	this.addUser = function(gameId, user) {
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/user');
-		$sails.post(url, {user: userId}, function(model) {
+		$sails.post(url, {user: user}, function(model) {
 			return deferred.resolve(model);
 		});
 
