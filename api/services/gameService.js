@@ -1,6 +1,7 @@
 module.exports = {
     rollBuildForGame: function(options, callback) {
 
+    	var self = this;
     	var game = options.game;
     	var spotId = options.spotId;
     	var champions = options.champions;
@@ -20,68 +21,45 @@ module.exports = {
 
     	if(typeof spot === 'undefined' || spot === null)  {callback(new Error("The specified spot could not be found")); return;}
 
-		var build = _.find(game.spots, function(spot){return build.id == spot.build});
-		if(typeof build === 'undefined' || build === null)  {callback(new Error("The specified build could not be found")); return;}
 
 		//Get non picked champions
-    	var newChampions = getNonPickedChampions(game, champions);
+    	var newChampions = this.getNonPickedChampions(game, champions);
 
 
     	//Roll build
-		buildService.rollBuild(game.map || 1, spot, items, summoners, newChampions, maps, function(result){
+		buildService.rollBuild(game.map || 1, items, summoners, newChampions, maps, function(result){
 			var build = result;
-			callback();
+			spot.build = build;
 
-			async.parallel([
-				function(callback){
-					Spot.update({id: spot.id}, {champion: build.champion}, function(err, result){
-						if(err) {
-							callback(err);
-							return;
-						}
-						callback();
-					})
-				},
-				function(callback){
-					Build.update({id: build.id}, build, function(err, result){
-						if(err) {
-							console.log(err);
-							callback(err);
-							return;
-						}											
-						
-						callback();
-						
-					})
-				}
-			], function(err){
+			_.find(game.spots, function(sp){
+				if(sp.id === spot.id) sp = spot;
+			});
+
+			Game.update({id: game.id}, game, function(err, result){
 				if(err) {
-					callback(err)
+					callback(err);
 					return;
 				}
 				callback(null, build);
 			});
 		});
-			
-			
-		
-
-    },
+	},
 
     rollBuildsForGame : function(options, callback){
     	var self = this;
     	var game = options.game;
+    	var champions = options.champions;
 
     	if(typeof game === 'undefined' || game === null) {callback(new Error("The game was either null or undefined")); return;}   
     	if(typeof game.spots === 'undefined' || game.spots === null) {callback(new Error("The game has no spots")); return;}   
+    	if(typeof champions === 'undefined' || champions === null) {callback(new Error("The champions object is either null or undefined")); return;}   
 
-		options.champions = Object.keys(champions.data).map(function(k) {return champions.data[k]});
 
     	async.forEach(game.spots, function(spot, callback){
     		var tempOptions = options;
     		tempOptions.spotId = spot.id;
 
-    		self.rollBuild(tempOptions, function(err, result){
+    		self.rollBuildForGame(tempOptions, function(err, result){
     			if(err) {callback(err); return; }    			
     			options.champions.splice(result.randomIndex, 1);
     			callback();
@@ -99,7 +77,6 @@ module.exports = {
     getNonPickedChampions : function(game, champions){
     	// Get the champions that have already been rolled
     	var existingChampions = [];
-		var newChampions = Object.keys(champions.data).map(function(k) {return champions.data[k]});
 
 		_.forEach(game.spots, function(spot){
 					if(typeof spot.champion != 'undefined'){							
@@ -108,8 +85,8 @@ module.exports = {
 		});
 
 		//filter away the existing champions
-		newChampions = newChampions.filter(function(champion){return existingChampions.indexOf(champion.id) < 0});
+		champions = champions.filter(function(champion){return existingChampions.indexOf(champion.id) < 0});
 
-		return newChampions;
+		return champions;
     }
 }

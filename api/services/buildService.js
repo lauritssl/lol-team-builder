@@ -1,7 +1,7 @@
 var async = require("async");
 
 module.exports = {
-	rollBuild: function(currentMapId, spot,  items, summoners, champions, maps, callback){
+	rollBuild: function(currentMapId,  items, summoners, champions, maps, callback){
 
 	
 
@@ -38,7 +38,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollItems(currentMapId, items, maps, build.champion.id, function(result){
+				vm.rollItems(currentMapId, items, maps, build.champion, function(result){
 					build.items = result;
 					callback();
 				});
@@ -50,7 +50,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollSummoners(summoners, build['jungleItemEnchantment'], function(result){
+				vm.rollSummoners(summoners, build.jungleItemEnchantment, function(result){
 					build.summoners = result;
 					callback();
 				})
@@ -167,11 +167,10 @@ module.exports = {
 			itemBuild = rollNumberOfItems(5, items, jungleEnchantments, build);
 		}
 
-		for(var i = 1; i <= itembuild.length; i++){
-			var randomNumber = Math.floor(Math.random()*(itemBuild.length));
-			Build['item'+i] = itemBuild[randomNumber].id;
-			itemBuild.splice(randomNumber, 1);
-			}
+		_.shuffle(itemBuild);
+		_.forEach(itemBuild, function(itemId, key){
+			build['item'+(key+1)]  = itemId;
+		});
 
 		callback(build);
 
@@ -179,22 +178,25 @@ module.exports = {
 
 			var itemBuild = []
 
-			for(var i = 1; i <= number; i++){
+			for(var i = 0; i < number; i++){
 				var randomNumber = Math.floor(Math.random()*(items.length));
-				itemBuild[i-1] = items[randomNumber].id;
+				itemBuild[i] = items[randomNumber].id;
 				
 				if(items[randomNumber].group === "JungleItems"){
-					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, build["item" + i])}); 		
+					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, itemBuild[i])}); 		
 					var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
 					build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
 				};
 
-			if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") 
-				items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
-			else items.splice(randomNumber, 1);
-		}	
+				if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") {
+					items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
+				}
+				else {
+					items.splice(randomNumber, 1)
+				};
+			}	
 
-				return itemBuild;
+			return itemBuild;
 		}
 
 
@@ -219,7 +221,7 @@ module.exports = {
 		var randomNumber = 0;
 				
 		while (masteriesLeft > 0){
-			randomNumber =  Math.floor(Math.random()*(masteryArray.length))
+			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
 			tempMasteryArray[randomNumber] += 1;
 
 			masteriesLeft--;

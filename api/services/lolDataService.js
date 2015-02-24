@@ -19,7 +19,7 @@ module.exports = {
     		async.parallel([
 			function(callback){
 				self.getChampions(function(result){
-					champions = result;
+					champions = Object.keys(result.data).map(function(k) {return result.data[k]});
 					callback();
 				})
 			},
@@ -44,7 +44,6 @@ module.exports = {
 			], function(err){
 				if(err) callback(err);
 				var result = {
-					id : id,
 					items: items,
 					champions : champions,
 					summoners: summoners,
