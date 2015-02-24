@@ -16,7 +16,7 @@
 
 module.exports.passport = {
 
-  local: true
+  //local: true
 
   // twitter: {
   //   name: 'Twitter',

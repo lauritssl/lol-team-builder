@@ -245,7 +245,7 @@ rollBuilds : function(req, res){
 	var itemsReceived = 0
 
 	var buildRollOptions = {};
-	async.paralles([
+	async.parallel([
 		function(callback){
 			lolDataServie.getGameData(function(err, result){
 				if(err) callback(err);

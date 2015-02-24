@@ -1,9 +1,9 @@
 angular.module( 'ubteambuilder.gamelobby.controllers', [])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService) {
+ function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state) {
  	if(game.statusCode == 404){
  		$location.path('/home');
  	}
@@ -11,16 +11,23 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 
 
-
  	//initialize variables
    	var vm = this;
+
+   	//Set the user - or go to join game if the user is not in the lobby
+   	vm.currentUser = {};
+ 	vm.currentUser.id =  $cookieStore.get(game.id);
+	if(!vm.currentUser.id){
+		$state.go('game.join', {id: game.id});
+	}
+
+
 	vm.game = game;
 	vm.champions = champions;
 	vm.summoners = summoners;
 	vm.items = items;
 	console.log(game);
 	titleService.setTitle('Game');
-	vm.currentUser = Session.currentUser;
 
 	//Initialization function
 	vm.init = function(){

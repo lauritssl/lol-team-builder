@@ -17,9 +17,8 @@ module.exports = {
 		champion: {
 			type: 'string'
 		},
-
 		game: {
-			model: 'game'
+			model: 'game'			
 		}
   },
 

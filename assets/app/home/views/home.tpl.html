@@ -24,34 +24,6 @@
         </div>
         <div class="content-wrapper col-md-7" id="home-content">
            <div>
-               <h2>My games</h2>
-               <div class="games-list">                
-                   <div class="panel panel-default">
-                   <div class="panel-body">
-                   <div class="row">
-                    <div class="col-md-2"> TITLE</div>
-                    <div class="col-md-2"> CREATED</div>
-                    <div class="col-md-3"> OWNER</div>
-                    <div class="col-md-1"> SPOTS</div>
-                    <div class="col-md-2"> MAP</div>
-                    <div class="col-md-2"></div>
-                    </div>
-                   <div ng-repeat="game in home.currentUser.games" class="row">
-
-                     <div class="col-md-2"> <b>{{game.title}}</b></div>
-                     <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
-                     <div class="col-md-3"> {{game.user.username}}</div>
-                     <div class="col-md-1"> Coming soon <!-- {{game.spotsTaken}}/{{game.numberOfSpots}} --></div>
-                     <div class="col-md-2"> {{home.getMapName(game.map)}}</div>
-                     <div class="col-md-2">
-                     <button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button>
-                      <button class="btn btn-danger" ng-click="home.deleteGame(game)">D</button>
-                    </div>
-               </div>
-               </div>
-             </div>
-               </div>
-
                <h2>Games</h2>
                <div class="games-list">
                    <div class="panel panel-default">

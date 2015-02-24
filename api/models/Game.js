@@ -56,6 +56,8 @@ module.exports = {
 		// set message.user = to appropriate user model
 		Game.getOne(game.id)
 		.spread(function(currentGame){
+			currentGame.builds = [];
+			currentGame.spots = [];
 			async.parallel([
 				function(callback){
 					User.getOne(game.user)
