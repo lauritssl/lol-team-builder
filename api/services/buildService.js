@@ -245,15 +245,15 @@ module.exports = {
 		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1})
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
 
-		if (build['jungleItemEnchantment']){
-
-			build.summoner1 = 'SummonerSmite';
 			var i = summoners.length;
 			while( i-- ) {
  			   if( summoners[i].id === 'SummonerSmite') break;
 			}
-
 			summoners.splice(i, 1);
+
+		if (build['jungleItemEnchantment']){
+
+			build.summoner1 = 'SummonerSmite';
 			randomNumber = Math.floor(Math.random()*(summoners.length));
 			build.summoner2 = summoners[randomNumber].id;
 		}
