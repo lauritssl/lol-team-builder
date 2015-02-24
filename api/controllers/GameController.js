@@ -47,13 +47,22 @@ var generateGUID = function() {
  	},
 
  	create: function (req, res) {
+ 		var userDto = req.param('user');
+
+ 		var user = {};
+ 		user.id = generateGUID();
+ 		user.nickname = userDto.nickname;
+
  		var model = {
  			title: req.param('title'),
- 			user: generateGUID(),
+ 			user: user,
+ 			users: [user],
+ 			spots: [{id: 1}],
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
  		};
+
 
  		Game
  			.create(model)

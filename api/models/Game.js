@@ -19,7 +19,8 @@ module.exports = {
 			type : "array"
 		},
 		user: {
-			model: 'user'
+			type: "json",
+			required: true
 		},
 		numberOfSpots: {
 			type: 'integer',
@@ -34,7 +35,7 @@ module.exports = {
 			defaultsTo: false
 		},
 		spots: {
-			type : "json"
+			type : "array"
 		},
 		map: {
 			type: 'integer',
@@ -52,7 +53,6 @@ module.exports = {
 
 	getAll: function() {
 		return Game.find()
-		.populate('user')
 		.then(function (models) {
 			return [models];
 		});
@@ -60,7 +60,6 @@ module.exports = {
 
 	getOne: function(id) {
 		return Game.findOne(id)
-		.populate('user')
 		.then(function (model) {
 			return [model];
 		});
@@ -84,7 +83,6 @@ module.exports = {
 	},
 	removeUserFromAllSpots: function(id, userId){
 		return Game.findOne(id)
-		.populate('spots')
 		.then(function (game) {
 			for(var key in game.spots){
 				if(game.spots[key].user == userId){
@@ -98,7 +96,6 @@ module.exports = {
 
 
 		Game.findOne(id)
-		.populate('spots')
 		.populate('builds')
 		.exec(function(err, game){
 			if (err) {
@@ -199,7 +196,6 @@ module.exports = {
 rollBuilds : function(id, items, champions, summoners, maps) {
 
 	Game.findOne(id)
-	.populate('spots')
 	.populate('builds')
 	.exec(function(err, game) {
 		if (err) {

@@ -11,6 +11,8 @@ function CreateGameCtrl(GameModel, Session, $location, ChampionService, $cookieS
 
 
 	vm.createGame = function(game) {
+		game.user = {};
+		game.user.nickname = "Aleksander";
 		GameModel.create(game).then(function(model) {
 			$cookieStore.put(model.id, model.user);
 			$location.path("/games/"+model.id);

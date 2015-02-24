@@ -14,8 +14,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
   var vm = this;
 
   //Set the user - or go to join game if the user is not in the lobby
-  vm.currentUser = {};
- 	vm.currentUser.id =  $cookieStore.get(game.id);
+ 	vm.currentUser =  $cookieStore.get(game.id);
 	if(!vm.currentUser.id){
 		$state.go('game.join', {id: game.id});
 	}
@@ -100,7 +99,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 	};
 	vm.userOwnsGame = function (){
-		if(vm.game.user.id == vm.currentUser.id)	return true
+		if(vm.game.user.id === vm.currentUser.id) return true;
 			return false;
 	}
 
