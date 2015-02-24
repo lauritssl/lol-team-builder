@@ -1,81 +1,6 @@
-
-
-var request = require("request");
 var async = require("async");
 
 module.exports = {
-	
-
-	apiKey : "9b6c3016-6c52-4c6f-9deb-8d5fcfbf0fde",
-    lolBasePath : "https://global.api.pvp.net",
-    staticPath : "/api/lol/static-data/euw/v1.2",   
-    cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
-    cdnVersion: "5.2.2", 
-    localization: "en_GB",
-
-	getChampions: function(callback) {
-		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/champion.json";
-		var champions = [];
-		request({
-			url: url,
-			json: true
-		}, function(error, response, body){
-
-			if (!error && response.statusCode === 200) {
-				 
-				 callback(body);
-			}
-		});
-	},
-	getItems: function(callback){
-		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/item.json";
-		request({
-			url: url,
-			json: true
-		}, function(error, response, body){
-
-			if (!error && response.statusCode === 200) {
-				 callback(body);
-			}
-		});
-	},
-	getSummoners: function(callback){
-		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/summoner.json";
-		request({
-			url: url,
-			json: true
-		}, function(error, response, body){
-
-			if (!error && response.statusCode === 200) {
-				 callback(body);
-			}
-		});
-	},
-	getMaps: function(callback){
-		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/map.json";
-		request({
-			url: url,
-			json: true
-		}, function(error, response, body){
-
-			if (!error && response.statusCode === 200) {
-				 callback(body);
-			}
-		});
-	},
-	getVersion: function(callback){
-		var url = this.lolBasePath +this.staticPath + "/versions";
-		request({
-			url: url,
-			json: true,
-			qs:  {api_key: this.apiKey}
-		}, function(error, response, body){
-
-			if (!error && response.statusCode === 200) {
-				 callback(body);
-			}
-		});
-	},
 	rollBuild: function(currentMapId, spot,  items, summoners, champions, maps, callback){
 
 	
@@ -136,7 +61,26 @@ module.exports = {
 					callback();
 				})
 			}], function(err){
-				callback(build);
+
+				var buildDto = {
+								champion: build.champion,
+								randomIndex: build.randomIndex,
+								boots: build.boots.boots,
+								bootsEnchantment: build.boots.bootsEnchantment, 
+								item1: build.items.item1,
+								item2: build.items.item2,
+								item3: build.items.item3,
+								item4: build.items.item4,
+								item5: build.items.item5,
+								jungleItemEnchantment: build.items.jungleItemEnchantment,
+								mastery1: build.masteries.mastery1,
+								mastery2: build.masteries.mastery2,
+								mastery3: build.masteries.mastery3,
+								summoner1: build.summoners.summoner1,									
+								summoner2: build.summoners.summoner2,
+								skill_to_level: build.skill_to_level
+				};
+				callback(buildDto);
 			});
 		// vm.rollBoots(build, items, groups, function(result1){
 		// 	vm.rollItems(result1, items, function(result2){
@@ -289,4 +233,3 @@ module.exports = {
 		callback(build);
 	}
 }
-

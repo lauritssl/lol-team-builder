@@ -238,7 +238,7 @@ module.exports = {
 
 							], function(err){
 								if(err) callback(err)
-									Game.republishGame(game.id);
+								else {Game.republishGame(game.id); }
 							})
 
 					});		

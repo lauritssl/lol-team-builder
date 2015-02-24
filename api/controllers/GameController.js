@@ -213,7 +213,7 @@ removeUserFromSpot: function(req, res) {
 destroyUser: function (req, res) {
 	var userId = req.param('user');
 	var id = req.param('id');
-	console.log("started deleting user");
+
 	Game.findOne(id).
 	populate("spots").
 	exec(function(err, game){
@@ -241,82 +241,91 @@ destroyUser: function (req, res) {
 },
 
 rollBuilds : function(req, res){
-	var id = req.param('id');
-	var itemsReceived = 0;
+	var id = req.param('id')
+	var itemsReceived = 0
 
-	var champions, items, summoners, maps = {}
-	lolService.getVersion(function(result){
-		lolService.cdnVersion = result[0];
-		async.parallel([
-			function(callback){
-				lolService.getChampions(function(result){
-					champions = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getItems(function(result){
-					items = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getSummoners(function(result){
-					summoners = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getMaps(function(result){
-					maps = result;
-					callback();
-				})
-			}
-			], function(err){
-				Game.rollBuilds(id, items, champions, summoners, maps);
-			});		
+	var buildRollOptions = {};
+	async.paralles([
+		function(callback){
+			lolDataServie.getGameData(function(err, result){
+				if(err) callback(err);
+				else{
+					buildRollOptions.items = result.items;
+					buildRollOptions.champions = result.champions;
+					buildRollOptions.summoners = result.summoners;
+					buildRollOptions.maps = result.maps;
 
-	})
+					callback();
+				}
+			});	
+		}, 
+		function(callback){
+			Game.getOne(req.param('id'))
+ 			.spread(function(model) {
+ 				buildRollOptions.game = model;
+ 				callback();
+ 			})
+ 			.fail(function(err) {
+ 				callback(err);
+ 			});
+		}
+		], function(err){
+			if(err) return res.serverError(err);
+			
+			gameService.rollBuildsForGame(buildRollOptions, function(err, result){
+				if (err) {
+					return res.serverError(err);
+				}
+
+				Game.republishGame(id);
+			});
+	});
+
+	
 },
 
 rerollBuild: function(req, res) {
-	var id = req.param('id');
-	var spotId = req.param('spotId');
+	var id = req.param('id')
+	var spotId = req.param('spotId')
 
-	var champions, items, summoners, maps = {}
-	var existingChampions = [];
-	lolService.getVersion(function(result){
-		lolService.cdnVersion = result[0];
-		async.parallel([
-			function(callback){
-				lolService.getChampions(function(result){
-					champions = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getItems(function(result){
-					items = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getSummoners(function(result){
-					summoners = result;
-					callback();
-				})
-			},
-			function(callback){
-				lolService.getMaps(function(result){
-					maps = result;
-					callback();
-				})
-			}
-			], function(err){
-				Game.rollBuild(id, spotId, items, champions, summoners, maps);
-			});		
 
-	})
+	var buildRollOptions = {};
+	buildRollOptions.spotId = spotId;
+	async.paralles([
+		function(callback){
+			lolDataServie.getGameData(function(err, result){
+				if(err) callback(err);
+				else{
+					buildRollOptions.items = result.items;
+					buildRollOptions.champions = result.champions;
+					buildRollOptions.summoners = result.summoners;
+					buildRollOptions.maps = result.maps;
+
+					callback();
+				}
+			});	
+		}, 
+		function(callback){
+			Game.getOne(req.param('id'))
+ 			.spread(function(model) {
+ 				buildRollOptions.game = model;
+ 				callback();
+ 			})
+ 			.fail(function(err) {
+ 				callback(err);
+ 			});
+		}
+		], function(err){
+			if(err) return res.serverError(err);
+			
+			gameService.rollBuildForGame(buildRollOptions, function(err, result){
+				if (err) {
+					return res.serverError(err);
+				}
+
+				Game.republishGame(id);
+			});
+	});
 },
 
 resetBuilds: function(req, res) {
