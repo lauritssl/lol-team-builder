@@ -38,7 +38,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollItems(currentMapId, items, maps, function(result){
+				vm.rollItems(currentMapId, items, maps, build.champion.id, function(result){
 					build.items = result;
 					callback();
 				});
@@ -50,7 +50,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollSummoners(summoners, function(result){
+				vm.rollSummoners(summoners, build['jungleItemEnchantment'], function(result){
 					build.summoners = result;
 					callback();
 				})
@@ -124,7 +124,7 @@ module.exports = {
 		
 		callback(build);
 	},
-	rollItems: function(currentMapId, items, maps, callback){
+	rollItems: function(currentMapId, items, maps, championID, callback){
 		var build = {};
 
 
@@ -143,8 +143,6 @@ module.exports = {
 		var items = items.filter(function(item){return item.into.length === 0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0  && item.name.indexOf("Wrig") < 0});
 		
 		
-
-
 		items = items.filter(function(item) {
 				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  && item.group.indexOf("JungleItems") < 0  || typeof item.group == 'undefined';
 		});
@@ -156,23 +154,49 @@ module.exports = {
 			return !_.contains(maps[currentMapId].UnpurchasableItemList, item.id);
 		});
 
-		
+		var itemBuild = [];
 
+		//special case for viktor so he gets his hexcore 
+		if (championID === 'Viktor') {
 
+			itemBuild = rollNumberOfItems(4, items, jungleEnchantments, build);
+			itemBuild[itemBuild.length] = items[3198].id;
+		}
 
-		for(var i = 1; i <= 5; i++){
-			var randomNumber = Math.floor(Math.random()*(items.length));
-			build["item" + i] = items[randomNumber].id;
-			if(items[randomNumber].group === "JungleItems"){
-				jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, build["item" + i])}); 		
-				var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
-				build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
-			};
-			if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
-			else items.splice(randomNumber, 1);
-		}		
+		else {
+			itemBuild = rollNumberOfItems(5, items, jungleEnchantments, build);
+		}
+
+		for(var i = 1; i <= itembuild.length; i++){
+			var randomNumber = Math.floor(Math.random()*(itemBuild.length));
+			Build['item'+i] = itemBuild[randomNumber].id;
+			itemBuild.splice(randomNumber, 1);
+			}
 
 		callback(build);
+
+		function rollNumberOfItems(number, items, jungleEnchantments, build) {
+
+			var itemBuild = []
+
+			for(var i = 1; i <= number; i++){
+				var randomNumber = Math.floor(Math.random()*(items.length));
+				itemBuild[i-1] = items[randomNumber].id;
+				
+				if(items[randomNumber].group === "JungleItems"){
+					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, build["item" + i])}); 		
+					var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
+					build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
+				};
+
+			if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") 
+				items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
+			else items.splice(randomNumber, 1);
+		}	
+
+				return itemBuild;
+		}
+
 
 
 		function removeSingleTypeItemsIfTaken(item, items){
@@ -240,7 +264,7 @@ module.exports = {
 		callback(build);
 	},
 
-	rollSummoners: function(summoners, callback){
+	rollSummoners: function(summoners, jungleItem, callback){
 		var build = {};
 		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1})
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
@@ -251,7 +275,7 @@ module.exports = {
 			}
 			summoners.splice(i, 1);
 
-		if (build['jungleItemEnchantment']){
+		if (jungleItem){
 
 			build.summoner1 = 'SummonerSmite';
 			randomNumber = Math.floor(Math.random()*(summoners.length));
