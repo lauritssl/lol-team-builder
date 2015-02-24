@@ -1,9 +1,9 @@
 angular.module('ubteambuilder.createGame.controllers', []).controller('CreateGameCtrl', CreateGameCtrl);
 
 
-CreateGameCtrl.$inject =  ["GameModel", "Session", "$location", "ChampionService"]
+CreateGameCtrl.$inject =  ["GameModel", "Session", "$location", "ChampionService", '$cookieStore']
 
-function CreateGameCtrl(GameModel, Session, $location, ChampionService){
+function CreateGameCtrl(GameModel, Session, $location, ChampionService, $cookieStore){
 	var vm = this;
 	vm.game = {};
 	vm.game.numberOfSpots = 10;
@@ -11,8 +11,8 @@ function CreateGameCtrl(GameModel, Session, $location, ChampionService){
 
 
 	vm.createGame = function(game) {
-		game.user = Session.currentUser.id;
 		GameModel.create(game).then(function(model) {
+			cookieStore.put(model.id, model.user);
 			$location.path("/games/"+model.id);
 		});
 	};

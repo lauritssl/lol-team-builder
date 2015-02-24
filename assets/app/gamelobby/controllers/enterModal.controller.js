@@ -5,9 +5,9 @@ angular.module('ubteambuilder.gamelobby.modals',[])
 
 
 
-EnterModalCtrl.$inject = ["$scope", 'GameModel'];
+EnterModalCtrl.$inject = ["$scope", 'GameModel', 'gameId'];
 
- function EnterModalCtrl($scope, GameModel) {
+ function EnterModalCtrl($scope, GameModel, gameId) {
  	var vm = this;
 
 
