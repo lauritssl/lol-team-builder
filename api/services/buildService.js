@@ -176,14 +176,9 @@ module.exports = {
 
 
 		function removeSingleTypeItemsIfTaken(item, items){
-			if(item.group == "JungleItems"){
+			if(item.group == "JungleItems"||item.group == "GoldBase"){
 				 items = _.filter(items, function(i){
 					return (typeof i.group !== 'undefined' && i.group.indexOf("JungleItems") < 0 && i.group.indexOf("GoldBase") < 0) || typeof i.group === 'undefined';
-				})
-			}
-			if(item.group == "GoldBase"){
-				items = _.filter(items, function(i){
-					return (typeof i.group !== 'undefined' && i.group.indexOf("GoldBase") < 0 && i.group.indexOf("JungleItems") <0) || typeof i.group === 'undefined';
 				})
 			}
 			return items;
@@ -192,22 +187,55 @@ module.exports = {
 
 
 	rollMasteries: function(callback){
+		//Roll the masteries on a point by point basis and add them to the build
 		var build = {}; 
 
-		var totalMasteries = 30;
-		var masteryArray = ["1", "2", "3"];
+		var masteriesLeft = 30;
+		var tempMasteryArray = [0,0,0];
+		var randomNumber = 0;
+				
+		while (masteriesLeft > 0){
+			randomNumber =  Math.floor(Math.random()*(masteryArray.length))
+			tempMasteryArray[randomNumber] += 1;
 
-		var randomNumber =  Math.floor(Math.random()*(masteryArray.length));
-		build["mastery"+masteryArray[randomNumber]] = Math.floor(Math.random()*(totalMasteries));
-		totalMasteries -= build["mastery"+masteryArray[randomNumber]];
-		masteryArray.splice(randomNumber, 1);
+			masteriesLeft--;
+		};
 
-		randomNumber =  Math.floor(Math.random()*(masteryArray.length));
-		build["mastery"+masteryArray[randomNumber]] = Math.floor(Math.random()*(totalMasteries));
-		totalMasteries -= build["mastery"+masteryArray[randomNumber]];
-		masteryArray.splice(randomNumber, 1);
+		for (i = 0 ; i < tempMasteryArray.length; i++) {
+			build["mastery"+(i+1)] = tempMasteryArray[i];			
+		}
 
-		build["mastery"+masteryArray[0]] =  totalMasteries;
+
+		callback(build);
+	},
+
+	rollMasteriesByNumber: function(number,callback){
+		//Roll masteries in blocks of 'number' until less than 'number' is left. Then roll the remainder on a point by point basis
+		var build = {}; 
+
+
+		var masteriesLeft = 30;
+		var tempMasteryArray = [0,0,0];
+		var randomNumber = 0;
+				
+		while (masteriesLeft >= number){
+			randomNumber =  Math.floor(Math.random()*(masteryArray.length))
+			tempMasteryArray[randomNumber] += 1;
+
+			masteriesLeft -= number;
+		};
+
+		while (masteriesLeft > 0){
+			randomNumber =  Math.floor(Math.random()*(masteryArray.length))
+			tempMasteryArray[randomNumber] += 1;
+
+			masteriesLeft -= 1;
+		};
+
+
+		for (i = 0 ; i < tempMasteryArray.length; i++) {
+			build["mastery"+(i+1)] = tempMasteryArray[i];			
+		}
 
 		callback(build);
 	},
@@ -217,10 +245,25 @@ module.exports = {
 		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1})
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
 
-		build.summoner1 = summoners[randomNumber].id;
-		summoners.splice(randomNumber, 1);
-		randomNumber = Math.floor(Math.random()*(summoners.length));
-		build.summoner2 = summoners[randomNumber].id;
+			var i = summoners.length;
+			while( i-- ) {
+ 			   if( summoners[i].id === 'SummonerSmite') break;
+			}
+			summoners.splice(i, 1);
+
+		if (build['jungleItemEnchantment']){
+
+			build.summoner1 = 'SummonerSmite';
+			randomNumber = Math.floor(Math.random()*(summoners.length));
+			build.summoner2 = summoners[randomNumber].id;
+		}
+		else {
+			build.summoner1 = summoners[randomNumber].id;
+			summoners.splice(randomNumber, 1);
+			randomNumber = Math.floor(Math.random()*(summoners.length));
+			build.summoner2 = summoners[randomNumber].id;
+		}
+
 
 		callback(build);
 	},
