@@ -57,7 +57,7 @@ module.exports = {
  			title: req.param('title'),
  			user: user,
  			users: [],
- 			spots: [],
+ 			spots: [{id: 1}],
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
