@@ -46,7 +46,7 @@ angular.module( 'ubteambuilder.gamelobby', [
 	            templateUrl: 'gamelobby/views/enterModal.tpl.html',
 	            controller: 'EnterModalCtrl as modalCtrl',
 	            resolve: {
-	            	gameId: $stateParams.id
+	            	gameId: function(){ return $stateParams.id;}
 	            }
 	        }).result.then(function(result) {
 	            if (result) {
