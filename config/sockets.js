@@ -12,31 +12,10 @@
 
 module.exports.sockets = {
 
-  /***************************************************************************
-  *                                                                          *
-  * This custom onConnect function will be run each time AFTER a new socket  *
-  * connects (To control whether a socket is allowed to connect, check out   *
-  * `authorization` config.) Keep in mind that Sails' RESTful simulation for *
-  * sockets mixes in socket.io events for your routes and blueprints         *
-  * automatically.                                                           *
-  *                                                                          *
-  ***************************************************************************/
-  onConnect: function(session, socket) {
 
-    // By default, do nothing.
-
-  },
-
-
-  /***************************************************************************
-  *                                                                          *
-  * This custom onDisconnect function will be run each time a socket         *
-  * disconnects                                                              *
-  *                                                                          *
-  ***************************************************************************/
-  onDisconnect: function(session, socket) {
-
-    // By default: do nothing.
+  afterDisconnect: function (session, socket, cb) {
+    // Be sure to call the callback
+    return cb();
   },
 
 
@@ -146,8 +125,6 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  authorization: true,
-
   // Match string representing the origins that are allowed to connect to the Socket.IO server
   // Should we use heartbeats to check the health of Socket.IO connections?
   heartbeats: true,
@@ -171,24 +148,24 @@ module.exports.sockets = {
   // Enable the flash policy server if the flashsocket transport is enabled
   // 'flash policy server': true,
 
-  // By default the Socket.IO client will check port 10843 on your server 
+  // By default the Socket.IO client will check port 10843 on your server
   // to see if flashsocket connections are allowed.
-  // The Adobe Flash Player normally uses 843 as default port, 
+  // The Adobe Flash Player normally uses 843 as default port,
   // but Socket.io defaults to a non root port (10843) by default
   //
   // If you are using a hosting provider that doesn't allow you to start servers
-  // other than on port 80 or the provided port, and you still want to support flashsockets 
+  // other than on port 80 or the provided port, and you still want to support flashsockets
   // you can set the `flash policy port` to -1
   'flash policy port': 10843,
 
-  // Used by the HTTP transports. The Socket.IO server buffers HTTP request bodies up to this limit. 
+  // Used by the HTTP transports. The Socket.IO server buffers HTTP request bodies up to this limit.
   // This limit is not applied to websocket or flashsockets.
   'destroy buffer size': '10E7',
 
   // Do we need to destroy non-socket.io upgrade requests?
   'destroy upgrade': true,
 
-  // Should Sails/Socket.io serve the `socket.io.js` client? 
+  // Should Sails/Socket.io serve the `socket.io.js` client?
   // (as well as WebSocketMain.swf for Flash sockets, etc.)
   'browser client': true,
 
@@ -202,23 +179,23 @@ module.exports.sockets = {
   // Does Socket.IO need to send an ETag header for the static requests?
   'browser client etag': false,
 
-  // Adds a Cache-Control: private, x-gzip-ok="", max-age=31536000 header to static requests, 
+  // Adds a Cache-Control: private, x-gzip-ok="", max-age=31536000 header to static requests,
   // but only if the file is requested with a version number like /socket.io/socket.io.v0.9.9.js.
   'browser client expires': 315360000,
 
   // Does Socket.IO need to GZIP the static files?
-  // This process is only done once and the computed output is stored in memory. 
+  // This process is only done once and the computed output is stored in memory.
   // So we don't have to spawn a gzip process for each request.
   'browser client gzip': false,
 
-  // Optional override function to serve all static files, 
+  // Optional override function to serve all static files,
   // including socket.io.js et al.
   // Of the form :: function (req, res) { /* serve files */ }
   'browser client handler': false,
 
-  // Meant to be used when running socket.io behind a proxy. 
-  // Should be set to true when you want the location handshake to match the protocol of the origin. 
-  // This fixes issues with terminating the SSL in front of Node 
+  // Meant to be used when running socket.io behind a proxy.
+  // Should be set to true when you want the location handshake to match the protocol of the origin.
+  // This fixes issues with terminating the SSL in front of Node
   // and forcing location to think it's wss instead of ws.
   'match origin protocol': false,
 
@@ -243,7 +220,7 @@ module.exports.sockets = {
   // (`undefined` indicates use default)
   'static': undefined,
 
-  // The entry point where Socket.IO starts looking for incoming connections. 
+  // The entry point where Socket.IO starts looking for incoming connections.
   // This should be the same between the client and the server.
   resource: '/socket.io'
 
