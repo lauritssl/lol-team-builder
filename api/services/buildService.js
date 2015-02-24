@@ -156,6 +156,7 @@ module.exports = {
 
 		var itemBuild = [];
 
+		//special case for viktor so he gets his hexcore 
 		if (championID === 'Viktor') {
 
 			itemBuild = rollNumberOfItems(4, items, jungleEnchantments, build);
@@ -166,7 +167,7 @@ module.exports = {
 			itemBuild = rollNumberOfItems(5, items, jungleEnchantments, build);
 		}
 
-		for(var i = 1; i <= number; i++){
+		for(var i = 1; i <= itembuild.length; i++){
 			var randomNumber = Math.floor(Math.random()*(itemBuild.length));
 			Build['item'+i] = itemBuild[randomNumber].id;
 			itemBuild.splice(randomNumber, 1);
@@ -192,7 +193,7 @@ module.exports = {
 				items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
 			else items.splice(randomNumber, 1);
 		}	
-			
+
 				return itemBuild;
 		}
 
