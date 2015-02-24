@@ -5,25 +5,26 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
  function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state) {
 
- 	if(game.statusCode == 404){
- 		$location.path('/home');
+ 	if(game.statusCode === 404){
+ 		return $state.go('home');
  	}
-
-
  	//initialize variables
   var vm = this;
 
   //Set the user - or go to join game if the user is not in the lobby
  	vm.currentUser =  $cookieStore.get(game.id);
-	if(!vm.currentUser.id){
+
+
+	if( vm.currentUser === undefined || vm.currentUser.id === undefined){
 		$state.go('game.join', {id: game.id});
+		return;
 	}
 
 	vm.game = game;
 	vm.champions = champions;
 	vm.summoners = summoners;
 	vm.items = items;
-	console.log(game);
+
 	titleService.setTitle('Game');
 
 	//Initialization function
@@ -34,7 +35,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	//add listeners
 	$rootScope.$on("$locationChangeStart", function (event, current) {
 		vm.leaveGame(vm.game);
-    });
+  });
 
 	$sails.on('game', function (envelope) {
 		switch(envelope.verb) {
@@ -42,7 +43,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 				vm.games.unshift(envelope.data);
 				break;
 			case 'updated':
-				console.log(envelope.data);
+				//console.log(envelope.data);
 				vm.game = envelope.data;
 				break;
 			case 'destroyed':
@@ -60,36 +61,33 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 
 		return lodash.contains(users, vm.currentUser.username);
-	}
-	vm.createGame = function(newGame) {
-		newGame.user = Session.currentUser.id;
-		GameModel.create(newGame).then(function(model) {
+	};
 
+	vm.createGame = function(newGame) {
+		newGame.user = vm.currentUser.id;
+		GameModel.create(newGame).then(function(model) {
 			vm.newGame = {};
 		});
 	};
 
 	vm.joinGame = function(game){
-		GameModel.addUser(vm.game.id, vm.currentUser.id).then(function(model){
-		});
-
-	},
+		GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){});
+	};
 
 	vm.joinSpot = function(game, spot){
 		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id).then(function(model){
 		});
-
-	},
+	};
 
 	vm.removeUserFromSpot = function(gameId, userId, spotId){
 		GameModel.removeUserFromSpot(gameId, userId, spotId).then(function(model){
 		});
+	};
 
-	},
 	vm.leaveGame = function(game){
-		GameModel.removeUser(game.id, vm.currentUser.id).then(function(model){
-		})
-	}
+		GameModel.removeUser(game.id, vm.currentUser).then(function(model){});
+	};
+
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
 		if (game.user.id == Session.currentUser.id) {
@@ -98,10 +96,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			});
 		}
 	};
+
 	vm.userOwnsGame = function (){
 		if(vm.game.user.id === vm.currentUser.id) return true;
 			return false;
-	}
+	};
 
 	vm.getUserFromGame = function(game, userId){
 		var gameUser = {};
@@ -111,7 +110,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			}
 		});
 		return gameUser;
-	}
+	};
 
 	vm.getBuildFromGame = function(game, buildId){
 		var gameBuild = {};
@@ -121,37 +120,36 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			}
 		});
 		return gameBuild;
-	}
+	};
 
 	vm.rollBuilds = function(game) {
 		console.log("I don't get called");
 		GameModel.rollBuilds(game.id).then(function(model) {
 				// message has been deleted, and removed from vm.messages
-			});;
-	}
+			});
+	};
 
 	vm.getChampionImage = function(championImageId){
 		return ChampionService.getChampionImage(championImageId);
-	}
+	};
 
 	vm.getItemImageFromBuild = function(build, type){
 		var build = vm.getBuildFromGame(vm.game, build);
 
 		return ChampionService.getItemImage(vm.items[build[type]].image.full);
-	}
+	};
 
 	vm.getSummonerImageFromBuild = function(build, type){
 		var build = vm.getBuildFromGame(vm.game, build);
 
 		return ChampionService.getSummonerImage(vm.summoners[build[type]].image.full);
-	}
+	};
 
 	vm.getChampionSkillImageFromBuild = function(build, champion){
-
 		var spell = vm.getSkillFromChampion(build, champion);
 
 		return ChampionService.getAbilityImage(champion, spell.image.full);
-	}
+	};
 
 	vm.getItemFromBuild = function(build, type) {
 		var build = vm.getBuildFromGame(vm.game, build);
@@ -160,9 +158,9 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			item = angular.copy(vm.items[build.jungleItemEnchantment]);
 			var name = vm.items[build[type]].name + " with " + item.name;
 			item.name = name;
-	}
+		}
 		return item;
-	}
+	};
 
 	vm.getSkillFromChampion = function(buildId, champion) {
 		var build = vm.getBuildFromGame(vm.game, buildId);
@@ -182,12 +180,12 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 
 		return vm.champions[champion].spells[index];
-	}
+	};
 
 	vm.isUserInSpot = function(spot){
 		if(typeof spot.user == 'undefined' || spot.user == null) return false;
 		return true;
-	}
+	};
 
 	vm.rerollSpot = function(id, spotId){
 		if (vm.game.user.id == Session.currentUser.id) {
@@ -202,42 +200,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.resetBuilds = function(gameId) {
-		GameModel.resetBuilds(gameId).then(function(result){
-
-		});
-	}
+		GameModel.resetBuilds(gameId).then(function(result){});
+	};
 
 	vm.getColWidth = function(game) {
 		var colWidth = "col-lg-" +Math.floor(12/(game.numberOfSpots/2));
 
 		if(colWidth == "col-lg-2") colWidth = "player_shield_regulator";
 		return colWidth;
-	}
-
-	vm.divideSpots = function(spots){
-		var result = [[],[]];
-
-		if(spots !== undefined){
-			var spotLength = Object.keys(spots).length;
-			var splitSize  = Math.floor(spotLength/2);
-
-			var c = 0;
-			var _index = 0;
-
-			for(var key in spots){
-				if( spots.hasOwnProperty(key) ){
-
-					result[_index].push( spots[key] );
-
-					c++;
-				}
-				if(c === splitSize)
-					_index++;
-			}
-		}
-
-		return result;
-	}
+	};
 
 	vm.init();
 

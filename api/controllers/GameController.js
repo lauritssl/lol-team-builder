@@ -17,7 +17,7 @@ var generateGUID = function() {
     s4() + '-' + s4() + s4() + s4();
 }
 
- module.exports = {
+module.exports = {
  	getAll: function(req, res) {
  		Game.getAll()
  		.spread(function(models) {
@@ -56,8 +56,8 @@ var generateGUID = function() {
  		var model = {
  			title: req.param('title'),
  			user: user,
- 			users: [user],
- 			spots: [{id: 1}],
+ 			users: [],
+ 			spots: [],
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
@@ -111,7 +111,7 @@ var generateGUID = function() {
 		var user = req.param('user');
 		var id = req.param('id');
 
-		if( user.id !== undefined ){
+		if( user.id === undefined ){
 			// Generate GUID for the user.
 			user.id = generateGUID();
 		}
@@ -122,14 +122,23 @@ var generateGUID = function() {
 				if (err) {
 					return res.serverError(err);
 				} else if(typeof game != 'undefined'){
-					game.spots = game.spots || {};
+					game.spots = game.spots || [];
 					game.users = game.users || [];
 
-					game.users.push(user);
+					// User already exists
+					var userExists = _.filter(game.users, function(_user){
+						return _user.id === user.id;
+					});
+
+					if( userExists.length === 0 ){
+						game.users.push({
+							id: user.id,
+							nickname : user.nickname
+						});
+					}
 
 					// Create a spot for the user
-					var currentNumberOfSpots = Object.keys(game.spots).length;
-					game.spots[currentNumberOfSpots] = {};
+					game.spots.push({});
 
 					game.save(function(err, result){
 						if(err){
@@ -166,7 +175,7 @@ var generateGUID = function() {
 								fakeErr.break = true;
 								return callback(fakeErr);
 
-							}else{								
+							}else{
 								spot = result;
 								callback();
 							}
@@ -198,7 +207,7 @@ var generateGUID = function() {
 										}
 
 
-									})	
+									})
 
 
 }
@@ -235,33 +244,42 @@ removeUserFromSpot: function(req, res) {
 
 },
 destroyUser: function (req, res) {
-	var userId = req.param('user');
+	var user = req.param('user');
 	var id = req.param('id');
 
-	Game.findOne(id).
-	populate("spots").
-	exec(function(err, game){
-		if (err) {
-			return res.serverError(err);
-		}
-		else if(typeof game != 'undefined'){
-			Spot.update({user: userId}, {user: null}, function(err, model){
-				var users = game.spots.filter(function(spot) {	
-					if(typeof spot.user != 'undefined' && spot.user != null) return spot.user.id == userId;
-				});
-				if(users.indexOf(userId) > -1) game.spotsTaken -= 1;
-				game.users.remove(userId)
+
+	Game
+		.findOne(id)
+		.exec(function(err, game){
+			if (err) {
+				return res.serverError(err);
+			} else if(typeof game != 'undefined'){
+
+				// Free spot
+				var userIndex = game.spots.indexOf(user);
+				if( userIndex > -1 ){
+					game.spots.splice(userIndex, 1);
+				}
+
+				// Remove user
+				var userIndex = _.map(game.users, function(_user){
+					return _user.id;
+				}).indexOf(user.id);
+
+				if(userIndex > -1){
+					game.users.splice(userIndex, 1);
+				}
+
+				game.spotsTaken -= 1;
+
 				game.save(function(err, result){
-					console.log(result);
+					//console.log(result);
 					Game.republishGame(game.id);
 				});
+
 				return game;
-			});
-
-		}
-
-
-	});
+			}
+		});
 },
 
 rollBuilds : function(req, res){
@@ -281,8 +299,8 @@ rollBuilds : function(req, res){
 
 					callback();
 				}
-			});	
-		}, 
+			});
+		},
 		function(callback){
 			Game.getOne(req.param('id'))
  			.spread(function(model) {
@@ -295,7 +313,7 @@ rollBuilds : function(req, res){
 		}
 		], function(err){
 			if(err) return res.serverError(err);
-			
+
 			gameService.rollBuildsForGame(buildRollOptions, function(err, result){
 				if (err) {
 					return res.serverError(err);
@@ -305,7 +323,7 @@ rollBuilds : function(req, res){
 			});
 	});
 
-	
+
 },
 
 rerollBuild: function(req, res) {
@@ -327,8 +345,8 @@ rerollBuild: function(req, res) {
 
 					callback();
 				}
-			});	
-		}, 
+			});
+		},
 		function(callback){
 			Game.getOne(req.param('id'))
  			.spread(function(model) {
@@ -341,7 +359,7 @@ rerollBuild: function(req, res) {
 		}
 		], function(err){
 			if(err) return res.serverError(err);
-			
+
 			gameService.rollBuildForGame(buildRollOptions, function(err, result){
 				if (err) {
 					return res.serverError(err);
@@ -371,7 +389,7 @@ resetBuilds: function(req, res) {
 				function(callback) {
 					Build.update({game: game.id}, {
 						boots: null,
-						bootsEnchantment: null, 
+						bootsEnchantment: null,
 						item1: null,
 						item2: null,
 						item3: null,
@@ -380,7 +398,7 @@ resetBuilds: function(req, res) {
 						mastery1: null,
 						mastery2: null,
 						mastery3: null,
-						summoner1: null,									
+						summoner1: null,
 						summoner2: null,
 						skill_to_level: null}, function(err, spot){
 							if(err)callback(err);
@@ -399,7 +417,7 @@ resetBuilds: function(req, res) {
 							Game.republishGame(game.id);
 						}
 					})
-					
+
 				})
 
 

@@ -5,57 +5,54 @@ angular.module( 'ubteambuilder.gamelobby', [
      ])
 .config(["$stateProvider",function ($stateProvider){
 
-	$stateProvider    
+$stateProvider
 	.state( 'game', {
 		url: '/games/:id',
 		views: {
 			"main": {
 				controller: 'GameLobbyCtrl',
 				templateUrl: 'gamelobby/views/gamelobby.tpl.html',
-				controllerAs: 'gameLobby',	
+				controllerAs: 'gameLobby',
 				resolve: {
-
-				game: ["GameModel", "$stateParams", function(GameModel, $stateParams){
-					return GameModel.getOne($stateParams.id);
-				}],
-				champions: ["ChampionService", function(ChampionService){
-					return ChampionService.getChampions();
-				}],
-				items: ["ChampionService", function(ChampionService){
-					return ChampionService.getItems();
-				}],
-				summoners: ["ChampionService", function(ChampionService){
-					return ChampionService.getSummoners();
-				}]
-				}			
+					game: ["GameModel", "$stateParams", function(GameModel, $stateParams){
+						return GameModel.getOne($stateParams.id);
+					}],
+					champions: ["ChampionService", function(ChampionService){
+						return ChampionService.getChampions();
+					}],
+					items: ["ChampionService", function(ChampionService){
+						return ChampionService.getItems();
+					}],
+					summoners: ["ChampionService", function(ChampionService){
+						return ChampionService.getSummoners();
+					}]
+				}
 			}
-		}	
+		}
 	})
 	.state('game.join', {
 		url: '/join',
-		template: "<div> TEST </div>",
-		resolve: {
-			test: function(){
-				console.log("test");
-				return "test";
-			}
-		},
+		template: "",
 		onEnter: ['$state', '$cookieStore', '$stateParams', '$modal', function($state, $cookieStore, $stateParams, $modal){
-
-			 $modal.open({
-	            templateUrl: 'gamelobby/views/enterModal.tpl.html',
-	            controller: 'EnterModalCtrl as modalCtrl',
-	            resolve: {
-	            	gameId: function(){ return $stateParams.id;}
-	            }
-	        }).result.then(function(result) {
-	            if (result) {
-	                $cookieStore.put($stateParams.id, 123);
-					$state.go('game', {id: $stateParams.id});
-	            }
-	        });
-
-			
+			$modal.open({
+	     	templateUrl: 'gamelobby/views/enterModal.tpl.html',
+	    	controller: 'EnterModalCtrl as modalCtrl',
+	      resolve: {
+	      	gameId: function(){ return $stateParams.id;}
+	      }
+			})
+			.result
+				.then(function(user) {
+					if (user) {
+		      	$cookieStore.put($stateParams.id, user);
+						$state.go('game', {id: $stateParams.id});
+						$state.reload();
+						return;
+		      }
+		    }, function(){
+		    	// cancel modal
+		    	return $state.go('home');
+		    });
 		}]
 	});
 

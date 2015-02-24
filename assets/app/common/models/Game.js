@@ -12,28 +12,28 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return deferred.promise;
 	};
 	this.getOne = function(id) {
-		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/' + id);
 
-		$sails.get(url, function(model) {
-			return deferred.resolve(model);
-		});
-
-		return deferred.promise;
+		return $sails.get(url)
+			.then(function(response) {
+				return response.data;
+			})
+			.catch(function(response){
+				return response;
+			});
 	};
 
 	this.create = function(newModel) {
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game');
-		console.log("start creating");
 
 		$sails.post(url, newModel)
 			.then(function(response){
 				return deferred.resolve(response.data);
 			})
 			.catch(function(response){
-				return deferred.reject();
-			})
+				return deferred.reject(response.data);
+			});
 
 		return deferred.promise;
 	};
