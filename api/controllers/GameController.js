@@ -145,7 +145,7 @@ module.exports = {
 							return res.json(err);
 						} else {
 							Game.publishUpdate(game.id,result);
-							return res.json(result);
+							return res.json(user);
 						}
 				});
 			}

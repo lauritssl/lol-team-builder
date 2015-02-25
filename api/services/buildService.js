@@ -268,14 +268,18 @@ module.exports = {
 
 	rollSummoners: function(summoners, jungleItem, callback){
 		var build = {};
-		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1})
+
+		
+		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1});
+		var i = summoners.length;
+		while( i-- ) {
+ 		   if( summoners[i].id === 'SummonerSmite') break;
+		}
+		summoners.splice(i, 1);
+
+		
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
 
-			var i = summoners.length;
-			while( i-- ) {
- 			   if( summoners[i].id === 'SummonerSmite') break;
-			}
-			summoners.splice(i, 1);
 
 		if (jungleItem){
 
