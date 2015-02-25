@@ -1,16 +1,16 @@
 <main>
   <aside class="sidebar pull--left">
-    <ul class="players list-unstyled" layout="column" layout-align="center center">
+    <ul class="players list-unstyled" layout="column" layout-align="center center" ng-repeat="spot in gameLobby.game.spots track by $index">
       <li
       class="player"
       data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-left.tpl.html'">
       </li>
     </ul>
   </aside>
-  <section class="content-container" ng-include="'gamelobby/views/gamelobby-main-content.tpl.html'">
+  <section class="content-container" ng-include="'gamelobby/views/gamelobby-main-content.tpl.html'" layout="column" layout-align="center center">
   </section>
   <aside class="sidebar pull--right">
-    <ul class="players list-unstyled" layout="column" layout-align="center center">
+    <ul class="players list-unstyled" layout="column" layout-align="center center" ng-repeat="spot in gameLobby.game.spots track by $index">
       <li
       class="player"
       data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-right.tpl.html'">
