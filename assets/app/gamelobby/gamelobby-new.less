@@ -476,21 +476,55 @@ body {
   //Incogneto player hexagons
   .hexagon-wrapper{
     position: relative;
-    margin: 20px;
+    //margin: 20px;
+    margin-bottom: 65px;
+
   .incogneto-player-hexagon{
     width: 17.5rem;
     height: 15rem;
     min-width: 17.5rem;
     min-height: 15rem;
+    margin: 10px;
     background-color: #333;
-      -webkit-clip-path: @icon__player_token_polygon;
-      clip-path: @icon__player_token_polygon;
+    -webkit-clip-path: @icon__player_token_polygon;
+    clip-path: @icon__player_token_polygon;
+      
 
-      &:nth-child(even){
-        margin-left: 280px;
-        margin-top: -70px;
-        margin-bottom: -70px;
+      &:nth-child(1){
+        margin-top: 10px !important;
+        margin-left: 10px !important;
       }
+      &:nth-child(3n+3){
+        margin-left: -280px;
+        margin-top: -245px;
+      }
+      &:nth-child(3n+1){
+        margin-left: 300px;
+        margin-top: -160px;
+      }
+      &:nth-child(5), &:nth-child(8){
+        margin-top: 95px;
+      }
+      // &:nth-child(6){
+      //   margin-left: -280px;
+      //   margin-top: -245px;
+      // }
+      // &:nth-child(7){
+      //   margin-left: -280px;
+      //   margin-top: -245px;
+      // }
+      // &:nth-child(8){
+      //   margin-left: -280px;
+      //   margin-top: -245px;
+      // }
+      // &:nth-child(9){
+      //   margin-left: -280px;
+      //   margin-top: -245px;
+      // }
+      // &:nth-child(10){
+      //   margin-left: -280px;
+      //   margin-top: -245px;
+      // }
 
     .hexagon-bg{
       width: 100%;
