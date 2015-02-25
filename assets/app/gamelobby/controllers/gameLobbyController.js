@@ -188,7 +188,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.getChampionBackground = function(spot) {
-		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.build.champion+"_0.jpg) no-repeat top center', 'background-size': '200px 364px'}"
+		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.build.champion+"_0.jpg) no-repeat center center', 'background-size': 'cover'}"
 	}
 
 	vm.resetBuilds = function(gameId) {

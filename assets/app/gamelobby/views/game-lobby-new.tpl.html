@@ -73,9 +73,9 @@
       <div class="notification">Draw a card...</div>
       <article class="card" style="z-index: 100;">
         <div class="card__back"></div>
-        <div class="card__front fluid-background" style="background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/16584/heimerdinger_card.jpg')">
-          <div class="card__title">{{spot.champion}}</div>
-          <div class="card__meta-icon fluid-background" data-sub-icon="Q"></div>
+        <div class="card__front fluid-background" ng-style="{{gameLobby.getChampionBackground(gameLobby.game.spots[0])}}">
+          <div class="card__title">{{gameLobby.game.spots[0].build.champion}}</div>
+          <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(gameLobby.game.spots[0].build,gameLobby.game.spots[0].champion)}})" data-sub-icon=""><p>{{gameLobby.getBuildFromGame(gameLobby.game, gameLobby.game.spots[0].build).skill_to_level}}</p></div>
             <div class="grid">
               <div class="grid__parent grid__parent--4">
                 
