@@ -21,7 +21,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.game = game;
-
 	vm.game.gameStarted = true;
 	vm.champions = champions;
 	vm.summoners = summoners;

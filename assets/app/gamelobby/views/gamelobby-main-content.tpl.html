@@ -6,8 +6,8 @@
     <div class="card-deck-container centered-container">  
       <div class="notification">Draw a card...</div>
     
-      <div class="card-deck" ng-repeat="spot in gameLobby.game.spots">
-        <article class="card" style="z-index: 100;" ng-include="'gamelobby/views/card.tpl.html'"></article>
+      <div class="card-deck">
+        <article class="card" style="z-index: 100;" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'"></article>
       </div>
 
       <div class="card-interactions">
@@ -24,15 +24,6 @@
     initialCard = $('.card').html();
     notificationInitialState = $('.notification').text();
     
-    /*
-    deck = ['', '', '', '', '', '', '', ''];
-    layer = 0;
-    for (_i = 0, _len = deck.length; _i < _len; _i++) {
-      card = deck[_i];
-      $('.card-deck').append("<article class=\"card\" style=\"z-index:" + layer + "\">" + initialCard + "</article>");
-      layer++;
-    }
-    */
     $('.card').on("click", function() {
       return $(this).toggleClass("card--rotate-horizontally");
     });
