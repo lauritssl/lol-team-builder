@@ -1,6 +1,18 @@
-<!--     <section class="hexagon-wrapper" flex layout="column" layout-align="center center"></section>
- -->        
-    <div class="notification">Draw a card...</div>
+<div class="notification">Draw a card...</div>
+
+<!-- ::::::::::::::::::::::::::::::::: -->
+<!-- Unassigned player Hexagon section -->
+<!-- ::::::::::::::::::::::::::::::::: -->
+
+    <!-- <section class="hexagon-wrapper" flex layout="column" layout-align="center center">
+      <div class="incogneto-player-hexagon" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
+      </div>
+    </section> -->
+        
+    
+<!-- ::::::::::::::::::::::::::::::::: -->
+<!-- Card deck section                 -->
+<!-- ::::::::::::::::::::::::::::::::: -->
     <div class="card-deck-container">
       <button 
         ng-if="gameLobby.userOwnsGame()" 
