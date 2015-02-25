@@ -526,8 +526,9 @@ body {
     0 -10px 7px 0 rgba(0,0,0,.45);
   border-radius: @card_corner_radius;
   z-index: 1;
-
-  &--gets-overlayed ~ .overlay {
+    
+   //card--gets-overlayed 
+  &--gets-overlayed + .overlay {
       z-index: 999;
       display: block;
       position: absolute;
@@ -536,7 +537,19 @@ body {
       width: 100%;
       height: 100%;
       border-radius: @card_corner_radius;
-      background-color: rgba(125, 125, 125, 0.45);
+      background-color: rgba(125, 125, 125, 0.65);
+
+      &:before {
+        content: attr(data-overlay-text);
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+        display: block;
+      }
   }
   
   &--rotate-horizontally {
