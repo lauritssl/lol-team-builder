@@ -1,7 +1,7 @@
  <div class="card__back"></div>
   <div class="card__front fluid-background" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});">
     <div class="card__title">{{spot.build.champion}}</div>
-    <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(gameLobby.game.spots[0].build,gameLobby.game.spots[0].champion)}})" data-sub-icon="{{spot.build.skill_to_level}}"></div>
+    <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build)}})" data-sub-icon="{{spot.build.skill_to_level}}"></div>
       <div class="grid">
         <div class="grid__parent grid__parent--4">
           
@@ -35,4 +35,3 @@
       </div>
     </div>
 
-   

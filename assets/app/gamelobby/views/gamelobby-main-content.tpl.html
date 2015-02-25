@@ -10,7 +10,7 @@
         ROLL ALL
       </button>
       <div class="card-deck">
-        <article class="card card--rotate-horizontally" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ $index+1}};"></article>
+        <article class="card" ng-click="gameLobby.drawn(spot.build)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ $index+1}};"></article>
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>
       </div>
 

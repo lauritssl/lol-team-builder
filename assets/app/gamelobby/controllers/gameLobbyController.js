@@ -199,6 +199,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return colWidth;
 	};
 
+	vm.drawn = function(build) {
+		return build.drawn = true;
+	};
+
 	vm.init();
 
 };
