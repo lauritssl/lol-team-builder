@@ -1,0 +1,80 @@
+<div class="col-xs-6 col-xs-offset-3" style="text-align: center;">
+            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-red center">ROLL ALL</button>
+        </div>
+    <div class="card-deck centered-container">
+      <div class="notification">Draw a card...</div>
+      <article class="card" style="z-index: 100;">
+        <div class="card__back"></div>
+        <div class="card__front fluid-background" ng-style="{{gameLobby.getChampionBackground(gameLobby.game.spots[0])}}">
+          <div class="card__title">{{gameLobby.game.spots[0].build.champion}}</div>
+          <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(gameLobby.game.spots[0].build,gameLobby.game.spots[0].champion)}})" data-sub-icon=""><p>{{gameLobby.getBuildFromGame(gameLobby.game, gameLobby.game.spots[0].build).skill_to_level}}</p></div>
+            <div class="grid">
+              <div class="grid__parent grid__parent--4">
+                
+                  <div class="pill-bar">
+                    <div class="pill" data-mastery-points="10"></div>
+                    <div class="pill" data-mastery-points="10"></div>
+                    <div class="pill" data-mastery-points="10"></div>
+                  </div>
+                
+                <div class="sub-container group">
+                  <div class="grid__child rounded grid__parent--2 float--left revealer" data-summoner-spell="Heal"></div>
+
+                  <div class="grid__child rounded grid__parent--2 float--left revealer" data-summoner-spell="Lightning"></div>
+                 
+                </div>
+              </div>
+              <div class="grid__parent grid__parent--2">
+                <div class="grid__child revealer" data-item=""></div>
+                <div class="grid__child revealer" data-item=></div>
+              </div>
+              <div class="grid__parent grid__parent--2">
+                <div class="grid__child revealer" data-item=""></div>
+                <div class="grid__child revealer" data-item=""></div>  
+              </div>
+              <div class="grid__parent grid__parent--2">
+                <div class="grid__child revealer" data-item=""></div>
+                <div class="grid__child revealer" data-item=""></div>                
+              </div>
+            </div>
+          </div>
+      </article> <!-- /card --> 
+      
+       <div class="card-interactions">
+        <button class="btn btn--success" ng-click="addBuildToPlayer">Accept Build</button>
+        <button class="btn btn--danger" ng-click="requestReroll">Request Re-Roll</button>
+      </div> 
+    </div>
+
+
+    <script>
+(function() {
+  $(function() {
+    var card, deck, initialCard, layer, notificationInitialState, rerollButtonInitialState, _i, _len;
+    initialCard = $('.card').html();
+    notificationInitialState = $('.notification').text();
+    deck = ['', '', '', '', '', '', '', ''];
+    layer = 0;
+    for (_i = 0, _len = deck.length; _i < _len; _i++) {
+      card = deck[_i];
+      $('.card-deck').append("<article class=\"card\" style=\"z-index:" + layer + "\">" + initialCard + "</article>");
+      layer++;
+    }
+    $('.card').on("click", function() {
+      return $(this).toggleClass("card--rotate-horizontally");
+    });
+    $("[ng-click=addBuildToPlayer]").on("click", function() {
+      return $('.card-deck .card').first().toggleClass('fly-away');
+    });
+    rerollButtonInitialState = $('[ng-click=addBuildToPlayer]').text();
+    $("[ng-click=requestReroll]").on("click", function() {
+      $(this).text("Wait, telling admin...").attr('disabled', 'disabled');
+      return $('.notification').text('Lichine has requested a re-roll...');
+    });
+    return $('.revealer').on("click", function() {
+      return $(this).toggleClass("reveal-it");
+    });
+  });
+
+}).call(this);
+</script>
