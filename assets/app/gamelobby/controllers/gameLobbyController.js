@@ -21,6 +21,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.game = game;
+
+	vm.game.gameStarted = true;
 	vm.champions = champions;
 	vm.summoners = summoners;
 	vm.items = items;
@@ -45,6 +47,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			case 'updated':
 				//console.log(envelope.data);
 				vm.game = envelope.data;
+				vm.game.gameStarted = true;
 				break;
 			case 'destroyed':
 				lodash.remove(vm.games, {id: envelope.id});
@@ -112,19 +115,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return gameUser;
 	};
 
-	vm.getBuildFromGame = function(game, buildId){
-		var gameBuild = {};
-		angular.forEach(game.builds, function(build, key){
-			if(build.id == buildId){
-				gameBuild = build;
-			}
-		});
-		return gameBuild;
-	};
-
 	vm.rollBuilds = function(game) {
 		console.log("I don't get called");
 		GameModel.rollBuilds(game.id).then(function(model) {
+			vm.game.gameStarted = true;
 				// message has been deleted, and removed from vm.messages
 			});
 	};
@@ -134,7 +128,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.getItemImageFromBuild = function(build, type){
-		var build = vm.getBuildFromGame(vm.game, build);
 
 		return ChampionService.getItemImage(vm.items[build[type]].image.full);
 	};
@@ -162,8 +155,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return item;
 	};
 
-	vm.getSkillFromChampion = function(buildId, champion) {
-		var build = vm.getBuildFromGame(vm.game, buildId);
+	vm.getSkillFromChampion = function(build) {
 		var index = 0;
 		switch(build.skill_to_level){
 			case "Q":
@@ -179,7 +171,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			 	index = 0;
 		}
 
-		return vm.champions[champion].spells[index];
+		return vm.champions[build.champion].spells[index];
 	};
 
 	vm.isUserInSpot = function(spot){
@@ -196,7 +188,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.getChampionBackground = function(spot) {
-		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.champion+"_0.jpg) no-repeat top center', 'background-size': '200px 364px'}"
+		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.build.champion+"_0.jpg) no-repeat top center', 'background-size': '200px 364px'}"
 	}
 
 	vm.resetBuilds = function(gameId) {

@@ -17,13 +17,12 @@
         
         <!-- Player shields -->
         <div id="player_shield_container">
-            <div class="row partition_row" ng-repeat="rows in gameLobby.game.spots">
+            <div class="row partition_row" ng-repeat="spot in gameLobby.game.spots">
                 <div class="col-sm-12">
-                    <div class="col-sm-6" ng-repeat="spot in rows" ng-init="spot.showChampionDetails = false">
-                        <div class="row" ng-include="'gamelobby/views/championShield.tpl.html'">
+                 <div class="row" ng-include="'gamelobby/views/championShield.tpl.html'">
                        
-                        </div>
-                    </div>                   
+                </div>
+                                
                 </div>
             </div>
         </div>
