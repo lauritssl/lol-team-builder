@@ -37,6 +37,6 @@
 
 
       <div class="card-interactions" ng-class="{'slides-out-from-bottom': spot.build.drawn}">
-        <button class="btn btn--success" ng-click="addBuildToPlayer">Accept Build</button>
+        <button class="btn btn--success" ng-click="gameLobby.addBuildToPlayer(spot.build)">Accept Build</button>
         <button class="btn btn--danger" ng-click="gameLobby.denied(spot.build)" ng-class="{'disabled' : spot.build.denied}">Request Re-Roll</button>
       </div>
