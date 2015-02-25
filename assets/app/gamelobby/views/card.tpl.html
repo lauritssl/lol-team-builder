@@ -1,7 +1,7 @@
  <div class="card__back"></div>
-  <div class="card__front fluid-background" ng-style="{{gameLobby.getChampionBackground(gameLobby.game.spots[0])}}">
-    <div class="card__title">{{gameLobby.game.spots[0].build.champion}}</div>
-    <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(gameLobby.game.spots[0].build,gameLobby.game.spots[0].champion)}})" data-sub-icon=""><p>{{gameLobby.getBuildFromGame(gameLobby.game, gameLobby.game.spots[0].build).skill_to_level}}</p></div>
+  <div class="card__front fluid-background" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});">
+    <div class="card__title">{{spot.build.champion}}</div>
+    <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(gameLobby.game.spots[0].build,gameLobby.game.spots[0].champion)}})" data-sub-icon=""><p>{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).skill_to_level}}</p></div>
       <div class="grid">
         <div class="grid__parent grid__parent--4">
           
@@ -19,16 +19,16 @@
           </div>
         </div>
         <div class="grid__parent grid__parent--2">
-          <div class="grid__child revealer" data-item=""></div>
-          <div class="grid__child revealer" data-item=></div>
+          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'boots')}}); background-position: -{{gameLobby.getItemFromBuild(spot.build, 'boots').image.x}}px -{{gameLobby.getItemFromBuild(spot.build, 'boots').image.y}}px;"></div>
+          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}); background-position: -{{gameLobby.getItemFromBuild(spot.build, 'item1').image.x}}px -{{gameLobby.getItemFromBuild(spot.build, 'item1').image.y}}px;"></div>
         </div>
         <div class="grid__parent grid__parent--2">
-          <div class="grid__child revealer" data-item=""></div>
-          <div class="grid__child revealer" data-item=""></div>  
+          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item2')}}); background-position: -{{gameLobby.getItemFromBuild(spot.build, 'item2').image.x}}px -{{gameLobby.getItemFromBuild(spot.build, 'item2').image.y}}px;"></div>
+          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item3')}}); background-position: -{{gameLobby.getItemFromBuild(spot.build, 'item3').image.x}}px -{{gameLobby.getItemFromBuild(spot.build, 'item3').image.y}}px;"></div>  
         </div>
         <div class="grid__parent grid__parent--2">
-          <div class="grid__child revealer" data-item=""></div>
-          <div class="grid__child revealer" data-item=""></div>                
+          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}); background-position: -{{gameLobby.getItemFromBuild(spot.build, 'item4').image.x}}px -{{gameLobby.getItemFromBuild(spot.build, 'item4').image.y}}px;"></div>
+          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}); background-position: -{{gameLobby.getItemFromBuild(spot.build, 'item5').image.x}}px -{{gameLobby.getItemFromBuild(spot.build, 'item5').image.y}}px;"></div>                
         </div>
       </div>
     </div>

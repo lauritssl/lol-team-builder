@@ -128,7 +128,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.getItemImageFromBuild = function(build, type){
 
-		return ChampionService.getItemImage(vm.items[build[type]].image.full);
+		return ChampionService.getItemImage(vm.items[build[type]].image.sprite);
 	};
 
 	vm.getSummonerImageFromBuild = function(build, type){
@@ -144,7 +144,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.getItemFromBuild = function(build, type) {
-		var build = vm.getBuildFromGame(vm.game, build);
 		var item = angular.copy(vm.items[build[type]]);
 		if(item.group === "JungleItems") {
 			item = angular.copy(vm.items[build.jungleItemEnchantment]);
@@ -186,8 +185,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 	}
 
-	vm.getChampionBackground = function(spot) {
-		return "{'background': 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"+spot.build.champion+"_0.jpg) no-repeat center center', 'background-size': 'cover'}"
+	vm.getChampionBackground = function(championImageId) {
+			return ChampionService.getChampionBackground(championImageId);
 	}
 
 	vm.resetBuilds = function(gameId) {

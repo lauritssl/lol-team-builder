@@ -564,8 +564,6 @@ body {
   .card__front { 
     z-index: 2; 
     transform: rotateY(180deg);
-    background-size: cover;
-    background-position-y: bottom;
   }
   .card__back { 
     z-index: 2;
@@ -626,7 +624,7 @@ body {
       margin-left: 8px;
     }
     
-    @size: 64px;
+    @size: 48px;
     &--2 {
       width: @size;
       height: 100%;
@@ -707,13 +705,21 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
     z-index: 10;
+    -webkit-animation: revealRight 1.5s 1 ease-in-out forwards;
+    animation: revealRight 1.5s 1 ease-in-out forwards;
   }
+
   
   &.reveal-it:after {
     animation: revealRight 1.5s 1 ease-in-out forwards;
   }
 }
 
+@-webkit-keyframes revealRight {
+  to {
+    transform: translateX(64px);
+  }
+}
 @keyframes revealRight {
   to {
     transform: translateX(64px);
