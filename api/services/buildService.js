@@ -78,7 +78,10 @@ module.exports = {
 								mastery3: build.masteries.mastery3,
 								summoner1: build.summoners.summoner1,									
 								summoner2: build.summoners.summoner2,
-								skill_to_level: build.skill_to_level
+								skill_to_level: build.skill_to_level,
+								drawn: false,
+								buildAccepted: false,
+								denied: false
 				};
 				callback(buildDto);
 			});
@@ -160,7 +163,7 @@ module.exports = {
 		if (championID === 'Viktor') {
 
 			itemBuild = rollNumberOfItems(4, items, jungleEnchantments, build);
-			itemBuild[itemBuild.length] = items[3198].id;
+			itemBuild[itemBuild.length] = _.first(items, function(item){return item.id === 3198});
 		}
 
 		else {

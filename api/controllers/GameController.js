@@ -284,45 +284,18 @@ destroyUser: function (req, res) {
 
 rollBuilds : function(req, res){
 	var id = req.param('id')
-	var itemsReceived = 0
 
-	var buildRollOptions = {};
-	async.parallel([
-		function(callback){
-			lolDataService.getGameData(function(err, result){
-				if(err) callback(err);
-				else{
-					buildRollOptions.items = result.items;
-					buildRollOptions.champions = result.champions;
-					buildRollOptions.summoners = result.summoners;
-					buildRollOptions.maps = result.maps;
+	var options = {
+		id: id
+	};
 
-					callback();
-				}
-			});
-		},
-		function(callback){
-			Game.getOne(req.param('id'))
- 			.spread(function(model) {
- 				buildRollOptions.game = model;
- 				callback();
- 			})
- 			.fail(function(err) {
- 				callback(err);
- 			});
-		}
-		], function(err){
-			if(err) return res.serverError(err);
-
-			gameService.rollBuildsForGame(buildRollOptions, function(err, result){
-				if (err) {
-					return res.serverError(err);
-				}
-
-				Game.republishGame(id);
-			});
+	gameService.rollBuildsForGame(options)
+    .then(function(){
+        Game.republishGame(id);
+    })
+    .catch(function(err){
+    return res.serverError(err);
 	});
-
 
 },
 
@@ -331,42 +304,22 @@ rerollBuild: function(req, res) {
 	var spotId = req.param('spotId')
 
 
-	var buildRollOptions = {};
-	buildRollOptions.spotId = spotId;
-	async.paralles([
-		function(callback){
-			lolDataServie.getGameData(function(err, result){
-				if(err) callback(err);
-				else{
-					buildRollOptions.items = result.items;
-					buildRollOptions.champions = result.champions;
-					buildRollOptions.summoners = result.summoners;
-					buildRollOptions.maps = result.maps;
+	Q.all([lolDataService.getGameData(), Game.getOne(id)])
+	.then(function(gameData, game){
 
-					callback();
-				}
-			});
-		},
-		function(callback){
-			Game.getOne(req.param('id'))
- 			.spread(function(model) {
- 				buildRollOptions.game = model;
- 				callback();
- 			})
- 			.fail(function(err) {
- 				callback(err);
- 			});
-		}
-		], function(err){
-			if(err) return res.serverError(err);
+		options.items = gameData.items;
+		options.champions = gameData.champions;
+		options.summoners = gameData.summoners;
+		options.maps = gameData.maps;
+		options.game = game;
 
-			gameService.rollBuildForGame(buildRollOptions, function(err, result){
-				if (err) {
-					return res.serverError(err);
-				}
-
-				Game.republishGame(id);
-			});
+		gameService.rollBuildForGame(options)
+		.then(function(){
+			Game.republishGame(id);
+		})
+	})
+	.catch(function(err){
+		return res.serverError(err);
 	});
 },
 
