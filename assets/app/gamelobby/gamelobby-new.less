@@ -503,7 +503,14 @@ body {
   right: 0;
   text-align: center;
   
+  -webkit-animation: slideOutFromBottom .48s @core-transition forwards;
   animation: slideOutFromBottom .48s @core-transition forwards;
+}
+
+@-webkit-keyframes slideOutFromBottom {
+  to {
+    bottom: -11rem;
+  }
 }
 
 @keyframes slideOutFromBottom {
@@ -530,10 +537,19 @@ body {
   border-radius: @card_corner_radius;
   z-index: 1;
 
+  &--gets-overlayed ~ .overlay {
+      z-index: 999;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: @card_corner_radius;
+      background-color: rgba(125, 125, 125, 0.45);
+  }
   
-  
-  
-  &.card--rotate-horizontally {
+  &--rotate-horizontally {
     margin-left: 0;
     transform: rotateY(180deg);
     -webkit-animation: liftAndSlide 1.48s @core-transition forwards;
@@ -711,6 +727,7 @@ body {
 
   
   &.reveal-it:after {
+    -webkit-animation: revealRight 1.5s 1 ease-in-out forwards;
     animation: revealRight 1.5s 1 ease-in-out forwards;
   }
 }
@@ -846,6 +863,7 @@ body {
 
 // Animations
 .fly-away {
+  -webkit-animation: flyAway 1.28s @core-transition forwards !important;
   animation: flyAway 1.28s @core-transition forwards !important;
   @keyframes flyAway {
     to {
