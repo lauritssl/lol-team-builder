@@ -11,7 +11,7 @@ $stateProvider
 		views: {
 			"main": {
 				controller: 'GameLobbyCtrl',
-				templateUrl: 'gamelobby/views/gamelobby.tpl.html',
+				templateUrl: 'gamelobby/views/game-lobby-new.tpl.html',
 				controllerAs: 'gameLobby',
 				resolve: {
 					game: ["GameModel", "$stateParams", function(GameModel, $stateParams){

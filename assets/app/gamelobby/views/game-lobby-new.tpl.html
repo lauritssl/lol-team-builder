@@ -1,0 +1,182 @@
+<main>
+  <aside class="sidebar pull--left">
+    <ul class="players list-unstyled" layout="column" layout-align="center center">
+      <li
+      class="player"
+      data-champion="Jax" layout="row" layout-align="center center">
+        <div class="player__build-wrapper" flex layout="column" layout-align="start start">
+          <div class="build__main-spells" flex layout="row" layout-align="space-around center">
+            <div class="main-spell-wrapper" layout="row" layout-align="center end">
+                <div class="main-spell"></div>
+                <div class="main-spell-letter" layout layout-align="center center">
+                  <p>W</p>
+              </div>
+              </div>
+            <div class="spell-separator"></div>
+            <div class="summoner-spell spell-one"></div>
+            <div class="summoner-spell spell-two"></div>
+          </div>
+          
+          <div class="build__main-talents" flex layout="row" layout-align="center center">
+            <div class="talents-wrapper" layout="row" layout-align="center center">
+              <div class="talent" layout layout-align="center center">
+                <p>10</p>
+              </div>
+              <div class="talent" layout layout-align="center center">
+                <p>10</p>
+              </div>
+              <div class="talent" layout layout-align="center center">
+                <p>10</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="build__main-items" flex layout="row" layout-align="space-around center">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+          </div>
+        </div>
+        <span flex></span>
+        <div class="player__portrait-bg"></div>
+        <div class="player__token-wrapper" layout="column" layout-align="center center">
+ 
+          <div class="player__option-icon option--one" layout="row" layout-align="center center">
+          </div>
+          <div class="player__option-icon option--two" layout="row" layout-align="center center">
+          </div>
+          <div class="player__option-icon option--three" layout="row" layout-align="center center">
+          </div>
+          
+          <div class="player__token-image"></div>
+          <div class="player__token-polygon"></div>
+          <div class="player__token-nameplate">
+            <p class="token-nameplate__player-name">
+              Scrappycoco
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </aside>
+  <section class="content-container">
+  <div class="col-xs-6 col-xs-offset-3" style="text-align: center;">
+            <div class="btn-group">
+            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.rollBuilds(gameLobby.game)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-red center">ROLL ALL</button>
+            <button ng-if="gameLobby.userOwnsGame()" ng-click="gameLobby.resetBuilds(gameLobby.game.id)" id="lobby_btn-roll" class="btn ub-custom-btn custom-btn-grey center">RESET ALL</button>
+            </div>
+        </div>
+    <div class="card-deck centered-container">
+      <div class="notification">Draw a card...</div>
+      <article class="card" style="z-index: 100;">
+        <div class="card__back"></div>
+        <div class="card__front fluid-background" style="background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/16584/heimerdinger_card.jpg')">
+          <div class="card__title">{{spot.champion}}</div>
+          <div class="card__meta-icon fluid-background" data-sub-icon="Q"></div>
+            <div class="grid">
+              <div class="grid__parent grid__parent--4">
+                
+                  <div class="pill-bar">
+                    <div class="pill" data-mastery-points="10"></div>
+                    <div class="pill" data-mastery-points="10"></div>
+                    <div class="pill" data-mastery-points="10"></div>
+                  </div>
+                
+                <div class="sub-container group">
+                  <div class="grid__child rounded grid__parent--2 float--left revealer" data-summoner-spell="Heal"></div>
+
+                  <div class="grid__child rounded grid__parent--2 float--left revealer" data-summoner-spell="Lightning"></div>
+                 
+                </div>
+                
+                
+              </div>
+              <div class="grid__parent grid__parent--2">
+                <div class="grid__child revealer" data-item=""></div>
+                <div class="grid__child revealer" data-item=></div>
+              </div>
+              <div class="grid__parent grid__parent--2">
+                <div class="grid__child revealer" data-item=""></div>
+                <div class="grid__child revealer" data-item=""></div>  
+              </div>
+              <div class="grid__parent grid__parent--2">
+                <div class="grid__child revealer" data-item=""></div>
+                <div class="grid__child revealer" data-item=""></div>                
+              </div>
+            </div>
+          </div>
+      </article> <!-- /card --> 
+      
+       <div class="card-interactions">
+        <button class="btn btn--success" ng-click="addBuildToPlayer">Accept Build</button>
+        <button class="btn btn--danger" ng-click="requestReroll">Request Re-Roll</button>
+      </div> 
+    </div>
+   
+  </section>
+  <aside class="sidebar pull--right">
+    <ul class="players list-unstyled" layout="column" layout-align="center center">
+      <li
+      class="player"
+      data-champion="Jax" layout="row" layout-align="center center">
+        
+        <div class="player__token-wrapper" layout="column" layout-align="center center">
+          <div class="player__option-icon option--one" layout="row" layout-align="center center">
+            
+          </div>
+          <div class="player__option-icon option--two" layout="row" layout-align="center center">
+            
+          </div>
+          <div class="player__option-icon option--three" layout="row" layout-align="center center">
+            
+          </div>
+          <div class="player__token-image"></div>
+          <div class="player__token-polygon"></div>
+          <div class="player__token-nameplate">
+            <p class="token-nameplate__player-name">
+              Lichine
+            </p>
+          </div>
+        </div>
+        <p class="player__hero-name">Jax</p>
+        <div class="player__portrait-bg"></div>
+        <span flex></span>
+      </li>
+    </ul>
+  </aside>
+</main>
+
+<script>
+(function() {
+  $(function() {
+    var card, deck, initialCard, layer, notificationInitialState, rerollButtonInitialState, _i, _len;
+    initialCard = $('.card').html();
+    notificationInitialState = $('.notification').text();
+    deck = ['', '', '', '', '', '', '', ''];
+    layer = 0;
+    for (_i = 0, _len = deck.length; _i < _len; _i++) {
+      card = deck[_i];
+      $('.card-deck').append("<article class=\"card\" style=\"z-index:" + layer + "\">" + initialCard + "</article>");
+      layer++;
+    }
+    $('.card').on("click", function() {
+      return $(this).toggleClass("card--rotate-horizontally");
+    });
+    $("[ng-click=addBuildToPlayer]").on("click", function() {
+      return $('.card-deck .card').first().toggleClass('fly-away');
+    });
+    rerollButtonInitialState = $('[ng-click=addBuildToPlayer]').text();
+    $("[ng-click=requestReroll]").on("click", function() {
+      $(this).text("Wait, telling admin...").attr('disabled', 'disabled');
+      return $('.notification').text('Lichine has requested a re-roll...');
+    });
+    return $('.revealer').on("click", function() {
+      return $(this).toggleClass("reveal-it");
+    });
+  });
+
+}).call(this);
+</script>
