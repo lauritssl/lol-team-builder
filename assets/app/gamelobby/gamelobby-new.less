@@ -283,6 +283,16 @@ body {
         }
       }
       
+      .player__token-backdrop{
+        position: absolute;
+        width: 14.5rem;
+        height: 12.5rem;
+        background-color: #333;
+        margin-left: 1.6rem;
+        -webkit-clip-path: @icon__player_token_polygon;
+        clip-path: @icon__player_token_polygon;
+      }
+
       .player__token-image{
       width: 14.5rem;
       height: 12.5rem;
@@ -292,16 +302,16 @@ body {
       -webkit-clip-path: @icon__player_token_polygon;
       clip-path: @icon__player_token_polygon;
       background-size: cover;
-      background-position: center center;
+      background-position: center -20px;
       }
       
       .player__token-polygon{
         margin-top: 1.25rem;
         position: absolute;
         background: url(@icon_player_token_base_png_metallic) no-repeat;
-        background-size: 175px 150px;
-        width: 175px;
-        height: 150px;
+        background-size: 17.5rem 15rem;
+        width: 17.5rem;
+        height: 15rem;
         z-index: 11;
         transform: translate3d(0, -100%, 0);
       }
@@ -309,11 +319,11 @@ body {
       .player__token-nameplate{
         position: absolute;
         background: url(@icon_name_cloth_blue) no-repeat;
-        background-size: 142px 73px;
-        width: 165px;
-        height: 73px;
+        background-size: 14.2rem 7.3rem;
+        width: 16.5rem;
+        height: 7.3rem;
         z-index: 13;
-        left: 25px;
+        left: 2.5rem;
         margin-top: 2.7rem;
         transform: translate3d(0, -100%, 0);
         
