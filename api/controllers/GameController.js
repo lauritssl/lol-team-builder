@@ -57,7 +57,6 @@ module.exports = {
  			title: req.param('title'),
  			user: user,
  			users: [],
- 			spots: [{id: 1}],
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
@@ -131,14 +130,15 @@ module.exports = {
 					});
 
 					if( userExists.length === 0 ){
+
 						game.users.push({
 							id: user.id,
 							nickname : user.nickname
 						});
+						// Create a spot for the user
+						game.spots.push({id: game.spots.length+1});
 					}
-
-					// Create a spot for the user
-					game.spots.push({});
+					
 
 					game.save(function(err, result){
 						if(err){
