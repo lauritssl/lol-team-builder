@@ -39,13 +39,13 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 	};
 
 	this.addUser = function(gameId, user) {
-		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/user');
-		$sails.post(url, {user: user}, function(model) {
-			return deferred.resolve(model);
+		return $sails.post(url, {user: user}).then(function(model) {
+			return model.data;
+		})
+		.catch(function(err){
+			return err;
 		});
-
-		return deferred.promise;
 	};
 
 	this.addUserToSpot = function(gameId, userId, spotId) {

@@ -35,20 +35,16 @@ $stateProvider
 		template: "",
 		onEnter: ['$state', '$cookieStore', '$stateParams', '$modal', function($state, $cookieStore, $stateParams, $modal){
 			$modal.open({
-	     	templateUrl: 'gamelobby/views/enterModal.tpl.html',
-	    	controller: 'EnterModalCtrl as modalCtrl',
-	      resolve: {
-	      	gameId: function(){ return $stateParams.id;}
-	      }
+		     	templateUrl: 'gamelobby/views/enterModal.tpl.html',
+		    	controller: 'EnterModalCtrl as modalCtrl',
+		      	resolve: {
+		      		gameId: function(){ return $stateParams.id;}
+		      	}
 			})
 			.result
 				.then(function(user) {
-					if (user) {
-		      	$cookieStore.put($stateParams.id, user);
-						$state.go('game', {id: $stateParams.id});
-						$state.reload();
+						$state.go('game', {id: $stateParams.id}, {reload:true});
 						return;
-		      }
 		    }, function(){
 		    	// cancel modal
 		    	return $state.go('home');
