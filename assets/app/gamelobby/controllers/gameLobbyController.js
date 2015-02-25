@@ -132,7 +132,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.getSummonerImageFromBuild = function(build, type){
-		var build = vm.getBuildFromGame(vm.game, build);
 
 		return ChampionService.getSummonerImage(vm.summoners[build[type]].image.full);
 	};
