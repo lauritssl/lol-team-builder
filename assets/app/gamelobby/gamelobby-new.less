@@ -936,11 +936,11 @@ body {
   border-radius: 1rem;
   font-family: "Roboto", sans-serif; 
   font-weight: 700;
-  color: white;
+  color: #4b4b4b;
   
   &--success {
     @color: #27ae60;
-    
+    color: white;
     background-color: @color;
     border-bottom: 4px solid darken(@color, 15%);
     &:hover {
@@ -949,6 +949,7 @@ body {
   }
   &--danger {
     @color: #e74c3c;
+    color: white;
     background-color: @color;
     border-bottom: 4px solid darken(@color, 15%);
     &:hover {
@@ -967,5 +968,27 @@ body {
     to {
       transform: translateY(-150rem);
     }
+  }
+}
+
+
+
+
+
+
+
+// Modals
+.modal-content-container {
+
+  .modal-title {
+
+  }
+
+  .modal-body {
+
+  }
+
+  .modal-footer {
+
   }
 }
