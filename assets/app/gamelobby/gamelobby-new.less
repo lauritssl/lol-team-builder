@@ -22,6 +22,10 @@ body {
     0 -.5rem 1rem 0 rgba(0,0,0,.033);
 }
 
+.full-width-wrapper{
+  width: 100%;
+}
+
 // Size & Shape Helpers
 .padded {
   padding: 2.5rem;
@@ -167,7 +171,7 @@ body {
         .main-spell{
           width: 40px;
           height: 40px;
-          background-color: green;
+          background-size: 100%;
           border-radius: 50%;
           }
           .main-spell-letter{
@@ -190,8 +194,16 @@ body {
         .summoner-spell{
           width: 35px;
           height: 35px;
-          background-color: pink;
+          background-size: 100%;
           border-radius: 50%;
+
+          &.spell-one{
+            margin-right: 0.5rem;
+          }
+
+          &.spell-two{
+            margin-left: 0.5rem;
+          }
         }
       }
       .build__main-talents{

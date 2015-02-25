@@ -28,12 +28,12 @@
               </div>
               </div>
             <div class="spell-separator"></div>
-            <ng-include src="'gamelobby/views/partials/summoner-spells.tpl.html'"></ng-include>
+            <ng-include layout="row" layout-align="center center" src="'gamelobby/views/partials/summoner-spells.tpl.html'"></ng-include>
 
             
           </div>
           
-          <ng-include src="'gamelobby/views/partials/main-talents.tpl.html'"></ng-include>
+          <ng-include class="full-width-wrapper" src="'gamelobby/views/partials/main-talents.tpl.html'"></ng-include>
           
           <div class="build__main-items" flex layout="row" layout-align="space-around center" ng-include="'gamelobby/views/partials/main-items.tpl.html'"></div>
         </div>
