@@ -1,6 +1,6 @@
 <!--     <section class="hexagon-wrapper" flex layout="column" layout-align="center center"></section>
  -->          
-    
+    <div class="notification">Draw a card...</div>
     <div class="card-deck-container centered-container">
       <button 
         ng-if="gameLobby.userOwnsGame()" 
@@ -9,7 +9,6 @@
         class="btn btn--success">
         ROLL ALL
       </button>
-      <div class="notification">Draw a card...</div>
       <div class="card-deck">
         <article class="card card--rotate-horizontally" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ $index+1}};"></article>
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>
