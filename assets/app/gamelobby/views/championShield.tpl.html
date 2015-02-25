@@ -8,12 +8,12 @@
 
     <h2 id="player_name" ng-if="spot.user">{{gameLobby.getUserFromGame(gameLobby.game, spot.user).username}}</h2>
 
-    <img title="{{gameLobby.getItemFromBuild(spot.build,'boots').name +' with '+ gameLobby.items[gameLobby.getBuildFromGame(gameLobby.game, spot.build)['bootsEnchantment']].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}}" />
-    <img title="{{gameLobby.getItemFromBuild(spot.build, 'item1').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_2" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}"/>
-    <img title="{{gameLobby.getItemFromBuild(spot.build,'item2').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_3" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item2')}}"/>
-    <img title="{{gameLobby.getItemFromBuild(spot.build,'item3').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_4" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item3')}}"/>
-    <img title="{{gameLobby.getItemFromBuild(spot.build,'item4').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
-    <img title="{{gameLobby.getItemFromBuild(spot.build,'item5').name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
+    <img title="{{gameLobby.items[spot.build.boots].name +' with '+ gameLobby.items[spot.build.bootsEnchantment].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_1" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'boots')}}" />
+    <img title="{{gameLobby.items[spot.build.item1].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_2" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item1')}}"/>
+    <img title="{{gameLobby.items[spot.build.item2].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_3" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item2')}}"/>
+    <img title="{{gameLobby.items[spot.build.item3].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_4" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item3')}}"/>
+    <img title="{{gameLobby.items[spot.build.item4].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_5" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item4')}}"/>
+    <img title="{{gameLobby.items[spot.build.item5].name}}" ng-show="gameLobby.game.gameStarted" class="hero_items" id="item_6" ng-src="{{gameLobby.getItemImageFromBuild(spot.build, 'item5')}}"/>
 
     <!-- <div class="hero-hover-stats" id="hero-stats-ap" ng-show="spot.showChampionDetails">
         <img src="../../../images/icons/magic.png" />
