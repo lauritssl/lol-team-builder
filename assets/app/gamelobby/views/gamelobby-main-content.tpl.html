@@ -1,3 +1,7 @@
+<!--     <section class="hexagon-wrapper" flex layout="column" layout-align="center center"></section>
+ -->    
+      <!-- <div class="notification">Draw a card...</div> -->
+      
     
     <div class="card-deck-container centered-container">
       <button 
@@ -7,9 +11,7 @@
         class="btn btn--success">
         ROLL ALL
       </button>
-
-      <div class="notification">Draw a card...</div>
-    
+      <div class="notification">Pick a side...</div>
       <div class="card-deck">
         <article class="card card--rotate-horizontally" style="z-index: 100;" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'"></article>
       </div>
