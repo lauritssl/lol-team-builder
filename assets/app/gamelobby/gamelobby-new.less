@@ -458,13 +458,16 @@ body {
 }
 
 // Card & Card Deck
+.card-deck-container {
+    top: 40%;
+    transform: translateY(-40%);
+}
 
 .card-deck {
   width: 38.5rem;
   height: 54rem;
   perspective: 1000;
-  top: 40%;
-  transform: translateY(-40%);
+  margin: 0 auto;
   
   &:before,
   &:after {
@@ -764,6 +767,14 @@ body {
   border-radius: 0 0 @card_corner_radius;
 }
 
+.absolute-centered {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+}
+
 
 .float {
   &--left {
@@ -786,12 +797,13 @@ body {
 
 // Notification
 .notification {
-  top: -8rem;
+  top: -7rem;
   font-size: 2.4rem;
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   color: #fff;
-  
+
+  &:extend(.absolute-centered);
 }
 
 // Buttons
@@ -834,4 +846,4 @@ body {
       transform: translateY(-150rem);
     }
   }
-} 
+}
