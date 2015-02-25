@@ -490,26 +490,37 @@ body {
 
 .card-interactions {
   position: relative;
-  bottom: 10rem;
+  top: 0;
+  opacity: 0;
   width: 40rem;
   margin: 0 auto;
   left: 0;
   right: 0;
   text-align: center;
-  
+  transform: rotateY(-180deg);
+  width: 100%;
+  z-index: -1;
+}
+
+.slides-out-from-bottom {
   -webkit-animation: slideOutFromBottom .48s @core-transition forwards;
   animation: slideOutFromBottom .48s @core-transition forwards;
+  @delay: 1.25s;
+  -webkit-animation-delay: @delay;
+  animation-delay: @delay;
 }
 
 @-webkit-keyframes slideOutFromBottom {
   to {
-    bottom: -5rem;
+    top: 110%;
+    opacity: 1;
   }
 }
 
 @keyframes slideOutFromBottom {
   to {
-    bottom: -5rem;
+    top: 110%;
+    opacity: 1;
   }
 }
 
