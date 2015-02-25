@@ -205,7 +205,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.denied = function(build) {
 		return build.denied = true;
-	}
+	};
+
+	vm.addBuildToPlayer = function(build) {
+		return build.accepted = true;
+	};
 
 	vm.init();
 

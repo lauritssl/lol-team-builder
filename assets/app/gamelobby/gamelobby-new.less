@@ -622,10 +622,28 @@ body {
       }
   }
   
+  &--flies-to-player {
+    -webkit-animation: fliesToPlayer 1.48s @core-transition forwards !important;
+    animation: fliesToPlayer 1.48s @core-transition forwards !important;
+  }
+
+  @-webkit-keyframes fliesToPlayer {
+    to {
+      transform: rotateY(180deg) translateY(1500px);
+    }
+  }
+
+  @keyframes fliesToPlayer {
+    to {
+      transform: rotateY(180deg) translateY(1500px);
+    }
+  }
+
   &--rotate-horizontally {
     margin-left: 0;
     transform: rotateY(180deg);
     -webkit-animation: liftAndSlide 1.48s @core-transition forwards;
+    animation: liftAndSlide 1.48s @core-transition forwards;
   }
   
   @-webkit-keyframes liftAndSlide {
@@ -636,6 +654,15 @@ body {
       margin-left: 0;
     }
   }
+
+  @keyframes liftAndSlide {
+    50% {
+      margin-left: -2.5rem;
+    }
+    100% {
+      margin-left: 0;
+    }
+  }  
   
   transition: 
     transform 1s ease-in-out;
