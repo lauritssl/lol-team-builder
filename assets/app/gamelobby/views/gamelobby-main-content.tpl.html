@@ -1,4 +1,9 @@
-<div class="notification">Pick a slot...</div>
+
+        <button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start game</button>
+
+           <button class="btn btn--error" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">End game</button> {{gameLobby.game.gameStarted}}
+
+<div class="">Pick a slot...</div>
 
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Unassigned player Hexagon section -->
@@ -20,17 +25,23 @@
 <!-- Card deck section                 -->
 <!-- ::::::::::::::::::::::::::::::::: -->
     <div class="card-deck-container" ng-if="gameLobby.game.gameStarted">
-      <button 
+     <!--  <button 
         ng-if="gameLobby.userOwnsGame()" 
         ng-click="gameLobby.rollBuilds(gameLobby.game)" 
         id="lobby_btn-roll" 
         class="btn btn--success">
         ROLL ALL
-      </button>
+      </button> -->
       <div class="card-deck">
-        <article class="card" ng-click="gameLobby.drawCard(gameLobby.game.id, spot)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ $index+1}};"></article>
+        <article class="card" ng-click="spot.drawn || gameLobby.drawCard(gameLobby.game.id, spot)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ $index+1}};"></article>
+
+       
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>
       </div>
+       <div class="card-interactions" ng-class="{'slides-out-from-bottom': gameLobby.getNextRollableSpot(gameLobby.game).build.drawn}">
+          <button class="btn btn--success" ng-if="gameLobby.userHasTurn(gameLobby.game) || gameLobby.userOwnsGame()" ng-click="gameLobby.acceptBuild(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))">Accept Build</button>
+          <button class="btn btn--danger" ng-if="gameLobby.userHasTurn(gameLobby.game)" ng-click="gameLobby.denied(gameLobby.game, gameLobby.getNextRollableSpot())" ng-class="{'disabled' : spot.build.denied}">Request Re-Roll</button>
+        </div>
     </div>
 
     <script>

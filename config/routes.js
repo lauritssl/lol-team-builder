@@ -85,6 +85,7 @@ module.exports.routes = {
 
      //Actions
     'put /api/game/:id/actions/start': 'GameController.startGame',
+    'put /api/game/:id/actions/end': 'GameController.endGame',
     'put /api/game/:id/actions/rollBuild' : 'GameController.rollBuild',
     'put /api/game/:id/actions/draw' : 'GameController.drawCard',
     'put /api/game/:id/actions/accept' : 'GameController.acceptBuild',

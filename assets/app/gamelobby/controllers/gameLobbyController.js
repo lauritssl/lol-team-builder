@@ -24,6 +24,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.champions = champions;
 	vm.summoners = summoners;
 	vm.items = items;
+	vm.expandedSpots = {};
 
 	titleService.setTitle('Game');
 
@@ -98,7 +99,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.getNextRollableSpot = function(game){
-		return _.find(game.spots, function(spot){return spot.drawn === false});
+		return _.find(game.spots, function(spot){return spot.drawn !== true});
 	}
 
 	vm.destroyGame = function(game) {
@@ -120,7 +121,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.rollBuilds = function(game) {
 		console.log("I don't get called");
 		GameModel.rollBuilds(game.id).then(function(model) {
-			vm.game.gameStarted = true;
 				// message has been deleted, and removed from vm.messages
 			});
 	};
@@ -212,12 +212,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 	}
 	vm.drawCard = function(id, spot) {
-		// if (spot.user.id == vm.currentUser.id) {
-			
-		// }
+		
+		if(spot.user === vm.currentUser.id){
+
 		GameModel.drawCard(id, spot.id).then(function(model) {
 				
 			});
+		}
 	};
 
 	vm.startGame = function(id) {
@@ -226,6 +227,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		// }
 		GameModel.startGame(id).then(function(model) {
 				
+			});
+	};
+
+	vm.endGame = function(id) {
+		// if (spot.user.id == vm.currentUser.id) {
+			
+		// }
+		GameModel.endGame(id).then(function(model) {
+				vm.expandedSpots = {};
 			});
 	};
 
@@ -244,15 +254,23 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return colWidth;
 	};
 
+	vm.toggleSpot = function(spot){
+		vm.expandedSpots[spot.id] = vm.expandedSpots[spot.id] ? false : true;
+	}
 	
 
-	vm.denied = function(build) {
+	vm.denied = function(game, spot) {
 		return build.denied = true;
 	};
 
-	vm.addBuildToPlayer = function(build) {
-		return build.accepted = true;
+	vm.acceptBuild = function(game, spot) {
+		Game.acceptBuild(game.id, spot.id)
+		.then(function(result){
+
+		});
 	};
+
+
 
 	vm.init();
 

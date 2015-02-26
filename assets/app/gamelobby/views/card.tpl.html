@@ -1,5 +1,5 @@
  <div class="card__back"></div>
-  <div class="card__front fluid-background" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});">
+  <div class="card__front fluid-background" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});" ng-if="spot.build">
     <div class="card__title">{{spot.build.champion}}</div>
     <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build)}})" data-sub-icon="{{spot.build.skill_to_level}}"></div>
       <div class="grid">
@@ -35,8 +35,3 @@
       </div>
     </div>
 
-
-      <div class="card-interactions" ng-class="{'slides-out-from-bottom': spot.build.drawn}">
-        <button class="btn btn--success" ng-click="gameLobby.addBuildToPlayer(spot.build)">Accept Build</button>
-        <button class="btn btn--danger" ng-click="gameLobby.denied(spot.build)" ng-class="{'disabled' : spot.build.denied}">Request Re-Roll</button>
-      </div>

@@ -44,23 +44,23 @@ module.exports = {
         var maps = _options.maps;
 
         if (typeof game === 'undefined' || game === null) {
-            callback(new Error("The game was either null or undefined"));
+            throw new Error("The game was either null or undefined");
             return;
         }
         if (typeof champions === 'undefined' || champions === null) {
-            callback(new Error("The champions was either null or undefined"));
+            throw new Error("The champions was either null or undefined");
             return;
         }
         if (typeof items === 'undefined' || items === null) {
-            callback(new Error("The items was either null or undefined"));
+            throw new Error("The items was either null or undefined");
             return;
         }
         if (typeof summoners === 'undefined' || summoners === null) {
-            callback(new Error("The summoners was either null or undefined"));
+            throw new Error("The summoners was either null or undefined");
             return;
         }
         if (typeof maps === 'undefined' || maps === null) {
-            callback(new Error("The maps was either null or undefined"));
+            throw new Error("The maps was either null or undefined");
             return;
         }
         //Get non picked champions
@@ -157,7 +157,37 @@ module.exports = {
 
         return Game.findOne(id)
         .then(function(game){
+
+            if(typeof game === 'undefined') throw new Error("Game was not found");
             game.gameStarted = true;
+
+            game.save(function(err, result){
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            })
+            return deferred.promise;
+        })
+    },
+    endGame: function(_options){
+        var deferred = Q.defer();        
+        var self = this;
+        var id = _options.id;
+
+
+
+        return Game.findOne(id)
+        .then(function(game){
+            if(typeof game === 'undefined') throw new Error("Game was not found");
+
+
+            game.gameStarted = false;
+            game.spots.forEach(function(spot){
+                delete spot.build;
+                delete spot.user;
+            });
 
             game.save(function(err, result){
                 if(err){
@@ -184,7 +214,7 @@ module.exports = {
                 game: gameModel
             }
             game = gameModel;
-            if(_.some(game.spots, function(spot){return (spot.id === spotId && spot.build.drawn)})) throw new Error("Card is already drawn");
+            if(_.some(game.spots, function(spot){return (spot.id === spotId && typeof spot.build !== 'undefined' && spot.build.drawn)})) throw new Error("Card is already drawn");
             return self.rollBuild(options);
         }).then(function(build) {
             //Since it is a single draw it will be changed to drawn
@@ -210,7 +240,7 @@ module.exports = {
         // Get the champions that have already been rolled
         var existingChampions = [];
         _.forEach(game.spots, function(spot) {
-            if (typeof spot.build.champion != 'undefined') {
+            if (typeof spot.build !== 'undefined' && typeof spot.build.champion !== 'undefined') {
                 existingChampions.push(spot.build.champion);
             }
         });
