@@ -95,6 +95,22 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return deferred.promise;
 	};
 
+	this.startGame = function(gameId){
+		var url = utils.prepareUrl('game/'+gameId+'/actions/start');
+		return $sails.put(url, {}).then(function(model) {
+			return model;
+		});
+
+	};
+	this.endGame = function(gameId){
+		var url = utils.prepareUrl('game/'+gameId+'/actions/end');
+		return $sails.put(url, {}).then(function(model) {
+			return model;
+		});
+
+	};
+
+
 	this.rollBuild = function(gameId, spotId){
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/actions/rollBuild');

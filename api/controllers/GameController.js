@@ -175,27 +175,21 @@
 		var userId = req.param('userId');
 		var id = req.param('id');
 		var spotId = req.param('spotId');
+		
 
-		var game;
-		async.parallel([
-			function(callback) {
-				Spot.update({id: spotId}, {user: null}, function(err, spot){
-					if(err) callback(err);
-					callback();
-				});
-			},
-			function(callback) {
-				Game.findOne(id).exec(function(err, result) {
-					if(err) callback(err);
-					game = result;
-					callback()
-				})
-			}], function(err) {
-				if(err) res.serverError(err)
-					Game.update({id: id}, {spotsTaken : game.spotsTaken-1}, function(err, game){
-						Game.republishGame(id);
-					});
-			})
+		var options = {
+			userId: userId,
+			id : id,
+			spotId : spotId
+		}
+
+		spotService.removeUserFromSpot(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 
 	},
 	destroyUser: function (req, res) {
@@ -250,8 +244,9 @@
  	};
 
  	gameService.rollBuildsForGame(options)
- 	.then(function(){
+ 	.then(function(result){
  		Game.republishGame(id);
+ 		return res.json(result);
  	})
  	.catch(function(err){
  		return res.serverError(err);
@@ -276,8 +271,9 @@
  	}
 
  	gameService.drawCard(options)
- 	.then(function(){
- 		Game.republishGame(id);
+ 	.then(function(result){
+ 		Game.publishUpdate(id, result);
+ 		return res.json(result);
  	})
  	.catch(function(err){
  		return res.serverError(err);
@@ -301,8 +297,29 @@
  	}
 
  	gameService.startGame(options)
- 	.then(function(){
- 		Game.republishGame(id);
+ 	.then(function(result){
+ 		Game.publishUpdate(id, result);
+ 		return res.json(result);
+
+ 	})
+ 	.catch(function(err){
+ 		return res.serverError(err);
+ 	});
+
+ },
+
+ endGame : function(req, res){
+
+ 	var id = req.param('id')
+
+ 	var options = {
+ 		id: id
+ 	}
+
+ 	gameService.endGame(options)
+ 	.then(function(result){
+ 		Game.publishUpdate(id, result);
+ 		return res.json(result);
  	})
  	.catch(function(err){
  		return res.serverError(err);
@@ -325,8 +342,10 @@
  		options.game = game;
 
  		gameService.rollBuildForGame(options)
- 		.then(function(){
+ 		.then(function(result){
  			Game.republishGame(id);
+ 			return res.json(result);
+
  		})
  	})
  	.catch(function(err){
@@ -345,6 +364,7 @@
  	gameService.acceptBuild(options)
  	.then(function(result){
  		Game.publishUpdate(id, result);
+ 		return res.json(result);
  	})
  	.catch(function(err){
  		return res.serverError(err);
