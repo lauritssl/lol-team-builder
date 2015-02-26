@@ -148,6 +148,27 @@ module.exports = {
             return deferred.promise;
         })
     },
+    startGame: function(_options){
+        var deferred = Q.defer();        
+        var self = this;
+        var id = _options.id;
+
+
+
+        return Game.findOne(id)
+        .then(function(game){
+            game.gameStarted = true;
+
+            game.save(function(err, result){
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            })
+            return deferred.promise;
+        })
+    },
     drawCard: function(_options) {
         var deferred = Q.defer();        
         var self = this;

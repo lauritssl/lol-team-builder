@@ -20,19 +20,22 @@
         <div class="player__portrait-bg"></div>
         <div class="player__token-wrapper" layout="column" layout-align="center center">
  
-          <!-- <div class="player__option-icon option--one" layout="row" layout-align="center center">
+          <div class="player__option-icon option--one" layout="row" layout-align="center center">
+          <i class="fa fa-rocket"> </i>
           </div>
           <div class="player__option-icon option--two" layout="row" layout-align="center center">
+          <i class="fa fa-rocket"> </i>
           </div>
-          <div class="player__option-icon option--three" layout="row" layout-align="center center">
-          </div> -->
+          <div class="player__option-icon option--three" layout="row" layout-align="center center" ng-click="gameLobby.removeUserFromSpot(gameLobby.game.id, spot)" ng-if="gameLobby.currentUser.id === spot.user || gameLobby.userOwnsGame(spot.user)">
+          <i class="fa fa-rocket"> </i>
+          </div>
           
           <div class="player__token-backdrop"></div>
           <div class="player__token-image" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});"></div>
           <div class="player__token-polygon"></div>
-          <div class="player__token-nameplate">
+          <div class="player__token-nameplate" ng-if="spot.user">
             <p class="token-nameplate__player-name">
-              Scrappycoco
+              {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}
             </p>
           </div>
         </div>

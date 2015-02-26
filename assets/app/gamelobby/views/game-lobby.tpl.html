@@ -1,19 +1,19 @@
 <main>
   <aside class="sidebar pull--left">
-    <ul class="players list-unstyled" layout="column" layout-align="center center" ng-repeat="spot in gameLobby.game.spots track by $index">
-      <li
+    <ul class="players list-unstyled" layout="column" layout-align="center center">
+      <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$even"
       class="player"
-      data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-left.tpl.html'">
+      data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-left.tpl.html'" ng-click="gameLobby.joinSpot(gameLobby.game, spot)">
       </li>
     </ul>
   </aside>
   <section class="content-container" ng-include="'gamelobby/views/gamelobby-main-content.tpl.html'" layout="column" layout-align="center center">
   </section>
   <aside class="sidebar pull--right">
-    <ul class="players list-unstyled" layout="column" layout-align="center center" ng-repeat="spot in gameLobby.game.spots track by $index">
-      <li
+    <ul class="players list-unstyled" layout="column" layout-align="center center" >
+      <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$odd"
       class="player"
-      data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-right.tpl.html'">
+      data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-right.tpl.html'" ng-click="gameLobby.joinSpot(gameLobby.game, spot)">
       </li>
     </ul>
   </aside>

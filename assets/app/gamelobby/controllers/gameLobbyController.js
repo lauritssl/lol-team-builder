@@ -21,7 +21,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.game = game;
-	vm.game.gameStarted = true;
 	vm.champions = champions;
 	vm.summoners = summoners;
 	vm.items = items;
@@ -46,7 +45,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			case 'updated':
 				//console.log(envelope.data);
 				vm.game = envelope.data;
-				vm.game.gameStarted = true;
 				break;
 			case 'destroyed':
 				lodash.remove(vm.games, {id: envelope.id});
@@ -77,18 +75,31 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.joinSpot = function(game, spot){
+		if(!spot.user){		
 		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id).then(function(model){
+		
 		});
+		}
 	};
 
-	vm.removeUserFromSpot = function(gameId, userId, spotId){
-		GameModel.removeUserFromSpot(gameId, userId, spotId).then(function(model){
+	vm.removeUserFromSpot = function(gameId, spot){
+		GameModel.removeUserFromSpot(gameId, spot.user, spot.id).then(function(model){
 		});
 	};
 
 	vm.leaveGame = function(game){
 		GameModel.removeUser(game.id, vm.currentUser).then(function(model){});
 	};
+
+	vm.userHasTurn = function(game){
+		var nextRollableSpot = vm.getNextRollableSpot(game);
+		if(nextRollableSpot.user === vm.currentUser.id) return true;
+		return false;
+	}
+
+	vm.getNextRollableSpot = function(game){
+		return _.find(game.spots, function(spot){return spot.drawn === false});
+	}
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
@@ -104,15 +115,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			return false;
 	};
 
-	vm.getUserFromGame = function(game, userId){
-		var gameUser = {};
-		angular.forEach(game.users, function(user, key){
-			if(user.id == userId){
-				gameUser = user;
-			}
-		});
-		return gameUser;
-	};
+	
 
 	vm.rollBuilds = function(game) {
 		console.log("I don't get called");
@@ -171,15 +174,40 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return vm.champions[build.champion].spells[index];
 	};
 
+	/**
+	 * Checks whether a user is in the specified spot
+	 * @param  spot {Object}
+	 * @return {Boolean}
+	 */
 	vm.isUserInSpot = function(spot){
 		if(typeof spot.user == 'undefined' || spot.user == null) return false;
 		return true;
 	};
+	/**
+	 * Checks whether the user is in any spots of the game
+	 * @param  userId {number}
+	 * @param  game {Object}
+	 * @return {Boolean}
+	 */
+	vm.userInSpot = function(userId, game) {
+		return _.some(game.spots, function(spot){return spot.user === userId});
+	}
+	/**
+	 * Get the specified user from the game object
+	 * @param  userId{Number}
+	 * @param  game{Object}
+	 * @return user{Object}
+	 */
+	vm.getUserFromGame = function(userId, game){
+		var user = _.find(game.users, function(user){return user.id == userId});
+		return user;
+	}
+
 
 	vm.rerollSpot = function(id, spotId){
 		if (vm.game.user.id == vm.currentUser.id) {
 			GameModel.rollBuild(id, spotId).then(function(model) {
-				// message has been deleted, and removed from vm.messages
+				
 			});
 		}
 	}
@@ -188,7 +216,16 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 			
 		// }
 		GameModel.drawCard(id, spot.id).then(function(model) {
-				// message has been deleted, and removed from vm.messages
+				
+			});
+	};
+
+	vm.startGame = function(id) {
+		// if (spot.user.id == vm.currentUser.id) {
+			
+		// }
+		GameModel.startGame(id).then(function(model) {
+				
 			});
 	};
 

@@ -50,21 +50,19 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 	this.addUserToSpot = function(gameId, userId, spotId) {
 		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/spot/'+spotId+'/user');
-		$sails.post(url, {user: userId}, function(model) {
-			return deferred.resolve(model);
+		var url = utils.prepareUrl('game/'+gameId+'/actions/addUserToSpot/');
+		return $sails.put(url, {user: userId, spotId: spotId}).then(function(model) {
+			return model;
 		});
 
 		return deferred.promise;
 	};
 	this.removeUserFromSpot = function(gameId, userId, spotId) {
-		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/spot/'+spotId+'/user/'+userId);
-		$sails.delete(url, function(model) {
-			return deferred.resolve(model);
-		});
 
-		return deferred.promise;
+		var url = utils.prepareUrl('game/'+gameId+'/actions/removeUserFromSpot/');
+		return $sails.put(url, {spotId:spotId, userId: userId}).then(function(model) {
+			return model;
+		});
 	};
 	this.removeUser = function(gameId, userId) {
 		var deferred = $q.defer();
@@ -89,7 +87,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 	this.rollBuilds = function(gameId){
 		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/build');
+		var url = utils.prepareUrl('game/'+gameId+'/actions/rollBuilds');
 		$sails.post(url, {}, function(model) {
 			return deferred.resolve(model);
 		});
@@ -99,9 +97,9 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 	this.rollBuild = function(gameId, spotId){
 		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/spot/'+spotId);
+		var url = utils.prepareUrl('game/'+gameId+'/actions/rollBuild');
 
-		$sails.put(url, {}, function(model) {
+		$sails.put(url, {spotId: spotId}, function(model) {
 			return deferred.resolve(model);
 		});
 
@@ -109,17 +107,25 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 	}
 
 	this.drawCard = function(gameId, spotId){
-		var url = utils.prepareUrl('game/'+gameId+'/spot/'+spotId + "/draw");
+		var url = utils.prepareUrl('game/'+gameId+'/actions/draw');
 
-		return $sails.put(url, {}).then(function(model) {
+		return $sails.put(url, {spotId: spotId}).then(function(model) {
 			return model;
 		});
 
 	}
 
+	this.acceptBuild = function(gameId, spotId){
+		var url = utils.prepareUrl('game/'+gameId+'/actions/accept');
+
+		return $sails.put(url, {spotId: spotId}).then(function(model) {
+			return model;
+		});
+	}
+
 	this.resetBuilds = function(gameId) {
 		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/build/');
+		var url = utils.prepareUrl('game/'+gameId+'/actions/resetBuilds');
 
 		$sails.delete(url, {}, function(model) {
 			return deferred.resolve(model);

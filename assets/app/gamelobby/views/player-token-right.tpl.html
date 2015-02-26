@@ -8,9 +8,9 @@
           <div class="player__token-backdrop"></div>
           <div class="player__token-image" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});"></div>
           <div class="player__token-polygon"></div>
-          <div class="player__token-nameplate">
+          <div class="player__token-nameplate" ng-if="spot.user">
             <p class="token-nameplate__player-name">
-              Lichine
+              {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}
             </p>
           </div>
         </div>

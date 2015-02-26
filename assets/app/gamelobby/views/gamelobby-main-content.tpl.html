@@ -4,34 +4,16 @@
 <!-- Unassigned player Hexagon section -->
 <!-- ::::::::::::::::::::::::::::::::: -->
 
-  <!--   <section class="hexagon-wrapper" layout="column" layout-align="center center">
-      <div class="incogneto-player-hexagon 1" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
+    <section class="hexagon-wrapper" layout="column" layout-align="center center" ng-if="!gameLobby.game.gameStarted">
+      <div class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.game.users" ng-if="!gameLobby.userInSpot(user.id, gameLobby.game)">
       </div>
-      <div class="incogneto-player-hexagon 2" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 3" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 4" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 5" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 6" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 7" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 8" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 9" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-      <div class="incogneto-player-hexagon 10" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'">
-      </div>
-    </section> -->
+    </section>
         
     
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Card deck section                 -->
 <!-- ::::::::::::::::::::::::::::::::: -->
-    <div class="card-deck-container">
+    <div class="card-deck-container" ng-if="gameLobby.game.gameStarted">
       <button 
         ng-if="gameLobby.userOwnsGame()" 
         ng-click="gameLobby.rollBuilds(gameLobby.game)" 
