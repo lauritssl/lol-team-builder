@@ -80,7 +80,7 @@ module.exports = {
 								summoner2: build.summoners.summoner2,
 								skill_to_level: build.skill_to_level,
 								drawn: false,
-								buildAccepted: false,
+								accepted: false,
 								denied: false
 				};
 				callback(buildDto);

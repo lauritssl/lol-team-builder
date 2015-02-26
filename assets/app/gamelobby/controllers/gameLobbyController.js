@@ -177,12 +177,20 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.rerollSpot = function(id, spotId){
-		if (vm.game.user.id == Session.currentUser.id) {
+		if (vm.game.user.id == vm.currentUser.id) {
 			GameModel.rollBuild(id, spotId).then(function(model) {
 				// message has been deleted, and removed from vm.messages
 			});
 		}
 	}
+	vm.drawCard = function(id, spot) {
+		// if (spot.user.id == vm.currentUser.id) {
+			
+		// }
+		GameModel.drawCard(id, spot.id).then(function(model) {
+				// message has been deleted, and removed from vm.messages
+			});
+	};
 
 	vm.getChampionBackground = function(championImageId) {
 			return ChampionService.getChampionBackground(championImageId);
@@ -199,9 +207,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		return colWidth;
 	};
 
-	vm.drawn = function(build) {
-		return build.drawn = true;
-	};
+	
 
 	vm.denied = function(build) {
 		return build.denied = true;

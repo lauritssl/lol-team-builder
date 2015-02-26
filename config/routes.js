@@ -84,7 +84,9 @@ module.exports.routes = {
     'delete /api/game/:id/user' : 'GameController.destroyUser',
     'post /api/game/:id/build' : 'GameController.rollBuilds',
     'delete /api/game/:id/build' : 'GameController.resetBuilds',
-    'put /api/game/:id/spot/:spotId' : 'GameController.rerollBuild',
+    'put /api/game/:id/spot/:spotId' : 'GameController.rollBuild',
+    'put /api/game/:id/spot/:spotId/draw' : 'GameController.drawCard',
+    'put /api/game/:id/spot/:spotId/accept' : 'GameController.acceptBuild',
      'delete /api/game/:id/spot/:spotId/user/:userId' : 'GameController.removeUserFromSpot',
   
    // If a request to a URL doesn't match any of the custom routes above, it is matched

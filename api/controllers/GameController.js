@@ -298,8 +298,27 @@ rollBuilds : function(req, res){
 	});
 
 },
+drawCard : function(req, res){
 
-rerollBuild: function(req, res) {
+	var id = req.param('id')
+	var spotId = req.param('spotId')
+
+	var options = {
+		id: id,
+		spotId: spotId
+	}
+
+	gameService.drawCard(options)
+    .then(function(){
+        Game.republishGame(id);
+    })
+    .catch(function(err){
+    return res.serverError(err);
+	});
+
+},
+
+rollBuild: function(req, res) {
 	var id = req.param('id')
 	var spotId = req.param('spotId')
 
@@ -317,6 +336,23 @@ rerollBuild: function(req, res) {
 		.then(function(){
 			Game.republishGame(id);
 		})
+	})
+	.catch(function(err){
+		return res.serverError(err);
+	});
+},
+
+acceptBuild: function(req, res){
+	var id = req.param('id')
+	var spotId = req.param('spotId')
+
+	var options = {
+		id: id,
+		spotId: spotId
+	}
+	gameService.acceptBuild(options)
+	.then(function(result){
+		Game.publishUpdate(id, result);
 	})
 	.catch(function(err){
 		return res.serverError(err);
