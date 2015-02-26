@@ -264,11 +264,24 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.acceptBuild = function(game, spot) {
-		Game.acceptBuild(game.id, spot.id)
+		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
 
 		});
 	};
+
+	vm.allSpotsAccepted = function(game){
+		var allAccepted = !_.some(game.spots, function(spot){
+							if(typeof spot.build === 'undefined') return true;
+							return spot.build.accepted === false;
+						  });
+		return allAccepted;
+	}
+
+	vm.isBuildAccepted = function(spot){
+		if(typeof spot.build === 'undefined') return false
+		return spot.build.accepted
+	}
 
 
 

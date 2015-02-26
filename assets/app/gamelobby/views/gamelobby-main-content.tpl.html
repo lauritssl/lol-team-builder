@@ -17,7 +17,7 @@
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Card deck section                 -->
 <!-- ::::::::::::::::::::::::::::::::: -->
-    <div class="card-deck-container" ng-if="gameLobby.game.gameStarted">
+    <div class="card-deck-container" ng-if="gameLobby.game.gameStarted && !gameLobby.allSpotsAccepted(gameLobby.game)">
      <!--  <button 
         ng-if="gameLobby.userOwnsGame()" 
         ng-click="gameLobby.rollBuilds(gameLobby.game)" 
@@ -26,7 +26,7 @@
         ROLL ALL
       </button> -->
       <div class="card-deck">
-        <article class="card" ng-click="spot.drawn || gameLobby.drawCard(gameLobby.game.id, spot)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ $index+1}};"></article>
+        <article class="card" ng-click="spot.drawn || gameLobby.drawCard(gameLobby.game.id, spot)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ 10 - $index}};"></article>
 
        
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>
