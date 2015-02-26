@@ -476,7 +476,6 @@ body {
   //Incogneto player hexagons
   .hexagon-wrapper{
     position: relative;
-    //margin: 20px;
     margin-bottom: 65px;
 
   .incogneto-player-hexagon{
@@ -488,6 +487,8 @@ body {
     background-color: #333;
     -webkit-clip-path: @icon__player_token_polygon;
     clip-path: @icon__player_token_polygon;
+    //clip-path: url(#triangle);
+    clip-path: url(#clipping);
       
 
       &:nth-child(1){
@@ -532,7 +533,8 @@ body {
       background: url(../../../images/UB_slot-bg_trans.png) no-repeat top center;
       background-size: 17.5rem auto;
       -webkit-clip-path: @icon__player_token_polygon;
-      clip-path: @icon__player_token_polygon;
+      //clip-path: @icon__player_token_polygon;
+      clip-path: url(#triangle);
     }
     .hexagon-edge{
       position: absolute;

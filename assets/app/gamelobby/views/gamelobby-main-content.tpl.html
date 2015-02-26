@@ -3,12 +3,18 @@
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Unassigned player Hexagon section -->
 <!-- ::::::::::::::::::::::::::::::::: -->
-
+    
     <section class="hexagon-wrapper" layout="column" layout-align="center center" ng-if="!gameLobby.game.gameStarted">
-      <div class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.game.users" ng-if="!gameLobby.userInSpot(user.id, gameLobby.game)">
-      </div>
+      <img class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.game.users" ng-if="!gameLobby.userInSpot(user.id, gameLobby.game)">
+      </img>
     </section>
-        
+      <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+        <defs>
+          <clipPath id="">
+            <circle cx="84" cy="84" r="50" />
+         </clipPath>
+        </defs>
+      </svg>    
     
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Card deck section                 -->
