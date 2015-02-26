@@ -1,10 +1,10 @@
 
+
+
+<div class="notifications">Pick a slot...</div>
         <button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start game</button>
 
-           <button class="btn btn--error" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">End game</button> {{gameLobby.game.gameStarted}}
-
-<div class="">Pick a slot...</div>
-
+           <button class="btn btn--error" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">End game</button> 
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Unassigned player Hexagon section -->
 <!-- ::::::::::::::::::::::::::::::::: -->
