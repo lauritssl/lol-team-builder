@@ -31,7 +31,7 @@
           </div>
           
           <div class="player__token-backdrop"></div>
-          <div class="player__token-image" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});"></div>
+          <div class="player__token-image" ng-class="{'invisible':!gameLobby.isBuildAccepted(spot)}" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});"></div>
           <div class="player__token-polygon" ng-click="gameLobby.game.gameStarted || gameLobby.joinSpot(gameLobby.game, spot)" ng-disabled="gameLobby.game.gameStarted"></div>
           <div class="player__token-nameplate" ng-if="spot.user">
             <p class="token-nameplate__player-name">
