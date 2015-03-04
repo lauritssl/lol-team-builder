@@ -78,14 +78,23 @@ module.exports.routes = {
     'get /api/game': 'GameController.getAll',
     'get /api/game/:id': 'GameController.getOne',
     'post /api/game': 'GameController.create',
+
     'delete /api/game/:id': 'GameController.destroy',
     'post /api/game/:id/user' : 'GameController.addUser',
-    'post /api/game/:id/spot/:spotId/user' : 'GameController.addUserToSpot',
     'delete /api/game/:id/user' : 'GameController.destroyUser',
-    'post /api/game/:id/build' : 'GameController.rollBuilds',
-    'delete /api/game/:id/build' : 'GameController.resetBuilds',
-    'put /api/game/:id/spot/:spotId' : 'GameController.rerollBuild',
-     'delete /api/game/:id/spot/:spotId/user/:userId' : 'GameController.removeUserFromSpot',
+
+     //Actions
+    'put /api/game/:id/actions/start': 'GameController.startGame',
+    'put /api/game/:id/actions/end': 'GameController.endGame',
+    'put /api/game/:id/actions/rollBuild' : 'GameController.rollBuild',
+    'put /api/game/:id/actions/draw' : 'GameController.drawCard',
+    'put /api/game/:id/actions/accept' : 'GameController.acceptBuild',
+    'post /api/game/:id/actions/rollBuilds' : 'GameController.rollBuilds',
+    'put /api/game/:id/actions/removeUserFromSpot' : 'GameController.removeUserFromSpot',
+    'put /api/game/:id/actions/addUserToSpot' : 'GameController.addUserToSpot',
+    'delete /api/game/:id/actions/resetBuilds' : 'GameController.resetBuilds',
+
+
   
    // If a request to a URL doesn't match any of the custom routes above, it is matched
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options
@@ -95,5 +104,6 @@ module.exports.routes = {
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',
   'get /games/:id': 'HomeController.index',
+  'get /games/:id/join': 'HomeController.index',
   'get /new/game': 'HomeController.index'
 };

@@ -32,7 +32,7 @@ module.exports = {
 				return console.log(err);
 			}
 			else {
-				User.publishCreate(model.toJSON());
+				User.publishCreate(req.socket,model.toJSON());
 				res.json(model);
 			}
 		});

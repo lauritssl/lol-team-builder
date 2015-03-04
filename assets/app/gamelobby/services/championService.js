@@ -62,9 +62,14 @@ function ChampionService ($http, $q) {
 
         	return url + championsImageId;
         },
+        getChampionBackground: function(championsImageId){
+            url = cdnUrl + "/img/champion/loading/";
+
+            return url + championsImageId + '_0.jpg';
+        },
 
         getItemImage: function(itemImageId){
-            url = cdnUrl +"/"+this.cdnVersion + "/img/item/";
+            url = cdnUrl +"/"+this.cdnVersion + "/img/sprite/";
 
             return url + itemImageId;
         },

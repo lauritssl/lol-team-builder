@@ -1,0 +1,21 @@
+<main>
+  <aside class="sidebar pull--left">
+    <ul class="players list-unstyled" layout="column" layout-align="center center">
+      <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$even" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
+      class="player" ng-disabled="!gameLobby.game.gameStarted" ng-click="!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)"
+      data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-left.tpl.html'">
+      </li>
+    </ul>
+  </aside>
+
+  <section class="content-container" ng-include="'gamelobby/views/gamelobby-main-content.tpl.html'" layout="column" layout-align="center center">
+  </section>
+  <aside class="sidebar pull--right">
+    <ul class="players list-unstyled" layout="column" layout-align="center center" >
+      <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$odd" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
+      class="player" ng-disabled="!gameLobby.game.gameStarted" ng-click="!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)"
+      data-champion="Jax" layout="row" layout-align="center center" ng-include="'gamelobby/views/player-token-right.tpl.html'">
+      </li>
+    </ul>
+  </aside>
+</main>

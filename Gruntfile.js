@@ -79,3 +79,5 @@ module.exports = function(grunt) {
 	invokeConfigFn(registerDefinitions);
 
 };
+
+

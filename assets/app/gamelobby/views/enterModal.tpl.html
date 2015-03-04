@@ -1,0 +1,14 @@
+<div class="modal-content-container join-lobby">
+  <div class="modal-header">
+    <h3 class="modal-title">
+    Your nickname
+    </h3>
+  </div>
+  <div class="modal-body">
+    <input ng-model="user.nickname" type="text">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Join</button>
+    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Cancel</button>
+  </div>
+</div>
