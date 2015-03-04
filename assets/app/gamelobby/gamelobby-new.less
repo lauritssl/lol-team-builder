@@ -52,7 +52,6 @@ html {
 
 body {
   font-family: "Roboto", sans-serif;
-  //background-color: rgba(0,0,0,.55);
   position: fixed;
   background: -moz-linear-gradient(left, rgba(28,95,140,0.25) 0%, rgba(110,99,122,0) 50%, rgba(191,103,103,0.25) 100%);
   background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(28,95,140,0.25)), color-stop(50%,rgba(110,99,122,0)), color-stop(100%,rgba(191,103,103,0.25)));
@@ -242,6 +241,7 @@ body {
          width: 30px;
          height: 30px;
          background-color: teal;
+         background-size: 1500% 1560%;
         }
       }
     }
@@ -276,6 +276,16 @@ body {
         z-index: 0;
         box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
         .transition(all 0.25s ease-out);
+
+        i{
+          color: #fff;
+          opacity: 0.53;
+          .transition(all 0.2 ease);
+          font-size: 16px;
+        }
+        &:hover i{
+            opacity: 0.87;
+          }
         
         &:nth-child(2){
           transition-delay: 0.1s;
@@ -291,8 +301,9 @@ body {
         height: 12.5rem;
         background-color: #333;
         margin-left: 1.6rem;
-        -webkit-clip-path: @icon__player_token_polygon;
-        clip-path: @icon__player_token_polygon;
+        border-radius: 6rem;
+        // -webkit-clip-path: @icon__player_token_polygon;
+        // clip-path: @icon__player_token_polygon;
       }
 
       .player__token-image{
@@ -486,10 +497,12 @@ body {
     min-width: 17.5rem;
     min-height: 15rem;
     margin: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
     background-color: #333;
     -webkit-clip-path: @icon__player_token_polygon;
     clip-path: @icon__player_token_polygon;
-      
+    .transition(all 0.5s ease-in-out);
 
       &:nth-child(1){
         margin-top: 10px !important;
@@ -579,6 +592,7 @@ body {
   text-align: center;
   width: 100%;
   z-index: 0;
+  .transform(translateY(-100%));
 }
 
 .slides-out-from-bottom {
@@ -591,14 +605,14 @@ body {
 
 @-webkit-keyframes slideOutFromBottom {
   to {
-    top: 110%;
+    -webkit-transform: translateY(0);
     opacity: 1;
   }
 }
 
 @keyframes slideOutFromBottom {
   to {
-    top: 110%;
+    -webkit-transform: translateY(0);
     opacity: 1;
   }
 }
