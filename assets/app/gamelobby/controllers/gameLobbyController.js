@@ -99,7 +99,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 	vm.getNextRollableSpot = function(game){
-		return _.find(game.spots, function(spot){return spot.drawn !== true});
+		var spot = _.find(game.spots, function(spot){
+			if(typeof spot.build !== 'undefined') return spot.build.drawn !== true || spot.build.drawn && !spot.build.accepted ;
+			else return typeof spot.build === 'undefined'
+			});
+		return spot;
 	}
 
 	vm.destroyGame = function(game) {
