@@ -40,6 +40,8 @@ var jsFilesToInject = [
   'bower_components/angular-moment/angular-moment.js',
   'bower_components/angular-translate/angular-translate.js',
   'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+  'bower_components/angular-audio/app/angular.audio.js',
+
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.

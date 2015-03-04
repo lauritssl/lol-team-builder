@@ -1,15 +1,17 @@
 angular.module( 'ubteambuilder.gamelobby.controllers', ['pmkr.components'])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state) {
+ function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio) {
 
  	if(game.statusCode === 404){
  		return $state.go('home');
  	}
  	//initialize variables
   var vm = this;
+
+  vm.startSound = ngAudio.load("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 
   //Set the user - or go to join game if the user is not in the lobby
  	vm.currentUser =  $cookieStore.get(game.id);
@@ -233,6 +235,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		// if (spot.user.id == vm.currentUser.id) {
 			
 		// }
+		ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 		GameModel.startGame(id).then(function(model) {
 				
 			});
@@ -277,6 +280,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.acceptBuild = function(game, spot) {
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
+			if(vm.userHasTurn(vm.game)) ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
 
 		});
 	};
