@@ -139,6 +139,14 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		});
 	}
 
+	this.denied = function(gameId, spotId){
+		var url = utils.prepareUrl('game/'+gameId+'/actions/denied');
+
+		return $sails.put(url, {spotId: spotId}).then(function(model) {
+			return model;
+		});
+	}
+
 	this.resetBuilds = function(gameId) {
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/actions/resetBuilds');

@@ -148,6 +148,31 @@ module.exports = {
             return deferred.promise;
         })
     },
+
+    denyBuild: function(_options){
+        var deferred = Q.defer();        
+        var self = this;
+        var id = _options.id;
+        var spotId = _options.spotId;
+
+
+
+        return Game.findOne(id)
+        .then(function(game){
+            game.spots.forEach(function(spot){
+                if(spot.id === spotId)spot.build.denied = true;                
+            });
+
+            game.save(function(err, result){
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            })
+            return deferred.promise;
+        })
+    },
     startGame: function(_options){
         var deferred = Q.defer();        
         var self = this;
@@ -215,6 +240,42 @@ module.exports = {
             }
             game = gameModel;
             if(_.some(game.spots, function(spot){return (spot.id === spotId && typeof spot.build !== 'undefined' && spot.build.drawn)})) throw new Error("Card is already drawn");
+            return self.rollBuild(options);
+        }).then(function(build) {
+            //Since it is a single draw it will be changed to drawn
+            build.drawn = true;
+            _.forEach(game.spots, function(spot, key) {
+                if (spot.id == spotId) {
+                    spot.build = build
+                }
+            });
+            
+            game.save(function(err, result){
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            });
+
+            return deferred.promise;            
+        });
+    },
+    rerollBuild: function(_options) {
+        var deferred = Q.defer();        
+        var self = this;
+        var id = _options.id;
+        var spotId = _options.spotId;
+        var items, champions, summoners, maps, game, builds;
+        return Q.spread([Game.findOne(id), lolDataService.getGameData()], function(gameModel, gameData) {
+            options = {
+                items: gameData.items,
+                champions: gameData.champions,
+                summoners: gameData.summoners,
+                maps: gameData.maps,
+                game: gameModel
+            }
+            game = gameModel;
             return self.rollBuild(options);
         }).then(function(build) {
             //Since it is a single draw it will be changed to drawn

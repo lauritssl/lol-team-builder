@@ -135,7 +135,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.getItemImageFromBuild = function(build, type){
 
-		return ChampionService.getItemImage(vm.items[build[type]].image.sprite);
+		return ChampionService.getItemImage(build[type]);
 	};
 
 	vm.getSummonerImageFromBuild = function(build, type){
@@ -153,6 +153,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		var item = angular.copy(vm.items[build[type]]);
 		if(item.group === "JungleItems") {
 			item = angular.copy(vm.items[build.jungleItemEnchantment]);
+			var name = vm.items[build[type]].name + " with " + item.name;
+			item.name = name;
+		}else if(type === "boots"){
+			item = angular.copy(vm.items[build.bootsEnchantment]);
 			var name = vm.items[build[type]].name + " with " + item.name;
 			item.name = name;
 		}
@@ -208,9 +212,9 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 
 
-	vm.rerollSpot = function(id, spotId){
+	vm.rerollSpot = function(game, spot){
 		if (vm.game.user.id == vm.currentUser.id) {
-			GameModel.rollBuild(id, spotId).then(function(model) {
+			GameModel.rollBuild(game.id, spot.id).then(function(model) {
 				
 			});
 		}
@@ -264,7 +268,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	
 
 	vm.denied = function(game, spot) {
-		return build.denied = true;
+		GameModel.denied(game.id, spot.id)
+		.then(function(result){
+
+		});
 	};
 
 	vm.acceptBuild = function(game, spot) {

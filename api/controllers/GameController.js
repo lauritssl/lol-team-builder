@@ -331,22 +331,15 @@
  	var id = req.param('id')
  	var spotId = req.param('spotId')
 
+ 	var options = {
+ 		id: id,
+ 		spotId: spotId
+ 	}
 
- 	Q.all([lolDataService.getGameData(), Game.getOne(id)])
- 	.then(function(gameData, game){
-
- 		options.items = gameData.items;
- 		options.champions = gameData.champions;
- 		options.summoners = gameData.summoners;
- 		options.maps = gameData.maps;
- 		options.game = game;
-
- 		gameService.rollBuildForGame(options)
- 		.then(function(result){
- 			Game.republishGame(id);
- 			return res.json(result);
-
- 		})
+ 	gameService.rerollBuild(options)
+ 	.then(function(result){
+ 		Game.publishUpdate(id, result);
+ 		return res.json(result);
  	})
  	.catch(function(err){
  		return res.serverError(err);
@@ -362,6 +355,24 @@
  		spotId: spotId
  	}
  	gameService.acceptBuild(options)
+ 	.then(function(result){
+ 		Game.publishUpdate(id, result);
+ 		return res.json(result);
+ 	})
+ 	.catch(function(err){
+ 		return res.serverError(err);
+ 	});
+ },
+
+  denyBuild: function(req, res){
+ 	var id = req.param('id')
+ 	var spotId = req.param('spotId')
+
+ 	var options = {
+ 		id: id,
+ 		spotId: spotId
+ 	}
+ 	gameService.denyBuild(options)
  	.then(function(result){
  		Game.publishUpdate(id, result);
  		return res.json(result);

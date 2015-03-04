@@ -241,7 +241,7 @@ body {
          width: 30px;
          height: 30px;
          background-color: teal;
-         background-size: 1500% 1560%;
+         background-size: 100% 100%;
         }
       }
     }
@@ -537,7 +537,29 @@ body {
       background-size: 17.5rem 15rem;
     }
     .hexagon-banner{
-
+      .player__token-nameplate{
+        position: absolute;
+        background-size: 14.2rem 7.3rem;
+        width: 16.5rem;
+        height: 7.3rem;
+        z-index: 13;
+        left: 2.5rem;
+        margin-top: 2.7rem;
+        .transform(translate3d(0, -100%, 0));
+        
+        .token-nameplate__player-name{
+          color: #fff;
+          left: 12px;
+          top: -10px;
+          width: 110px;
+          opacity: 0.87;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: center;
+          text-transform: capitalize;
+        }
+      }
     }
     }
 
@@ -791,8 +813,7 @@ body {
     .grid__child {
       height: @size;
       width: @size;
-      background-position-y: -64px;
-      background-position-x: 0;
+      background-size: 100% 100%; 
       
       &.rounded { border-radius: 50%; }
       

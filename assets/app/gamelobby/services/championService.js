@@ -69,9 +69,9 @@ function ChampionService ($http, $q) {
         },
 
         getItemImage: function(itemImageId){
-            url = cdnUrl +"/"+this.cdnVersion + "/img/sprite/";
+            url = cdnUrl +"/"+this.cdnVersion + "/img/item/";
 
-            return url + itemImageId;
+            return url + itemImageId + '.png';
         },
 
         getSummonerImage: function(itemImageId){

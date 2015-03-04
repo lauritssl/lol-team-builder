@@ -32,8 +32,10 @@
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>
       </div>
        <div class="card-interactions" ng-class="{'slides-out-from-bottom': gameLobby.getNextRollableSpot(gameLobby.game).build.drawn}">
-          <button class="btn btn--success" ng-if="gameLobby.userHasTurn(gameLobby.game) || gameLobby.userOwnsGame()" ng-click="gameLobby.acceptBuild(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))">Accept Build</button>
-          <button class="btn btn--danger" ng-if="gameLobby.userHasTurn(gameLobby.game)" ng-click="gameLobby.denied(gameLobby.game, gameLobby.getNextRollableSpot())" ng-class="{'disabled' : spot.build.denied}">Request Re-Roll</button>
+          <button class="btn btn--success" ng-if="gameLobby.userOwnsGame() || (gameLobby.userHasTurn(gameLobby.game) && !gameLobby.getNextRollableSpot(gameLobby.game).build.denied)" ng-click="gameLobby.acceptBuild(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))">Accept Build</button>
+          <button class="btn btn--danger" ng-if="gameLobby.userHasTurn(gameLobby.game)" ng-click="gameLobby.denied(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))" ng-class="{'disabled' : gameLobby.getNextRollableSpot(gameLobby.game).build.denied}">Request Re-Roll</button>
+
+          <button class="btn btn--danger" ng-if="gameLobby.userOwnsGame() && gameLobby.getNextRollableSpot(gameLobby.game).build.denied" ng-click="gameLobby.rerollSpot(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))" ng-class="{'disabled' : spot.build.denied}">Reroll</button>
         </div>
     </div>
 

@@ -89,6 +89,8 @@ module.exports.routes = {
     'put /api/game/:id/actions/rollBuild' : 'GameController.rollBuild',
     'put /api/game/:id/actions/draw' : 'GameController.drawCard',
     'put /api/game/:id/actions/accept' : 'GameController.acceptBuild',
+    'put /api/game/:id/actions/denied' : 'GameController.denyBuild',
+
     'post /api/game/:id/actions/rollBuilds' : 'GameController.rollBuilds',
     'put /api/game/:id/actions/removeUserFromSpot' : 'GameController.removeUserFromSpot',
     'put /api/game/:id/actions/addUserToSpot' : 'GameController.addUserToSpot',
