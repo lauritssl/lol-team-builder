@@ -1,6 +1,6 @@
 var request = require("request");
 var async = require("async");
-var Q = require("Q");
+var Q = require("q");
 
 
 module.exports = {

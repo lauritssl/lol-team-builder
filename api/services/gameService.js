@@ -1,4 +1,4 @@
-var Q = require("Q");
+var Q = require("q");
 module.exports = {
     rollBuildForGame: function(_options) {
         var deferred = Q.defer();        
