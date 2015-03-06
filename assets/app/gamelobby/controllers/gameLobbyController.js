@@ -287,6 +287,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		});
 	};
 
+	vm.removeSpot = function (spot) {
+		// body...
+	}
+
 	vm.allSpotsAccepted = function(game){
 		var allAccepted = !_.some(game.spots, function(spot){
 							if(typeof spot.build === 'undefined') return true;
