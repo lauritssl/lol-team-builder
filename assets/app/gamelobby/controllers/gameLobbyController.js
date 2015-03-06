@@ -282,7 +282,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.acceptBuild = function(game, spot) {
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
-			if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
+			// if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
 
 		});
 	};
