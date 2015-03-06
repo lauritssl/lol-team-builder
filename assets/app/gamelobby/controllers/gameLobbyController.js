@@ -47,7 +47,9 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 				break;
 			case 'updated':
 				//console.log(envelope.data);
-				vm.game = envelope.data;
+				if(vm.game.id == envelope.data.id){
+					vm.game = envelope.data;
+				}
 				break;
 			case 'destroyed':
 				lodash.remove(vm.games, {id: envelope.id});
@@ -235,7 +237,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		// if (spot.user.id == vm.currentUser.id) {
 			
 		// }
-		ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
+		//ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 		GameModel.startGame(id).then(function(model) {
 				
 			});
@@ -280,7 +282,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.acceptBuild = function(game, spot) {
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
-			if(vm.userHasTurn(vm.game)) ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
+			if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
 
 		});
 	};
