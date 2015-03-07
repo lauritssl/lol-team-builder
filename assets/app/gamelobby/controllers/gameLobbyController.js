@@ -294,11 +294,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		})
 	}
 
-	vm.addSpot = function (game, spot) {
-		GameModel.addSpot(game.id)
-		.then(function(result) {
-			// body...
-		})
+
+	vm.addSpot = function(game) {
+		if(game.spots.length <= game.numberOfSpots){
+				GameModel.addSpot(game.id)
+				.then(function(result) {
+					// body...
+				})
+		}
+
 	}
 
 	vm.allSpotsAccepted = function(game){

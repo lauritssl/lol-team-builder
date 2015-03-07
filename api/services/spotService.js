@@ -99,5 +99,9 @@ module.exports = {
 
             return deferred.promise;  
 		});
+	},
+
+	addSpot: function (_options) {
+		var gameId = _options.id;
 	}
 }

@@ -151,6 +151,10 @@
 				}
 			});
 	},
+	addSpot: function  (req,res) {
+		var id = req.param('id');
+		
+	}
 	addUserToSpot : function(req, res){
 		var userId = req.param('user');
 		var id = req.param('id');
