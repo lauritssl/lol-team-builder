@@ -44,7 +44,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollMasteriesByNumber(4,function(result){
+				vm.rollMasteries(,function(result){
 					build.masteries = result;
 					callback();
 				});
@@ -248,14 +248,14 @@ module.exports = {
 		var randomNumber = 0;
 				
 		while (masteriesLeft >= number){
-			randomNumber =  Math.floor(Math.random()*(masteryArray.length))
+			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
 			tempMasteryArray[randomNumber] += 1;
 
 			masteriesLeft -= number;
 		};
 
 		while (masteriesLeft > 0){
-			randomNumber =  Math.floor(Math.random()*(masteryArray.length))
+			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
 			tempMasteryArray[randomNumber] += 1;
 
 			masteriesLeft -= 1;
