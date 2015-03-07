@@ -44,7 +44,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollMasteries(,function(result){
+				vm.rollMasteries(function(result){
 					build.masteries = result;
 					callback();
 				});
