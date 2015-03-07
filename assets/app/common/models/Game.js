@@ -48,6 +48,16 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		});
 	};
 
+	this.addSpot = function(gameId) {
+		var url = utils.prepareUrl('game/'+gameId+'/spot');
+		return $sails.post(url,{}).then(function(model) {
+			return model.data;
+		})
+		.catch(function(err){
+			return err;
+		});
+	};
+
 	this.addUserToSpot = function(gameId, userId, spotId) {
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/actions/addUserToSpot/');
