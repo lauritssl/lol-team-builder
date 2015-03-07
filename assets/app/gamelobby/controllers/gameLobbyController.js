@@ -225,7 +225,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 	vm.drawCard = function(id, spot) {
 		
-		if(spot.user === vm.currentUser.id){
+		if(spot.user === vm.currentUser.id || vm.userOwnsGame()){
 
 		GameModel.drawCard(id, spot.id).then(function(model) {
 				
@@ -287,8 +287,18 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		});
 	};
 
-	vm.removeSpot = function (spot) {
-		// body...
+	vm.removeSpot = function (game, spot) {
+		GameModel.removeSpot(game.id, spot.id)
+		.then(function(result) {
+			// body...
+		})
+	}
+
+	vm.addSpot = function (game, spot) {
+		GameModel.addSpot(game.id)
+		.then(function(result) {
+			// body...
+		})
 	}
 
 	vm.allSpotsAccepted = function(game){

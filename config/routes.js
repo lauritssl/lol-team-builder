@@ -83,6 +83,9 @@ module.exports.routes = {
     'post /api/game/:id/user' : 'GameController.addUser',
     'delete /api/game/:id/user' : 'GameController.destroyUser',
 
+    'post /api/game/:id/spot' : 'GameController.addSpot',
+    'delete /api/game/:id/spot' : 'GameController.destroySpot',
+
      //Actions
     'put /api/game/:id/actions/start': 'GameController.startGame',
     'put /api/game/:id/actions/end': 'GameController.endGame',
