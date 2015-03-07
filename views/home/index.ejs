@@ -1,16 +1,3 @@
-<% if (user !== undefined) { %>
-<script>
-	var user = {
-		id: '<%= user.id %>',
-		username: '<%= user.username %>',
-		email: '<%= user.email %>',
-		createdAt: '<%= user.createdAt %>',
-		updatedAt: '<%= user.updatedAt %>'
-	};
-	console.log(user);
-</script>
-<% } %>
-
 <div ng-include="'header/views/header.tpl.html'"></div>
 
 <div id="main" ui-view="main">
