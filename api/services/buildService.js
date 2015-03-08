@@ -44,7 +44,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollMasteries(function(result){
+				vm.rollMasteriesByNumber(4,function(result){
 					build.masteries = result;
 					callback();
 				});
@@ -238,6 +238,29 @@ module.exports = {
 		callback(build);
 	},
 
+	rollMasteriesOneByOne: function(callback){
+		//Roll the masteries on a point by point basis and add them to the build
+		var build = {}; 
+
+		var masteriesLeft = 30;
+		var tempMasteryArray = [0,0,0];
+		var randomNumber = 0;
+				
+		while (masteriesLeft > 0){
+			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
+			tempMasteryArray[randomNumber] += 1;
+
+			masteriesLeft--;
+		};
+
+		for (i = 0 ; i < tempMasteryArray.length; i++) {
+			build["mastery"+(i+1)] = tempMasteryArray[i];			
+		}
+
+
+		callback(build);
+	},
+
 	rollMasteriesByNumber: function(number,callback){
 		//Roll masteries in blocks of 'number' until less than 'number' is left. Then roll the remainder on a point by point basis
 		var build = {}; 
@@ -249,16 +272,16 @@ module.exports = {
 				
 		while (masteriesLeft >= number){
 			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
-			tempMasteryArray[randomNumber] += 1;
+			tempMasteryArray[randomNumber] += number;
 
-			masteriesLeft -= number;
+			masteriesLeft = masteriesLeft - number;
 		};
 
 		while (masteriesLeft > 0){
 			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
 			tempMasteryArray[randomNumber] += 1;
 
-			masteriesLeft -= 1;
+			masteriesLeft--;
 		};
 
 
