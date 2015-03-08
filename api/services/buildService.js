@@ -50,7 +50,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollSummoners(summoners, build.jungleItemEnchantment, function(result){
+				vm.rollSummoners(summoners, build.items.jungleItemEnchantment, function(result){
 					build.summoners = result;
 					callback();
 				})
@@ -282,7 +282,6 @@ module.exports = {
 
 		
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
-
 
 		if (jungleItem){
 
