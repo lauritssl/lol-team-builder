@@ -8,7 +8,7 @@ module.exports = {
     lolBasePath : "https://global.api.pvp.net",
     staticPath : "/api/lol/static-data/euw/v1.2",   
     cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
-    cdnVersion: "5.2.2", 
+    cdnVersion: "5.5.1", 
     localization: "en_GB",
 
 
@@ -21,7 +21,7 @@ module.exports = {
 
     	self.getVersion()
     	.then(function(result){
-    		self.cdnVersion = result[0];
+    		//self.cdnVersion = result[0];
     		return [self.getChampions(), self.getItems(), self.getSummoners(), self.getMaps()];
     	})
     	.spread(function(_champions, _items, _summoners, _maps){
