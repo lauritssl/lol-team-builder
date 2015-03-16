@@ -44,7 +44,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollMasteriesByNumber(4,function(result){
+				vm.rollMasteriesCat(function(result){
 					build.masteries = result;
 					callback();
 				});
@@ -237,6 +237,33 @@ module.exports = {
 
 		callback(build);
 	},
+
+	rollMasteriesCat: function(callback){
+		//Roll the masteries one category at a time and add them to the build
+		var build = {}; 
+
+		var masteriesLeft = 30;
+		var tempMasteryArray = [0,0,0];
+		var randomNumber = 0;
+		// Add random numbers of matery point to all but one of the categories 
+		for (i = 0; i < tempMasteryArray.length-1; i++){
+			randomNumber =  Math.floor(Math.random()*(masteriesLeft + 1))
+			tempMasteryArray[i] += randomNumber;
+
+			masteriesLeft = masteriesLeft - randomNumber;
+		};
+		// add the remaining points to the last category 
+		tempMasteryArray[tempMasteryArray.length-1] += masteriesLeft;
+
+		_.shuffle(tempMasteryArray);
+
+		for (i = 0 ; i < tempMasteryArray.length; i++) {
+			build["mastery"+(i+1)] = tempMasteryArray[i];			
+		}
+
+		callback(build);
+	},
+
 
 	rollMasteriesOneByOne: function(callback){
 		//Roll the masteries on a point by point basis and add them to the build
