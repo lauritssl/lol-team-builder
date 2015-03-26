@@ -1,8 +1,7 @@
 angular.module('ubteambuilder', [
 	'ngCookies',
 	'ngAudio',
-	'ui.router',	
-	'pmkr.components',
+	'ui.router',
 	'angular-data.DSCacheFactory',
 	'ngSails',
 	'angularMoment',
