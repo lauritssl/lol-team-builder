@@ -8,7 +8,7 @@ module.exports = {
     lolBasePath : "https://global.api.pvp.net",
     staticPath : "/api/lol/static-data/euw/v1.2",   
     cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
-    cdnVersion: "5.5.1", 
+    cdnVersion: "5.6.1", 
     localization: "en_GB",
 
 
