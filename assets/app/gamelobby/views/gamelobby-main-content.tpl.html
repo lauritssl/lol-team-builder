@@ -4,9 +4,9 @@
 <div class="notification" ng-if="gameLobby.game.gameStarted">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
 
-<button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start game</button>
+<button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start card draw</button>
 
-<button class="btn btn--error btn--end-game" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">End game</button> 
+<button class="btn btn--error btn--end-game" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start over</button> 
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Unassigned player Hexagon section -->
 <!-- ::::::::::::::::::::::::::::::::: -->
