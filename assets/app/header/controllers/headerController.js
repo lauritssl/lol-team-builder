@@ -4,7 +4,7 @@ angular.module('ubteambuilder.header', [])
 HeaderCtrl.$inject = ['$scope', '$state'];
 
  function HeaderCtrl( $scope, $state) {
-
+  
     var navItems = [
         // {title: 'Games', translationKey: 'navigation:Games', url: '/games', cssClass: 'fa fa-comments'},
     ];
