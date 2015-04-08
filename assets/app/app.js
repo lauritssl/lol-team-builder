@@ -13,10 +13,8 @@ angular.module('ubteambuilder', [
 	'cgNotify',
 	'services',
 	'ubteambuilder.header',
-	'ubteambuilder.authentication',
 	'ubteambuilder.gamelobby',
-	'ubteambuilder.home',
-	'ubteambuilder.createGame'
+	'ubteambuilder.home'
 
     //MOCKSERVICE
     //'cardable.services.MockService' //TODO: Delete when done with mocking
@@ -34,8 +32,8 @@ angular.module('ubteambuilder', [
 	$locationProvider.html5Mode(true);
 })
 
-    .run( ['$rootScope', 'Session', 'AuthService', '$location', 'DSCacheFactory', '$http',
-    	function($rootScope, Session, AuthService, $location, DSCacheFactory, $http) {
+    .run( ['$rootScope', '$location', 'DSCacheFactory', '$http',
+    	function($rootScope, $location, DSCacheFactory, $http) {
 
     		moment.lang('en');
 
@@ -50,9 +48,6 @@ angular.module('ubteambuilder', [
 
     		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
     			
-    			if (toState.authenticate && !AuthService.checkAuthentication(Session)){
-    				
-        			// User isn’t authenticated
-   				}
+    			
 			});
 	}]);

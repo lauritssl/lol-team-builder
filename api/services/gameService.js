@@ -31,11 +31,13 @@ module.exports = {
             user: _options.user,
             title: _options.title,
             users: users,
-            numberOfSpots: _options.numberOfSpots,
             map: _options.map,
             private: _options.private,
             spots: spots
         }
+
+        if(typeof _options.numberOfSpots !== 'undefined' || _options.numberOfSpots === null) {model.numberOfSpots = _options.numberOfSpots;}
+        if(model.private){ model.password = _options.password};
 
 
 

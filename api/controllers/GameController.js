@@ -49,6 +49,7 @@
  			title : req.param('title'),
  			user : user,
  			numberOfSpots : req.param('numberOfSpots'),
+ 			password: req.param('password') || '',
  			map : req.param('map'),
  			private : req.param('private')
  		};
@@ -107,11 +108,13 @@
 	},
 	addUser: function (req, res) {
 		var user = req.param('user');
+		var password = req.param('password');
 		var id = req.param('id');
 
 		var options = {
 			user: user,
 			id : id,
+			password: password
 		}
 
 		userService.addUser(options)
@@ -120,6 +123,10 @@
 			return res.json(user);
 		})
 		.catch(function(err){
+			if(err.message === 'password'){
+				res.status(401);
+				return res.send('The provide password was invalid');
+			}
 			return res.serverError(err);
 		})
 	},

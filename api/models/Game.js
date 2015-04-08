@@ -12,8 +12,7 @@ module.exports = {
 	attributes: {
 		title: {
 			type: 'string',
-			required: true,
-			unique: true
+			required: true
 		},
 		users: {
 			type : "array"
@@ -45,12 +44,21 @@ module.exports = {
 			type: 'string',
 			defaultsTo: 'normal'
 		},
+		password: {
+			type: 'string'
+		},
 		private: {
 			type: 'boolean',
 			defaultsTo: false
-		}
+		},
+		toJSON: function() {
+		    var obj = this.toObject();
+		    // BELOW NOT WORKING
+		    delete obj.password;
+		    return obj;
+	  	}
 	},
-
+	
 	getAll: function() {
 		return Game.find()
 		.then(function (models) {

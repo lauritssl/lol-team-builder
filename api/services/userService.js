@@ -35,7 +35,10 @@ module.exports = {
 			game.users = game.users || [];
 			game.spots = game.spots || [];
 
-
+			if(game.private && game.password !== _options.password){
+				throw new Error("password");
+				return;
+			}
 			if(game.numberOfSpots <= game.users.length+1) {
 				throw new Error("There is no more space in the game");
 				 return;
