@@ -45,6 +45,10 @@ module.exports = {
 			collection: 'build',
 			via: 'id'
 		},
+		gameMode: {
+			type: 'string',
+			defaultsTo: 'normal'
+		},
 		private: {
 			type: 'boolean',
 			defaultsTo: false

@@ -17,7 +17,7 @@ module.exports = {
             return;
         }
 
-         if (typeof title === 'undefined' || title === null) {
+        if (typeof title === 'undefined' || title === null) {
             throw new Error("The title was either null or undefined");
             return;
         }
@@ -27,19 +27,19 @@ module.exports = {
             return;
         }
 
-         if (typeof numberOfSpots === 'undefined' || numberOfSpots === null) {
+        if (typeof numberOfSpots === 'undefined' || numberOfSpots === null) {
             throw new Error("The numberOfSpots was either null or undefined");
             return;
         }
 
-         if (typeof map === 'undefined' || map === null) {
+        if (typeof map === 'undefined' || map === null) {
             throw new Error("The map was either null or undefined");
             return;
         }
 
          // We wont check for private status since we just default to public
 
-        var model = {
+         var model = {
             user: user,
             title: title,
             users: users,
@@ -130,7 +130,7 @@ module.exports = {
      * @param  {[type]} _options [description]
      * @return {[type]}          [description]
      */
-    rollBuilds: function(_options) {
+     rollBuilds: function(_options) {
         var game = _options.game;
         var promises = [];
         var builds = [];
@@ -241,17 +241,65 @@ module.exports = {
         .then(function(game){
 
             if(typeof game === 'undefined') throw new Error("Game was not found");
+
+
             game.gameStarted = true;
 
-            game.save(function(err, result){
-                if(err){
-                    deferred.reject(err);
-                    return;
-                }
-                deferred.resolve(result);
-            })
-            return deferred.promise;
+            if(game.gameMode === 'draft'){
+                return self.startNormal({game:game})
+                
+            }else{
+                return self.startDraft({game:game})
+            }            
         })
+    },
+    startNormal : function(_options) {
+         var deferred = Q.defer();        
+        var self = this;
+        var game = _options.game;
+
+         game.save(function(err, result){
+                    if(err){
+                        deferred.reject(err);
+                        return;
+                    }
+                    deferred.resolve(result);
+                })
+                return deferred.promise;
+    },
+    startDraft: function(_options) {
+        var deferred = Q.defer();        
+        var self = this;
+        var game = _options.game;
+
+        return lolDataService.getGameData()
+        .then(function(gameData) {
+            var options = {
+                items: gameData.items,
+                champions: gameData.champions,
+                summoners: gameData.summoners,
+                maps: gameData.maps,
+                game: gameModel
+            }
+
+            return self.rollBuilds(options);
+
+
+        })
+        .then(function(builds) {
+         _.forEach(game.spots, function(spot, key) {
+            spot.build = builds[key];
+
+            game.save(function(err, result){
+                    if(err){
+                        deferred.reject(err);
+                        return;
+                    }
+                    deferred.resolve(result);
+                })
+                return deferred.promise;
+        });
+     });
     },
     endGame: function(_options){
         var deferred = Q.defer();        
