@@ -757,7 +757,7 @@ body {
 
 
 // Grid
-.grid {
+.card-grid {
   position: absolute;
   bottom: 0;
   height: 16rem;
@@ -767,36 +767,82 @@ body {
   border-radius: @card_corner_radius @card_corner_radius @card_corner_radius @card_corner_radius;
   overflow: hidden;
   
-  .grid__parent {
-    float: left;
-    height: 100%;
-    min-width: .5rem;
-    overflow: hidden;
-    
-    &:nth-of-type(3),
-    &:nth-of-type(4) {
-      margin-left: 8px;
+  .upper-grid, .lower-grid{
+    width: 100%;
+
+    .sprite-input{
+    width: 4.8rem;
+    height: 4.8rem;
+    background-size: 100% 100%;
     }
-    
-    @size: 48px;
-    &--2 {
-      width: @size;
-      height: 100%;
-    }
-    
-    &--4 {
-      width: 16rem;
-    }
-       
-    .grid__child {
-      height: @size;
-      width: @size;
-      background-size: 100% 100%; 
-      
-      &.rounded { border-radius: 50%; }
-      
+    .rounded{
+      border-radius: 50%;
     }
   }
+  .upper-grid{
+    .pill-bar{
+      margin: 0;
+    }
+  }
+  .lower-grid{
+    padding-bottom: 20px;
+  }
+  
+  //spell flip animation
+  .flip-container {
+      perspective: 1000;
+
+      &:nth-child(2) .flipper{
+        .animation-delay(1.25s);
+      }
+      &:nth-child(3) .flipper{
+        .animation-delay(1.3s);
+      }
+      &:nth-child(4) .flipper{
+        .animation-delay(1.35s);
+      }
+      &:nth-child(5) .flipper{
+        .animation-delay(1.4s);
+      }
+      &:nth-child(6) .flipper{
+        .animation-delay(1.45s);
+      }
+  }
+  .flip-container, .front, .back{
+      width: 4.8rem;
+      height: 4.8rem;
+      cursor: pointer;
+  }
+  .flipper {
+      .transition(0.5s);
+      transform-style: preserve-3d;
+      position: relative;
+      .animation(flipReveal 0.5s 1.2s ease-in-out forwards)
+  }
+  .front, .back {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
+  .front {
+      z-index: 2;
+      transform: rotateY(0deg);
+  }
+  .back {
+      .transform(rotateY(180deg););
+  }
+  
+  @-webkit-keyframes flipReveal{
+    to{-webkit-transform: rotateY(-180deg);}
+  }
+    @-moz-keyframes flipReveal{
+    to{-webkit-transform: rotateY(-180deg);}
+  }
+    @keyframes flipReveal{
+    to{-webkit-transform: rotateY(-180deg);}
+  }
+  
 }
 
 .sub-container {
@@ -845,8 +891,8 @@ body {
   
   background-image: url(@items_sprite_blue_src);
   overflow: hidden;
+
   &:after {
-    
     content: "";
     position: absolute;
     top: 0;
