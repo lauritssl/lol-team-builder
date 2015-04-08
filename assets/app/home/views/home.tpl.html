@@ -14,7 +14,11 @@
   <section class="l-games-list-container" layout="column" flex="80">
     
     <header class="l-games-list-container__header">
-      GAME FILTERS
+      <div class="row">
+        <div class="col-sm-10">
+          <input type="search" class="form-control input input-lg input--search" placeholder="Search for a game">
+        </div>
+      </div>
     </header>
 
     <ul class="c-games-list list-unstyled"class="row">
@@ -23,7 +27,7 @@
          <div class="c-games-list__item-meta">
            <div class="c-games-list__item-title">{{game.title}}</div>
            <span am-time-ago="game.createdAt"></span>, by
-           <strong>Lichine</strong>
+           <strong>{{ game.user.username }}</strong>
          </div>
 
          <span flex></span>
