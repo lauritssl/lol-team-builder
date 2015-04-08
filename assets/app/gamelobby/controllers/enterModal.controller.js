@@ -1,22 +1,34 @@
 angular.module('ubteambuilder.gamelobby.modals',[])
 .controller( 'EnterModalCtrl', EnterModalCtrl);
 
-EnterModalCtrl.$inject = ["$modalInstance", 'GameModel', 'gameId', '$cookieStore'];
+EnterModalCtrl.$inject = ['$modalInstance', 'GameModel','game', '$cookieStore', 'NotificationService'];
 
-function EnterModalCtrl($modalInstance, GameModel, gameId, $cookieStore) {
- 	var vm = this;
+function EnterModalCtrl($modalInstance, GameModel, game, $cookieStore, NotificationService) {
+ 	
+	var vm = this;
 
- 	vm.ok = function(user) {
+	vm.game = game;
+ 	/**
+ 	 * The function for the entermodal
+ 	 * @param  {[type]} user [description]
+ 	 * @return {[type]}      [description]
+ 	 */
+ 	vm.ok = function(user, gameId, password) {
 
- 	GameModel.addUser(gameId, user).then(function(result){
+ 	GameModel.addUser(gameId, user, password).then(function(result){
  		$cookieStore.put(gameId, result);
     	$modalInstance.close(result);
  	})
  	.catch(function(err){
- 		$modalInstance.dismiss('cancel');
+ 		if(err.status === 401){
+ 			NotificationService.error('The password is incorrect');
+ 		}else{
+ 			$modalInstance.dismiss('cancel');
+ 		}
  	});
 
   };
+
 
   vm.cancel = function() {
   	$modalInstance.dismiss('cancel');

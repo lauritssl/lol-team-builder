@@ -2,27 +2,22 @@ angular.module( 'ubteambuilder.home', [])
 .config(["$stateProvider",function ($stateProvider){
 
 	$stateProvider.state( 'home', {
-		url: '/home',		
-		views: {
-			"main": {
-				controller: 'HomeCtrl',
-				templateUrl: 'home/views/home.tpl.html',
-				controllerAs: 'home',				
-			}
-		}
+		url: '/home',	
+		controller: 'HomeCtrl',
+		templateUrl: 'home/views/home.tpl.html',
+		controllerAs: 'home'			
 	})
 }]).controller( 'HomeCtrl', HomeCtrl);
 
-HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails', 'lodash'];
+HomeCtrl.$inject = ['titleService', 'GameModel', '$location', '$sails', 'lodash', '$state'];
 
- function HomeCtrl(Session, titleService, GameModel, $location,$sails, lodash ) {
+ function HomeCtrl(titleService, GameModel, $location,$sails, lodash, $state ) {
 
 
  	var vm = this;  
 	vm.game = {};
 	vm.newGame = {};	
    	titleService.setTitle('Home');
-	vm.currentUser = Session.currentUser;
 	vm.games = [];
 
 	$sails.on('game', function (envelope) {
@@ -55,7 +50,11 @@ HomeCtrl.$inject = ['Session', 'titleService', 'GameModel', '$location', '$sails
 	};
 
 	vm.joinGame = function(gameId){
-		$location.path("/games/"+gameId);
+		$state.go('game.lobby', {id: gameId});
+	}
+
+	vm.createGame = function() {
+		$state.go('game.create');
 	}
 
 	vm.getMapName = function(mapId){

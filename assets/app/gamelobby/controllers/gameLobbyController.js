@@ -1,9 +1,9 @@
 angular.module( 'ubteambuilder.gamelobby.controllers', ['pmkr.components'])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService) {
+ function GameLobbyCtrl($sails, lodash, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService) {
 
  	if(game.statusCode === 404){
  		return $state.go('home');
@@ -18,7 +18,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 
 	if( vm.currentUser === undefined || vm.currentUser.id === undefined){
-		$state.go('game.join', {id: game.id});
+		if($state.current.name !== 'game.create') {$state.go('game.join', {id: game.id});}
 		return;
 	}
 
@@ -113,7 +113,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
-		if (game.user.id == Session.currentUser.id) {
+		if (game.user.id == vm.currentUser.id) {
 			GameModel.delete(game).then(function(model) {
 				// message has been deleted, and removed from vm.messages
 			});
