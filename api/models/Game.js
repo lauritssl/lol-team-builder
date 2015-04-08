@@ -59,8 +59,18 @@ module.exports = {
 	  	}
 	},
 	
-	getAll: function() {
-		return Game.find()
+	getAll: function(_options) {
+
+		filter = {
+			limit: _options.limit || 10, 
+			skip: _options.skip || 0
+		};
+
+		if(_options.name) {
+			filter.where = _options.name;
+		}
+
+		return Game.find(filter)
 		.then(function (models) {
 			return [models];
 		});

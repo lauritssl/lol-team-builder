@@ -1,9 +1,25 @@
 angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 .service('GameModel', function($q, lodash, utils, $sails) {
-	this.getAll = function() {
+	this.getAll = function(_options) {
+
+
+
+		var filter = {
+			limit: _options.limit || 10, 
+			skip: _options.skip || 0,
+			name: _options.name
+		};
+
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game');
+
+		_.forEach(filter, function(value, key){
+			if(typeof value !== 'undefined'){
+				url = utils.addQueryParameter(url, key, value);
+			}
+		});
+		
 
 		$sails.get(url, function(models) {
 			return deferred.resolve(models);

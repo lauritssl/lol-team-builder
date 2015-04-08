@@ -10,7 +10,13 @@
 
  module.exports = {
  	getAll: function(req, res) {
- 		Game.getAll()
+
+ 		var filter = {
+ 			limit : req.param('limit'),
+ 			skip : req.param('skip'),
+ 			name: req.param('name')
+ 		}
+ 		Game.getAll(filter)
  		.spread(function(models) {
  			Game.watch(req);
  			Game.subscribe(req.socket, models);
