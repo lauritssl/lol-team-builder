@@ -1,19 +1,29 @@
 
-<main layout="column" flex layout-align="center center" class="u-fill-height">
+<div class="c-hero-banner l-wrapped">
+  <h1 class="c-logo-graphic">
+    <span>League</span>
+    <span>of</span>
+    <span>Bravery</span>
+    <div class="c-logo-graphic__subtext">the Ultimate Bravery Team Builder app</div>
+  </h1>
+  <span class="c-hero-banner__graphic"></span>
+</div>
+
+<main layout="column" flex layout-align="center center">
   
-  <section class="l-games-list-container">
+  <section class="l-games-list-container" layout="column" flex="80">
     
     <header class="l-games-list-container__header">
       GAME FILTERS
     </header>
 
-    <ul class="c-games-list list-unstyled" ng-repeat="game in home.games" class="row" ng-hide="game.private">
-      <li class="c-games-list__item" layout="row">
+    <ul class="c-games-list list-unstyled"class="row">
+      <li class="c-games-list__item" ng-repeat="game in home.games" ng-hide="game.private" layout="row">
         
          <div class="c-games-list__item-meta">
            <div class="c-games-list__item-title">{{game.title}}</div>
-           <span am-time-ago="game.createdAt"></span>
-           <strong>{{game.user.username}}</strong>
+           <span am-time-ago="game.createdAt"></span>, by
+           <strong>Lichine</strong>
          </div>
 
          <span flex></span>
