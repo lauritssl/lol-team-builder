@@ -1,4 +1,4 @@
-
+<div ng-include="'header/views/header.tpl.html'" ng-show="main.state.current.name == 'home'"></div>
 <div class="c-hero-banner l-wrapped">
   <h1 class="c-logo-graphic">
     <span>League</span>
@@ -11,8 +11,10 @@
 
 <main layout="column" flex layout-align="center center">
   
-  <section class="l-games-list-container" layout="column" flex="80">
+  <section class="l-games-list-container is-framed" layout="column" flex="80">
     
+    <div class="frame frame--center"></div>
+
     <header class="l-games-list-container__header">
       <div class="row">
         <div class="col-sm-10">

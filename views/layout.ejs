@@ -39,7 +39,7 @@
     <script src="/scripts/browser-selector.js" type="text/javascript"></script> 
   </head>
  <base href="/">
-  <body>
+  <body  ng-class="{'home' : main.state.current.name == 'home'}">
     <%- body %>
 
 

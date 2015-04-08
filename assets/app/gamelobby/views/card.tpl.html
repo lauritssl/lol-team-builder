@@ -2,38 +2,84 @@
   <div class="card__front fluid-background" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});" ng-if="spot.build">
     <div class="card__title">{{spot.build.champion}}</div>
     <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build)}})" data-sub-icon="{{spot.build.skill_to_level}}"></div>
-      <div class="grid">
-        <div class="grid__parent grid__parent--4">
-          
+      <div class="card-grid" layout="column" layout-align="center center">
+        
+        <div class="upper-grid" layout="row" flex>
+          <div layout layout-align="center center" flex>
             <div class="pill-bar">
               <div class="pill" data-mastery-points="{{ spot.build.mastery1 }}"></div>
               <div class="pill" data-mastery-points="{{ spot.build.mastery2 }}"></div>
               <div class="pill" data-mastery-points="{{ spot.build.mastery3 }}"></div>
             </div>
+            </div>
           
-          <div class="sub-container group">
-            <div 
-            class="grid__child rounded grid__parent--2 float--left revealer" 
-            style="background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}});"></div>
-
-            <div class="grid__child rounded grid__parent--2 float--left revealer" style="background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner2')}});"></div>
-           
+          <div class="summoner-spells" layout="row" layout-align="center center" flex>
+            <div class="sprite-input rounded" style="background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}});"></div>
+            <div class="sprite-input rounded" style="background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner2')}});"></div>
           </div>
         </div>
-        <div class="grid__parent grid__parent--2">
-          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}});"></div>
-          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item3')}});"></div> 
-          
-        </div>
-        <div class="grid__parent grid__parent--2">
-        <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item1')}});"></div>
-          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item4')}});"></div>
 
+        <div class="lower-grid" layout="row" flex layout-align="space-around end">
+          <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                  <img src="images/questionbox.png" class="sprite-input" />
+                </div>
+                <div class="back">
+                  <div class="sprite-input" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}});"></div>
+                </div>
+            </div>
         </div>
-        <div class="grid__parent grid__parent--2">
-          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item2')}});"></div>
-          <div class="grid__child revealer" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item5')}});"></div>                
-        
+          <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                  <img src="images/questionbox.png" class="sprite-input" />
+                </div>
+                <div class="back">
+                   <div class="sprite-input" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item1')}});"></div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                  <img src="images/questionbox.png" class="sprite-input" />
+                </div>
+                <div class="back">
+                   <div class="sprite-input" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item2')}});"></div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                  <img src="images/questionbox.png" class="sprite-input" />
+                </div>
+                <div class="back">
+                  <div class="sprite-input" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item3')}});"></div> 
+                </div>
+            </div>
+        </div>
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                  <img src="images/questionbox.png" class="sprite-input" />
+                </div>
+                <div class="back">
+                  <div class="sprite-input" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item4')}});"></div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                  <img src="images/questionbox.png" class="sprite-input" />
+                </div>
+                <div class="back">
+                  <div class="sprite-input" style="background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item5')}});"></div>
+                </div>
+            </div>
+        </div>              
         </div>
       </div>
     </div>

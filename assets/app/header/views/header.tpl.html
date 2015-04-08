@@ -1,8 +1,9 @@
-<header class="c-header" layout="row">
+<header class="c-header">
+  <div class="l-wrapped" layout="row">
+    <div class="c-site-logo">L<span class="c-site-logo__subtext">eague</span> <sup>o<span class="c-site-logo__subtext">f</span></sup> B<span class="c-site-logo__subtext">ravery</span></div>
+    
+    <span flex></span>
 
-  <div class="c-site-logo">L<span class="c-site-logo__subtext">eague</span> <sup>o<span class="c-site-logo__subtext">f</span></sup> B<span class="c-site-logo__subtext">ravery</span></div>
-  
-  <span flex></span>
-
-  <input type="submit" class="btn btn-success btn-slim" value="New game" ng-click="main.go('/new/game')" />
+    <input type="submit" class="btn btn-success btn-slim" value="New game" ng-click="home.createGame()" />
+  </div>
 </header>

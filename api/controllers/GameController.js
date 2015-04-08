@@ -68,66 +68,50 @@
  		});
 
  	},
-	// create: function (req, res) {
-	// 	var userDto = req.param('user');
 
-	// 	var user = {};
-	// 	user.id = generateGUID();
-	// 	user.nickname = userDto.nickname;
+	
+	destroy: function(req, res){
 
-	// 	var model = {
-	// 		title: req.param('title'),
-	// 		user: user,
-	// 		users: [],
-	// 		numberOfSpots: req.param('numberOfSpots'),
-	// 		map: req.param('map'),
-	// 		private: req.param('private')
-	// 	};
+		var id = req.param('id');
+
+		gameService.destroy(id)
+		.then(function(result){
+			Game.publishDestroy(result.id);
+			return res.json(result)
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
+
+	},
+	// destroy: function (req, res) {
+	// 	var id = req.param('id');
+	// 	if (!id) {
+	// 		return res.badRequest('No id provided.');
+	// 	}
 
 
-	// 	Game
-	// 	.create(model)
-	// 	.exec(function(err, game) {
+
+	// 	// Otherwise, find and destroy the model in question
+	// 	Game.findOne(id).exec(function(err, model) {
 	// 		if (err) {
-	// 			return res.status(400).json(err);
-	// 		} else {
-	// 			Game.publishCreate(game);
-	// 			return res.json(game);
+	// 			return res.serverError(err);
 	// 		}
+	// 		if (!model) {
+	// 			return res.notFound();
+	// 		}
+
+	// 		Game.destroy(id, function(err) {
+	// 			if (err) {
+	// 				return res.serverError(err);
+	// 			}
+
+
+	// 			Game.publishDestroy(model.id);
+	// 			return res.json(model);
+	// 		});
 	// 	});
 	// },
-	destroy: function (req, res) {
-		var id = req.param('id');
-		if (!id) {
-			return res.badRequest('No id provided.');
-		}
-
-		// Otherwise, find and destroy the model in question
-		Game.findOne(id).exec(function(err, model) {
-			if (err) {
-				return res.serverError(err);
-			}
-			if (!model) {
-				return res.notFound();
-			}
-
-			Game.destroy(id, function(err) {
-				if (err) {
-					return res.serverError(err);
-				}
-				Spot.destroy({game: model.id}).exec(function(err, spots){
-
-				})
-				Build.destroy({game: model.id}).exec(function(err, builds){
-
-				})
-
-
-				Game.publishDestroy(model.id);
-				return res.json(model);
-			});
-		});
-	},
 	addUser: function (req, res) {
 		var user = req.param('user');
 		var password = req.param('password');
