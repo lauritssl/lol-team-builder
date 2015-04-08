@@ -7,15 +7,6 @@
 
  var async = require('async');
 
- var generateGUID = function() {
- 	function s4() {
- 		return Math.floor((1 + Math.random()) * 0x10000)
- 		.toString(16)
- 		.substring(1);
- 	}
- 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
- 	s4() + '-' + s4() + s4() + s4();
- }
 
  module.exports = {
  	getAll: function(req, res) {
@@ -50,13 +41,14 @@
  		var userDto = req.param('user');
 
  		var user = {};
- 		user.id = generateGUID();
+ 		user.id = utilsService.generateGUID();
  		user.nickname = userDto.nickname;
 
  		var model = {
  			title: req.param('title'),
  			user: user,
- 			users: [],
+ 			users: [user],
+ 			spots: [{id: utilsService.generateGUID()}],
  			numberOfSpots: req.param('numberOfSpots'),
  			map: req.param('map'),
  			private: req.param('private')
@@ -118,6 +110,7 @@
 		userService.addUser(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(user);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -134,6 +127,7 @@
 		spotService.addSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -154,6 +148,7 @@
 		spotService.addUserToSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -193,6 +188,7 @@
 		userService.deleteUser(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -211,6 +207,7 @@
 		spotService.deleteSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);			
 		})
 		.catch(function(err){
 			return res.serverError(err);
