@@ -23,7 +23,6 @@ function ApiSearchDirective (GameModel, $timeout) {
             if(scope.timeout) {$timeout.cancel(scope.timeout);}
             scope.timeout = $timeout(function(){
                 
-                if(scope.model.length > 0){
                     
                     GameModel.getAll({name: scope.model})
                     .then(function(result){
@@ -36,7 +35,6 @@ function ApiSearchDirective (GameModel, $timeout) {
                     .catch(function(){
 
                     });
-                }
             }, scope.timeoutTime);
           });
         }
