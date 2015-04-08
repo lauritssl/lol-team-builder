@@ -1,5 +1,47 @@
 var Q = require("q");
 module.exports = {
+
+    create: function(_options) {
+        var deferred = Q.defer();
+        var self = this;
+
+        if (typeof _options.user === 'undefined' || _options.user === null) {
+            throw new Error("The user was either null or undefined");
+            return;
+        }
+
+         if (typeof _options.title === 'undefined' || _options.title === null) {
+            throw new Error("The title was either null or undefined");
+            return;
+        }
+
+
+
+        var spots = [];
+        var spot = {
+            id: utilsService.generateGUID()
+        }
+        spots.push(spot);
+
+        var users = [];
+        users.push(user);
+
+        var model = {
+            user: _options.user,
+            title: _options.title,
+            users: users,
+            numberOfSpots: _options.numberOfSpots,
+            map: _options.map,
+            private: _options.private,
+            spots: spots
+        }
+
+
+
+        return Game.create(model);      
+
+    },
+
     rollBuildForGame: function(_options) {
         var deferred = Q.defer();        
         var self = this;
@@ -73,6 +115,11 @@ module.exports = {
         });
         return deferred.promise;
     },
+    /**
+     * [rollBuilds description]
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
     rollBuilds: function(_options) {
         var game = _options.game;
         var promises = [];

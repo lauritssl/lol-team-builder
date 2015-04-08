@@ -35,7 +35,7 @@ $stateProvider
 		template: "",
 		onEnter: ['$state', '$cookieStore', '$stateParams', '$modal', function($state, $cookieStore, $stateParams, $modal){
 			$modal.open({
-		     	templateUrl: 'gamelobby/views/enterModal.tpl.html',
+		     	templateUrl: 'gamelobby/views/createModal.tpl.html',
 		    	controller: 'EnterModalCtrl as modalCtrl',
 		      	resolve: {
 		      		gameId: function(){ return $stateParams.id;}

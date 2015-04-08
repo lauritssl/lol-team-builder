@@ -59,13 +59,12 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 	};
 
 	this.addUserToSpot = function(gameId, userId, spotId) {
-		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/actions/addUserToSpot/');
-		return $sails.put(url, {user: userId, spotId: spotId}).then(function(model) {
+		return $sails.put(url, {user: userId, spotId: spotId})
+		.then(function(model) {
 			return model;
 		});
 
-		return deferred.promise;
 	};
 	this.removeUserFromSpot = function(gameId, userId, spotId) {
 
@@ -75,13 +74,21 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		});
 	};
 	this.removeUser = function(gameId, userId) {
-		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/user');
-		$sails.delete(url, {user: userId}, function(model) {
-			return deferred.resolve(model);
+		var url = utils.prepareUrl('game/'+gameId+'/user/' + userId);
+		return $sails.delete(url).then(function(model) {
+			return model;
 		});
 
-		return deferred.promise;
+	};
+	this.removeSpot = function(gameId, spotId) {
+		var url = utils.prepareUrl('game/'+gameId+'/spot/' + spotId);
+		return $sails.delete(url).then(function(model) {
+			return model;
+		})
+		.catch(function(err) {
+			throw err;
+		});
+
 	};
 
 	this.delete = function(model) {

@@ -1,0 +1,64 @@
+<div class="modal-content-container modal-content-container--has-graphic join-lobby">
+  <span class="modal-graphic modal-graphic--create-game"></span>
+  <div class="modal-header">
+    <h2 class="modal-title">
+    Create a new game, admin
+    </h2>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-xs-8">
+
+        <div class="c-input">
+          
+          <input placeholder="Your nickname" name="input_game_nickname" id="input_game_nickname" maxlength="28" class="form-control c-input__field" type="text" autofocus>
+          
+          <label for="input_game_nickname" class="c-input__label">
+            <span class="c-input__label-content">Your nickname</span>
+          </label>
+
+        </div>
+        
+        <div class="c-input">
+          
+          <input placeholder="Game title" name="input_game_title" id="input_game_title" maxlength="28" class="form-control c-input__field" type="text" autofocus>
+          
+          <label for="input_game_title" class="c-input__label">
+            <span class="c-input__label-content">Game title</span>
+          </label>
+
+        </div>
+
+        <div class="c-input">
+          
+          <input placeholder="Password (Optional)" name="input_game_password" id="input_game_password" maxlength="28" class="form-control c-input__field" type="text">
+          
+          <label for="input_game_password" class="c-input__label">
+            <span class="c-input__label-content">Password (Optional)</span>
+          </label>
+
+        </div>
+
+        <div class="form-group">
+          <select name="select_map" id="select_map" class="form-control">
+            <option value="1" selected>Summoner's Rift</option>
+            <option value="2">The Twisted Treeline</option>
+            <option value="3">Howling Abyss</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select name="select_mode" id="select_mode" class="form-control">
+            <option value="1" selected>Random</option>
+            <option value="2">Draft</option>
+          </select>
+        </div>        
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Create Game</button>
+    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Go back</button>
+  </div>
+</div>

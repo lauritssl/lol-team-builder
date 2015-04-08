@@ -21,7 +21,7 @@ module.exports = {
 
     	self.getVersion()
     	.then(function(result){
-    		//self.cdnVersion = result[0];
+    		self.cdnVersion = result.dd;
     		return [self.getChampions(), self.getItems(), self.getSummoners(), self.getMaps()];
     	})
     	.spread(function(_champions, _items, _summoners, _maps){
@@ -162,7 +162,7 @@ module.exports = {
 	getVersion: function(){
     	var deferred = Q.defer();
 
-		var url = this.lolBasePath +this.staticPath + "/versions";
+		var url = this.lolBasePath +this.staticPath + "/realm";
 		request({
 			url: url,
 			json: true,
