@@ -4,7 +4,7 @@ module.exports = {
     create: function(_options) {
         var deferred = Q.defer();
         var self = this;
-         var user = _options.user
+        var user = _options.user
 
         if (typeof user === 'undefined' || user === null) {
             throw new Error("The user was either null or undefined");
@@ -12,7 +12,7 @@ module.exports = {
         }
 
 
-         if (typeof _options.title === 'undefined' || _options.title === null) {
+        if (typeof _options.title === 'undefined' || _options.title === null) {
             throw new Error("The title was either null or undefined");
             return;
         }
@@ -240,27 +240,37 @@ module.exports = {
             game.gameStarted = true;
 
             if(game.gameMode === 'draft'){
-                return self.startNormal({game:game})
+                return self.startDraft({game:game})
                 
             }else{
-                return self.startDraft({game:game})
+                return self.startNormal({game:game})
             }            
         })
     },
+    /**
+     * Method for starting a normal game
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
     startNormal : function(_options) {
-         var deferred = Q.defer();        
+        var deferred = Q.defer();        
         var self = this;
         var game = _options.game;
 
-         game.save(function(err, result){
-                    if(err){
-                        deferred.reject(err);
-                        return;
-                    }
-                    deferred.resolve(result);
-                })
-                return deferred.promise;
+        game.save(function(err, result){
+            if(err){
+                deferred.reject(err);
+                return;
+            }
+            deferred.resolve(result);
+        })
+        return deferred.promise;
     },
+    /**
+     * Method for starting a draft type game
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
     startDraft: function(_options) {
         var deferred = Q.defer();        
         var self = this;
@@ -273,7 +283,7 @@ module.exports = {
                 champions: gameData.champions,
                 summoners: gameData.summoners,
                 maps: gameData.maps,
-                game: gameModel
+                game: game
             }
 
             return self.rollBuilds(options);
@@ -281,19 +291,18 @@ module.exports = {
 
         })
         .then(function(builds) {
-         _.forEach(game.spots, function(spot, key) {
-            spot.build = builds[key];
-
+            _.forEach(game.spots, function(spot, key) {
+                spot.build = builds[key];
+            });
             game.save(function(err, result){
-                    if(err){
-                        deferred.reject(err);
-                        return;
-                    }
-                    deferred.resolve(result);
-                })
-                return deferred.promise;
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            })
+            return deferred.promise;
         });
-     });
     },
     endGame: function(_options){
         var deferred = Q.defer();        
