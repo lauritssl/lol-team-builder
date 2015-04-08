@@ -4,8 +4,9 @@ module.exports = {
     create: function(_options) {
         var deferred = Q.defer();
         var self = this;
+         var user = _options.user
 
-        if (typeof _options.user === 'undefined' || _options.user === null) {
+        if (typeof user === 'undefined' || user === null) {
             throw new Error("The user was either null or undefined");
             return;
         }
