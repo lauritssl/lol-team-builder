@@ -138,8 +138,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			return false;
 	};
 
-	
-
 	vm.rollBuilds = function(game) {
 		console.log("I don't get called");
 		GameModel.rollBuilds(game.id).then(function(model) {
@@ -257,6 +255,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		// }
 		//ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 		GameModel.startGame(id).then(function(model) {
+				vm.toggleSpot(vm.getNextRollableSpot(vm.game));
 				NotificationService.success('Game started!');
 			});
 	};
@@ -299,6 +298,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.acceptBuild = function(game, spot) {
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
+			vm.toggleSpot(vm.getNextRollableSpot(vm.game));
 			// if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
 			
 
