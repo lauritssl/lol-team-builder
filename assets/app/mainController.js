@@ -7,9 +7,9 @@ function MainCtrl($scope, $location, AuthService, Session, ChampionService) {
     Session.currentUser = window.user;
     //Initiate variables
     vm.isAuthorized = AuthService.isAuthorized;
-    // ChampionService.getVersion().then(function(result){
-    //  ChampionService.cdnVersion = result[0];
-    // });
+    ChampionService.getVersion().then(function(result){
+    ChampionService.cdnVersion = result.dd;
+    });
     //Make injections accessible in prototypical functions
     vm.$scope = $scope;
     vm.$location = $location;
