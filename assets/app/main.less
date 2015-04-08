@@ -82,6 +82,7 @@ li {
     margin: 0 auto;
 }
 
+
 #top-bar {
   //background-color: @main-bgcolor-blue;
   background-color: transparent;
@@ -178,6 +179,7 @@ li {
   box-shadow: 0 3px 15px 2px rgba(0,0,0,.22);
   line-height: 2;
 }
+
 
 /**
  * Site Logo Component
@@ -288,6 +290,8 @@ li {
 .l-games-list-container {
   min-width: 72rem;
   background-color: white;
+  box-shadow: inset 2px 0 0 0 #1a0602,
+   inset -2px 0 0 0 #1a0602;
 
   .l-games-list-container__header {
     padding: 2rem;
@@ -472,4 +476,10 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     -webkit-text-fill-color: #555 !important;
  } 
 
+}
+
+.home {
+  overflow-y: auto;
+  position: static;
+  background: transparent;
 }

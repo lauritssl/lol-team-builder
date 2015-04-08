@@ -1,8 +1,10 @@
 angular.module('ubteambuilder').controller("MainCtrl", MainCtrl);
-MainCtrl['$inject'] = ["$scope", '$location', 'ChampionService'];
+MainCtrl['$inject'] = ["$scope", '$location', 'ChampionService', '$state'];
 
-function MainCtrl($scope, $location, ChampionService) {
+function MainCtrl($scope, $location, ChampionService, $state) {
     var vm = this;
+
+    vm.state = $state;
     //Initiate variables
     ChampionService.getVersion().then(function(result){
     ChampionService.cdnVersion = result.dd;

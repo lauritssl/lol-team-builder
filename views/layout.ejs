@@ -40,7 +40,7 @@
     <script src="/scripts/browser-selector.js" type="text/javascript"></script> 
   </head>
  <base href="/">
-  <body>
+  <body  ng-class="{'home' : main.state.current.name == 'home'}">
     <%- body %>
 
 
@@ -91,6 +91,12 @@
     <script src="/bower_components/angular-audio/app/angular.audio.js"></script>
     <script src="/bower_components/angular-notify/dist/angular-notify.js"></script>
     <script src="/app/app.js"></script>
+    <script src="/app/authentication/authenticationModule.js"></script>
+    <script src="/app/authentication/controllers/loginController.js"></script>
+    <script src="/app/authentication/services/authConstants.js"></script>
+    <script src="/app/authentication/services/authInterceptorService.js"></script>
+    <script src="/app/authentication/services/authService.js"></script>
+    <script src="/app/authentication/services/sessionService.js"></script>
     <script src="/app/common/models/Game.js"></script>
     <script src="/app/common/models/Message.js"></script>
     <script src="/app/common/models/User.js"></script>
@@ -101,6 +107,8 @@
     <script src="/app/common/services/notification.service.js"></script>
     <script src="/app/common/services/title.js"></script>
     <script src="/app/common/services/utils.js"></script>
+    <script src="/app/createGame/controllers/createGameController.js"></script>
+    <script src="/app/createGame/createGameModule.js"></script>
     <script src="/app/gamelobby/controllers/createModal.controller.js"></script>
     <script src="/app/gamelobby/controllers/enterModal.controller.js"></script>
     <script src="/app/gamelobby/controllers/gameLobbyController.js"></script>
