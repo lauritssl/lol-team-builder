@@ -8,12 +8,15 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-sm-6">
-        <input ng-model="user.nickname" placeholder="Write your nickname" maxlength="28" class="form-control input input-lg" type="text">
+      <form name="loginForm">
+        <input ng-model="modalCtrl.user.nickname" placeholder="Write your nickname" maxlength="28" class="form-control input input-lg" type="text" required>
+        <input ng-model="modalCtrl.password" placeholder="Password" maxlength="28" class="form-control input input-lg" type="password" ng-if="modalCtrl.game.private" required>
       </div>
+      </form>
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Join Game</button>
+    <button class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="modalCtrl.user !== null && modalCtrl.ok(modalCtrl.user, modalCtrl.game.id, modalCtrl.password)">Join Game</button>
     <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Go back</button>
   </div>
 </div>

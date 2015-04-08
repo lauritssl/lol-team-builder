@@ -38,13 +38,13 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return deferred.promise;
 	};
 
-	this.addUser = function(gameId, user) {
+	this.addUser = function(gameId, user, password) {
 		var url = utils.prepareUrl('game/'+gameId+'/user');
-		return $sails.post(url, {user: user}).then(function(model) {
+		return $sails.post(url, {user: user, password: password}).then(function(model) {
 			return model.data;
 		})
 		.catch(function(err){
-			return err;
+			throw err;
 		});
 	};
 
