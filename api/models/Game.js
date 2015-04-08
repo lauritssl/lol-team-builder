@@ -66,8 +66,10 @@ module.exports = {
 			skip: _options.skip || 0
 		};
 
-		if(_options.name) {
-			filter.where = _options.name;
+		if(typeof _options.name !== 'undefined' && !_.isEmpty(_options.name)) {
+			filter.where = {
+				title: {contains: _options.name}
+			}
 		}
 
 		return Game.find(filter)

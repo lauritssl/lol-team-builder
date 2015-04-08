@@ -1,0 +1,50 @@
+box: wercker/nodejs
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+    # A step that executes `npm install` command
+    - npm-install
+    # A step that executes `npm test` command
+    - npm-test
+    - hgen/bower-install@0.5.7
+
+
+    # A custom script step, name value is used in the UI
+    # and the code value contains the command that get executed
+    - script:
+        name: echo nodejs information
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
+deploy:
+  steps:
+    - script:
+        name: azure deployment script
+        code: |
+          # Setup git usernames and password
+          git config --global user.email “$GIT_MAIL”
+          git config --global user.name “$GIT_USER”
+          # Navigate the virtual machine and print paths for debugging
+          cd $WERCKER_SOURCE_DIR
+          rm -rf $WERCKER_SOURCE_DIR/.git
+          rm -rf $WERCKER_SOURCE_DIR/gulp
+          ls
+          cd ..
+          ls
+          # Clone the remote repository
+          git clone $GIT_REPO azure
+          cd azure
+          ls
+          # Empty the repository while keeping the original git settings.
+          rm -R -f *
+          ls
+          # Copy the source directory into the current directory
+          cp -R -f  $WERCKER_SOURCE_DIR/* .
+          ls  
+          git add -A
+          git commit -m "Deploy - name must be retrieved from Wercker"
+          # Push to remote branch
+          git remote
+          git push origin master
+          
