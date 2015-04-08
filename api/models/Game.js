@@ -41,6 +41,10 @@ module.exports = {
 			type: 'integer',
 			defaultsTo: 11
 		},
+		gameMode: {
+			type: 'string',
+			defaultsTo: 'normal'
+		},
 		private: {
 			type: 'boolean',
 			defaultsTo: false

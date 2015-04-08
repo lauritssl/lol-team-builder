@@ -98,7 +98,6 @@ module.exports.routes = {
     'post /api/game/:id/actions/rollBuilds' : 'GameController.rollBuilds',
     'put /api/game/:id/actions/removeUserFromSpot' : 'GameController.removeUserFromSpot',
     'put /api/game/:id/actions/addUserToSpot' : 'GameController.addUserToSpot',
-    'delete /api/game/:id/actions/resetBuilds' : 'GameController.resetBuilds',
 
 
   
