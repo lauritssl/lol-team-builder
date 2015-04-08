@@ -1,7 +1,7 @@
 
 <div class="notification" ng-if="!gameLobby.game.gameStarted">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div>
 
-<div class="notification" ng-if="gameLobby.game.gameStarted">{{ gameLobby.game.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
+<div class="notification" ng-if="gameLobby.game.gameStarted">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
 
 <button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start game</button>
