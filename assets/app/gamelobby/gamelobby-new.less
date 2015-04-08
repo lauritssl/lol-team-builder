@@ -62,68 +62,6 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#401c5f8c', endColorstr='#40bf6767',GradientType=1 );
 }
 
-[layout]{
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-}
-
-[layout=column]{
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-[layout=row]{
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-
-[flex]{
-  -webkit-box-flex: 1 1 0%;
-  -moz-box-flex: 1 1 0%;
-  -webkit-flex: 1 1 0%;
-  -ms-flex: 1 1 0%;
-  flex: 1 1 0%;
-}
-
-[layout-align="center"], [layout-align="center center"], [layout-align="center start"], [layout-align="center end"] {
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center; }
-
-[layout-align="end"], [layout-align="end center"], [layout-align="end start"], [layout-align="end end"] {
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end; }
-
-[layout-align="space-around"], [layout-align="space-around center"], [layout-align="space-around start"], [layout-align="space-around end"] {
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around; }
-
-[layout-align="space-between"], [layout-align="space-between center"], [layout-align="space-between start"], [layout-align="space-between end"] {
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between; }
-
-[layout-align="center center"], [layout-align="start center"], [layout-align="end center"], [layout-align="space-between center"], [layout-align="space-around center"] {
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center; }
-
-[layout-align="center start"], [layout-align="start start"], [layout-align="end start"], [layout-align="space-between start"], [layout-align="space-around start"] {
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start; }
-
-[layout-align="center end"], [layout-align="start end"], [layout-align="end end"], [layout-align="space-between end"], [layout-align="space-around end"] {
-  -webkit-align-items: flex-end;
-      -ms-flex-align: end;
-          align-items: flex-end; }
 .invisible {
   opacity: 0;
 }
@@ -660,6 +598,7 @@ body {
   width: 100%;
   height: 100%; 
   margin: 0 auto;
+  opacity: 0.98;
   transform-style: preserve-3d;
   .transform(translateZ(1px));
   cursor: pointer;
@@ -696,12 +635,11 @@ body {
   }
 
   &--gets-overlayed{
-      &.ng-remove{
-        top: 0;
+      &-remove{
         .transition(all 0.5s ease);
       }
-      &.ng-remove-active{
-        top: -500px !important;
+      &-remove-active{
+        .transform(rotateY(0deg)) !important;
       }
   }
   
@@ -731,6 +669,7 @@ body {
 
   &--rotate-horizontally {
     margin-left: 0;
+    opacity: 1;
     .transform(rotateY(180deg));
     -webkit-animation: liftAndSlide 1.48s @core-transition forwards;
     -moz-animation: liftAndSlide 1.48s @core-transition forwards;
@@ -782,7 +721,7 @@ body {
     .transform(rotateY(180deg));
   }
   .card__back { 
-    //z-index: 2;
+    z-index: 2;
     
     background-color: #c0392b;
     background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/riot-fist.png');

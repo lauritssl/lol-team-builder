@@ -1,58 +1,41 @@
-    <!-- BG animated -->
-    <div id="single-login-bg-container">
-    <div class="col-xs-12" style="padding: 0px;">
-        <video autoplay loop id="login_bg-render">
-        <source src="../../images/webm/BG_animated.webm" type="video/webm">
-        </video>
-    </div>
-    </div>
 
-
-  <div class="home_content-wrapper content-bg">
-        <div class="col-md-4 main-sidebar-wrapper">
-            <div class="main-sidebar">
-                <div class="col-xs-8 col-xs-offset-2">
-                    <p class="p_bluetext">JOIN OR CREATE A GAME</p>
-                    <div class="form-group">
-                        <label for="game_name">GAME ID</label>
-                        <input type="text" class="form-control" name="" value="" placeholder="Enter game id" ng-model="home.game.id">     
-                         <button type="button" class="btn ub-custom-btn custom-btn-red" ng-click="home.joinGame(home.game.id)">Join game</button>
-                    </div>
-                    <input type="submit" class="btn ub-custom-btn custom-btn-red" style="width: auto !important;"value="Create a new game" ng-click="home.createGame()">
-                </div>              
-            </div>    
-        </div>
-        <div class="content-wrapper col-md-7" id="home-content">
-           <div>
-               <h2>Games</h2>
-               <div class="games-list">
-                   <div class="panel panel-default">
-                   <div class="panel-body">
-                   <div class="row">
-                    <div class="col-md-2"> TITLE</div>
-                     <div class="col-md-2"> CREATED AT</div>
-                     <div class="col-md-3"> OWNER</div>
-                     <div class="col-md-1"> SPOTS</div>
-                     <div class="col-md-2"> MAP</div>
-                     <div class="col-md-2"></div>
-                    </div>
-                     <div ng-repeat="game in home.games" class="row" ng-hide="game.private"> 
-
-                     <div class="col-md-2"> <b>{{game.title}}</b></div>
-                     <div class="col-md-2"> <span am-time-ago="game.createdAt"></span></div>
-                       <div class="col-md-3"> {{game.user.username}}</div>
-                     <div class="col-md-1"> Coming soon <!-- {{game.spotsTaken}}/{{game.numberOfSpots}} --></div>
-                     <div class="col-md-2"> Summoners Rift</div>
-                     <div class="col-md-2">
-                     <button class="btn btn-success" ng-click="home.joinGame(game.id)">JOIN</button>   
-                     </div>
-                    
-
-
+<div class="c-hero-banner l-wrapped">
+  <h1 class="c-logo-graphic">
+    <span>League</span>
+    <span>of</span>
+    <span>Bravery</span>
+    <div class="c-logo-graphic__subtext">the Ultimate Bravery Team Builder app</div>
+  </h1>
+  <span class="c-hero-banner__graphic"></span>
 </div>
-                   </div>
-                   </div>
-               </div>
-           </div>
+
+<main layout="column" flex layout-align="center center">
+  
+  <section class="l-games-list-container" layout="column" flex="80">
+    
+    <header class="l-games-list-container__header">
+      <div class="row">
+        <div class="col-sm-10">
+          <input type="search" class="form-control input input-lg input--search" placeholder="Search for a game">
         </div>
-    </div>
+      </div>
+    </header>
+
+    <ul class="c-games-list list-unstyled"class="row">
+      <li class="c-games-list__item" ng-repeat="game in home.games" ng-hide="game.private" layout="row">
+        
+         <div class="c-games-list__item-meta">
+           <div class="c-games-list__item-title">{{game.title}}</div>
+           <span am-time-ago="game.createdAt"></span>, by
+           <strong>{{ game.user.username }}</strong>
+         </div>
+
+         <span flex></span>
+
+         <button class="btn btn-success c-games-list__item-button" ng-click="home.joinGame(home.game.id)">JOIN</button>  
+      </li>
+    </ul>
+
+  </section>
+
+</main>
