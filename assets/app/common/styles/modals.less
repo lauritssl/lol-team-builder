@@ -1,0 +1,89 @@
+/*============================================
+ * Modals style overrides
+ */
+
+.modal {
+
+  .modal-dialog {
+    top: 50%;
+    transform: translateY(-50%) !important;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+
+  .modal-content {
+    overflow: hidden;
+  }
+
+  .modal-header,
+  .modal-footer {
+    border: 0;
+  }
+
+  .modal-body {
+    padding-top: 0;
+  }
+
+  .modal-header {
+    padding: 25px;
+  }
+
+  .modal-title {
+    color: #4b4b4b;
+    font-weight: 700;
+  }
+
+  .btn {
+    &:active,
+    &:focus {
+      outline: none;
+    }
+
+    margin: 0;
+  }
+
+  .modal-footer {
+    text-align: left;
+  }
+
+  .modal-content-container {
+    box-shadow: inset 0 0 30px 5px rgba(0, 0, 0, 0.10);
+
+    /**
+     * Handles adding a nice graphic touch
+     * to the otherwise plain modals.
+     */
+    &--has-graphic {
+      overflow: hidden;
+      
+      /**
+       * Sets up the modal graphic Block
+       * aligning it to the right side of
+       * the modal itself.
+       */
+      .modal-graphic {
+        position: absolute;
+        right: -25px;
+        bottom: 0;
+        background-size: contain;
+
+        /**
+         * Specific Modifier for showing
+         * the Create Game modal graphic
+         */
+        &--create-game {
+          background-image: url('../images/modal/modal__create-game-graphic.png');
+          right: -88px;
+          bottom: -200px;
+          width: 251px;
+          height: 493px;
+          transform: scaleX(-1);
+
+        }
+
+      }
+    }
+  }
+}

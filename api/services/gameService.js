@@ -4,49 +4,43 @@ module.exports = {
     create: function(_options) {
         var deferred = Q.defer();
         var self = this;
-
-        var user = _options.user;
-        var title = _options.title;
-        var users = _options.users;
-        var numberOfSpots = _options.numberOfSpots;
-        var map = _options.map;
-        var private = _options.private;
+         var user = _options.user
 
         if (typeof user === 'undefined' || user === null) {
             throw new Error("The user was either null or undefined");
             return;
         }
 
-        if (typeof title === 'undefined' || title === null) {
+
+         if (typeof _options.title === 'undefined' || _options.title === null) {
             throw new Error("The title was either null or undefined");
             return;
         }
 
-        if (typeof users === 'undefined' || users === null) {
-            throw new Error("The users was either null or undefined");
-            return;
+
+
+
+        var spots = [];
+        var spot = {
+            id: utilsService.generateGUID()
         }
+        spots.push(spot);
 
-        if (typeof numberOfSpots === 'undefined' || numberOfSpots === null) {
-            throw new Error("The numberOfSpots was either null or undefined");
-            return;
-        }
+        var users = [];
+        users.push(user);
 
-        if (typeof map === 'undefined' || map === null) {
-            throw new Error("The map was either null or undefined");
-            return;
-        }
 
-         // We wont check for private status since we just default to public
-
-         var model = {
-            user: user,
-            title: title,
+        var model = {
+            user: _options.user,
+            title: _options.title,
             users: users,
-            numberOfSpots: numberOfSpots,
-            map: map,
-            private: private
+            numberOfSpots: _options.numberOfSpots,
+            map: _options.map,
+            private: _options.private,
+            spots: spots
         }
+
+
 
         return Game.create(model);      
 

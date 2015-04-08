@@ -4,7 +4,7 @@
 <div class="notification">Pick a slot...</div>
         <button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start game</button>
 
-           <button class="btn btn--error" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">End game</button> 
+           <button class="btn btn--error btn--end-game" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">End game</button> 
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Unassigned player Hexagon section -->
 <!-- ::::::::::::::::::::::::::::::::: -->
@@ -26,7 +26,7 @@
         ROLL ALL
       </button> -->
       <div class="card-deck">
-        <article class="card" ng-click="spot.drawn || gameLobby.drawCard(gameLobby.game.id, spot)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ 10 - $index}};"></article>
+        <article class="card" ng-click="spot.drawn || gameLobby.drawCard(gameLobby.game.id, spot)" ng-class="{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}" ng-repeat="spot in gameLobby.game.spots track by $index" ng-include="'gamelobby/views/card.tpl.html'" style="z-index: {{ 10 - $index}} !important;"></article>
 
        
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>

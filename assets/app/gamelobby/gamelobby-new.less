@@ -63,6 +63,8 @@ body {
 }
 
 [layout]{
+  display: -webkit-box;
+  display: -moz-box;
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
@@ -81,6 +83,8 @@ body {
 }
 
 [flex]{
+  -webkit-box-flex: 1 1 0%;
+  -moz-box-flex: 1 1 0%;
   -webkit-flex: 1 1 0%;
   -ms-flex: 1 1 0%;
   flex: 1 1 0%;
@@ -129,7 +133,7 @@ body {
   width: 15vw;
   min-width: 250px;
   height: 100vh;
-  z-index: 9000;
+  z-index: 1000;
   top: 0;
   
   p{
@@ -310,7 +314,7 @@ body {
       width: 14.5rem;
       height: 12.5rem;
       min-width: 14.5rem;
-        min-height: 12.5rem;
+      min-height: 12.5rem;
       background: url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jax_0.jpg");
       -webkit-clip-path: @icon__player_token_polygon;
       clip-path: @icon__player_token_polygon;
@@ -563,13 +567,13 @@ body {
     }
     }
 
+
   }
 
 // Card & Card Deck
 .card-deck-container {
   text-align: center;
 }
-
 
 .card-deck {
   width: 34rem;
@@ -619,15 +623,24 @@ body {
 
 .slides-out-from-bottom {
   -webkit-animation: slideOutFromBottom .48s @core-transition forwards;
+  -moz-animation: slideOutFromBottom .48s @core-transition forwards;
   animation: slideOutFromBottom .48s @core-transition forwards;
   @delay: 1.25s;
   -webkit-animation-delay: @delay;
+  -moz-animation-delay: @delay;
   animation-delay: @delay;
 }
 
 @-webkit-keyframes slideOutFromBottom {
   to {
     -webkit-transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes slideOutFromBottom {
+  to {
+    -moz-transform: translateY(0);
     opacity: 1;
   }
 }
@@ -681,13 +694,30 @@ body {
         display: block;
       }
   }
+
+  &--gets-overlayed{
+      &.ng-remove{
+        top: 0;
+        .transition(all 0.5s ease);
+      }
+      &.ng-remove-active{
+        top: -500px !important;
+      }
+  }
   
   &--flies-to-player {
     -webkit-animation: fliesToPlayer 1.48s @core-transition forwards !important;
+    -moz-animation: fliesToPlayer 1.48s @core-transition forwards !important;
     animation: fliesToPlayer 1.48s @core-transition forwards !important;
   }
 
   @-webkit-keyframes fliesToPlayer {
+    to {
+      .transform(rotateY(180deg) translateY(1500px));
+    }
+  }
+
+  @-moz-keyframes fliesToPlayer {
     to {
       .transform(rotateY(180deg) translateY(1500px));
     }
@@ -703,10 +733,20 @@ body {
     margin-left: 0;
     .transform(rotateY(180deg));
     -webkit-animation: liftAndSlide 1.48s @core-transition forwards;
+    -moz-animation: liftAndSlide 1.48s @core-transition forwards;
     animation: liftAndSlide 1.48s @core-transition forwards;
   }
   
   @-webkit-keyframes liftAndSlide {
+    50% {
+      margin-left: -2.5rem;
+    }
+    100% {
+      margin-left: 0;
+    }
+  }
+
+    @-moz-keyframes liftAndSlide {
     50% {
       margin-left: -2.5rem;
     }
@@ -742,7 +782,7 @@ body {
     .transform(rotateY(180deg));
   }
   .card__back { 
-    z-index: 2;
+    //z-index: 2;
     
     background-color: #c0392b;
     background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/riot-fist.png');
@@ -758,7 +798,6 @@ body {
     font-weight: 900;
     height: 64px;
     color: white;
-  //  background-color: rgba(210,105,13,1);
     background-color: rgba(0,0,0,0.75);
     text-align: left;
     border-radius: @card_corner_radius @card_corner_radius 0 0; 
@@ -881,17 +920,24 @@ body {
     background-position: center center;
     z-index: 10;
     -webkit-animation: revealRight 1.5s 1 ease-in-out forwards;
+    -moz-animation: revealRight 1.5s 1 ease-in-out forwards;
     animation: revealRight 1.5s 1 ease-in-out forwards;
   }
 
   
   &.reveal-it:after {
     -webkit-animation: revealRight 1.5s 1 ease-in-out forwards;
+    -moz-animation: revealRight 1.5s 1 ease-in-out forwards;
     animation: revealRight 1.5s 1 ease-in-out forwards;
   }
 }
 
 @-webkit-keyframes revealRight {
+  to {
+    .transform(translateX(64px));
+  }
+}
+@-moz-keyframes revealRight {
   to {
     .transform(translateX(64px));
   }
@@ -983,7 +1029,6 @@ body {
   font-weight: 700;
   color: #fff;
 
-  //&:extend(.absolute-centered);
 }
 
 // Buttons
@@ -1022,18 +1067,27 @@ body {
 // Animations
 .fly-away {
   -webkit-animation: flyAway 1.28s @core-transition forwards !important;
+  -moz-animation: flyAway 1.28s @core-transition forwards !important;
   animation: flyAway 1.28s @core-transition forwards !important;
+  
+  @-webkit-keyframes flyAway {
+    to {
+      .transform(translateY(-150rem));
+    }
+  }
+
+  @-moz-keyframes flyAway {
+    to {
+      .transform(translateY(-150rem));
+    }
+  }
+
   @keyframes flyAway {
     to {
       .transform(translateY(-150rem));
     }
   }
 }
-
-
-
-
-
 
 
 // Modals
@@ -1050,4 +1104,76 @@ body {
   .modal-footer {
 
   }
+}
+
+//FIREFOX FIX
+.gecko{
+  .incogneto-player-hexagon{
+    min-width: 13.5rem;
+    width: 13.5rem;
+    border-radius: 50%;
+    min-height: 14.8rem;
+    height: 14.8rem;
+
+    .hexagon-edge{
+    min-width: 17.5rem;
+    left: -2rem;
+    min-height: 15rem;
+    margin-top: 0.1rem;
+    }
+
+    .hexagon-banner{
+      .player__token-nameplate{
+        left: 0;
+        width: 13.5rem;
+        .token-nameplate__player-name{
+          width: 90%;
+          left: 5%;
+        }
+      }
+    }
+  }
+
+  .card-interactions{
+    .transform(translateY(0)) !important;
+  }
+
+.sidebar{
+  &.pull{
+
+    &--left, &--right{
+      .player{
+        .player__build-wrapper{
+          bottom: 0;
+        }
+        .player__portrait-bg{
+          bottom: 0;
+        }
+        .player__token-wrapper{
+          left: -8.5rem;
+
+          .player__option-icon{
+            left: auto;
+            right: -25px;
+          }
+          .player__token-image{
+            border-radius: 50%;
+            right: -8.8rem;
+          }
+          .player__token-nameplate{
+            left: auto;
+            margin-left: 2.4rem;
+          }
+        }
+      }
+    }
+    &--right{
+      .player{
+        .player__token-nameplate{
+          margin-left: 0.9rem !important;
+        }
+      }
+    }
+  }
+}
 }
