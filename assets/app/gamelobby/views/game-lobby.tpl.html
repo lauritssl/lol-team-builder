@@ -1,3 +1,16 @@
+<div class="c-lobby-top-bar" ng-if="gameLobby.userOwnsGame()">
+  <div class="l-wrapped" layout="row">
+
+   <span class="c-lobby-top-bar__item">{{ gameLobby.game.title }}</span>
+   <span class="c-lobby-top-bar__item" ng-if="gameLobby.game.private">Private</span>
+   <span class="c-lobby-top-bar__item">{{ gameLobby.game.numberOfSpots }} spots</span>
+   
+   <span flex></span>
+
+   <input type="submit" class="btn btn-success btn-slim" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" />
+   </div>
+</div>
+
 <main>
   <aside class="sidebar pull--left">
     <ul class="players list-unstyled" layout="column" layout-align="center center">

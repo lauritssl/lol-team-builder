@@ -103,6 +103,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return false;
 	}
 
+	vm.getUserWithTurn = function (game) {
+		var spot = vm.getNextRollableSpot(game);
+		if(!spot.user) return null;
+
+		return _.find(game.users, function(user) {
+			return user.id === spot.user;
+		})
+	}
+
 	vm.getNextRollableSpot = function(game){
 		var spot = _.find(game.spots, function(spot){
 			if(typeof spot.build !== 'undefined') return spot.build.drawn !== true || spot.build.drawn && !spot.build.accepted ;
@@ -110,6 +119,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			});
 		return spot;
 	}
+
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
@@ -304,6 +314,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 
 	vm.addSpot = function(game) {
+		console.log('Hey');
 		if(game.spots.length <= game.numberOfSpots){
 				GameModel.addSpot(game.id)
 				.then(function(result) {
