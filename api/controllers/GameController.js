@@ -110,49 +110,34 @@
 		var user = req.param('user');
 		var id = req.param('id');
 
-		if( user.id === undefined ){
-			// Generate GUID for the user.
-			user.id = generateGUID();
+		var options = {
+			user: user,
+			id : id,
 		}
 
-		Game
-		.findOne(id)
-		.exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			} else if(typeof game != 'undefined'){
-				game.spots = game.spots || [];
-				game.users = game.users || [];
-
-					// User already exists
-					var userExists = _.filter(game.users, function(_user){
-						return _user.id === user.id;
-					});
-
-					if( userExists.length === 0 ){
-
-						game.users.push({
-							id: user.id,
-							nickname : user.nickname
-						});
-						// Create a spot for the user
-						game.spots.push({id: game.spots.length+1});
-					}
-					
-
-					game.save(function(err, result){
-						if(err){
-							return res.json(err);
-						} else {
-							Game.publishUpdate(game.id,result);
-							return res.json(user);
-						}
-					});
-				}
-			});
+		userService.addUser(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 	},
 	addSpot: function  (req,res) {
+		var user = req.param('user');
 		var id = req.param('id');
+
+		var options = {
+			id : id,
+		}
+		
+		spotService.addSpot(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 
 	},
 	addUserToSpot : function(req, res){
@@ -197,42 +182,39 @@
 
 	},
 	destroyUser: function (req, res) {
-		var user = req.param('user');
+		var userId = req.param('userId');
 		var id = req.param('id');
 
+		var options = {
+			userId: userId,
+			id : id,
+		}
 
-		Game
-		.findOne(id)
-		.exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			} else if(typeof game != 'undefined'){
+		userService.deleteUser(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
+		
+	},
+	destroySpot: function(req, res) {
+		var spotId = req.param('spotId');
+		var id = req.param('id');
 
-				// Free spot
-				var userIndex = game.spots.indexOf(user);
-				if( userIndex > -1 ){
-					game.spots.splice(userIndex, 1);
-				}
+		var options = {
+			spotId: spotId,
+			id : id,
+		}
 
-				// Remove user
-				var userIndex = _.map(game.users, function(_user){
-					return _user.id;
-				}).indexOf(user.id);
-
-				if(userIndex > -1){
-					game.users.splice(userIndex, 1);
-				}
-
-				game.spotsTaken -= 1;
-
-				game.save(function(err, result){
-					//console.log(result);
-					Game.republishGame(game.id);
-				});
-
-				return game;
-			}
-		});
+		spotService.deleteSpot(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 	},
 /**
  * Roll builds for all slots in the game
@@ -330,6 +312,7 @@
  	});
 
  },
+
 
  rollBuild: function(req, res) {
  	var id = req.param('id')

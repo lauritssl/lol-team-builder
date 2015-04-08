@@ -73,6 +73,11 @@ module.exports = {
         });
         return deferred.promise;
     },
+    /**
+     * [rollBuilds description]
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
     rollBuilds: function(_options) {
         var game = _options.game;
         var promises = [];
