@@ -10,6 +10,7 @@ angular.module('ubteambuilder', [
 	'ui.bootstrap',
 	'templates-app',
 	'models',
+	'directives',
 	'cgNotify',
 	'services',
 	'ubteambuilder.header',

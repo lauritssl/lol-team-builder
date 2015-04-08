@@ -19,6 +19,7 @@ HomeCtrl.$inject = ['titleService', 'GameModel', '$location', '$sails', 'lodash'
 	vm.newGame = {};	
    	titleService.setTitle('Home');
 	vm.games = [];
+	vm.searchTerm = "";
 
 	$sails.on('game', function (envelope) {
 		console.log(envelope);
