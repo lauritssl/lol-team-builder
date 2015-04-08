@@ -138,8 +138,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			return false;
 	};
 
-	
-
 	vm.rollBuilds = function(game) {
 		console.log("I don't get called");
 		GameModel.rollBuilds(game.id).then(function(model) {
