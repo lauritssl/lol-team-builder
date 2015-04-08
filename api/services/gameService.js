@@ -45,30 +45,30 @@ module.exports = {
 
     },
 
-    // destroy: function(_id){
-    //     var deferred = Q.defer();
+    destroy: function(_id){
+        var deferred = Q.defer();
 
-    //     if(typeof _id==='undefined' || _id=== null){
-    //         throw new Error("Id is null or undefined");
-    //         return;
-    //     }
+        if(typeof _id==='undefined' || _id=== null){
+            throw new Error("Id is null or undefined");
+            return;
+        }
 
-    //     Game.findOne(_id)
-    //     .then(function(game){
-    //         if (typeof game==='undefined'||game===null){
-    //             throw new Error ("game wasnt found");
-    //             return; 
-    //         }
-    //     Game.destroy({id: game.id}).exec(function destroyCB(err, destroyed){
-    //             if (err){
-    //                 deferred.reject(err);
-    //                 return;
-    //             }
-    //             deferred.resolve(destroyed);
-    //         });
-    //     });
-    //     return deferred.promise;
-    // },
+        Game.findOne(_id)
+        .then(function(game){
+            if (typeof game==='undefined'||game===null){
+                throw new Error ("game wasnt found");
+                return; 
+            }
+        Game.destroy({id: game.id}).exec(function destroyCB(err, destroyed){
+                if (err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(destroyed);
+            });
+        });
+        return deferred.promise;
+    },
 
     rollBuildForGame: function(_options) {
         var deferred = Q.defer();        

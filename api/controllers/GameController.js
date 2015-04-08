@@ -64,48 +64,48 @@
  	},
 
 	
-	// destroy: function(req, res){
+	destroy: function(req, res){
 
-	// 	var id = req.param('id');
-
-	// 	gameService.destroy(id)
-	// 	.then(function(result){
-	// 		Game.publishDestroy(result.id);
-	// 		return res.json(result)
-	// 	})
-	// 	.catch(function(err){
-	// 		return res.serverError(err);
-	// 	})
-
-	// },
-	destroy: function (req, res) {
 		var id = req.param('id');
-		if (!id) {
-			return res.badRequest('No id provided.');
-		}
 
+		gameService.destroy(id)
+		.then(function(result){
+			Game.publishDestroy(result.id);
+			return res.json(result)
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 
-
-		// Otherwise, find and destroy the model in question
-		Game.findOne(id).exec(function(err, model) {
-			if (err) {
-				return res.serverError(err);
-			}
-			if (!model) {
-				return res.notFound();
-			}
-
-			Game.destroy(id, function(err) {
-				if (err) {
-					return res.serverError(err);
-				}
-
-
-				Game.publishDestroy(model.id);
-				return res.json(model);
-			});
-		});
 	},
+	// destroy: function (req, res) {
+	// 	var id = req.param('id');
+	// 	if (!id) {
+	// 		return res.badRequest('No id provided.');
+	// 	}
+
+
+
+	// 	// Otherwise, find and destroy the model in question
+	// 	Game.findOne(id).exec(function(err, model) {
+	// 		if (err) {
+	// 			return res.serverError(err);
+	// 		}
+	// 		if (!model) {
+	// 			return res.notFound();
+	// 		}
+
+	// 		Game.destroy(id, function(err) {
+	// 			if (err) {
+	// 				return res.serverError(err);
+	// 			}
+
+
+	// 			Game.publishDestroy(model.id);
+	// 			return res.json(model);
+	// 		});
+	// 	});
+	// },
 	addUser: function (req, res) {
 		var user = req.param('user');
 		var password = req.param('password');
