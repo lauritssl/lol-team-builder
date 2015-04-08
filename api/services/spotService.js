@@ -1,15 +1,5 @@
 var Q = require("q");
 
- var generateGUID = function() {
- 	function s4() {
- 		return Math.floor((1 + Math.random()) * 0x10000)
- 		.toString(16)
- 		.substring(1);
- 	}
- 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
- 	s4() + '-' + s4() + s4() + s4();
- }
-
 module.exports = {
 	
 	/**
@@ -145,7 +135,7 @@ module.exports = {
 			if(game.numberOfSpots <= game.spots.length+1) throw new Error("There is no more space in the game");
 			
 			var spot = {
-				id: generateGUID()
+				id: utilsService.generateGUID()
 			}
 			game.spots.push(spot);
 			
