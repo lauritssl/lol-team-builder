@@ -1,5 +1,57 @@
 var Q = require("q");
 module.exports = {
+
+    create: function(_options) {
+        var deferred = Q.defer();
+        var self = this;
+
+        var user = _options.user;
+        var title = _options.title;
+        var users = _options.users;
+        var numberOfSpots = _options.numberOfSpots;
+        var map = _options.map;
+        var private = _options.private;
+
+        if (typeof user === 'undefined' || user === null) {
+            throw new Error("The user was either null or undefined");
+            return;
+        }
+
+         if (typeof title === 'undefined' || title === null) {
+            throw new Error("The title was either null or undefined");
+            return;
+        }
+
+        if (typeof users === 'undefined' || users === null) {
+            throw new Error("The users was either null or undefined");
+            return;
+        }
+
+         if (typeof numberOfSpots === 'undefined' || numberOfSpots === null) {
+            throw new Error("The numberOfSpots was either null or undefined");
+            return;
+        }
+
+         if (typeof map === 'undefined' || map === null) {
+            throw new Error("The map was either null or undefined");
+            return;
+        }
+
+         // We wont check for private status since we just default to public
+
+        var model = {
+            user: user,
+            title: title,
+            users: users,
+            numberOfSpots: numberOfSpots,
+            map: map,
+            private: private
+        }
+
+        return Game.create(model);      
+
+    },
+
     rollBuildForGame: function(_options) {
         var deferred = Q.defer();        
         var self = this;

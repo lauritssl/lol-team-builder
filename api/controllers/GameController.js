@@ -46,34 +46,62 @@
  		});
  	},
 
- 	create: function (req, res) {
- 		var userDto = req.param('user');
 
+ 	create: function (req,res) {
  		var user = {};
  		user.id = generateGUID();
- 		user.nickname = userDto.nickname;
+ 		user.nickname = req.param('user').nickname;
+ 		var title = req.param('title');
+ 		var users = [];
+ 		var numberOfSpots = req.param('numberOfSpots');
+ 		var map = req.param('map');
+ 		var private = req.param('private');
 
- 		var model = {
- 			title: req.param('title'),
+ 		var options = {
+ 			title: title,
  			user: user,
- 			users: [],
- 			numberOfSpots: req.param('numberOfSpots'),
- 			map: req.param('map'),
- 			private: req.param('private')
+ 			users: users,
+ 			numberOfSpots: numberOfSpots,
+ 			map: map,
+ 			private: private
  		};
 
-
- 		Game
- 		.create(model)
- 		.exec(function(err, game) {
- 			if (err) {
- 				return res.status(400).json(err);
- 			} else {
- 				Game.publishCreate(game);
- 				return res.json(game);
- 			}
- 		});
+		
+ 		gameService.create(options)
+ 		.then(function(result){
+			Game.publishCreate(result);
+			return res.json(result);
+		});
+		
  	},
+	// create: function (req, res) {
+	// 	var userDto = req.param('user');
+
+	// 	var user = {};
+	// 	user.id = generateGUID();
+	// 	user.nickname = userDto.nickname;
+
+	// 	var model = {
+	// 		title: req.param('title'),
+	// 		user: user,
+	// 		users: [],
+	// 		numberOfSpots: req.param('numberOfSpots'),
+	// 		map: req.param('map'),
+	// 		private: req.param('private')
+	// 	};
+
+
+	// 	Game
+	// 	.create(model)
+	// 	.exec(function(err, game) {
+	// 		if (err) {
+	// 			return res.status(400).json(err);
+	// 		} else {
+	// 			Game.publishCreate(game);
+	// 			return res.json(game);
+	// 		}
+	// 	});
+	// },
  	destroy: function (req, res) {
  		var id = req.param('id');
  		if (!id) {
