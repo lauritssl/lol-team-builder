@@ -18,8 +18,8 @@ function ChampionService ($http, $q) {
 		 getChampions: function () {
             var deferred = $q.defer();
             var queryParameters = "champData=image,passive,spells,stats,tags&api_key="+apiKey;
-            //var url = lolBasePath + staticPath + "/champion?" + queryParameters;
-            var url = cdnUrl +"/"+this.cdnVersion + "/data/"+ localization  +"/champion.json";
+            var url = lolBasePath + staticPath + "/champion?" + queryParameters;
+            //var url = cdnUrl +"/"+this.cdnVersion + "/data/"+ localization  +"/champion.json";
 
             var test = "";
             $http({url:url, cache:true, method: 'GET'}).success(function(result) {
