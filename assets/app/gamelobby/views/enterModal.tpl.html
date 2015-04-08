@@ -1,14 +1,19 @@
-<div class="modal-content-container join-lobby">
+<div class="modal-content-container modal-content-container--has-graphic join-lobby">
+  <span class="modal-graphic modal-graphic--create-game"></span>
   <div class="modal-header">
-    <h3 class="modal-title">
-    Your nickname
-    </h3>
+    <h2 class="modal-title">
+    Your nickname, warrior
+    </h2>
   </div>
   <div class="modal-body">
-    <input ng-model="user.nickname" type="text">
+    <div class="row">
+      <div class="col-sm-6">
+        <input ng-model="user.nickname" placeholder="Write your nickname" maxlength="28" class="form-control input input-lg" type="text">
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Join</button>
-    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Cancel</button>
+    <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Join Game</button>
+    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Go back</button>
   </div>
 </div>

@@ -23,6 +23,8 @@
 @main-grey-dark: #1d1d1d;
 @main-grey-darker: #101010;
 
+@main-text-color: #4b4b4b;
+
 
 /* General styles */
 html {
@@ -154,12 +156,14 @@ li {
 //Login button & signup style
 }
 
-.form-group{
+.form-group {
+    
     .form-control{
       margin-bottom: 10px;
       background-color: #222222;
       border-color: #1a1a1a;
       border-radius: 0px;
+      color: ghostwhite;
 
       &:focus{
         border-color: @main-red;
@@ -169,7 +173,68 @@ li {
       }
     } 
   }
+
 }
+
+/**
+ * Input Fields & Input Labels
+ * 
+ */
+@input-focus-transition: cubic-bezier(0.7, 0, 0.3, 1);
+
+.c-input {
+  font-family: "Raleway", sans-serif;
+
+   .c-input__field {
+      height: 42px;
+      z-index: 1;
+      border: 0;
+      box-shadow: inset 0 0 0 1px gainsboro;
+      border-radius: 0;
+
+      &:focus {
+        
+        & + .c-input__label {
+
+          top: -9px;
+          right: 10px;
+          z-index: 2;
+          background-color: white;
+          padding: 0 10px;
+          opacity: 1;
+          transition: opacity .28s @input-focus-transition;
+        }
+      }
+   }
+  
+   .c-input__label {
+      position: absolute;
+      top: -9px;
+      right: 10px;
+      font-weight: 700;
+      color: #999;
+      z-index: 0;
+      opacity: 0;
+      float: left;
+      font-size: 1.412rem;
+      font-family: "Raleway", sans-serif;
+      transition: top .28s @input-focus-transition;
+   }
+  
+   .c-input__label-content {
+
+   }
+
+  &:not(:first-child) {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+}
+
+
+
+
 
 // Animated BG
 #single-login-bg-container{
