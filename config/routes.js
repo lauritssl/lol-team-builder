@@ -108,7 +108,8 @@ module.exports.routes = {
   'get /about': 'HomeController.index',
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',
-  'get /games/:id': 'HomeController.index',
   'get /games/:id/join': 'HomeController.index',
+  'get /games/create': 'HomeController.index',
+  'get /games/:id/lobby': 'HomeController.index',
   'get /new/game': 'HomeController.index'
 };

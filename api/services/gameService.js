@@ -17,9 +17,6 @@ module.exports = {
             return;
         }
 
-
-
-
         var spots = [];
         var spot = {
             id: utilsService.generateGUID()
@@ -34,16 +31,43 @@ module.exports = {
             user: _options.user,
             title: _options.title,
             users: users,
-            numberOfSpots: _options.numberOfSpots,
             map: _options.map,
             private: _options.private,
             spots: spots
         }
 
+        if(typeof _options.numberOfSpots !== 'undefined' || _options.numberOfSpots === null) {model.numberOfSpots = _options.numberOfSpots;}
+        if(model.private){ model.password = _options.password};
+
 
 
         return Game.create(model);      
 
+    },
+
+    destroy: function(_id){
+        var deferred = Q.defer();
+
+        if(typeof _id==='undefined' || _id=== null){
+            throw new Error("Id is null or undefined");
+            return;
+        }
+
+        Game.findOne(_id)
+        .then(function(game){
+            if (typeof game==='undefined'||game===null){
+                throw new Error ("game wasnt found");
+                return; 
+            }
+        Game.destroy({id: game.id}).exec(function destroyCB(err, destroyed){
+                if (err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(destroyed);
+            });
+        });
+        return deferred.promise;
     },
 
     rollBuildForGame: function(_options) {

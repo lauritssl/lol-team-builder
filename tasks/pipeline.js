@@ -16,6 +16,8 @@
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
  'bower_components/angularjs-slider/dist/rzslider.min.css',
+  'bower_components/angular-notify/dist/angular-notify.css',
+
   'styles/**/*.css'
 ];
 
