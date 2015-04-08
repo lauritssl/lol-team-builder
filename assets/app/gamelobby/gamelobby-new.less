@@ -598,6 +598,7 @@ body {
   width: 100%;
   height: 100%; 
   margin: 0 auto;
+  opacity: 0.98;
   transform-style: preserve-3d;
   .transform(translateZ(1px));
   cursor: pointer;
@@ -634,14 +635,11 @@ body {
   }
 
   &--gets-overlayed{
-      // &.ng-remove{
-      //   position: relative;
-      //   margin-top: 0;
-      //   display: block !important;
-      //   .transition(all 0.5s ease);
-      // }
+      &-remove{
+        .transition(all 0.5s ease);
+      }
       &-remove-active{
-        .transform(rotateY(180deg)) !important;
+        .transform(rotateY(0deg)) !important;
       }
   }
   
@@ -671,6 +669,7 @@ body {
 
   &--rotate-horizontally {
     margin-left: 0;
+    opacity: 1;
     .transform(rotateY(180deg));
     -webkit-animation: liftAndSlide 1.48s @core-transition forwards;
     -moz-animation: liftAndSlide 1.48s @core-transition forwards;
@@ -722,7 +721,7 @@ body {
     .transform(rotateY(180deg));
   }
   .card__back { 
-    //z-index: 2;
+    z-index: 2;
     
     background-color: #c0392b;
     background-image: url('https://s3-us-west-1.amazonaws.com/riot-api/img/riot-fist.png');
