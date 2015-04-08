@@ -1,4 +1,4 @@
-        <div class="player__build-wrapper" flex layout="column" layout-align="start start" ng-if="spot.build">
+        <div class="player__build-wrapper" flex layout="column" layout-align="start start" ng-if="spot.build && spot.build.accepted">
           <div class="build__main-spells" flex layout="row" layout-align="space-around center">
             <div class="main-spell-wrapper" layout="row" layout-align="center end">
                 <div class="main-spell shadow-inset" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.build.champion)}})"></div>

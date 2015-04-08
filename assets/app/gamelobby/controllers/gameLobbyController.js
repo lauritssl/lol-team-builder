@@ -99,8 +99,20 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.userHasTurn = function(game){
 		var nextRollableSpot = vm.getNextRollableSpot(game);
-		if(nextRollableSpot.user === vm.currentUser.id) return true;
+		if(typeof nextRollableSpot !== 'undefined' && nextRollableSpot.user === vm.currentUser.id) return true;
 		return false;
+	}
+
+	vm.getUserWithTurn = function (game) {
+		var spot = vm.getNextRollableSpot(game);
+		
+		if(typeof spot === 'undefined') { return null;}
+		
+		if(!spot.user){ return null;}
+		
+		return _.find(game.users, function(user) {
+			return user.id === spot.user;
+		})
 	}
 
 	vm.getNextRollableSpot = function(game){
@@ -110,6 +122,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			});
 		return spot;
 	}
+
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser

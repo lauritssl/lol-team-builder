@@ -398,7 +398,7 @@ li {
       height: 42px;
       z-index: 1;
       border: 0;
-      box-shadow: inset 0 0 0 1px gainsboro;
+      box-shadow: inset 0 0 0 1px silver;
       border-radius: 0;
 
       &:focus {
@@ -440,7 +440,27 @@ li {
 
 }
 
+/**
+ * Lobby Top Bar Component
+ */
+.c-lobby-top-bar {
+  line-height: 2;
+  padding: 1rem;
+  z-index: 2000;
+  color: white;
+  background-color: rgba(0,0,0,.15);
 
+  &__item {
+    font-weight: bold;
+    
+    &:not(:first-child) {
+      margin: 0 1rem;
+    }
+    &:first-child {
+      margin-right: 1rem;
+    }
+  }
+}
 
 
 
