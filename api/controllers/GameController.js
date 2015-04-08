@@ -41,8 +41,8 @@
  	create: function (req,res) {
  		
  		var user = {
- 			id: utilsService.generateGUID();
- 		    nickname: req.param('user').nickname;
+ 			id: utilsService.generateGUID(),
+ 		    nickname: req.param('user').nickname
  		};  		
 
  		var options = {

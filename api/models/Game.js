@@ -41,10 +41,6 @@ module.exports = {
 			type: 'integer',
 			defaultsTo: 11
 		},
-		builds: {
-			collection: 'build',
-			via: 'id'
-		},
 		private: {
 			type: 'boolean',
 			defaultsTo: false
