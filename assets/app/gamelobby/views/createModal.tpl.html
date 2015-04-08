@@ -11,7 +11,7 @@
 
         <div class="c-input">
           
-          <input placeholder="Your nickname" name="input_game_nickname" id="input_game_nickname" maxlength="28" class="form-control c-input__field" type="text" autofocus>
+          <input placeholder="Your nickname" name="input_game_nickname" id="input_game_nickname" maxlength="28" class="form-control c-input__field" type="text" autofocus required>
           
           <label for="input_game_nickname" class="c-input__label">
             <span class="c-input__label-content">Your nickname</span>
@@ -21,7 +21,7 @@
         
         <div class="c-input">
           
-          <input placeholder="Game title" name="input_game_title" id="input_game_title" maxlength="28" class="form-control c-input__field" type="text" autofocus>
+          <input placeholder="Game title" name="input_game_title" id="input_game_title" maxlength="28" class="form-control c-input__field" type="text" autofocus required>
           
           <label for="input_game_title" class="c-input__label">
             <span class="c-input__label-content">Game title</span>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-          <select name="select_map" id="select_map" class="form-control">
+          <select name="select_map" id="select_map" class="form-control" required>
             <option value="1" selected>Summoner's Rift</option>
             <option value="2">The Twisted Treeline</option>
             <option value="3">Howling Abyss</option>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-          <select name="select_mode" id="select_mode" class="form-control">
+          <select name="select_mode" id="select_mode" class="form-control" required>
             <option value="1" selected>Random</option>
             <option value="2">Draft</option>
           </select>
