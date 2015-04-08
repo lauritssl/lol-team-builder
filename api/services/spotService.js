@@ -144,7 +144,10 @@ module.exports = {
 
 			if(game.numberOfSpots <= game.spots.length+1) throw new Error("There is no more space in the game");
 			
-			game.spots.push({id: generateGUID()});
+			var spot = {
+				id: generateGUID()
+			}
+			game.spots.push(spot);
 			
 
 			
@@ -175,11 +178,10 @@ module.exports = {
 		var deferred = Q.defer();
 		var gameId = _options.id;	
 		var spotId = _options.spotId;	
-
+	
 
 		return Game.findOne(gameId)
-		.then(function(model){
-			game = model;
+		.then(function(game){
 
 
 			// Remove spot
@@ -201,7 +203,7 @@ module.exports = {
             return deferred.promise;  
 		})
 		.catch(function(err) {
-			return err;
+			throw err;
 		});
 	}
 }

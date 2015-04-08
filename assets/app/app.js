@@ -9,6 +9,7 @@ angular.module('ubteambuilder', [
 	'ui.bootstrap',
 	'templates-app',
 	'models',
+	'cgNotify',
 	'services',
 	'ubteambuilder.header',
 	'ubteambuilder.authentication',

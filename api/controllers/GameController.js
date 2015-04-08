@@ -7,15 +7,6 @@
 
  var async = require('async');
 
- var generateGUID = function() {
- 	function s4() {
- 		return Math.floor((1 + Math.random()) * 0x10000)
- 		.toString(16)
- 		.substring(1);
- 	}
- 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
- 	s4() + '-' + s4() + s4() + s4();
- }
 
  module.exports = {
  	getAll: function(req, res) {
@@ -46,34 +37,58 @@
  		});
  	},
 
- 	create: function (req, res) {
- 		var userDto = req.param('user');
 
- 		var user = {};
- 		user.id = generateGUID();
- 		user.nickname = userDto.nickname;
+ 	create: function (req,res) {
+ 		
+ 		var user = {
+ 			id: utilsService.generateGUID();
+ 		    nickname: req.param('user').nickname;
+ 		};  		
 
- 		var model = {
- 			title: req.param('title'),
- 			user: user,
- 			users: [],
- 			numberOfSpots: req.param('numberOfSpots'),
- 			map: req.param('map'),
- 			private: req.param('private')
+ 		var options = {
+	 		title : req.param('title'),
+	 		user : user,
+	 		numberOfSpots : req.param('numberOfSpots'),
+	 		map : req.param('map'),
+	 		private : req.param('private')
  		};
 
-
- 		Game
- 		.create(model)
- 		.exec(function(err, game) {
- 			if (err) {
- 				return res.status(400).json(err);
- 			} else {
- 				Game.publishCreate(game);
- 				return res.json(game);
- 			}
- 		});
+		
+ 		gameService.create(options)
+ 		.then(function(result){
+			Game.publishCreate(result);
+			return res.json(result);
+		});
+		
  	},
+	// create: function (req, res) {
+	// 	var userDto = req.param('user');
+
+	// 	var user = {};
+	// 	user.id = generateGUID();
+	// 	user.nickname = userDto.nickname;
+
+	// 	var model = {
+	// 		title: req.param('title'),
+	// 		user: user,
+	// 		users: [],
+	// 		numberOfSpots: req.param('numberOfSpots'),
+	// 		map: req.param('map'),
+	// 		private: req.param('private')
+	// 	};
+
+
+	// 	Game
+	// 	.create(model)
+	// 	.exec(function(err, game) {
+	// 		if (err) {
+	// 			return res.status(400).json(err);
+	// 		} else {
+	// 			Game.publishCreate(game);
+	// 			return res.json(game);
+	// 		}
+	// 	});
+	// },
  	destroy: function (req, res) {
  		var id = req.param('id');
  		if (!id) {
@@ -118,6 +133,7 @@
 		userService.addUser(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(user);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -134,6 +150,7 @@
 		spotService.addSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -154,6 +171,7 @@
 		spotService.addUserToSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -193,6 +211,7 @@
 		userService.deleteUser(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -211,6 +230,7 @@
 		spotService.deleteSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);			
 		})
 		.catch(function(err){
 			return res.serverError(err);

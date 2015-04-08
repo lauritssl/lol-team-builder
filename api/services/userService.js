@@ -2,15 +2,6 @@ var Q = require("q");
 
 
 
- var generateGUID = function() {
- 	function s4() {
- 		return Math.floor((1 + Math.random()) * 0x10000)
- 		.toString(16)
- 		.substring(1);
- 	}
- 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
- 	s4() + '-' + s4() + s4() + s4();
- }
 
 
 module.exports = {
@@ -24,32 +15,31 @@ module.exports = {
 		var deferred = Q.defer();
 		var gameId = _options.id;
 		var user = _options.user
-		/**
-		 * Prepare game variable for later use.
-		 */
-		var game;
+		
 
 		/*
 		Check whether the _options object contains the required parameters
 		 */
-		if(gameId === null || user === null) throw new Error("addUser did not receive the required parameters");
+		if(gameId === null || user === null) {throw new Error("addUser did not receive the required parameters"); return;}
 
 		/**
 		 * Check whether a user.id was specified.
 		 */
 		if( user.id === undefined ){
 			// Generate GUID for the user.
-			user.id = generateGUID();
+			user.id = utilsService.generateGUID();
 		}
 
 		return Game.findOne(gameId)
-		.then(function(model){
-			game = model;
+		.then(function(game){
 			game.users = game.users || [];
 			game.spots = game.spots || [];
 
 
-			if(game.numberOfSpots <= game.users.length+1) throw new Error("There is no more space in the game");
+			if(game.numberOfSpots <= game.users.length+1) {
+				throw new Error("There is no more space in the game");
+				 return;
+			}
 			
 			// User already exists
 			var userExists = _.some(game.users,function(_user) {
@@ -63,7 +53,7 @@ module.exports = {
 				});
 				
 				//Add a spot for the given user
-				game.spots.push({id: generateGUID()});
+				game.spots.push({id: utilsService.generateGUID()});
 			}
 
 			
@@ -96,10 +86,10 @@ module.exports = {
 		var gameId = _options.id;	
 		var userId = _options.userId;	
 
+	
 
 		return Game.findOne(gameId)
-		.then(function(model){
-			game = model;
+		.then(function(game){
 
 
 			// Remove spot
