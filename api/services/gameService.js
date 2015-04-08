@@ -1,5 +1,75 @@
 var Q = require("q");
 module.exports = {
+
+    create: function(_options) {
+        var deferred = Q.defer();
+        var self = this;
+        var user = _options.user
+
+        if (typeof user === 'undefined' || user === null) {
+            throw new Error("The user was either null or undefined");
+            return;
+        }
+
+
+        if (typeof _options.title === 'undefined' || _options.title === null) {
+            throw new Error("The title was either null or undefined");
+            return;
+        }
+
+        var spots = [];
+        var spot = {
+            id: utilsService.generateGUID()
+        }
+        spots.push(spot);
+
+        var users = [];
+        users.push(user);
+
+
+        var model = {
+            user: _options.user,
+            title: _options.title,
+            users: users,
+            map: _options.map,
+            private: _options.private,
+            spots: spots
+        }
+
+        if(typeof _options.numberOfSpots !== 'undefined' || _options.numberOfSpots === null) {model.numberOfSpots = _options.numberOfSpots;}
+        if(model.private){ model.password = _options.password};
+
+
+
+        return Game.create(model);      
+
+    },
+
+    destroy: function(_id){
+        var deferred = Q.defer();
+
+        if(typeof _id==='undefined' || _id=== null){
+            throw new Error("Id is null or undefined");
+            return;
+        }
+
+        Game.findOne(_id)
+        .then(function(game){
+            if (typeof game==='undefined'||game===null){
+                throw new Error ("game wasnt found");
+                return; 
+            }
+        Game.destroy({id: game.id}).exec(function destroyCB(err, destroyed){
+                if (err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(destroyed);
+            });
+        });
+        return deferred.promise;
+    },
+
     rollBuildForGame: function(_options) {
         var deferred = Q.defer();        
         var self = this;
@@ -73,7 +143,12 @@ module.exports = {
         });
         return deferred.promise;
     },
-    rollBuilds: function(_options) {
+    /**
+     * [rollBuilds description]
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
+     rollBuilds: function(_options) {
         var game = _options.game;
         var promises = [];
         var builds = [];
@@ -184,8 +259,65 @@ module.exports = {
         .then(function(game){
 
             if(typeof game === 'undefined') throw new Error("Game was not found");
+
+
             game.gameStarted = true;
 
+            if(game.gameMode === 'draft'){
+                return self.startDraft({game:game})
+                
+            }else{
+                return self.startNormal({game:game})
+            }            
+        })
+    },
+    /**
+     * Method for starting a normal game
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
+    startNormal : function(_options) {
+        var deferred = Q.defer();        
+        var self = this;
+        var game = _options.game;
+
+        game.save(function(err, result){
+            if(err){
+                deferred.reject(err);
+                return;
+            }
+            deferred.resolve(result);
+        })
+        return deferred.promise;
+    },
+    /**
+     * Method for starting a draft type game
+     * @param  {[type]} _options [description]
+     * @return {[type]}          [description]
+     */
+    startDraft: function(_options) {
+        var deferred = Q.defer();        
+        var self = this;
+        var game = _options.game;
+
+        return lolDataService.getGameData()
+        .then(function(gameData) {
+            var options = {
+                items: gameData.items,
+                champions: gameData.champions,
+                summoners: gameData.summoners,
+                maps: gameData.maps,
+                game: game
+            }
+
+            return self.rollBuilds(options);
+
+
+        })
+        .then(function(builds) {
+            _.forEach(game.spots, function(spot, key) {
+                spot.build = builds[key];
+            });
             game.save(function(err, result){
                 if(err){
                     deferred.reject(err);
@@ -194,7 +326,7 @@ module.exports = {
                 deferred.resolve(result);
             })
             return deferred.promise;
-        })
+        });
     },
     endGame: function(_options){
         var deferred = Q.defer();        

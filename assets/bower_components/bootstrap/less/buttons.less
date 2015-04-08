@@ -24,7 +24,9 @@
   &.active {
     &:focus {
       .tab-focus();
+      outline: none;
     }
+    outline: none;
   }
 
   &:hover,
@@ -48,6 +50,11 @@
     .opacity(.65);
     .box-shadow(none);
   }
+}
+
+.btn.btn-slim {
+  padding: 1rem 1rem;
+  font-size: 1.2rem;
 }
 
 

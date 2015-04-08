@@ -1,9 +1,9 @@
 angular.module( 'ubteambuilder.gamelobby.controllers', ['pmkr.components'])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService'];
 
- function GameLobbyCtrl($sails, lodash, Session, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio) {
+ function GameLobbyCtrl($sails, lodash, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService) {
 
  	if(game.statusCode === 404){
  		return $state.go('home');
@@ -18,7 +18,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 
 	if( vm.currentUser === undefined || vm.currentUser.id === undefined){
-		$state.go('game.join', {id: game.id});
+		if($state.current.name !== 'game.create') {$state.go('game.join', {id: game.id});}
 		return;
 	}
 
@@ -27,13 +27,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.summoners = summoners;
 	vm.items = items;
 	vm.expandedSpots = {};
+	vm.cardDrawn = false;
 
 	titleService.setTitle('Game');
 
-	//Initialization function
-	vm.init = function(){
-		vm.joinGame(vm.game);
-	}
+	
 
 	//add listeners
 	$rootScope.$on("$locationChangeStart", function (event, current) {
@@ -76,7 +74,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	};
 
 	vm.joinGame = function(game){
-		GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){});
+		GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){
+			NotificationService.success(vm.currentUser.nickName + " joined the game");
+
+		});
 	};
 
 	vm.joinSpot = function(game, spot){
@@ -87,8 +88,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		}
 	};
 
-	vm.removeUserFromSpot = function(gameId, spot){
-		GameModel.removeUserFromSpot(gameId, spot.user, spot.id).then(function(model){
+	vm.removeUserFromSpot = function(game, spot){
+		GameModel.removeUserFromSpot(game.id, spot.user, spot.id).then(function(model){
 		});
 	};
 
@@ -112,7 +113,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
-		if (game.user.id == Session.currentUser.id) {
+		if (game.user.id == vm.currentUser.id) {
 			GameModel.delete(game).then(function(model) {
 				// message has been deleted, and removed from vm.messages
 			});
@@ -225,11 +226,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	}
 	vm.drawCard = function(id, spot) {
 		
-		if(spot.user === vm.currentUser.id || vm.userOwnsGame()){
-
-		GameModel.drawCard(id, spot.id).then(function(model) {
-				
-			});
+		if((spot.user === vm.currentUser.id || vm.userOwnsGame()) && angular.isUndefined(spot.build) && !vm.cardDrawn){
+			vm.cardDrawn = true;
+			GameModel.drawCard(id, spot.id)
+			.then(function(model) {
+				vm.cardDrawn = false;
+			}).catch(function(err) {
+				vm.cardDrawn = false;
+			})
+		;
 		}
 	};
 
@@ -239,7 +244,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		// }
 		//ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 		GameModel.startGame(id).then(function(model) {
-				
+				NotificationService.success('Game started!');
 			});
 	};
 
@@ -275,7 +280,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.denied = function(game, spot) {
 		GameModel.denied(game.id, spot.id)
 		.then(function(result){
-
 		});
 	};
 
@@ -283,6 +287,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
 			// if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
+			
 
 		});
 	};
@@ -290,7 +295,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 	vm.removeSpot = function (game, spot) {
 		GameModel.removeSpot(game.id, spot.id)
 		.then(function(result) {
-			// body...
+			var test = result;
+		})
+		.catch(function(err) {
+			var test2 = err;
 		})
 	}
 
@@ -320,6 +328,5 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'Session', 'titleService', 'GameMo
 
 
 
-	vm.init();
 
 };

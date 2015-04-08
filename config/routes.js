@@ -81,12 +81,11 @@ module.exports.routes = {
 
     'delete /api/game/:id': 'GameController.destroy',
     'post /api/game/:id/user' : 'GameController.addUser',
-    'delete /api/game/:id/user' : 'GameController.destroyUser',
+    'delete /api/game/:id/user/:userId' : 'GameController.destroyUser',
     'post /api/game/:id/spot' : 'GameController.addUser',
-    'delete /api/game/:id/spot' : 'GameController.destroyUser',
 
     'post /api/game/:id/spot' : 'GameController.addSpot',
-    'delete /api/game/:id/spot' : 'GameController.destroySpot',
+    'delete /api/game/:id/spot/:spotId' : 'GameController.destroySpot',
 
      //Actions
     'put /api/game/:id/actions/start': 'GameController.startGame',
@@ -99,7 +98,6 @@ module.exports.routes = {
     'post /api/game/:id/actions/rollBuilds' : 'GameController.rollBuilds',
     'put /api/game/:id/actions/removeUserFromSpot' : 'GameController.removeUserFromSpot',
     'put /api/game/:id/actions/addUserToSpot' : 'GameController.addUserToSpot',
-    'delete /api/game/:id/actions/resetBuilds' : 'GameController.resetBuilds',
 
 
   
@@ -110,7 +108,8 @@ module.exports.routes = {
   'get /about': 'HomeController.index',
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',
-  'get /games/:id': 'HomeController.index',
   'get /games/:id/join': 'HomeController.index',
+  'get /games/create': 'HomeController.index',
+  'get /games/:id/lobby': 'HomeController.index',
   'get /new/game': 'HomeController.index'
 };

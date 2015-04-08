@@ -1,22 +1,18 @@
 angular.module('ubteambuilder').controller("MainCtrl", MainCtrl);
-MainCtrl['$inject'] = ["$scope", '$location', 'AuthService', 'Session', 'ChampionService'];
+MainCtrl['$inject'] = ["$scope", '$location', 'ChampionService', '$state'];
 
-function MainCtrl($scope, $location, AuthService, Session, ChampionService) {
+function MainCtrl($scope, $location, ChampionService, $state) {
     var vm = this;
-    var vm = this;
-    Session.currentUser = window.user;
+
+    vm.state = $state;
     //Initiate variables
-    vm.isAuthorized = AuthService.isAuthorized;
-    // ChampionService.getVersion().then(function(result){
-    //  ChampionService.cdnVersion = result[0];
-    // });
+    ChampionService.getVersion().then(function(result){
+    ChampionService.cdnVersion = result.dd;
+    });
     //Make injections accessible in prototypical functions
     vm.$scope = $scope;
     vm.$location = $location;
-    vm.AuthService = AuthService;
-    vm.currentUser = Session.currentUser;
-    //Run initiation methods
-    AuthService.registerAuthEvents(vm);
+
     vm.go = function(location) {
         $location.path(location);
     }

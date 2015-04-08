@@ -1,4 +1,5 @@
 var Q = require("q");
+
 module.exports = {
 	
 	/**
@@ -40,6 +41,9 @@ module.exports = {
 			game.spots.forEach(function(spot){
 				if(spot.id === spotId) spot.user = userId;
 			});
+
+			game.spotsTaken += 1;
+
 
 			/*
 			Update the game
@@ -86,6 +90,9 @@ module.exports = {
 			 	if(spot.user === userId) delete spot.user;
 			 });
 
+			game.spotsTaken -= 1;
+
+
 			/*
 			Update the game
 			 */
@@ -100,8 +107,93 @@ module.exports = {
             return deferred.promise;  
 		});
 	},
-
-	addSpot: function (_options) {
+	/**
+	 * Add a spot to the specified game
+	 * @param {[type]} _options [description]
+	 */
+	addSpot :function(_options){
+		var deferred = Q.defer();
 		var gameId = _options.id;
+		/**
+		 * Prepare game variable for later use.
+		 */
+		var game;
+
+		/*
+		Check whether the _options object contains the required parameters
+		 */
+		if(gameId === null) throw new Error("addSpot did not receive the required parameters");
+
+
+		return Game.findOne(gameId)
+		.then(function(model){
+			game = model;
+			game.spots = game.spots || [];
+
+
+
+			if(game.numberOfSpots <= game.spots.length+1) throw new Error("There is no more space in the game");
+			
+			var spot = {
+				id: utilsService.generateGUID()
+			}
+			game.spots.push(spot);
+			
+
+			
+
+			/*
+			Update the game
+			 */
+			game.save(function(err, result){
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            });
+
+            return deferred.promise;  
+		})
+		.catch(function(err) {
+			return err;
+		});
+	},
+	/**
+	 * Delete a spot
+	 * @param  {[type]} _options [description]
+	 * @return {[type]}          [description]
+	 */
+	deleteSpot: function(_options) {
+		var deferred = Q.defer();
+		var gameId = _options.id;	
+		var spotId = _options.spotId;	
+	
+
+		return Game.findOne(gameId)
+		.then(function(game){
+
+
+			// Remove spot
+			_.remove(game.spots, function(_spot){
+				return _spot.id === spotId;
+			});			
+
+			/*
+			Update the game
+			 */
+			game.save(function(err, result){
+                if(err){
+                    deferred.reject(err);
+                    return;
+                }
+                deferred.resolve(result);
+            });
+
+            return deferred.promise;  
+		})
+		.catch(function(err) {
+			throw err;
+		});
 	}
 }

@@ -1,14 +1,22 @@
-<div class="modal-content-container join-lobby">
+<div class="modal-content-container modal-content-container--has-graphic join-lobby">
+  <span class="modal-graphic modal-graphic--create-game"></span>
   <div class="modal-header">
-    <h3 class="modal-title">
-    Your nickname
-    </h3>
+    <h2 class="modal-title">
+    Your name, summoner
+    </h2>
   </div>
   <div class="modal-body">
-    <input ng-model="user.nickname" type="text">
+    <div class="row">
+      <div class="col-sm-6">
+      <form name="loginForm">
+        <input ng-model="modalCtrl.user.nickname" placeholder="Write your nickname" maxlength="28" class="form-control input input-lg" type="text" required>
+        <input ng-model="modalCtrl.password" placeholder="Password" maxlength="28" class="form-control input input-lg" type="password" ng-if="modalCtrl.game.private" required>
+      </div>
+      </form>
+    </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" ng-click="user !== null && modalCtrl.ok(user)">Join</button>
-    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Cancel</button>
+    <button class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="modalCtrl.user !== null && modalCtrl.ok(modalCtrl.user, modalCtrl.game.id, modalCtrl.password)">Join Game</button>
+    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Go back</button>
   </div>
 </div>

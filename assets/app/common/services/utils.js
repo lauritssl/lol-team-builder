@@ -14,6 +14,13 @@ angular.module( 'services.utils', ['lodash'])
 			return apiUrl + "/" + uriSegments;
 		},
 
+		addQueryParameter: function(url, key, value) {
+
+			if(url.indexOf('?') > 0 ){url += '&'}
+			else{url += '?'}
+			return url + key + "=" + value;
+		},
+
 		showDatetime: function(string, format) {
 			return moment(string).fromNow();
 		}

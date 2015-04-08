@@ -7,19 +7,16 @@
 
  var async = require('async');
 
- var generateGUID = function() {
- 	function s4() {
- 		return Math.floor((1 + Math.random()) * 0x10000)
- 		.toString(16)
- 		.substring(1);
- 	}
- 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
- 	s4() + '-' + s4() + s4() + s4();
- }
 
  module.exports = {
  	getAll: function(req, res) {
- 		Game.getAll()
+
+ 		var filter = {
+ 			limit : req.param('limit'),
+ 			skip : req.param('skip'),
+ 			name: req.param('name')
+ 		}
+ 		Game.getAll(filter)
  		.spread(function(models) {
  			Game.watch(req);
  			Game.subscribe(req.socket, models);
@@ -46,113 +43,115 @@
  		});
  	},
 
- 	create: function (req, res) {
- 		var userDto = req.param('user');
 
- 		var user = {};
- 		user.id = generateGUID();
- 		user.nickname = userDto.nickname;
+ 	create: function (req,res) {
+ 		
+ 		var user = {
+ 			id: utilsService.generateGUID(),
+ 		    nickname: req.param('user').nickname
+ 		};  		
 
- 		var model = {
- 			title: req.param('title'),
- 			user: user,
- 			users: [],
- 			numberOfSpots: req.param('numberOfSpots'),
- 			map: req.param('map'),
- 			private: req.param('private')
+ 		var options = {
+ 			title : req.param('title'),
+ 			user : user,
+ 			numberOfSpots : req.param('numberOfSpots'),
+ 			password: req.param('password') || '',
+ 			map : req.param('map'),
+ 			private : req.param('private')
  		};
 
 
- 		Game
- 		.create(model)
- 		.exec(function(err, game) {
- 			if (err) {
- 				return res.status(400).json(err);
- 			} else {
- 				Game.publishCreate(game);
- 				return res.json(game);
- 			}
+ 		gameService.create(options)
+ 		.then(function(result){
+ 			Game.publishCreate(result);
+ 			return res.json(result);
  		});
+
  	},
- 	destroy: function (req, res) {
- 		var id = req.param('id');
- 		if (!id) {
- 			return res.badRequest('No id provided.');
- 		}
 
-		// Otherwise, find and destroy the model in question
-		Game.findOne(id).exec(function(err, model) {
-			if (err) {
-				return res.serverError(err);
-			}
-			if (!model) {
-				return res.notFound();
-			}
+	
+	destroy: function(req, res){
 
-			Game.destroy(id, function(err) {
-				if (err) {
-					return res.serverError(err);
-				}
-				Spot.destroy({game: model.id}).exec(function(err, spots){
+		var id = req.param('id');
 
-				})
-				Build.destroy({game: model.id}).exec(function(err, builds){
+		gameService.destroy(id)
+		.then(function(result){
+			Game.publishDestroy(result.id);
+			return res.json(result)
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 
-				})
-
-
-				Game.publishDestroy(model.id);
-				return res.json(model);
-			});
-		});
 	},
+	// destroy: function (req, res) {
+	// 	var id = req.param('id');
+	// 	if (!id) {
+	// 		return res.badRequest('No id provided.');
+	// 	}
+
+
+
+	// 	// Otherwise, find and destroy the model in question
+	// 	Game.findOne(id).exec(function(err, model) {
+	// 		if (err) {
+	// 			return res.serverError(err);
+	// 		}
+	// 		if (!model) {
+	// 			return res.notFound();
+	// 		}
+
+	// 		Game.destroy(id, function(err) {
+	// 			if (err) {
+	// 				return res.serverError(err);
+	// 			}
+
+
+	// 			Game.publishDestroy(model.id);
+	// 			return res.json(model);
+	// 		});
+	// 	});
+	// },
 	addUser: function (req, res) {
+		var user = req.param('user');
+		var password = req.param('password');
+		var id = req.param('id');
+
+		var options = {
+			user: user,
+			id : id,
+			password: password
+		}
+
+		userService.addUser(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+			return res.json(user);
+		})
+		.catch(function(err){
+			if(err.message === 'password'){
+				res.status(401);
+				return res.send('The provide password was invalid');
+			}
+			return res.serverError(err);
+		})
+	},
+	addSpot: function  (req,res) {
 		var user = req.param('user');
 		var id = req.param('id');
 
-		if( user.id === undefined ){
-			// Generate GUID for the user.
-			user.id = generateGUID();
+		var options = {
+			id : id,
 		}
-
-		Game
-		.findOne(id)
-		.exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			} else if(typeof game != 'undefined'){
-				game.spots = game.spots || [];
-				game.users = game.users || [];
-
-					// User already exists
-					var userExists = _.filter(game.users, function(_user){
-						return _user.id === user.id;
-					});
-
-					if( userExists.length === 0 ){
-
-						game.users.push({
-							id: user.id,
-							nickname : user.nickname
-						});
-						// Create a spot for the user
-						game.spots.push({id: game.spots.length+1});
-					}
-					
-
-					game.save(function(err, result){
-						if(err){
-							return res.json(err);
-						} else {
-							Game.publishUpdate(game.id,result);
-							return res.json(user);
-						}
-					});
-				}
-			});
-	},
-	addSpot: function  (req,res) {
-		var id = req.param('id');
+		
+		spotService.addSpot(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+			return res.json(result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 
 	},
 	addUserToSpot : function(req, res){
@@ -169,6 +168,7 @@
 		spotService.addUserToSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -197,42 +197,41 @@
 
 	},
 	destroyUser: function (req, res) {
-		var user = req.param('user');
+		var userId = req.param('userId');
 		var id = req.param('id');
 
+		var options = {
+			userId: userId,
+			id : id,
+		}
 
-		Game
-		.findOne(id)
-		.exec(function(err, game){
-			if (err) {
-				return res.serverError(err);
-			} else if(typeof game != 'undefined'){
+		userService.deleteUser(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+			return res.json(result);
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
+		
+	},
+	destroySpot: function(req, res) {
+		var spotId = req.param('spotId');
+		var id = req.param('id');
 
-				// Free spot
-				var userIndex = game.spots.indexOf(user);
-				if( userIndex > -1 ){
-					game.spots.splice(userIndex, 1);
-				}
+		var options = {
+			spotId: spotId,
+			id : id,
+		}
 
-				// Remove user
-				var userIndex = _.map(game.users, function(_user){
-					return _user.id;
-				}).indexOf(user.id);
-
-				if(userIndex > -1){
-					game.users.splice(userIndex, 1);
-				}
-
-				game.spotsTaken -= 1;
-
-				game.save(function(err, result){
-					//console.log(result);
-					Game.republishGame(game.id);
-				});
-
-				return game;
-			}
-		});
+		spotService.deleteSpot(options)
+		.then(function(result){
+			Game.publishUpdate(id, result);
+			return res.json(result);			
+		})
+		.catch(function(err){
+			return res.serverError(err);
+		})
 	},
 /**
  * Roll builds for all slots in the game
@@ -331,6 +330,7 @@
 
  },
 
+
  rollBuild: function(req, res) {
  	var id = req.param('id')
  	var spotId = req.param('spotId')
@@ -368,7 +368,7 @@
  	});
  },
 
-  denyBuild: function(req, res){
+ denyBuild: function(req, res){
  	var id = req.param('id')
  	var spotId = req.param('spotId')
 
@@ -384,63 +384,6 @@
  	.catch(function(err){
  		return res.serverError(err);
  	});
- },
-
- resetBuilds: function(req, res) {
- 	var id = req.param('id');
-
- 	Game.findOne(id).
- 	exec(function(err, game){
- 		if (err) {
- 			return res.serverError(err);
- 		}
- 		else if(typeof game != 'undefined'){
- 			async.parallel([
- 				function(callback) {
- 					Spot.update({game: game.id}, {champion: null}, function(err, spot){
- 						if(err)callback(err);
- 						callback();
- 					});
- 				},
- 				function(callback) {
- 					Build.update({game: game.id}, {
- 						boots: null,
- 						bootsEnchantment: null,
- 						item1: null,
- 						item2: null,
- 						item3: null,
- 						item4: null,
- 						item5: null,
- 						mastery1: null,
- 						mastery2: null,
- 						mastery3: null,
- 						summoner1: null,
- 						summoner2: null,
- 						skill_to_level: null}, function(err, spot){
- 							if(err)callback(err);
- 							callback();
- 						});
- 				}], function(err) {
- 					if(err){
- 						console.log(err);
- 						return res.serverError(err);
- 					}
- 					Game.update({id: game.id}, {gameStarted: false}, function(err, model){
- 						if(err){
- 							console.log(err);
- 							return res.serverError(err);
- 						}else{
- 							Game.republishGame(game.id);
- 						}
- 					})
-
- 				})
-
-
- 		}
-
-
- 	});
-}
+ }
 };
 

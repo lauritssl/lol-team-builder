@@ -1,9 +1,25 @@
 angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 .service('GameModel', function($q, lodash, utils, $sails) {
-	this.getAll = function() {
+	this.getAll = function(_options) {
+
+
+
+		var filter = {
+			limit: _options.limit || 10, 
+			skip: _options.skip || 0,
+			name: _options.name
+		};
+
 		var deferred = $q.defer();
 		var url = utils.prepareUrl('game');
+
+		_.forEach(filter, function(value, key){
+			if(typeof value !== 'undefined'){
+				url = utils.addQueryParameter(url, key, value);
+			}
+		});
+		
 
 		$sails.get(url, function(models) {
 			return deferred.resolve(models);
@@ -38,13 +54,13 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return deferred.promise;
 	};
 
-	this.addUser = function(gameId, user) {
+	this.addUser = function(gameId, user, password) {
 		var url = utils.prepareUrl('game/'+gameId+'/user');
-		return $sails.post(url, {user: user}).then(function(model) {
+		return $sails.post(url, {user: user, password: password}).then(function(model) {
 			return model.data;
 		})
 		.catch(function(err){
-			return err;
+			throw err;
 		});
 	};
 
@@ -59,13 +75,12 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 	};
 
 	this.addUserToSpot = function(gameId, userId, spotId) {
-		var deferred = $q.defer();
 		var url = utils.prepareUrl('game/'+gameId+'/actions/addUserToSpot/');
-		return $sails.put(url, {user: userId, spotId: spotId}).then(function(model) {
+		return $sails.put(url, {user: userId, spotId: spotId})
+		.then(function(model) {
 			return model;
 		});
 
-		return deferred.promise;
 	};
 	this.removeUserFromSpot = function(gameId, userId, spotId) {
 
@@ -75,13 +90,21 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		});
 	};
 	this.removeUser = function(gameId, userId) {
-		var deferred = $q.defer();
-		var url = utils.prepareUrl('game/'+gameId+'/user');
-		$sails.delete(url, {user: userId}, function(model) {
-			return deferred.resolve(model);
+		var url = utils.prepareUrl('game/'+gameId+'/user/' + userId);
+		return $sails.delete(url).then(function(model) {
+			return model;
 		});
 
-		return deferred.promise;
+	};
+	this.removeSpot = function(gameId, spotId) {
+		var url = utils.prepareUrl('game/'+gameId+'/spot/' + spotId);
+		return $sails.delete(url).then(function(model) {
+			return model;
+		})
+		.catch(function(err) {
+			throw err;
+		});
+
 	};
 
 	this.delete = function(model) {

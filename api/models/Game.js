@@ -12,8 +12,7 @@ module.exports = {
 	attributes: {
 		title: {
 			type: 'string',
-			required: true,
-			unique: true
+			required: true
 		},
 		users: {
 			type : "array"
@@ -41,18 +40,37 @@ module.exports = {
 			type: 'integer',
 			defaultsTo: 11
 		},
-		builds: {
-			collection: 'build',
-			via: 'id'
+		gameMode: {
+			type: 'string',
+			defaultsTo: 'normal'
+		},
+		password: {
+			type: 'string'
 		},
 		private: {
 			type: 'boolean',
 			defaultsTo: false
-		}
+		},
+		toJSON: function() {
+		    var obj = this.toObject();
+		    // BELOW NOT WORKING
+		    delete obj.password;
+		    return obj;
+	  	}
 	},
+	
+	getAll: function(_options) {
 
-	getAll: function() {
-		return Game.find()
+		filter = {
+			limit: _options.limit || 10, 
+			skip: _options.skip || 0
+		};
+
+		if(_options.name) {
+			filter.where = _options.name;
+		}
+
+		return Game.find(filter)
 		.then(function (models) {
 			return [models];
 		});

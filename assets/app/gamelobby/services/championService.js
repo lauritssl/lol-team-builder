@@ -50,7 +50,7 @@ function ChampionService ($http, $q) {
         },
         getVersion: function () {
             var deferred = $q.defer();
-            var url = lolBasePath +staticPath + "/versions?api_key="+apiKey;
+            var url = lolBasePath +staticPath + "/realm?api_key="+apiKey;
             $http({url:url, cache:true, method: 'GET'}).success(function(result) {
                 return deferred.resolve(result);
             });

@@ -62,64 +62,6 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#401c5f8c', endColorstr='#40bf6767',GradientType=1 );
 }
 
-[layout]{
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-}
-
-[layout=column]{
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-[layout=row]{
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-
-[flex]{
-  -webkit-flex: 1 1 0%;
-  -ms-flex: 1 1 0%;
-  flex: 1 1 0%;
-}
-
-[layout-align="center"], [layout-align="center center"], [layout-align="center start"], [layout-align="center end"] {
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center; }
-
-[layout-align="end"], [layout-align="end center"], [layout-align="end start"], [layout-align="end end"] {
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end; }
-
-[layout-align="space-around"], [layout-align="space-around center"], [layout-align="space-around start"], [layout-align="space-around end"] {
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around; }
-
-[layout-align="space-between"], [layout-align="space-between center"], [layout-align="space-between start"], [layout-align="space-between end"] {
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between; }
-
-[layout-align="center center"], [layout-align="start center"], [layout-align="end center"], [layout-align="space-between center"], [layout-align="space-around center"] {
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center; }
-
-[layout-align="center start"], [layout-align="start start"], [layout-align="end start"], [layout-align="space-between start"], [layout-align="space-around start"] {
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start; }
-
-[layout-align="center end"], [layout-align="start end"], [layout-align="end end"], [layout-align="space-between end"], [layout-align="space-around end"] {
-  -webkit-align-items: flex-end;
-      -ms-flex-align: end;
-          align-items: flex-end; }
 .invisible {
   opacity: 0;
 }
@@ -129,7 +71,7 @@ body {
   width: 15vw;
   min-width: 250px;
   height: 100vh;
-  z-index: 9000;
+  z-index: 1000;
   top: 0;
   
   p{
@@ -310,7 +252,7 @@ body {
       width: 14.5rem;
       height: 12.5rem;
       min-width: 14.5rem;
-        min-height: 12.5rem;
+      min-height: 12.5rem;
       background: url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jax_0.jpg");
       -webkit-clip-path: @icon__player_token_polygon;
       clip-path: @icon__player_token_polygon;
@@ -563,13 +505,13 @@ body {
     }
     }
 
+
   }
 
 // Card & Card Deck
 .card-deck-container {
   text-align: center;
 }
-
 
 .card-deck {
   width: 34rem;
@@ -619,15 +561,24 @@ body {
 
 .slides-out-from-bottom {
   -webkit-animation: slideOutFromBottom .48s @core-transition forwards;
+  -moz-animation: slideOutFromBottom .48s @core-transition forwards;
   animation: slideOutFromBottom .48s @core-transition forwards;
   @delay: 1.25s;
   -webkit-animation-delay: @delay;
+  -moz-animation-delay: @delay;
   animation-delay: @delay;
 }
 
 @-webkit-keyframes slideOutFromBottom {
   to {
     -webkit-transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes slideOutFromBottom {
+  to {
+    -moz-transform: translateY(0);
     opacity: 1;
   }
 }
@@ -647,6 +598,7 @@ body {
   width: 100%;
   height: 100%; 
   margin: 0 auto;
+  opacity: 0.98;
   transform-style: preserve-3d;
   .transform(translateZ(1px));
   cursor: pointer;
@@ -681,13 +633,29 @@ body {
         display: block;
       }
   }
+
+  &--gets-overlayed{
+      &-remove{
+        .transition(all 0.5s ease);
+      }
+      &-remove-active{
+        .transform(rotateY(0deg)) !important;
+      }
+  }
   
   &--flies-to-player {
     -webkit-animation: fliesToPlayer 1.48s @core-transition forwards !important;
+    -moz-animation: fliesToPlayer 1.48s @core-transition forwards !important;
     animation: fliesToPlayer 1.48s @core-transition forwards !important;
   }
 
   @-webkit-keyframes fliesToPlayer {
+    to {
+      .transform(rotateY(180deg) translateY(1500px));
+    }
+  }
+
+  @-moz-keyframes fliesToPlayer {
     to {
       .transform(rotateY(180deg) translateY(1500px));
     }
@@ -701,12 +669,23 @@ body {
 
   &--rotate-horizontally {
     margin-left: 0;
+    opacity: 1;
     .transform(rotateY(180deg));
     -webkit-animation: liftAndSlide 1.48s @core-transition forwards;
+    -moz-animation: liftAndSlide 1.48s @core-transition forwards;
     animation: liftAndSlide 1.48s @core-transition forwards;
   }
   
   @-webkit-keyframes liftAndSlide {
+    50% {
+      margin-left: -2.5rem;
+    }
+    100% {
+      margin-left: 0;
+    }
+  }
+
+    @-moz-keyframes liftAndSlide {
     50% {
       margin-left: -2.5rem;
     }
@@ -758,7 +737,6 @@ body {
     font-weight: 900;
     height: 64px;
     color: white;
-  //  background-color: rgba(210,105,13,1);
     background-color: rgba(0,0,0,0.75);
     text-align: left;
     border-radius: @card_corner_radius @card_corner_radius 0 0; 
@@ -779,7 +757,7 @@ body {
 
 
 // Grid
-.grid {
+.card-grid {
   position: absolute;
   bottom: 0;
   height: 16rem;
@@ -789,36 +767,88 @@ body {
   border-radius: @card_corner_radius @card_corner_radius @card_corner_radius @card_corner_radius;
   overflow: hidden;
   
-  .grid__parent {
-    float: left;
-    height: 100%;
-    min-width: .5rem;
-    overflow: hidden;
-    
-    &:nth-of-type(3),
-    &:nth-of-type(4) {
-      margin-left: 8px;
+  .upper-grid, .lower-grid{
+    width: 100%;
+
+    .sprite-input{
+    width: 4.8rem;
+    height: 4.8rem;
+    background-size: 100% 100%;
     }
-    
-    @size: 48px;
-    &--2 {
-      width: @size;
-      height: 100%;
-    }
-    
-    &--4 {
-      width: 16rem;
-    }
-       
-    .grid__child {
-      height: @size;
-      width: @size;
-      background-size: 100% 100%; 
-      
-      &.rounded { border-radius: 50%; }
-      
+    .rounded{
+      border-radius: 50%;
     }
   }
+  .upper-grid{
+    .pill-bar{
+      margin: 0;
+    }
+
+    .summoner-spells{
+      .sprite-input{
+        margin: 0 5px;
+      }
+    }
+  }
+  .lower-grid{
+    padding-bottom: 20px;
+  }
+  
+  //spell flip animation
+  .flip-container {
+      perspective: 1000;
+
+      &:nth-child(2) .flipper{
+        .animation-delay(1.25s);
+      }
+      &:nth-child(3) .flipper{
+        .animation-delay(1.3s);
+      }
+      &:nth-child(4) .flipper{
+        .animation-delay(1.35s);
+      }
+      &:nth-child(5) .flipper{
+        .animation-delay(1.4s);
+      }
+      &:nth-child(6) .flipper{
+        .animation-delay(1.45s);
+      }
+  }
+  .flip-container, .front, .back{
+      width: 4.8rem;
+      height: 4.8rem;
+      cursor: pointer;
+  }
+  .flipper {
+      .transition(0.5s);
+      transform-style: preserve-3d;
+      position: relative;
+      .animation(flipReveal 0.5s 1.2s ease-in-out forwards)
+  }
+  .front, .back {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
+  .front {
+      z-index: 2;
+      transform: rotateY(0deg);
+  }
+  .back {
+      .transform(rotateY(180deg););
+  }
+  
+  @-webkit-keyframes flipReveal{
+    to{-webkit-transform: rotateY(-180deg);}
+  }
+    @-moz-keyframes flipReveal{
+    to{-webkit-transform: rotateY(-180deg);}
+  }
+    @keyframes flipReveal{
+    to{-webkit-transform: rotateY(-180deg);}
+  }
+  
 }
 
 .sub-container {
@@ -867,8 +897,8 @@ body {
   
   background-image: url(@items_sprite_blue_src);
   overflow: hidden;
+
   &:after {
-    
     content: "";
     position: absolute;
     top: 0;
@@ -881,17 +911,24 @@ body {
     background-position: center center;
     z-index: 10;
     -webkit-animation: revealRight 1.5s 1 ease-in-out forwards;
+    -moz-animation: revealRight 1.5s 1 ease-in-out forwards;
     animation: revealRight 1.5s 1 ease-in-out forwards;
   }
 
   
   &.reveal-it:after {
     -webkit-animation: revealRight 1.5s 1 ease-in-out forwards;
+    -moz-animation: revealRight 1.5s 1 ease-in-out forwards;
     animation: revealRight 1.5s 1 ease-in-out forwards;
   }
 }
 
 @-webkit-keyframes revealRight {
+  to {
+    .transform(translateX(64px));
+  }
+}
+@-moz-keyframes revealRight {
   to {
     .transform(translateX(64px));
   }
@@ -927,8 +964,6 @@ body {
       font-weight: 700;
       color: white;
     }
-    
-    
   }
 }
 
@@ -983,7 +1018,6 @@ body {
   font-weight: 700;
   color: #fff;
 
-  //&:extend(.absolute-centered);
 }
 
 // Buttons
@@ -1022,18 +1056,27 @@ body {
 // Animations
 .fly-away {
   -webkit-animation: flyAway 1.28s @core-transition forwards !important;
+  -moz-animation: flyAway 1.28s @core-transition forwards !important;
   animation: flyAway 1.28s @core-transition forwards !important;
+  
+  @-webkit-keyframes flyAway {
+    to {
+      .transform(translateY(-150rem));
+    }
+  }
+
+  @-moz-keyframes flyAway {
+    to {
+      .transform(translateY(-150rem));
+    }
+  }
+
   @keyframes flyAway {
     to {
       .transform(translateY(-150rem));
     }
   }
 }
-
-
-
-
-
 
 
 // Modals
@@ -1050,4 +1093,76 @@ body {
   .modal-footer {
 
   }
+}
+
+//FIREFOX FIX
+.gecko{
+  .incogneto-player-hexagon{
+    min-width: 13.5rem;
+    width: 13.5rem;
+    border-radius: 50%;
+    min-height: 14.8rem;
+    height: 14.8rem;
+
+    .hexagon-edge{
+    min-width: 17.5rem;
+    left: -2rem;
+    min-height: 15rem;
+    margin-top: 0.1rem;
+    }
+
+    .hexagon-banner{
+      .player__token-nameplate{
+        left: 0;
+        width: 13.5rem;
+        .token-nameplate__player-name{
+          width: 90%;
+          left: 5%;
+        }
+      }
+    }
+  }
+
+  .card-interactions{
+    .transform(translateY(0)) !important;
+  }
+
+.sidebar{
+  &.pull{
+
+    &--left, &--right{
+      .player{
+        .player__build-wrapper{
+          bottom: 0;
+        }
+        .player__portrait-bg{
+          bottom: 0;
+        }
+        .player__token-wrapper{
+          left: -8.5rem;
+
+          .player__option-icon{
+            left: auto;
+            right: -25px;
+          }
+          .player__token-image{
+            border-radius: 50%;
+            right: -8.8rem;
+          }
+          .player__token-nameplate{
+            left: auto;
+            margin-left: 2.4rem;
+          }
+        }
+      }
+    }
+    &--right{
+      .player{
+        .player__token-nameplate{
+          margin-left: 0.9rem !important;
+        }
+      }
+    }
+  }
+}
 }
