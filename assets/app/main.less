@@ -291,6 +291,33 @@ li {
 
   .l-games-list-container__header {
     padding: 2rem;
+    padding-top: 2.4rem;
+  }
+
+  &.is-framed {
+  
+   .frame {
+    &--frame {
+      width: 100%;
+    }
+   }
+
+   &:before {
+    content: "";
+    width: 100%;
+    position: absolute;
+    top: -10px;
+    height: 40px;
+    background: url('../images/frame.png') no-repeat 50% -12px;
+   } 
+   &:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    bottom: -25px;
+    height: 50px;
+    background: url('../images/frame.png') no-repeat 50% -125px;
+   }    
   }
 }
 
