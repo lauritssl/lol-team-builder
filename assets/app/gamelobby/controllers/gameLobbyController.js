@@ -202,6 +202,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return ChampionService.getSummonerImage(vm.summoners[build[type]].image.full);
 	};
 
+
+	vm.getChampion = function(championId) {
+		return ChampionService.getChampion(championId);
+	}
 	vm.getChampionSkillImageFromBuild = function(build, champion){
 		var spell = vm.getSkillFromChampion(build, champion);
 
