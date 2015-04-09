@@ -1,0 +1,17 @@
+Thu Apr 09 2015 02:22:43 GMT+0200 (CEST):
+{ [Error: ENOENT, no such file or directory 'BizSpark-4-9-2015-credentials.publishsettings']
+  stack: [Getter/Setter],
+  errno: 34,
+  code: 'ENOENT',
+  path: 'BizSpark-4-9-2015-credentials.publishsettings',
+  syscall: 'open',
+  __frame: undefined,
+  rawStack: [Getter] }
+Error: ENOENT, no such file or directory 'BizSpark-4-9-2015-credentials.publishsettings'
+    at Object.fs.openSync (fs.js:427:18)
+    at Object.fs.readFileSync (fs.js:284:15)
+    at readFileContents (/usr/local/azure/lib/util/profile/publishSettings.js:28:23)
+    at Object.importPublishSettings [as import] (/usr/local/azure/lib/util/profile/publishSettings.js:91:13)
+    at Profile._.extend.importPublishSettings (/usr/local/azure/lib/util/profile/profile.js:193:34)
+    at __5 (/usr/local/azure/lib/commands/account.js:115:23)
+
