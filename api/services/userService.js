@@ -32,6 +32,8 @@ module.exports = {
 
 		return Game.findOne(gameId)
 		.then(function(game){
+
+			if(typeof game === 'undefined') {throw new Error("Game not found")}
 			game.users = game.users || [];
 			game.spots = game.spots || [];
 

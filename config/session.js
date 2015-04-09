@@ -41,7 +41,7 @@ module.exports.session = {
   * session store that can be shared across multiple Sails.js servers        *
   ***************************************************************************/
 
-  // adapter: 'redis',
+  // adapter: 'connect-redis',
 
   /***************************************************************************
   *                                                                          *
@@ -52,11 +52,10 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // host: 'localhost',
-  // port: 6379,
-  // ttl: <redis session TTL in seconds>,
-  // db: 0,
-  // pass: <redis auth password>
+   // host: 'leagueofbravery.redis.cache.windows.net',
+   // port: 6379,
+   // db: 'db1',
+   // pass: 'J0LnXJjRwEWUJD3lgEvhn/29M6kJTjM28jfVLxT8dXw=',
   // prefix: 'sess:'
 
 

@@ -4,7 +4,7 @@
 <div class="notification" ng-if="gameLobby.game.gameStarted">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
 
-<button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start card draw</button>
+<button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()" ng-disabled="gameLobby.unpickedUsers.length > 0">Start card draw</button>
 
 <button class="btn btn--error btn--end-game" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start over</button> 
 <!-- ::::::::::::::::::::::::::::::::: -->
@@ -12,7 +12,7 @@
 <!-- ::::::::::::::::::::::::::::::::: -->
     
     <section class="hexagon-wrapper" layout="column" layout-align="center center" ng-if="!gameLobby.game.gameStarted">
-      <div class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.game.users" ng-if="!gameLobby.userInSpot(user.id, gameLobby.game)">
+      <div class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.unpickedUsers track by user.id" ng-hide="gameLobby.userInSpot(user.id, gameLobby.game)">
       </div>
     </section>    
     

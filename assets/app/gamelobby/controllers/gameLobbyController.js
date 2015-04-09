@@ -1,35 +1,71 @@
 angular.module( 'ubteambuilder.gamelobby.controllers', ['pmkr.components'])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService', 'GameLobbyService'];
 
- function GameLobbyCtrl($sails, lodash, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService) {
+ function GameLobbyCtrl($sails, lodash, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService, GameLobbyService) {
 
  	if(game.statusCode === 404){
  		return $state.go('home');
  	}
+
  	//initialize variables
-  var vm = this;
+  	var vm = this;
 
-  vm.startSound = ngAudio.load("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
+  //vm.startSound = ngAudio.load("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 
-  //Set the user - or go to join game if the user is not in the lobby
+  	/**
+   * Set the user - or go to join game if the user is not in the lobby
+   * @type {[type]}
+   */
  	vm.currentUser =  $cookieStore.get(game.id);
 
+	/**
+	 * The game objkect
+	 * @type {Object}
+	 */
+	vm.game = game;
+	/**
+	 * The champions array
+	 * @type {Array}
+	 */
+	vm.champions = champions;
+	/**
+	 * The summoners array
+	 * @type {Array}
+	 */
+	vm.summoners = summoners;
+	/**
+	 * The items array
+	 * @type {[type]}
+	 */
+	vm.items = items;
+	/**
+	 * An object containing all expanded spots
+	 * @type {Object}
+	 */
+	vm.expandedSpots = {};
+	/**
+	 * A boolean value for figuring whether a crad is drawn to avoid multiple requests to the server.
+	 * @type {Boolean}
+	 */
+	vm.cardDrawn = false;
+
+	/**
+	 * An array of all users that have yet to pick a slot.
+	 * @type {Array}
+	 */
+	vm.unpickedUsers = GameLobbyService.getUnpickedUsers(vm.game);
+
+
+	//-------------------------------- Initialization --------------------------------//
+	titleService.setTitle('Lobby');
 
 	if( vm.currentUser === undefined || vm.currentUser.id === undefined){
 		if($state.current.name !== 'game.create') {$state.go('game.join', {id: game.id});}
 		return;
 	}
 
-	vm.game = game;
-	vm.champions = champions;
-	vm.summoners = summoners;
-	vm.items = items;
-	vm.expandedSpots = {};
-	vm.cardDrawn = false;
-
-	titleService.setTitle('Game');
 
 	
 
@@ -47,6 +83,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 				//console.log(envelope.data);
 				if(vm.game.id == envelope.data.id){
 					vm.game = envelope.data;
+					vm.unpickedUsers = GameLobbyService.getUnpickedUsers(vm.game);
+					vm.enableNextSpot(vm.game);
 				}
 				break;
 			case 'destroyed':
@@ -77,19 +115,24 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){
 			NotificationService.success(vm.currentUser.nickName + " joined the game");
 
+
 		});
 	};
 
 	vm.joinSpot = function(game, spot){
 		if(!spot.user){		
-		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id).then(function(model){
-		
+
+		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id)
+		.then(function(model){
+			
 		});
 		}
 	};
 
 	vm.removeUserFromSpot = function(game, spot){
-		GameModel.removeUserFromSpot(game.id, spot.user, spot.id).then(function(model){
+		GameModel.removeUserFromSpot(game.id, spot.user, spot.id)
+		.then(function(model){
+			
 		});
 	};
 
@@ -255,7 +298,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		// }
 		//ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 		GameModel.startGame(id).then(function(model) {
-				vm.toggleSpot(vm.getNextRollableSpot(vm.game));
 				NotificationService.success('Game started!');
 			});
 	};
@@ -284,6 +326,19 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return colWidth;
 	};
 
+	/**
+	 * Turn the next rollable spot on
+	 * @param  {[type]} game [description]
+	 * @return {[type]}      [description]
+	 */
+	vm.enableNextSpot = function(game) {
+		if(game.gameStarted){
+			var spot = vm.getNextRollableSpot(game);
+			if(spot){
+				vm.expandedSpots[spot.id] = true;
+			}
+		}
+	}
 	vm.toggleSpot = function(spot){
 		vm.expandedSpots[spot.id] = vm.expandedSpots[spot.id] ? false : true;
 	}
@@ -298,7 +353,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.acceptBuild = function(game, spot) {
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
-			vm.toggleSpot(vm.getNextRollableSpot(vm.game));
+			
 			// if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
 			
 
@@ -308,10 +363,9 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.removeSpot = function (game, spot) {
 		GameModel.removeSpot(game.id, spot.id)
 		.then(function(result) {
-			var test = result;
+			
 		})
 		.catch(function(err) {
-			var test2 = err;
 		})
 	}
 
