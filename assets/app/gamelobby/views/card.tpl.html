@@ -1,6 +1,6 @@
  <div class="card__back"></div>
   <div class="card__front fluid-background" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});" ng-if="spot.build">
-    <div class="card__title">{{spot.build.champion}}</div>
+    <div class="card__title">{{gameLobby.getChampion(spot.build.champion).name}}</div>
     <div class="card__meta-icon fluid-background" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build)}})" data-sub-icon="{{spot.build.skill_to_level}}"></div>
       <div class="card-grid" layout="column" layout-align="center center">
         
