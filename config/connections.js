@@ -53,7 +53,7 @@ module.exports.connections = {
     adapter: 'sails-redis',
     host: 'leagueofbravery.redis.cache.windows.net',
     port: 6379,
-    database: null,
+    database: 1,
     password: 'J0LnXJjRwEWUJD3lgEvhn/29M6kJTjM28jfVLxT8dXw=',
  },
   /***************************************************************************

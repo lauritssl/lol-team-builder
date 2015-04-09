@@ -1,4 +1,4 @@
-<div class="c-lobby-top-bar" ng-if="gameLobby.userOwnsGame()">
+<div class="c-lobby-top-bar" >
   <div class="l-wrapped" layout="row">
 
    <span class="c-lobby-top-bar__item">{{ gameLobby.game.title }}</span>
@@ -6,7 +6,8 @@
    
    <span flex></span>
    <span class="c-lobby-top-bar__item">{{ gameLobby.game.spots.length }} / {{ gameLobby.game.numberOfSpots }} spots</span>
-   <input type="submit" class="btn btn-success btn-slim" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" />
+   <input type="submit" class="btn btn-success btn-slim" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" ng-if="gameLobby.userOwnsGame()" />
+      <input type="submit" class="btn btn-success btn-slim" value="Join game" ng-click="gameLobby.joinGame(gameLobby.game)" ng-if="!gameLobby.currentUser && !gameLobby.game.gameStarted" />
    </div>
 </div>
 
