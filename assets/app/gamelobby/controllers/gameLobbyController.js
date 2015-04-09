@@ -61,7 +61,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	//-------------------------------- Initialization --------------------------------//
 	titleService.setTitle('Lobby');
 
-	if( vm.currentUser === undefined || vm.currentUser.id === undefined){
+	if( (vm.currentUser === undefined || vm.currentUser.id === undefined )&& !vm.game.gameStarted ){
 		if($state.current.name !== 'game.create') {$state.go('game.join', {id: game.id});}
 		return;
 	}
@@ -112,11 +112,12 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.joinGame = function(game){
-		GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){
-			NotificationService.success(vm.currentUser.nickName + " joined the game");
+		$state.go('game.join', {id: game.id})
+		// GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){
+		// 	NotificationService.success(vm.currentUser.nickName + " joined the game");
 
 
-		});
+		// });
 	};
 
 	vm.joinSpot = function(game, spot){
