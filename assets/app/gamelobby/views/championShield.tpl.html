@@ -42,7 +42,7 @@
 
     <div id="hero_backdrop" ng-show="gameLobby.game.gameStarted" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" ng-style="{{gameLobby.getChampionBackground(spot)}}" ng-mouseover="spot.showChampionDetails = true" ng-mouseleave="spot.showChampionDetails = false"></div>
     <div id="build_info_backdrop">
-    <p id="champion_name">{{spot.champion}}</p>
+    <p id="champion_name">{{gameLobby.getChampion(spot.champion).name}}</p>
     <img id="main_lvl_skill_bg" ng-show="gameLobby.game.gameStarted" title="{{gameLobby.getSkillFromChampion(spot.build, spot.champion).name}}" ng-src="{{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.champion)}}" />
     <h2 id="main_lvl_skill" ng-show="gameLobby.game.gameStarted">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).skill_to_level}}</h2>
     <div id="hero_passives_container" ng-show="gameLobby.game.gameStarted">
