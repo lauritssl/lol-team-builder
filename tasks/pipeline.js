@@ -45,6 +45,7 @@ var jsFilesToInject = [
   'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
   'bower_components/angular-audio/app/angular.audio.js',
   'bower_components/angular-notify/dist/angular-notify.js',
+  'scripts/browser-selector.js',
 
 
   // All of the rest of your client-side js files
