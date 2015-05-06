@@ -13,6 +13,7 @@ module.exports = {
 
 	res.view({
 		title: 'Rules',
+    request: req
 	});
 	},
 };

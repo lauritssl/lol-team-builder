@@ -57,7 +57,8 @@
  			numberOfSpots : req.param('numberOfSpots'),
  			password: req.param('password') || '',
  			map : req.param('map'),
- 			private : req.param('private')
+ 			private : req.param('private'),
+ 			gameMode: req.param('gameMode')
  		};
 
 
@@ -111,7 +112,7 @@
 	// 			return res.json(model);
 	// 		});
 	// 	});
-	// },
+	// },π
 	addUser: function (req, res) {
 		var user = req.param('user');
 		var password = req.param('password');
@@ -171,6 +172,7 @@
 			return res.json(result);
 		})
 		.catch(function(err){
+			if(err.name === 'notAllowed'){return;}
 			return res.serverError(err);
 		})
 
@@ -190,6 +192,7 @@
 		spotService.removeUserFromSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);

@@ -33,7 +33,8 @@ module.exports = {
             users: users,
             map: _options.map,
             private: _options.private,
-            spots: spots
+            spots: spots,
+            gameMode: _options.gameMode
         }
 
         if(typeof _options.numberOfSpots !== 'undefined' || _options.numberOfSpots === null) {model.numberOfSpots = _options.numberOfSpots;}
@@ -317,7 +318,10 @@ module.exports = {
         .then(function(builds) {
             _.forEach(game.spots, function(spot, key) {
                 spot.build = builds[key];
+                spot.build.accepted = true;
             });
+
+            game.users = _.shuffle(game.users);
             game.save(function(err, result){
                 if(err){
                     deferred.reject(err);

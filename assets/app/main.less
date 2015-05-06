@@ -1,12 +1,12 @@
 /* Imports */
 @import "/common/styles/modals";
 
-
 /* Mixins */
-
 @main-bgcolor-blue: #141D24;
 @main-bgcolor-blue-50: rgba(20, 29, 36, 0.50);
 @main-bgcolor-blue-75: rgba(20, 29, 36, 0.75);
+
+@main-font-stack: "Milonga", sans-serif;
 
 //blue
 @main-blue: #078CE8;
@@ -23,7 +23,13 @@
 @main-grey-dark: #1d1d1d;
 @main-grey-darker: #101010;
 
+//gold
+@main-gold: rgba(247, 218, 155, .45);
+@main-gold-shiny: #F7DA9B;
+
 @main-text-color: #4b4b4b;
+
+@main-text-shadow: 0 2px 0 rgba(0, 0, 0, 0.65);
 
 
 /* General styles */
@@ -52,7 +58,7 @@ h1 {
     */
 }
 p, ol {
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    font-family: "Raleway", CenturyGothic, AppleGothic, sans-serif;
     font-size: 15px;
     color: #CCC;
 }
@@ -159,6 +165,22 @@ li {
 //Login button & signup style
 }
 
+.text-overflow-ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Choose-games page styles
+
+.home {
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+  background: url(../images/blackmamba_pattern.png) repeat top left;
+  background-size: 300px 300px;
+}
+
 /**
  * Layout Helpers
  */
@@ -175,9 +197,22 @@ li {
  */
 .c-header {
   padding: 1.2rem 1.618rem;
-  background-color: white;
-  box-shadow: 0 3px 15px 2px rgba(0,0,0,.22);
+  background-color: #333333;
+  background: url(../images/dark_wall_pattern.png) repeat top left;
+  background-size: 300px 300px;
+  box-shadow: 
+    inset 0 -2px rgba(0,0,0,.22),
+    inset 0 -1px @main-gold, 
+    0 3px 15px 2px rgba(0,0,0,.22);
   line-height: 2;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+
+.c-header--pushes-content ~ .l-content {
+  margin-top: 8.5rem;
 }
 
 
@@ -186,10 +221,16 @@ li {
  */
 .c-site-logo {
   font-size: 2rem;
-  color: #3b3b3b;
-  font-family: "Milonga", sans-serif;
+  color: #F7DA9B;
+  font-family: @main-font-stack;
   font-weight: 400;
+  text-shadow: @main-text-shadow;
   cursor: default;
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
   sup {
     font-size: 2.4rem;
@@ -224,13 +265,12 @@ li {
  * Logo Graphic Component
  */
 .c-logo-graphic {
-  position: absolute;
-  left: 80px;
   top: 0px;
   color: white;
   font-size: 7rem;
   font-family: "Milonga", sans-serif;
   text-align: center;
+  cursor: default;
   
   span {
     text-shadow: -5px 6px 1px rgba(0, 0, 0, 0.25);
@@ -267,18 +307,19 @@ li {
  * Hero Banner Component
  */
 .c-hero-banner {
-  margin: 4rem auto;
+  margin: 10.4rem auto 4rem auto;
   height: 23rem;
   z-index: 1;
 
   &__graphic {
     position: absolute;
-    bottom: -125px;
-    right: -52px;
+    bottom: -59px;
+    right: -14px;
 
-    background-image: url('../images/modal_extra_graphic.png');
-    width: 230px;
-    height: 316px;
+    background-image: url('../images/teemo.png');
+    background-size: 220px 213px; 
+    width: 220px;
+    height: 213px;
   }
 
 }
@@ -289,9 +330,16 @@ li {
  */
 .l-games-list-container {
   min-width: 72rem;
-  background-color: white;
-  box-shadow: inset 2px 0 0 0 #1a0602,
-   inset -2px 0 0 0 #1a0602;
+  background: url(../images/dark_wall_pattern.png) repeat top left;
+  background-size: 300px 300px;
+  box-shadow: 
+   inset 1px 0 0 0 @main-gold,
+   inset -1px 0 0 0 @main-gold,
+   inset 3px 0 0 0 rgba(0, 0, 0, 0.15), 
+   inset -3px 0 0 0 rgba(0, 0, 0, 0.15),
+   0 2px 5px 0 rgba(0,0,0,0.5);
+   
+   color: #fafafa;
 
   .l-games-list-container__header {
     padding: 2rem;
@@ -336,14 +384,27 @@ li {
     
     &:not(:last-child) {
       padding-bottom: 2rem;
-      border-bottom: 1px solid gainsboro;   
+      border-bottom: 2px solid rgba(0,0,0,0.2);   
     }
 
 
     &-title {
+      font-family: @main-font-stack;
+      text-transform: capitalize;
       font-weight: 700;
       display: block;
       font-size: 2rem;
+    }
+
+    &-username{
+      margin-left: 0.5rem;
+    }
+
+    &-spots{
+      font-family: @main-font-stack;
+      font-weight: 500;
+      display: block;
+      font-size: 1.6rem;
     }
 
     &-meta {
@@ -351,8 +412,8 @@ li {
     }
 
     &-button {
-      margin: 0;
-      padding: 1rem;
+      margin: 0 0 0 1.5rem;
+      padding: 1rem 2rem;
 
       &:focus {
         outline: none;
@@ -364,25 +425,21 @@ li {
 
 
 
-
-.form-group {
-    
+ 
     .form-control{
       margin-bottom: 10px;
-      background-color: #222222;
-      border-color: #1a1a1a;
-      border-radius: 0px;
+      //background-color: #222222;
+      //border-color: #1a1a1a;
+      //border-radius: 0px;
       color: ghostwhite;
 
       &:focus{
-        border-color: @main-red;
+        border-color: @main-gold-shiny;
         outline: 0;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(160, 80, 80, 0.6);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(160, 80, 80, 0.6);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @main-gold-shiny;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @main-gold-shiny;
       }
     } 
-  }
-
 }
 
 /**
@@ -440,30 +497,6 @@ li {
 
 }
 
-/**
- * Lobby Top Bar Component
- */
-.c-lobby-top-bar {
-  line-height: 2;
-  padding: 1rem;
-  z-index: 2000;
-  color: white;
-  background-color: rgba(0,0,0,.15);
-
-  &__item {
-    font-weight: bold;
-    
-    &:not(:first-child) {
-      margin: 0 1rem;
-    }
-    &:first-child {
-      margin-right: 1rem;
-    }
-  }
-}
-
-
-
 // Animated BG
 #single-login-bg-container{
     height: 100%;
@@ -494,12 +527,182 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
  input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px #222 inset !important;
     -webkit-text-fill-color: #555 !important;
- } 
-
+ }
 }
 
-.home {
-  overflow-y: auto;
-  position: static;
-  background: transparent;
+
+/**
+ * Button & Interaction Styles
+ */
+@lob-btn-text-color: #F7DA9B;
+
+
+.lob-btn {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-family: "Milonga", sans-serif;
+  font-size: 1.412rem;
+  color: @lob-btn-text-color;
+  border: 1px solid #766e4c;
+  line-height: 30px;
+  
+  border-radius: 4px;
+  text-shadow: @main-text-shadow;
+  background: linear-gradient(to bottom,#313131 0,#000 100%);
+  transition: 
+    color .28s ease-in-out,
+    transform .10s ease-in-out;
+
+  will-change: color, transform;
+  font-weight: 700;
+  
+  box-shadow: 
+    inset 0 2px 0 0 rgba(0,0,0,.15),
+    inset -1px 0 0 0 rgba(0,0,0,.15),
+    inset -1px 0 0 0 rgba(0,0,0,.15),
+    0 3px 0 0 rgba(0,0,0,.15);
+  
+  &:active,
+  &:focus,
+  &:visited {
+    outline: none;
+    color: @lob-btn-text-color;
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: lighten(@lob-btn-text-color, 5%);
+    text-decoration: none;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &[href] {
+    line-height: 40px;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}
+
+.lob-btn--has-pulse {
+  transition: box-shadow .28s ease-in-out;
+  will-change: box-shadow;
+
+  box-shadow: 
+    inset 0 2px 0 0 rgba(0,0,0,.15),
+    inset -1px 0 0 0 rgba(0,0,0,.15),
+    inset -1px 0 0 0 rgba(0,0,0,.15),
+    0 3px 0 0 rgba(0,0,0,.15),
+    0 0 0 0 @main-gold-shiny;
+
+  &:hover {
+    animation: pulse 1s infinite alternate;
+    transition: box-shadow .28s ease-in-out; 
+  }
+
+  @keyframes pulse {
+    from {
+      box-shadow: 
+        inset 0 2px 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        0 3px 0 0 rgba(0,0,0,.15),
+        0 0 8px 0 @main-gold-shiny;      
+    }
+    to {
+      box-shadow: 
+        inset 0 2px 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        0 3px 0 0 rgba(0,0,0,.15),
+        0 0 15px 0 @main-gold-shiny;
+    }
+  }
+}
+
+
+
+/**
+ * Form Fields
+ */
+.lob-form-input,
+.lob-select {
+  color: ghostwhite;
+  background-color: rgba(0,0,0,.25);
+  border: 1px solid @main-gold;
+  box-shadow: 
+    inset 0 2px 0 0 rgba(0,0,0,.15),
+    inset -2px 0 0 0 rgba(0,0,0,.15),
+    inset -2px 0 0 0 rgba(0,0,0,.15);
+
+  &:first-child {
+    margin-top: 5px;
+  }
+}
+
+.lob-select {
+  background-color: rgba(0,0,0,.35);
+  height: 40px;
+  padding: 10px 12px;
+  option {
+    background: rgba(0,0,0,.85);
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+/**
+ * Navbar Navigation
+ */
+.c-navbar {
+  margin: 0 10px;
+}
+
+.c-navbar__item {
+  color: @main-gold-shiny;
+  font-family: "Raleway", sans-serif;
+  display: inline-block;
+  height: 100%;
+  margin: 5px 5px;
+  text-shadow: @main-text-shadow;
+  opacity: .75;
+  transition: opacity .28s ease-in-out;
+  will-change: opacity;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: @main-gold-shiny;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/**
+ * Article Pages
+ */
+.c-article {
+  
+  p {
+    font-size: 1.618rem;
+  }
+}
+
+.c-article__title,
+.c-article__section-title {
+  color: ghostwhite;
+  font-family: @main-font-stack;
+  text-shadow: @main-text-shadow;
+}
+
+.c-article__section-title ~ .c-article__section-title {
+  margin-top: 3rem;
 }

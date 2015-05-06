@@ -12,6 +12,7 @@ module.exports = {
 
 		res.view({
 			title: 'Home',
+      request: req
 		});
 	}
 

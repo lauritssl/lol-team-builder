@@ -39,6 +39,7 @@ function GameLobbyService () {
     	return unpickedUsers;
     };
 
+
     return  gameLobbyService;
     
 }

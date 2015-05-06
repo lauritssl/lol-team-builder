@@ -91,7 +91,10 @@ module.exports = {
 		var gameId = _options.id;	
 		var userId = _options.userId;	
 
-	
+		/*
+		Check whether the _options object contains the required parameters
+		 */
+		if(gameId === null || userId === null) {throw new Error("deleteUser did not receive the required parameters"); return;}
 
 		return Game.findOne(gameId)
 		.then(function(game){
@@ -103,6 +106,15 @@ module.exports = {
 			});			
 
 			game.spotsTaken -= removals.length;
+
+			/**
+			 * Remove the user from the spot
+			 */
+			_.forEach(game.spots, function(spot){
+              if(spot.user == userId){
+              	delete spot.user;
+              }
+			});
 			/*
 			Update the game
 			 */

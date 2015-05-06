@@ -1,7 +1,7 @@
 
-<div class="notification" ng-if="!gameLobby.game.gameStarted">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div>
-
-<div class="notification" ng-if="gameLobby.game.gameStarted">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
+<div class="notification" ng-if="!gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div>
+<div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft'">{{ !gameLobby.getNextUser(gameLobby.game) ? '' : gameLobby.getNextUser(gameLobby.game).nickname + ', pick a slot...' }}</div>
+<div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
 
 <button class="btn btn--success" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="!gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start card draw</button>
@@ -11,7 +11,7 @@
 <!-- Unassigned player Hexagon section -->
 <!-- ::::::::::::::::::::::::::::::::: -->
     
-    <section class="hexagon-wrapper" layout="column" layout-align="center center" ng-if="!gameLobby.game.gameStarted">
+    <section class="hexagon-wrapper" layout="column" layout-align="center center" ng-if="!gameLobby.game.gameStarted || gameLobby.game.gameMode === 'draft'">
       <div class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.unpickedUsers track by user.id" ng-hide="gameLobby.userInSpot(user.id, gameLobby.game)">
       </div>
     </section>    
@@ -19,7 +19,7 @@
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Card deck section                 -->
 <!-- ::::::::::::::::::::::::::::::::: -->
-    <div class="card-deck-container" ng-if="gameLobby.game.gameStarted && !gameLobby.allSpotsAccepted(gameLobby.game)">
+    <div class="card-deck-container" ng-if="gameLobby.game.gameStarted && !gameLobby.allSpotsAccepted(gameLobby.game) && gameLobby.game.gameMode !== 'draft'">
      <!--  <button 
         ng-if="gameLobby.userOwnsGame()" 
         ng-click="gameLobby.rollBuilds(gameLobby.game)" 

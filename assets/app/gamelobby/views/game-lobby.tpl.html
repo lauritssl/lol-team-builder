@@ -1,18 +1,27 @@
 <div class="c-lobby-top-bar" >
-  <div class="l-wrapped" layout="row">
-
-   <span class="c-lobby-top-bar__item">{{ gameLobby.game.title }}</span>
+  <div class="l-wrapped" layout="row" layout-align="start center">
+  <div class="das-boot-wrapper dropdown-toggle" layout layout-align="center end" data-toggle="dropdown" ng-if="gameLobby.userOwnsGame()">
+    <div class="das-boot-icon">
+  </div>
+</div>
+<ul class="dropdown-menu" role="menu" id="das-boot-dropdown" ng-if="gameLobby.userOwnsGame()">
+    <li role="presentation" layout="column" layout-align="center center" ng-repeat="user in gameLobby.game.users" ng-if="user.id !== gameLobby.game.user.id " ng-click="gameLobby.kickUser(gameLobby.game, user)">
+      <a role="menuitem" class="text-overflow-ellipsis" tabindex="-1" href="#">{{user.nickname}}</a>
+      <hr>
+    </li>
+  </ul>
+   <span class="c-lobby-top-bar__item">Game: {{ gameLobby.game.title }}</span>
    <span class="c-lobby-top-bar__item" ng-if="gameLobby.game.private">Private</span>
    
    <span flex></span>
    <span class="c-lobby-top-bar__item">{{ gameLobby.game.spots.length }} / {{ gameLobby.game.numberOfSpots }} spots</span>
-   <input type="submit" class="btn btn-success btn-slim" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" ng-if="gameLobby.userOwnsGame()" />
+   <input type="submit" class="lob-btn" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" ng-if="gameLobby.userOwnsGame()" />
       <input type="submit" class="btn btn-success btn-slim" value="Join game" ng-click="gameLobby.joinGame(gameLobby.game)" ng-if="!gameLobby.currentUser && !gameLobby.game.gameStarted" />
    </div>
 </div>
 
 <main>
-  <aside class="sidebar pull--left">
+  <aside class="sidebar pull--left" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
     <ul class="players list-unstyled" layout="column" layout-align="center center">
       <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$even" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
       class="player" ng-disabled="!gameLobby.game.gameStarted" ng-click="!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)"
@@ -23,7 +32,7 @@
 
   <section class="content-container" ng-include="'gamelobby/views/gamelobby-main-content.tpl.html'" layout="column" layout-align="center center">
   </section>
-  <aside class="sidebar pull--right">
+  <aside class="sidebar pull--right" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
     <ul class="players list-unstyled" layout="column" layout-align="center center" >
       <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$odd" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
       class="player" ng-disabled="!gameLobby.game.gameStarted" ng-click="!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)"
