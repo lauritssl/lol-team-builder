@@ -1,9 +1,7 @@
 /* Imports */
 @import "/common/styles/modals";
 
-
 /* Mixins */
-
 @main-bgcolor-blue: #141D24;
 @main-bgcolor-blue-50: rgba(20, 29, 36, 0.50);
 @main-bgcolor-blue-75: rgba(20, 29, 36, 0.75);
@@ -27,6 +25,7 @@
 
 //gold
 @main-gold: rgba(247, 218, 155, .45);
+@main-gold-shiny: #F7DA9B;
 
 @main-text-color: #4b4b4b;
 
@@ -520,6 +519,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   font-size: 1.412rem;
   color: @lob-btn-text-color;
   border: 1px solid #766e4c;
+  line-height: 30px;
   
   border-radius: 4px;
   text-shadow: @main-text-shadow;
@@ -558,6 +558,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     line-height: 40px;
   }
 
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
 
 }
 
@@ -570,6 +575,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
  * Form Fields
  */
 .lob-form-input {
+  color: ghostwhite;
   background-color: rgba(0,0,0,.25);
   border: 1px solid @main-gold;
   box-shadow: 

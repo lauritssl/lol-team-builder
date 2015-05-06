@@ -12,7 +12,7 @@
 
         <div class="c-input">
           
-          <input placeholder="Your nickname" name="input_game_nickname" id="input_game_nickname" maxlength="28" class="form-control c-input__field" type="text" autofocus ng-model="modalCtrl.user.nickname" ng-change="modalCtrl.game.title = modalCtrl.getTitle()" required>
+          <input placeholder="Your nickname" name="input_game_nickname" id="input_game_nickname" maxlength="28" class="form-control lob-form-input input-lg" type="text" autofocus ng-model="modalCtrl.user.nickname" ng-change="modalCtrl.game.title = modalCtrl.getTitle()" required>
 
           
           <label for="input_game_nickname" class="c-input__label">
@@ -22,7 +22,7 @@
         </div>
         
         <div class="c-input">
-          <input placeholder="Game title" name="input_game_title" id="input_game_title" maxlength="28" class="form-control c-input__field" type="text" autofocus ng-model="modalCtrl.game.title" required>
+          <input placeholder="Game title" name="input_game_title" id="input_game_title" maxlength="28" class="form-control lob-form-input input-lg" type="text" autofocus ng-model="modalCtrl.game.title" required>
           
           <label for="input_game_title" class="c-input__label">
             <span class="c-input__label-content">Game title</span>
@@ -32,7 +32,7 @@
 
         <div class="c-input">
           
-          <input placeholder="Password (Optional)" name="input_game_password" id="input_game_password" maxlength="28" class="form-control c-input__field" type="password" ng-model="modalCtrl.game.password" ng-change="modalCtrl.game.private = modalCtrl.game.password ? true : false">
+          <input placeholder="Password (Optional)" name="input_game_password" id="input_game_password" maxlength="28" class="form-control lob-form-input input-lg" type="password" ng-model="modalCtrl.game.password" ng-change="modalCtrl.game.private = modalCtrl.game.password ? true : false">
           
           <label for="input_game_password" class="c-input__label">
             <span class="c-input__label-content">Password (Optional)</span>
@@ -50,14 +50,16 @@
           <select name="select_mode" id="select_mode" class="form-control" ng-options="gameMode as gameMode.name for gameMode in modalCtrl.gameModes track by gameMode.id" ng-model="modalCtrl.selected.gameMode" ng-change="modalCtrl.game.gameMode = modalCtrl.selected.gameMode.id">
 
           </select>
-        </div>        
-
+        </div>
       </div>
     </div>
   </div>
   </form>
+  
   <div class="modal-footer">
-    <button class="btn btn-success" ng-disabled="createForm.$invalid" ng-click="modalCtrl.createGame(modalCtrl.game, modalCtrl.user)">Create Game</button>
-    <button class="btn btn-warning" ng-click="modalCtrl.cancel()">Go back</button>
+    
+    <input type="submit" class="lob-btn" ng-disabled="createForm.$invalid" ng-click="modalCtrl.createGame(modalCtrl.game, modalCtrl.user)" value="Create Game" />
+    <input type="submit" class="lob-btn" ng-click="modalCtrl.cancel()" value="Go back" />
   </div>
+
 </div>
