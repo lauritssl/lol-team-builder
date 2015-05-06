@@ -58,7 +58,7 @@ h1 {
     */
 }
 p, ol {
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    font-family: "Raleway", CenturyGothic, AppleGothic, sans-serif;
     font-size: 15px;
     color: #CCC;
 }
@@ -177,6 +177,8 @@ li {
   height: 100vh;
   overflow-y: auto;
   background: transparent;
+  background: url(../images/blackmamba_pattern.png) repeat top left;
+  background-size: 300px 300px;
 }
 
 /**
@@ -207,6 +209,10 @@ li {
   width: 100%;
   top: 0;
   z-index: 100;
+}
+
+.c-header--pushes-content ~ .l-content {
+  margin-top: 8.5rem;
 }
 
 
@@ -307,12 +313,13 @@ li {
 
   &__graphic {
     position: absolute;
-    bottom: -125px;
-    right: -52px;
+    bottom: -59px;
+    right: -14px;
 
-    background-image: url('../images/modal_extra_graphic.png');
-    width: 230px;
-    height: 316px;
+    background-image: url('../images/teemo.png');
+    background-size: 220px 213px; 
+    width: 220px;
+    height: 213px;
   }
 
 }
@@ -323,14 +330,14 @@ li {
  */
 .l-games-list-container {
   min-width: 72rem;
-  //background-color: white;
-    background: url(../images/dark_wall_pattern.png) repeat top left;
+  background: url(../images/dark_wall_pattern.png) repeat top left;
   background-size: 300px 300px;
   box-shadow: 
    inset 1px 0 0 0 @main-gold,
    inset -1px 0 0 0 @main-gold,
    inset 3px 0 0 0 rgba(0, 0, 0, 0.15), 
-   inset -3px 0 0 0 rgba(0, 0, 0, 0.15);
+   inset -3px 0 0 0 rgba(0, 0, 0, 0.15),
+   0 2px 5px 0 rgba(0,0,0,0.5);
    
    color: #fafafa;
 
@@ -418,9 +425,7 @@ li {
 
 
 
-
-.form-group {
-    
+ 
     .form-control{
       margin-bottom: 10px;
       //background-color: #222222;
@@ -429,14 +434,12 @@ li {
       color: ghostwhite;
 
       &:focus{
-        border-color: @main-red;
+        border-color: @main-gold-shiny;
         outline: 0;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(160, 80, 80, 0.6);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(160, 80, 80, 0.6);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @main-gold-shiny;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @main-gold-shiny;
       }
     } 
-  }
-
 }
 
 /**
@@ -584,13 +587,44 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     cursor: not-allowed;
     opacity: .5;
   }
-
-
 }
 
-.lob-btn-sm {
+.lob-btn--has-pulse {
+  transition: box-shadow .28s ease-in-out;
+  will-change: box-shadow;
 
+  box-shadow: 
+    inset 0 2px 0 0 rgba(0,0,0,.15),
+    inset -1px 0 0 0 rgba(0,0,0,.15),
+    inset -1px 0 0 0 rgba(0,0,0,.15),
+    0 3px 0 0 rgba(0,0,0,.15),
+    0 0 0 0 @main-gold-shiny;
+
+  &:hover {
+    animation: pulse 1s infinite alternate;
+    transition: box-shadow .28s ease-in-out; 
+  }
+
+  @keyframes pulse {
+    from {
+      box-shadow: 
+        inset 0 2px 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        0 3px 0 0 rgba(0,0,0,.15),
+        0 0 8px 0 @main-gold-shiny;      
+    }
+    to {
+      box-shadow: 
+        inset 0 2px 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        inset -1px 0 0 0 rgba(0,0,0,.15),
+        0 3px 0 0 rgba(0,0,0,.15),
+        0 0 15px 0 @main-gold-shiny;
+    }
+  }
 }
+
 
 
 /**
@@ -621,4 +655,54 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   &:hover {
     cursor: pointer;
   }
+}
+
+/**
+ * Navbar Navigation
+ */
+.c-navbar {
+  margin: 0 10px;
+}
+
+.c-navbar__item {
+  color: @main-gold-shiny;
+  font-family: "Raleway", sans-serif;
+  display: inline-block;
+  height: 100%;
+  margin: 5px 5px;
+  text-shadow: @main-text-shadow;
+  opacity: .75;
+  transition: opacity .28s ease-in-out;
+  will-change: opacity;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: @main-gold-shiny;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/**
+ * Article Pages
+ */
+.c-article {
+  
+  p {
+    font-size: 1.618rem;
+  }
+}
+
+.c-article__title,
+.c-article__section-title {
+  color: ghostwhite;
+  font-family: @main-font-stack;
+  text-shadow: @main-text-shadow;
+}
+
+.c-article__section-title ~ .c-article__section-title {
+  margin-top: 3rem;
 }
