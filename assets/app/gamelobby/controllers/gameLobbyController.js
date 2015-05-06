@@ -66,9 +66,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return;
 	}
 
-
-	
-
 	//add listeners
 	$rootScope.$on("$locationChangeStart", function (event, current) {
 		//vm.leaveGame(vm.game);
