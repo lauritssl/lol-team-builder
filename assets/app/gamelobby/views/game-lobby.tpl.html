@@ -1,16 +1,12 @@
 <div class="c-lobby-top-bar" >
   <div class="l-wrapped" layout="row" layout-align="start center">
-  <div class="das-boot-wrapper dropdown-toggle" layout layout-align="center end" data-toggle="dropdown">
+  <div class="das-boot-wrapper dropdown-toggle" layout layout-align="center end" data-toggle="dropdown" ng-if="gameLobby.userOwnsGame()">
     <div class="das-boot-icon">
   </div>
 </div>
-<ul class="dropdown-menu" role="menu" id="das-boot-dropdown">
-    <li role="presentation" layout="column" layout-align="center center">
-      <a role="menuitem" class="text-overflow-ellipsis" tabindex="-1" href="#">Player Name</a>
-      <hr>
-    </li>
-    <li role="presentation" layout="column" layout-align="center center">
-      <a role="menuitem" class="text-overflow-ellipsis" tabindex="-1" href="#">Player Name</a>
+<ul class="dropdown-menu" role="menu" id="das-boot-dropdown" ng-if="gameLobby.userOwnsGame()">
+    <li role="presentation" layout="column" layout-align="center center" ng-repeat="user in gameLobby.game.users" ng-if="user.id !== gameLobby.game.user.id " ng-click="gameLobby.kickUser(gameLobby.game, user)">
+      <a role="menuitem" class="text-overflow-ellipsis" tabindex="-1" href="#">{{user.nickname}}</a>
       <hr>
     </li>
   </ul>

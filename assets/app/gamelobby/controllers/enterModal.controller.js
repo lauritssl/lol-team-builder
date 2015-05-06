@@ -16,7 +16,7 @@ function EnterModalCtrl($modalInstance, GameModel, game, $cookieStore, Notificat
  	vm.ok = function(user, gameId, password) {
 
  	GameModel.addUser(gameId, user, password).then(function(result){
- 		$cookieStore.put(gameId, result);
+ 		$cookieStore.put(gameId + vm.game.title, result);
     	$modalInstance.close(result);
  	})
  	.catch(function(err){
