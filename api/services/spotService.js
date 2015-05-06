@@ -23,6 +23,25 @@ module.exports = {
 		.then(function(model){
 			game = model;
 
+
+			if(game.gameMode === 'draft'){
+				var gameUsers = _.map(game.users, function(user){ return user.id});
+				var spotUsers = _.map(game.spots, function (spot) { return spot.user});
+				console.log("gameUsers: " + gameUsers);
+				console.log("spotUsers: " + spotUsers);
+
+				var difference = _.difference(gameUsers, spotUsers);
+				console.log("difference: " + difference);
+				var nextTurn = _.first(difference);
+				
+				if(nextTurn !== userId){
+					var error = new Error();
+					error.message = "user doesn't have the turn";
+					error.name = "notAllowed"
+					deferred.reject(error);
+					return deferred.promise;
+				}
+			}
 			/*
 			Check whether the user exist in the game
 			 */

@@ -177,6 +177,8 @@ li {
   height: 100vh;
   overflow-y: auto;
   background: transparent;
+  background: url(../images/blackmamba_pattern.png) repeat top left;
+  background-size: 300px 300px;
 }
 
 /**
@@ -311,12 +313,13 @@ li {
 
   &__graphic {
     position: absolute;
-    bottom: -125px;
-    right: -52px;
+    bottom: -59px;
+    right: -14px;
 
-    background-image: url('../images/modal_extra_graphic.png');
-    width: 230px;
-    height: 316px;
+    background-image: url('../images/teemo.png');
+    background-size: 220px 213px; 
+    width: 220px;
+    height: 213px;
   }
 
 }
@@ -327,14 +330,14 @@ li {
  */
 .l-games-list-container {
   min-width: 72rem;
-  //background-color: white;
-    background: url(../images/dark_wall_pattern.png) repeat top left;
+  background: url(../images/dark_wall_pattern.png) repeat top left;
   background-size: 300px 300px;
   box-shadow: 
    inset 1px 0 0 0 @main-gold,
    inset -1px 0 0 0 @main-gold,
    inset 3px 0 0 0 rgba(0, 0, 0, 0.15), 
-   inset -3px 0 0 0 rgba(0, 0, 0, 0.15);
+   inset -3px 0 0 0 rgba(0, 0, 0, 0.15),
+   0 2px 5px 0 rgba(0,0,0,0.5);
    
    color: #fafafa;
 
