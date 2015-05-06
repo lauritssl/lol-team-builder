@@ -8,6 +8,8 @@
 @main-bgcolor-blue-50: rgba(20, 29, 36, 0.50);
 @main-bgcolor-blue-75: rgba(20, 29, 36, 0.75);
 
+@main-font-stack: "Milonga", sans-serif;
+
 //blue
 @main-blue: #078CE8;
 @main-blue-button: #056eb6;
@@ -205,7 +207,7 @@ li {
 .c-site-logo {
   font-size: 2rem;
   color: #F7DA9B;
-  font-family: "Milonga", sans-serif;
+  font-family: @main-font-stack;
   font-weight: 400;
   text-shadow: @main-text-shadow;
   cursor: default;
@@ -243,8 +245,6 @@ li {
  * Logo Graphic Component
  */
 .c-logo-graphic {
-  position: absolute;
-  left: 80px;
   top: 0px;
   color: white;
   font-size: 7rem;
@@ -367,6 +367,8 @@ li {
 
 
     &-title {
+      font-family: @main-font-stack;
+      text-transform: capitalize;
       font-weight: 700;
       display: block;
       font-size: 2rem;
@@ -576,4 +578,9 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 
+/**
+ * Form Fields
+ */
+.lob-form-input {
 
+}

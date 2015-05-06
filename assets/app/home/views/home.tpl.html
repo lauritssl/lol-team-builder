@@ -1,5 +1,6 @@
 <div ng-include="'header/views/header.tpl.html'" ng-show="main.state.current.name == 'home'"></div>
-<div class="c-hero-banner l-wrapped">
+
+<div class="c-hero-banner l-wrapped" layout="row" layout-align="center center">
   <h1 class="c-logo-graphic">
     <span>League</span>
     <span>of</span>
@@ -34,7 +35,7 @@
 
          <span flex></span>
 
-         <button class="btn btn-success c-games-list__item-button" ng-click="home.joinGame(game.id)">JOIN</button>  
+         <button class="lob-btn c-games-list__item-button" ng-click="home.joinGame(game.id)">Join</button>  
       </li>
     </ul>
 
