@@ -102,7 +102,8 @@ body {
         content: attr(tooltip);
         padding: 5px 15px;
         position: absolute;
-        left: -150px;
+        top: 50px;
+        left: -50px;
         z-index: 98;
         width: 145px;
       }
@@ -111,12 +112,12 @@ body {
         border: solid;
         border-color: rgba(0,0,0,.8) transparent;
         border-width: 6px 6px 0 6px;
-        bottom: 20px;
+        bottom: -4px;
+        left: 14px;
         content: "";
-        left: -10px;
         position: absolute;
         z-index: 99;
-        .transform(rotate(-90deg));
+        .transform(rotate(180deg));
     }
       
       .das-boot-icon{
@@ -770,7 +771,11 @@ body {
     0 -10px 7px 0 rgba(0,0,0,.45);
   border-radius: @card_corner_radius;
   z-index: 1;
-    
+
+  &:active {
+    top: 1px;
+  }
+
    //card--gets-overlayed 
   &--gets-overlayed + .overlay {
       z-index: 999;
