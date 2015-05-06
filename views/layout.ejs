@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="ubteambuilder" ng-controller="MainCtrl as main">
+<html>
   <head>
     <title>League Of Bravery - Ultimate Bravery Team Builder</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    <meta name="fragment" content="!" />
     
     <!--  
         Stylesheets and Preprocessors
@@ -38,7 +38,7 @@
 
   </head>
  <base href="/">
-  <body  ng-class="{'home' : main.state.current.name == 'home'}">
+  <body>
     <%- body %>
 
 
