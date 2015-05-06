@@ -57,7 +57,8 @@
  			numberOfSpots : req.param('numberOfSpots'),
  			password: req.param('password') || '',
  			map : req.param('map'),
- 			private : req.param('private')
+ 			private : req.param('private'),
+ 			gameMode: req.param('gameMode')
  		};
 
 
@@ -171,6 +172,7 @@
 			return res.json(result);
 		})
 		.catch(function(err){
+			if(err.name === 'notAllowed'){return;}
 			return res.serverError(err);
 		})
 
