@@ -159,6 +159,14 @@ li {
 //Login button & signup style
 }
 
+// Choose-games page styles
+
+.home {
+  height: 100vh;
+  overflow-y: auto;
+  background: transparent;
+}
+
 /**
  * Layout Helpers
  */
@@ -453,7 +461,9 @@ li {
   padding: 1rem;
   z-index: 2000;
   color: white;
-  background-color: rgba(0,0,0,.15);
+  background: url(../images/dark_wall_pattern.png) repeat top left;
+  background-size: 300px 300px;
+  box-shadow: 0 3px 15px 2px rgba(0, 0, 0, 0.22);
 
   &__item {
     font-weight: bold;
@@ -499,12 +509,5 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
  input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px #222 inset !important;
     -webkit-text-fill-color: #555 !important;
- } 
-
-}
-
-.home {
-  overflow-y: auto;
-  position: static;
-  background: transparent;
+ }
 }
