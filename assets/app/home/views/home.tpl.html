@@ -1,5 +1,6 @@
 <div ng-include="'header/views/header.tpl.html'" ng-show="main.state.current.name == 'home'"></div>
-<div class="c-hero-banner l-wrapped">
+
+<div class="c-hero-banner l-wrapped" layout="row" layout-align="center center">
   <h1 class="c-logo-graphic">
     <span>League</span>
     <span>of</span>
@@ -18,7 +19,7 @@
     <header class="l-games-list-container__header">
       <div class="row">
         <div class="col-sm-10">
-          <input type="search" class="form-control input input-lg input--search" placeholder="Search for a game" ng-model="home.searchTerm" api-search="home.games">
+          <input type="search" class="form-control input input-lg input--search lob-form-input" placeholder="Search for a game" ng-model="home.searchTerm" api-search="home.games">
         </div>
       </div>
     </header>
@@ -34,7 +35,7 @@
 
          <span flex></span>
 
-         <button class="btn btn-success c-games-list__item-button" ng-click="home.joinGame(game.id)">JOIN</button>  
+         <button class="lob-btn c-games-list__item-button" ng-click="home.joinGame(game.id)">Join</button>  
       </li>
     </ul>
 
