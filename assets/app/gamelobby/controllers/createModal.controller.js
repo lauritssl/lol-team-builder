@@ -76,7 +76,7 @@ function CreateModalCtrl ($modalInstance, GameModel, $cookieStore, NotificationS
  	 	GameModel
  	 	.create(game)
  	 	.then(function(model) {
- 	 		$cookieStore.put(model.id, model.user);
+ 	 		$cookieStore.put(model.id + model.title, model.user);
  	 		$modalInstance.close(model);
  	 	})
  	 	.catch(function(error){

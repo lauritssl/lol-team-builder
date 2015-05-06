@@ -1,9 +1,9 @@
 angular.module( 'ubteambuilder.gamelobby.controllers', ['pmkr.components'])
 .controller( 'GameLobbyCtrl', GameLobbyCtrl);
 
-GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService', 'GameLobbyService'];
+GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game', '$location', '$rootScope', 'champions', 'items', 'summoners', 'ChampionService', '$cookieStore', '$state', 'ngAudio', 'NotificationService', 'GameLobbyService', '$log'];
 
- function GameLobbyCtrl($sails, lodash, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService, GameLobbyService) {
+ function GameLobbyCtrl($sails, lodash, titleService, GameModel, game, $location, $rootScope, champions, items, summoners, ChampionService, $cookieStore, $state, ngAudio,NotificationService, GameLobbyService, $log) {
 
  	if(game.statusCode === 404){
  		return $state.go('home');
@@ -18,7 +18,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
    * Set the user - or go to join game if the user is not in the lobby
    * @type {[type]}
    */
- 	vm.currentUser =  $cookieStore.get(game.id);
+ 	vm.currentUser =  $cookieStore.get(game.id + game.title);
 
 	/**
 	 * The game objkect
@@ -86,6 +86,14 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 					vm.unpickedUsers = GameLobbyService.getUnpickedUsers(vm.game);
 					vm.enableNextSpot(vm.game);
 				}
+				var userIsInGame = _.find(vm.game.users,function (user) {
+					return  vm.currentUser.id === user.id;
+				});
+				if(!angular.isObject(userIsInGame)){
+					NotificationService.success(vm.currentUser.nickname + ' has been kicked from the game!');
+					$cookieStore.remove(vm.game.id + vm.game.title);
+					vm.currentUser = null;
+				}
 				break;
 			case 'destroyed':
 				lodash.remove(vm.games, {id: envelope.id});
@@ -138,8 +146,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.leaveGame = function(game){
-		GameModel.removeUser(game.id, vm.currentUser).then(function(model){});
+		GameModel.removeUser(game.id, vm.currentUser.id).then(function(model){});
 	};
+
+	vm.kickUser = function (game, user) {
+		if(!angular.isObject(game) || !angular.isObject(user)){$log.warn('Game and user must be specified'); return;}
+		GameModel.removeUser(game.id, user.id).then(function (model) {
+			NotificationService.success(user.nickname + ' has been kicked from the game!');
+		});
+	}
 
 	vm.userHasTurn = function(game){
 		var nextRollableSpot = vm.getNextRollableSpot(game);
@@ -178,6 +193,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.userOwnsGame = function (){
+		if(vm.currentUser == null) return false;
 		if(vm.game.user.id === vm.currentUser.id) return true;
 			return false;
 	};

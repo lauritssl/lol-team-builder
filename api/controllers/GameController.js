@@ -111,7 +111,7 @@
 	// 			return res.json(model);
 	// 		});
 	// 	});
-	// },
+	// },π
 	addUser: function (req, res) {
 		var user = req.param('user');
 		var password = req.param('password');
@@ -190,6 +190,7 @@
 		spotService.removeUserFromSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
