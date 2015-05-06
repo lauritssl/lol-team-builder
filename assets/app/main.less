@@ -622,3 +622,32 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     cursor: pointer;
   }
 }
+
+/**
+ * Navbar Navigation
+ */
+.c-navbar {
+  margin: 0 10px;
+}
+
+.c-navbar__item {
+  color: @main-gold-shiny;
+  font-family: "Raleway", sans-serif;
+  display: inline-block;
+  height: 100%;
+  margin: 5px 5px;
+  text-shadow: @main-text-shadow;
+  opacity: .75;
+  transition: opacity .28s ease-in-out;
+  will-change: opacity;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: @main-gold-shiny;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
