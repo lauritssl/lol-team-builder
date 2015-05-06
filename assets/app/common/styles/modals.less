@@ -15,7 +15,7 @@
   }
 
   .modal-content {
-    overflow: hidden;
+    //overflow: hidden;
     background: url(../../images/dark_wall_pattern.png) repeat top left;
     background-size: 300px 300px;
     border: 1px solid @main-gold;
@@ -61,12 +61,17 @@
   .modal-content-container {
     box-shadow: inset 0 0 30px 5px rgba(0, 0, 0, 0.10);
 
+
+    .input_dropdown__halfsize{
+      max-width: 70%;
+    }
+
     /**
      * Handles adding a nice graphic touch
      * to the otherwise plain modals.
      */
     &--has-graphic {
-      overflow: hidden;
+      //overflow: hidden;
       
       /**
        * Sets up the modal graphic Block
@@ -83,16 +88,24 @@
          * Specific Modifier for showing
          * the Create Game modal graphic
          */
+
+        // &--create-game {
+        //   background-image: url('../images/modal/modal__create-game-graphic.png');
+        //   right: -88px;
+        //   bottom: -200px;
+        //   width: 251px;
+        //   height: 493px;
+        //   transform: scaleX(-1);
+        // }
+
         &--create-game {
-          background-image: url('../images/modal/modal__create-game-graphic.png');
-          right: -88px;
-          bottom: -200px;
-          width: 251px;
-          height: 493px;
+          background-image: url('../images/modal/modal__create-game-graphic-cropped.png');
+          right: -52px;
+          bottom: 0;
+          width: 241px;
+          height: 280px;
           transform: scaleX(-1);
-
         }
-
       }
     }
   }
