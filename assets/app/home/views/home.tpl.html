@@ -24,16 +24,21 @@
       </div>
     </header>
 
-    <ul class="c-games-list list-unstyled"class="row">
-      <li class="c-games-list__item" ng-repeat="game in home.games" ng-hide="game.private" layout="row">
+    <ul class="c-games-list list-unstyled">
+      <li class="c-games-list__item" ng-repeat="game in home.games" ng-hide="game.private" layout="row" flex>
         
-         <div class="c-games-list__item-meta">
-           <div class="c-games-list__item-title">{{game.title}} -- {{game.spots.length}}/{{game.numberOfSpots}} Spots</div>
-           <span am-time-ago="game.createdAt"></span>, by
-           <strong>{{ game.user.nickname }}</strong>
+         <div class="c-games-list__item-meta" flex>
+         <div layout="row" layout-align="start center" flex>
+           <div layout="column" layout-align="center start" flex>
+             <div class="c-games-list__item-title">{{game.title}}</div>
+             <div layout="row">
+             <span am-time-ago="game.createdAt"></span>, by
+             <strong>{{ game.user.nickname }}</strong>
+             </div>
+             </div>
+           <div class="c-games-list__item-title">{{game.spots.length}}/{{game.numberOfSpots}} Spots</div>
+           </div>
          </div>
-
-         <span flex></span>
 
          <button class="lob-btn c-games-list__item-button" ng-click="home.joinGame(game.id)">Join</button>  
       </li>
