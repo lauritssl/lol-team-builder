@@ -36,6 +36,14 @@ module.exports.routes = {
     controller: 'HomeController',
     action: 'index'
   },
+  'get /rules': {
+    controller: 'RulesController',
+    action: 'index'
+  },
+  'get /about': {
+    controller: 'AboutController',
+    action: 'index'
+  },
 
 
   /***************************************************************************
@@ -105,7 +113,7 @@ module.exports.routes = {
   // against Sails route blueprints.  See `config/blueprints.js` for configuration options
   // and examples.
   'get /home': 'HomeController.index',
-  'get /about': 'HomeController.index',
+  
   'get /messages': 'HomeController.index',
   'get /games': 'HomeController.index',
   'get /games/:id/join': 'HomeController.index',
