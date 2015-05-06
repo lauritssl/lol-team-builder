@@ -21,7 +21,7 @@
 </div>
 
 <main>
-  <aside class="sidebar pull--left">
+  <aside class="sidebar pull--left" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
     <ul class="players list-unstyled" layout="column" layout-align="center center">
       <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$even" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
       class="player" ng-disabled="!gameLobby.game.gameStarted" ng-click="!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)"
@@ -32,7 +32,7 @@
 
   <section class="content-container" ng-include="'gamelobby/views/gamelobby-main-content.tpl.html'" layout="column" layout-align="center center">
   </section>
-  <aside class="sidebar pull--right">
+  <aside class="sidebar pull--right" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
     <ul class="players list-unstyled" layout="column" layout-align="center center" >
       <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$odd" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
       class="player" ng-disabled="!gameLobby.game.gameStarted" ng-click="!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)"

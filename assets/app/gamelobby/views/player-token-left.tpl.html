@@ -1,49 +1,53 @@
-        <div class="player__build-wrapper" flex layout="column" layout-align="start start" ng-if="spot.build && spot.build.accepted">
-          <div class="build__main-spells" flex layout="row" layout-align="space-around center">
-            <div class="main-spell-wrapper" layout="row" layout-align="center end">
-                <div class="main-spell shadow-inset" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.build.champion)}})"></div>
-                <div class="main-spell-letter" layout layout-align="center center">
-                  <p>{{spot.build.skill_to_level}}</p>
-              </div>
-              </div>
-            <div class="spell-separator"></div>
-            <ng-include layout="row" layout-align="center center" src="'gamelobby/views/partials/summoner-spells.tpl.html'" ng-if="spot.build"></ng-include>
-    
-          </div>
-          
-          <ng-include class="full-width-wrapper" src="'gamelobby/views/partials/main-talents.tpl.html'" ng-if="spot.build"></ng-include>
-          
-          <div class="build__main-items" flex layout="row" layout-align="space-around center" ng-include="'gamelobby/views/partials/main-items.tpl.html'"></div>
-
+<div class="player__build-wrapper" flex layout="column" layout-align="start start" ng-if="spot.build && spot.build.accepted">
+    <div class="build__main-spells" flex layout="row" layout-align="space-around center">
+        <div class="main-spell-wrapper" layout="row" layout-align="center end">
+            <div class="main-spell shadow-inset" style="background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.build.champion)}})"></div>
+            <div class="main-spell-letter" layout layout-align="center center">
+                <p>{{spot.build.skill_to_level}}</p>
+            </div>
         </div>
-        <span flex></span>
-        <div class="player__portrait-bg"></div>
-        <div class="player__token-wrapper" layout="column" layout-align="center center" >
- 
-          <div class="player__option-icon option--one" layout="row" layout-align="center center">
-          <i class="fa fa-rocket"> </i>
-          </div>
-          <div class="player__option-icon option--two" layout="row" layout-align="center center" ng-click="gameLobby.removeSpot(gameLobby.game, spot)" ng-if="gameLobby.userOwnsGame() && !gameLobby.game.gameStarted">
-          <i class="fa fa-external-link"> </i>
-          </div>
-          <div class="player__option-icon option--three" layout="row" layout-align="center center" ng-click="gameLobby.removeUserFromSpot(gameLobby.game, spot)" ng-if="(gameLobby.currentUser.id === spot.user || gameLobby.userOwnsGame(spot.user))  && !gameLobby.game.gameStarted && spot.user">
-          <i class="fa fa-times"> </i>
-          </div>
-          
-          <div class="player__token-backdrop"></div>
-          <div class="player__token-image" ng-class="{'invisible':!gameLobby.isBuildAccepted(spot)}" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});"></div>
-          <div class="player__token-polygon" ng-click="gameLobby.game.gameStarted || gameLobby.joinSpot(gameLobby.game, spot)" ng-disabled="gameLobby.game.gameStarted"></div>
-          <div class="player__token-nameplate" ng-if="spot.user && spot.user !== gameLobby.game.user.id"layout="row">
-            <p class="token-nameplate__player-name">
-              {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}
-            </p>
-          </div>
-          <div class="admin__token-nameplate" ng-if="spot.user === gameLobby.game.user.id" layout="row">
-            <div class="admin__nameplate-wrapper" layout="row" layout-align="center center">
+        <div class="spell-separator"></div>
+        <ng-include layout="row" layout-align="center center" src="'gamelobby/views/partials/summoner-spells.tpl.html'" ng-if="spot.build"></ng-include>
+
+    </div>
+
+    <ng-include class="full-width-wrapper" src="'gamelobby/views/partials/main-talents.tpl.html'" ng-if="spot.build"></ng-include>
+
+    <div class="build__main-items" flex layout="row" layout-align="space-around center" ng-include="'gamelobby/views/partials/main-items.tpl.html'"></div>
+</div>
+<span flex></span>
+<div class="player__portrait-bg"></div>
+<div class="player__token-wrapper" layout="column" layout-align="center center" >
+
+    <div
+        class="player__option-icon option--one"
+        layout="row"
+        layout-align="center center">
+        <i
+        class="fa fa-rocket">
+        </i>
+    </div>
+    <div class="player__option-icon option--two" layout="row" layout-align="center center" ng-click="gameLobby.removeSpot(gameLobby.game, spot)" ng-if="gameLobby.userOwnsGame() && !gameLobby.game.gameStarted">
+        <i class="fa fa-external-link"> </i>
+    </div>
+    <div class="player__option-icon option--three" layout="row" layout-align="center center" ng-click="gameLobby.removeUserFromSpot(gameLobby.game, spot)" ng-if="(gameLobby.currentUser.id === spot.user || gameLobby.userOwnsGame(spot.user))  && !gameLobby.game.gameStarted && spot.user">
+        <i class="fa fa-times"> </i>
+    </div>
+
+    <div class="player__token-backdrop"></div>
+    <div class="player__token-image" ng-class="{'invisible':!gameLobby.isBuildAccepted(spot)}" style="background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});"></div>
+    <div class="player__token-polygon" ng-click="gameLobby.joinSpot(gameLobby.game, spot)" ng-disabled="gameLobby.game.gameStarted"></div>
+    <div class="player__token-nameplate" ng-if="spot.user && spot.user !== gameLobby.game.user.id"layout="row">
+        <p class="token-nameplate__player-name">
+        {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}
+        </p>
+    </div>
+    <div class="admin__token-nameplate" ng-if="spot.user === gameLobby.game.user.id" layout="row">
+        <div class="admin__nameplate-wrapper" layout="row" layout-align="center center">
             <img src="images/admin-crown.png" class="admin-crown" />
             <p class="token-nameplate__player-name">
-              {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}
+            {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}
             </p>
-            </div>
-          </div>
         </div>
+    </div>
+</div>

@@ -66,9 +66,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return;
 	}
 
-
-	
-
 	//add listeners
 	$rootScope.$on("$locationChangeStart", function (event, current) {
 		//vm.leaveGame(vm.game);
@@ -129,7 +126,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.joinSpot = function(game, spot){
+
+
+
 		if(!spot.user){		
+
+		if(game.gameMode == 'draft' && !game.gameStarted){return;}
+		if(game.gameMode == 'normal' && game.gameStarted){return;}
 
 		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id)
 		.then(function(model){
@@ -182,6 +185,18 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return spot;
 	}
 
+	vm.getNextUser = function (game) {
+		var gameUsers = _.map(game.users, function(user){ return user.id});
+		var spotUsers = _.map(game.spots, function (spot) { return spot.user});
+		
+
+		var difference = _.difference(gameUsers, spotUsers);
+		var nextTurn = _.first(difference);
+
+		return _.find(game.users, function (user) {
+			return user.id === nextTurn;
+		})
+	}
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
