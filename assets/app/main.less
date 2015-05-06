@@ -1,9 +1,7 @@
 /* Imports */
 @import "/common/styles/modals";
 
-
 /* Mixins */
-
 @main-bgcolor-blue: #141D24;
 @main-bgcolor-blue-50: rgba(20, 29, 36, 0.50);
 @main-bgcolor-blue-75: rgba(20, 29, 36, 0.75);
@@ -27,6 +25,7 @@
 
 //gold
 @main-gold: rgba(247, 218, 155, .45);
+@main-gold-shiny: #F7DA9B;
 
 @main-text-color: #4b4b4b;
 
@@ -221,6 +220,11 @@ li {
   font-weight: 400;
   text-shadow: @main-text-shadow;
   cursor: default;
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
   sup {
     font-size: 2.4rem;
@@ -408,9 +412,9 @@ li {
     
     .form-control{
       margin-bottom: 10px;
-      background-color: #222222;
-      border-color: #1a1a1a;
-      border-radius: 0px;
+      //background-color: #222222;
+      //border-color: #1a1a1a;
+      //border-radius: 0px;
       color: ghostwhite;
 
       &:focus{
@@ -526,6 +530,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
   font-size: 1.412rem;
   color: @lob-btn-text-color;
   border: 1px solid #766e4c;
+  line-height: 30px;
+  
   border-radius: 4px;
   text-shadow: @main-text-shadow;
   background: linear-gradient(to bottom,#313131 0,#000 100%);
@@ -543,16 +549,29 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     0 3px 0 0 rgba(0,0,0,.15);
   
   &:active,
-  &:focus {
+  &:focus,
+  &:visited {
     outline: none;
+    color: @lob-btn-text-color;
+    text-decoration: none;
   }
 
   &:hover {
     color: lighten(@lob-btn-text-color, 5%);
+    text-decoration: none;
   }
 
   &:active {
     transform: translateY(1px);
+  }
+
+  &[href] {
+    line-height: 40px;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: .5;
   }
 
 
@@ -566,7 +585,9 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 /**
  * Form Fields
  */
-.lob-form-input {
+.lob-form-input,
+.lob-select {
+  color: ghostwhite;
   background-color: rgba(0,0,0,.25);
   border: 1px solid @main-gold;
   box-shadow: 
@@ -576,5 +597,17 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
   &:first-child {
     margin-top: 5px;
+  }
+}
+
+.lob-select {
+  background-color: rgba(0,0,0,.35);
+  height: 40px;
+  padding: 10px 12px;
+  option {
+    background: rgba(0,0,0,.85);
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
