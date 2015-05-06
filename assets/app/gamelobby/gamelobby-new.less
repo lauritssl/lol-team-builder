@@ -93,6 +93,31 @@ body {
       border-radius: 50%;
       position: relative;
       margin-right: 10px;
+
+      &:hover:after{
+        background: #333;
+        background: rgba(0,0,0,.8);
+        border-radius: 5px;
+        color: #fff;
+        content: attr(tooltip);
+        padding: 5px 15px;
+        position: absolute;
+        left: -150px;
+        z-index: 98;
+        width: 145px;
+      }
+
+      :hover:before{
+        border: solid;
+        border-color: rgba(0,0,0,.8) transparent;
+        border-width: 6px 6px 0 6px;
+        bottom: 20px;
+        content: "";
+        left: -10px;
+        position: absolute;
+        z-index: 99;
+        .transform(rotate(-90deg));
+    }
       
       .das-boot-icon{
         width: 46px;
