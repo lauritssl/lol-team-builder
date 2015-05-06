@@ -40,14 +40,22 @@ module.exports.connections = {
   * Run: npm install sails-mysql                                             *
   *                                                                          *
   ***************************************************************************/
-  someMysqlServer: {
-    adapter: 'sails-mysql',
-    host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_MYSQL_USER',
-    password: 'YOUR_MYSQL_PASSWORD',
-    database: 'YOUR_MYSQL_DB'
-  },
+  // someMysqlServer: {
+  //   adapter: 'sails-mysql',
+  //   host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
+  //   user: 'YOUR_MYSQL_USER',
+  //   password: 'YOUR_MYSQL_PASSWORD',
+  //   database: 'YOUR_MYSQL_DB'
+  // },
 
+
+  redis: {
+    adapter: 'sails-redis',
+    host: 'leagueofbravery.redis.cache.windows.net',
+    port: 6379,
+    database: 1,
+    password: 'J0LnXJjRwEWUJD3lgEvhn/29M6kJTjM28jfVLxT8dXw=',
+ },
   /***************************************************************************
   *                                                                          *
   * MongoDB is the leading NoSQL database.                                   *
@@ -56,19 +64,19 @@ module.exports.connections = {
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
-  mongo: {
-    adapter: 'sails-mongo',
-    url:  process.env.MONGOLAB_URI || 'mongodb://localhost:27017/' 
-  },
+  // mongo: {
+  //   adapter: 'sails-mongo',
+  //   url:  process.env.MONGOLAB_URI || 'mongodb://localhost:27017/' 
+  // },
 
-  remoteMongo: {
-    adapter: 'sails-mongo',
-    url: 'mongodb://heroku_app29976247:vlgc7tsebm1d7h5edi2vrlvcm3@ds063789.mongolab.com:63789/heroku_app29976247',
-    //port: 27017,
-    // user: 'username',
-    // password: 'heroku_app29976247',
-    // database: 'your_mongo_db_name_here'
-  },
+  // remoteMongo: {
+  //   adapter: 'sails-mongo',
+  //   url: 'mongodb://heroku_app29976247:vlgc7tsebm1d7h5edi2vrlvcm3@ds063789.mongolab.com:63789/heroku_app29976247',
+  //   //port: 27017,
+  //   // user: 'username',
+  //   // password: 'heroku_app29976247',
+  //   // database: 'your_mongo_db_name_here'
+  // },
 
   /***************************************************************************
   *                                                                          *
@@ -79,13 +87,13 @@ module.exports.connections = {
   *                                                                          *
   *                                                                          *
   ***************************************************************************/
-  somePostgresqlServer: {
-    adapter: 'sails-postgresql',
-    host: 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_POSTGRES_USER',
-    password: 'YOUR_POSTGRES_PASSWORD',
-    database: 'YOUR_POSTGRES_DB'
-  }
+  // somePostgresqlServer: {
+  //   adapter: 'sails-postgresql',
+  //   host: 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
+  //   user: 'YOUR_POSTGRES_USER',
+  //   password: 'YOUR_POSTGRES_PASSWORD',
+  //   database: 'YOUR_POSTGRES_DB'
+  // }
 
 
   /***************************************************************************
