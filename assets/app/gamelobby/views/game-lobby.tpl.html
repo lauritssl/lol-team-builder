@@ -1,9 +1,19 @@
 <div class="c-lobby-top-bar" >
   <div class="l-wrapped" layout="row" layout-align="start center">
-  <div class="das-boot-wrapper" layout layout-align="center end">
+  <div class="das-boot-wrapper dropdown-toggle" layout layout-align="center end" data-toggle="dropdown">
     <div class="das-boot-icon">
   </div>
 </div>
+<ul class="dropdown-menu" role="menu" id="das-boot-dropdown">
+    <li role="presentation" layout="column" layout-align="center center">
+      <a role="menuitem" class="text-overflow-ellipsis" tabindex="-1" href="#">Player Name</a>
+      <hr>
+    </li>
+    <li role="presentation" layout="column" layout-align="center center">
+      <a role="menuitem" class="text-overflow-ellipsis" tabindex="-1" href="#">Player Name</a>
+      <hr>
+    </li>
+  </ul>
    <span class="c-lobby-top-bar__item">{{ gameLobby.game.title }}</span>
    <span class="c-lobby-top-bar__item" ng-if="gameLobby.game.private">Private</span>
    
