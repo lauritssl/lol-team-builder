@@ -36,8 +36,6 @@ deploy:
           ls
           # Empty the repository while keeping the original git settings.
           rm -R -f *
-          git add -A
-          git commit -m "temp commit"
           ls
           # Copy the source directory into the current directory
           cp -R -f  $WERCKER_SOURCE_DIR/* .
