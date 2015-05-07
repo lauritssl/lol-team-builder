@@ -1,10 +1,11 @@
 
-<div class="notification" ng-if="!gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div>
+<!-- <div class="notification" ng-if="!gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div> -->
 <div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft'">{{ !gameLobby.getNextUser(gameLobby.game) ? '' : gameLobby.getNextUser(gameLobby.game).nickname + ', pick a slot...' }}</div>
 <div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
 
-<button class="lob-btn" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="gameLobby.showStartGame(gameLobby.game)">Start card draw</button>
+<button class="lob-btn btn--card-draw" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="gameLobby.showStartGame(gameLobby.game)">Start card draw</button>
+
 
 <button class="lob-btn btn--end-game" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start over</button> 
 <!-- ::::::::::::::::::::::::::::::::: -->
@@ -34,10 +35,10 @@
         <div class="overlay" data-overlay-text="Admin is deciding your fate..."></div>
       </div>
        <div class="card-interactions" ng-class="{'slides-out-from-bottom': gameLobby.getNextRollableSpot(gameLobby.game).build.drawn}">
-          <button class="lob-btn" ng-if="gameLobby.userOwnsGame() || (gameLobby.userHasTurn(gameLobby.game) && !gameLobby.getNextRollableSpot(gameLobby.game).build.denied)" ng-click="gameLobby.acceptBuild(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))">Accept Build</button>
-          <button class="lob-btn" ng-if="gameLobby.userHasTurn(gameLobby.game)" ng-click="gameLobby.denied(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))" ng-class="{'disabled' : gameLobby.getNextRollableSpot(gameLobby.game).build.denied}">Request Re-Roll</button>
+          <button class="lob-btn btn--build-choice lob-btn--has-pulse" ng-if="gameLobby.userOwnsGame() || (gameLobby.userHasTurn(gameLobby.game) && !gameLobby.getNextRollableSpot(gameLobby.game).build.denied)" ng-click="gameLobby.acceptBuild(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))">Accept Build</button>
+          <button class="lob-btn btn--build-choice" ng-if="gameLobby.userHasTurn(gameLobby.game)" ng-click="gameLobby.denied(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))" ng-class="{'disabled' : gameLobby.getNextRollableSpot(gameLobby.game).build.denied}">Request Re-Roll</button>
 
-          <button class="lob-btn" ng-if="gameLobby.userOwnsGame() && gameLobby.getNextRollableSpot(gameLobby.game).build.denied" ng-click="gameLobby.rerollSpot(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))" ng-class="{'disabled' : spot.build.denied}">Reroll</button>
+          <button class="lob-btn btn--build-choice" ng-if="gameLobby.userOwnsGame() && gameLobby.getNextRollableSpot(gameLobby.game).build.denied" ng-click="gameLobby.rerollSpot(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))" ng-class="{'disabled' : spot.build.denied}">Reroll</button>
         </div>
     </div>
 
