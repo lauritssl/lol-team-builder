@@ -1,6 +1,6 @@
 <div class="c-lobby-top-bar" >
   <div class="l-wrapped" layout="row" layout-align="start center">
-  <div class="das-boot-wrapper dropdown-toggle" layout layout-align="center end" data-toggle="dropdown" ng-if="gameLobby.userOwnsGame()">
+  <div class="das-boot-wrapper dropdown-toggle" title="Kick a player" tooltip="Get outta' here!" layout layout-align="center end" data-toggle="dropdown" ng-if="gameLobby.userOwnsGame()">
     <div class="das-boot-icon">
   </div>
 </div>
@@ -16,7 +16,9 @@
    <span flex></span>
    <span class="c-lobby-top-bar__item">{{ gameLobby.game.spots.length }} / {{ gameLobby.game.numberOfSpots }} spots</span>
    <input type="submit" class="lob-btn" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" ng-if="gameLobby.userOwnsGame()" />
-      <input type="submit" class="btn btn-success btn-slim" value="Join game" ng-click="gameLobby.joinGame(gameLobby.game)" ng-if="!gameLobby.currentUser && !gameLobby.game.gameStarted" />
+  
+   <input type="submit" class="lob-btn" value="Join game" ng-click="gameLobby.joinGame(gameLobby.game)" ng-if="!gameLobby.currentUser && !gameLobby.game.gameStarted" />
+   
    </div>
 </div>
 

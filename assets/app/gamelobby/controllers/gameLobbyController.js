@@ -369,10 +369,20 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	 */
 	vm.enableNextSpot = function(game) {
 		if(game.gameStarted){
-			var spot = vm.getNextRollableSpot(game);
-			if(spot){
-				vm.expandedSpots[spot.id] = true;
+			if(game.gameMode === 'draft'){
+				_.forEach(game.spots, function (spot){
+					if(!spot.user){
+						vm.expandedSpots[spot.id] = true;
+					}
+				});
 			}
+			else{
+				var spot = vm.getNextRollableSpot(game);
+				if(spot){
+					vm.expandedSpots[spot.id] = true;
+				}
+			}
+			
 		}
 	}
 	vm.toggleSpot = function(spot){
