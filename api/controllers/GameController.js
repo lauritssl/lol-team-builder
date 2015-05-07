@@ -14,7 +14,9 @@
  		var filter = {
  			limit : req.param('limit'),
  			skip : req.param('skip'),
- 			name: req.param('name')
+ 			name: req.param('name'),
+ 			sort: req.param('sort'),
+ 			ascending: req.param('ascending')
  		}
  		Game.getAll(filter)
  		.spread(function(models) {
