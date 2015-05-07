@@ -25,7 +25,7 @@
     </header>
 
     <ul class="c-games-list list-unstyled">
-      <li class="c-games-list__item" ng-repeat="game in home.games" ng-hide="game.private" layout="row" flex>
+      <li class="c-games-list__item" ng-repeat="game in home.games track by $index" ng-hide="game.private" layout="row" flex>
         
          <div class="c-games-list__item-meta" flex>
          <div layout="row" layout-align="start center" flex>
@@ -36,7 +36,13 @@
              <strong class="c-games-list__item-username">{{ game.user.nickname }}</strong>
              </div>
              </div>
-           <div class="c-games-list__item-spots">{{game.spots.length}}/{{game.numberOfSpots}} spots</div>
+             <div layout="row" flex="33" layout-align="center center">
+              <div class="c-games-list__item-spots">{{game.gameMode}}</div>
+             </div>
+             <div layout="row" flex="33" layout-align="end center">
+             <div class="c-games-list__item-spots">{{game.users.length}}/{{game.numberOfSpots}} players</div>
+             </div>
+           
            </div>
          </div>
 

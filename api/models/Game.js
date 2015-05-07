@@ -63,14 +63,15 @@ module.exports = {
 
 		var sort;
 		if(_options.sort){
-			sort = _option.sort;
+			sort = _option.sort || 'createdAt';
 			var order = _options.ascending ? 'ASC' : 'DESC';
 			sort + ' ' + order;
+			console.log(sort);
 		}
 		filter = {
 			limit: _options.limit || 10, 
 			skip: _options.skip || 0,
-			sort: sort
+			sort: sort || 'createdAt DESC'
 		};
 
 		if(typeof _options.name !== 'undefined' && !_.isEmpty(_options.name)) {
@@ -78,6 +79,9 @@ module.exports = {
 				title: {contains: _options.name}
 			}
 		}
+
+		filter.where = filter.where || {};
+		filter.where.private = {"!": true};
 
 		return Game.find(filter)
 		.then(function (models) {
