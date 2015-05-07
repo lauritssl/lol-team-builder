@@ -47,19 +47,11 @@ body {
 
 // Core
 html {
-  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/16584/ubtb_background.jpg');
+  //background-image: url('../images/ubtb_background.jpg');
 }
 
 body {
   font-family: "Roboto", sans-serif;
-  position: fixed;
-  background: -moz-linear-gradient(left, rgba(28,95,140,0.25) 0%, rgba(110,99,122,0) 50%, rgba(191,103,103,0.25) 100%);
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(28,95,140,0.25)), color-stop(50%,rgba(110,99,122,0)), color-stop(100%,rgba(191,103,103,0.25)));
-  background: -webkit-linear-gradient(left, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
-  background: -o-linear-gradient(left, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
-  background: -ms-linear-gradient(left, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
-  background: linear-gradient(to right, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#401c5f8c', endColorstr='#40bf6767',GradientType=1 );
 }
 
 .invisible {
@@ -188,6 +180,23 @@ body {
     &:first-child {
       margin-right: 1rem;
     }
+  }
+}
+
+#lobby-faction-wrapper{
+  // background-image: url(../../images/ubtb_background.jpg);
+  // background-size: cover;
+  // height: 100vh;
+
+  #team-color-bg{
+  position: fixed;
+  background: -moz-linear-gradient(left, rgba(28,95,140,0.25) 0%, rgba(110,99,122,0) 50%, rgba(191,103,103,0.25) 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(28,95,140,0.25)), color-stop(50%,rgba(110,99,122,0)), color-stop(100%,rgba(191,103,103,0.25)));
+  background: -webkit-linear-gradient(left, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
+  background: -o-linear-gradient(left, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
+  background: -ms-linear-gradient(left, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
+  background: linear-gradient(to right, rgba(28,95,140,0.25) 0%,rgba(110,99,122,0) 50%,rgba(191,103,103,0.25) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#401c5f8c', endColorstr='#40bf6767',GradientType=1 );
   }
 }
 
@@ -1226,6 +1235,20 @@ body {
     }    
   }
   
+  &--card-draw{
+    width: 150px;
+    height: 50px;
+  }
+  
+  &--end-game{
+    width: 100px;
+    height: 50px;
+  }
+
+  &--build-choice{
+    height: 50px;
+  }
+
   transition: background-color .28s @core-transition;
 }
 

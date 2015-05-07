@@ -22,7 +22,8 @@
    </div>
 </div>
 
-<main>
+<main id="lobby-faction-wrapper">
+<div id="team-color-bg">
   <aside class="sidebar pull--left" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
     <ul class="players list-unstyled" layout="column" layout-align="center center">
       <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$even" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"
@@ -42,4 +43,5 @@
       </li>
     </ul>
   </aside>
+  </div>
 </main>
