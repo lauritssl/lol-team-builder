@@ -428,12 +428,19 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.allSpotsAccepted = function(game){
 		var allAccepted = !_.some(game.spots, function(spot){
-							if(typeof spot.build === 'undefined') return true;
+							if(typeof spot.build === 'undefined') {return true;}
 							return spot.build.accepted === false;
 						  });
 		return allAccepted;
 	}
 
+	vm.showStartGame = function (game) {
+		if(!vm.userOwnsGame()) {return false;}
+		if(game.gameStarted){return false;}
+		if(game.gameMode === 'normal' && vm.unpickedUsers.length !== 0){return false}
+
+		return true;
+	}
 	vm.isBuildAccepted = function(spot){
 		if(typeof spot.build === 'undefined') return false
 		return spot.build.accepted
