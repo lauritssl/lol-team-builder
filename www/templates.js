@@ -1,87 +1,94 @@
-angular.module('templates-app', ['authentication/views/login.tpl.html', 'authentication/views/signupModal.tpl.html', 'createGame/views/createGame.tpl.html', 'gamelobby/views/championShield.tpl.html', 'gamelobby/views/enterModal.tpl.html', 'gamelobby/views/game-lobby.tpl.html', 'gamelobby/views/gamelobby.tpl.html', 'gamelobby/views/player-token-left.tpl.html', 'header/views/header.tpl.html', 'home/views/home.tpl.html']);
+angular.module('templates-app', ['gamelobby/views/card.tpl.html', 'gamelobby/views/championShield.tpl.html', 'gamelobby/views/createModal.tpl.html', 'gamelobby/views/enterModal.tpl.html', 'gamelobby/views/game-lobby.tpl.html', 'gamelobby/views/gamelobby-main-content.tpl.html', 'gamelobby/views/gamelobby.tpl.html', 'gamelobby/views/incogneto-hexagon.tpl.html', 'gamelobby/views/partials/main-items.tpl.html', 'gamelobby/views/partials/main-talents.tpl.html', 'gamelobby/views/partials/summoner-spells.tpl.html', 'gamelobby/views/player-token-left.tpl.html', 'gamelobby/views/player-token-right.tpl.html', 'header/views/header.tpl.html', 'home/views/home.tpl.html']);
 
-angular.module("authentication/views/login.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("authentication/views/login.tpl.html",
-    "<!-- BG animated -->\n" +
-    "    <div id=\"single-login-bg-container\">\n" +
-    "    <div class=\"col-xs-12\" style=\"padding: 0px;\">\n" +
-    "        <video autoplay loop id=\"login_bg-render\">\n" +
-    "        <source src=\"../../images/webm/BG_animated.webm\" type=\"video/webm\">\n" +
-    "        </video>\n" +
-    "    </div>\n" +
-    "    </div>\n" +
-    "\n" +
-    "<!-- Main content - Login -->\n" +
-    "  <div class=\"content-bg\">\n" +
-    "        <div class=\"sidebar-wrapper\">\n" +
-    "                <div id=\"login_sidebar-iconholder\">\n" +
-    "                    <img src=\"../../images/UB_logo.png\" />\n" +
-    "                </div>\n" +
-    "                <div id=\"login_sidebar-formholder\">\n" +
-    "                    <div class=\"col-xs-8 col-xs-offset-2\">\n" +
-    "                    <p class=\"p_bluetext\">ACCOUNT LOGIN</p>\n" +
-    "                    <div class=\"form-group\">\n" +
-    "                        <label for=\"login_username\">USERNAME</label>\n" +
-    "                         <input type=\"text\" class=\"form-control\" id=\"login_username\" name=\"\" value=\"\" ng-model=\"authentication.credentials.username\">\n" +
-    "                         <label for=\"login_password\">PASSWORD</label>\n" +
-    "                         <input type=\"password\" class=\"form-control\" id=\"login_password\" name=\"\" value=\"\" ng-model=\"authentication.credentials.password\">\n" +
-    "                    </div>\n" +
-    "                        <button type=\"button\" class=\"btn btn-default\" id=\"login-btn_frontpage\" ng-click=\"authentication.login(authentication.credentials)\">Login</button>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"col-xs-8 col-xs-offset-2\" id=\"login_signup-router\">\n" +
-    "                        <p>NEED AN ACCOUNT?</p>\n" +
-    "                        <p><a href=\"/register\" class=\"p_bluetext\">SIGN UP NOW!</a></p>\n" +
-    "                    </div>\n" +
-    "                </div>    \n" +
+angular.module("gamelobby/views/card.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/card.tpl.html",
+    "<div class=\"card__back\"></div>\n" +
+    "  <div class=\"card__front fluid-background\" style=\"background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});\" ng-if=\"spot.build\">\n" +
+    "    <div class=\"card__title\">{{gameLobby.getChampion(spot.build.champion).name}}</div>\n" +
+    "    <div class=\"card__meta-icon fluid-background\" style=\"background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build)}})\" data-sub-icon=\"{{spot.build.skill_to_level}}\"></div>\n" +
+    "      <div class=\"card-grid\" layout=\"column\" layout-align=\"center center\">\n" +
+    "        \n" +
+    "        <div class=\"upper-grid\" layout=\"row\" flex>\n" +
+    "          <div layout layout-align=\"center center\" flex>\n" +
+    "            <div class=\"pill-bar\">\n" +
+    "              <div class=\"pill\" data-mastery-points=\"{{ spot.build.mastery1 }}\"></div>\n" +
+    "              <div class=\"pill\" data-mastery-points=\"{{ spot.build.mastery2 }}\"></div>\n" +
+    "              <div class=\"pill\" data-mastery-points=\"{{ spot.build.mastery3 }}\"></div>\n" +
     "            </div>\n" +
-    "        </div>");
-}]);
-
-angular.module("authentication/views/signupModal.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("authentication/views/signupModal.tpl.html",
+    "            </div>\n" +
+    "          \n" +
+    "          <div class=\"summoner-spells\" layout=\"row\" layout-align=\"center center\" flex>\n" +
+    "            <div class=\"sprite-input rounded\" style=\"background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}});\"></div>\n" +
+    "            <div class=\"sprite-input rounded\" style=\"background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner2')}});\"></div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"lower-grid\" layout=\"row\" flex layout-align=\"space-around end\">\n" +
+    "          <div class=\"flip-container\">\n" +
+    "            <div class=\"flipper\">\n" +
+    "                <div class=\"front\">\n" +
+    "                  <img src=\"images/questionbox.png\" class=\"sprite-input\" />\n" +
+    "                </div>\n" +
+    "                <div class=\"back\">\n" +
+    "                  <div class=\"sprite-input\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}});\"></div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "          <div class=\"flip-container\">\n" +
+    "            <div class=\"flipper\">\n" +
+    "                <div class=\"front\">\n" +
+    "                  <img src=\"images/questionbox.png\" class=\"sprite-input\" />\n" +
+    "                </div>\n" +
+    "                <div class=\"back\">\n" +
+    "                   <div class=\"sprite-input\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item1')}});\"></div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"flip-container\">\n" +
+    "            <div class=\"flipper\">\n" +
+    "                <div class=\"front\">\n" +
+    "                  <img src=\"images/questionbox.png\" class=\"sprite-input\" />\n" +
+    "                </div>\n" +
+    "                <div class=\"back\">\n" +
+    "                   <div class=\"sprite-input\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item2')}});\"></div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"flip-container\">\n" +
+    "            <div class=\"flipper\">\n" +
+    "                <div class=\"front\">\n" +
+    "                  <img src=\"images/questionbox.png\" class=\"sprite-input\" />\n" +
+    "                </div>\n" +
+    "                <div class=\"back\">\n" +
+    "                  <div class=\"sprite-input\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item3')}});\"></div> \n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"flip-container\">\n" +
+    "            <div class=\"flipper\">\n" +
+    "                <div class=\"front\">\n" +
+    "                  <img src=\"images/questionbox.png\" class=\"sprite-input\" />\n" +
+    "                </div>\n" +
+    "                <div class=\"back\">\n" +
+    "                  <div class=\"sprite-input\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item4')}});\"></div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"flip-container\">\n" +
+    "            <div class=\"flipper\">\n" +
+    "                <div class=\"front\">\n" +
+    "                  <img src=\"images/questionbox.png\" class=\"sprite-input\" />\n" +
+    "                </div>\n" +
+    "                <div class=\"back\">\n" +
+    "                  <div class=\"sprite-input\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item5')}});\"></div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>              \n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "\n" +
     "");
-}]);
-
-angular.module("createGame/views/createGame.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("createGame/views/createGame.tpl.html",
-    "<!-- BG animated -->\n" +
-    " <div id=\"single-login-bg-container\">\n" +
-    " 	<div class=\"col-xs-12\" style=\"padding: 0px;\">\n" +
-    " 		<video autoplay loop id=\"login_bg-render\">\n" +
-    " 			<source src=\"../../images/webm/BG_animated.webm\" type=\"video/webm\">\n" +
-    " 			</video>\n" +
-    " 		</div>\n" +
-    " 	</div>\n" +
-    "\n" +
-    "\n" +
-    " 	<div class=\"auth_content content-bg\">\n" +
-    " 		<div class=\"col-md-4 main-sidebar-wrapper\">\n" +
-    " 			<div class=\"main-sidebar\">\n" +
-    " 				<div class=\"col-xs-8 col-xs-offset-2\">\n" +
-    " 					<p class=\"p_bluetext\">CREATE NEW GAME</p>\n" +
-    " 					<div class=\"form-group\">\n" +
-    " 						<label for=\"game_name\">GAME NAME</label>\n" +
-    " 						<input type=\"text\" class=\"form-control\" id=\"game_name\"  name=\"game_name\" ng-model=\"createGame.game.title\"> \n" +
-    " 						<label for=\"game_private\">PRIVATE</label>\n" +
-    " 						<input type=\"checkbox\" ng-model=\"createGame.game.public\" ng-true-value=\"true\" ng-false-value=\"false\" ng-false class=\"form-control\" id=\"game_name\"  name=\"game_private\"> \n" +
-    " 						<label for=\"game_name\">NUMBER OF PLAYERS</label>\n" +
-    " 						<input type=\"range\" ng-model=\"createGame.game.numberOfSpots\" min=\"1\" max=\"10\" step=\"1\" style=\"width: 140px\" class=\"ng-valid ng-dirty\">\n" +
-    " 						<p>{{createGame.game.numberOfSpots}}</p>                \n" +
-    " 					</div>\n" +
-    " 					<input type=\"submit\" class=\"btn ub-custom-btn custom-btn-red\" value=\"Create\" ng-click=\"createGame.createGame(createGame.game)\">\n" +
-    " 				</div> 				\n" +
-    " 			</div>    \n" +
-    " 		</div>\n" +
-    " 		<div class=\"col-md-8 content-wrapper create-game-content-wrapper\">\n" +
-    " 			<div class=\"row  create-game-content\">\n" +
-    "				<div ng-click=\"createGame.changeMap(11)\"  class=\"col-xs-6 col-lg-4 map-image-container\"><img ng-class=\"{highligthed: createGame.game.map == 11}\"  src=\"{{createGame.getMapImage(11)}}\" alt=\"\" title=\"Summoners rift\"></div>\n" +
-    "				<div ng-click=\"createGame.changeMap(12)\" class=\"col-xs-6 col-lg-4  map-image-container\"><img  ng-class=\"{highligthed: createGame.game.map == 12}\" src=\"{{createGame.getMapImage(12)}}\" alt=\"\" title=\"Howling abyss\"></div>\n" +
-    "				<div ng-click=\"createGame.changeMap(10)\" class=\"col-xs-6 col-lg-4  map-image-container\"><img ng-class=\"{highligthed: createGame.game.map == 10}\"  src=\"{{createGame.getMapImage(10)}}\" alt=\"\" title=\"Twisted Treeline\"></div>\n" +
-    " 			</div>\n" +
-    " 		</div>\n" +
-    " 	</div>\n" +
-    "\n" +
-    " </div>");
 }]);
 
 angular.module("gamelobby/views/championShield.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -130,7 +137,7 @@ angular.module("gamelobby/views/championShield.tpl.html", []).run(["$templateCac
     "\n" +
     "    <div id=\"hero_backdrop\" ng-show=\"gameLobby.game.gameStarted\" ng-click=\"gameLobby.joinSpot(gameLobby.game, spot)\" ng-style=\"{{gameLobby.getChampionBackground(spot)}}\" ng-mouseover=\"spot.showChampionDetails = true\" ng-mouseleave=\"spot.showChampionDetails = false\"></div>\n" +
     "    <div id=\"build_info_backdrop\">\n" +
-    "    <p id=\"champion_name\">{{spot.champion}}</p>\n" +
+    "    <p id=\"champion_name\">{{gameLobby.getChampion(spot.champion).name}}</p>\n" +
     "    <img id=\"main_lvl_skill_bg\" ng-show=\"gameLobby.game.gameStarted\" title=\"{{gameLobby.getSkillFromChampion(spot.build, spot.champion).name}}\" ng-src=\"{{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.champion)}}\" />\n" +
     "    <h2 id=\"main_lvl_skill\" ng-show=\"gameLobby.game.gameStarted\">{{gameLobby.getBuildFromGame(gameLobby.game, spot.build).skill_to_level}}</h2>\n" +
     "    <div id=\"hero_passives_container\" ng-show=\"gameLobby.game.gameStarted\">\n" +
@@ -146,134 +153,224 @@ angular.module("gamelobby/views/championShield.tpl.html", []).run(["$templateCac
     "</div>");
 }]);
 
+angular.module("gamelobby/views/createModal.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/createModal.tpl.html",
+    "<div class=\"modal-content-container modal-content-container--has-graphic join-lobby\">\n" +
+    "  <span class=\"modal-graphic modal-graphic--create-game\"></span>\n" +
+    "  <div class=\"modal-header\">\n" +
+    "    <h2 class=\"modal-title\">\n" +
+    "    Create a new game, admin\n" +
+    "    </h2>\n" +
+    "  </div>\n" +
+    "  <form name=\"createForm\">\n" +
+    "  <div class=\"modal-body\">\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col-xs-10\">\n" +
+    "\n" +
+    "        <div class=\"c-input\">\n" +
+    "          \n" +
+    "          <input placeholder=\"Your nickname\" name=\"input_game_nickname\" id=\"input_game_nickname\" maxlength=\"28\" class=\"form-control lob-form-input input-lg\" type=\"text\" autofocus ng-model=\"modalCtrl.user.nickname\" ng-change=\"modalCtrl.game.title = modalCtrl.getTitle()\" required>\n" +
+    "\n" +
+    "          \n" +
+    "          <label for=\"input_game_nickname\" class=\"c-input__label\">\n" +
+    "            <span class=\"c-input__label-content\">Your nickname</span>\n" +
+    "          </label>\n" +
+    "\n" +
+    "        </div>\n" +
+    "        \n" +
+    "        <div class=\"c-input\">\n" +
+    "          <input placeholder=\"Game title\" name=\"input_game_title\" id=\"input_game_title\" maxlength=\"28\" class=\"form-control lob-form-input input-lg\" type=\"text\" autofocus ng-model=\"modalCtrl.game.title\" required>\n" +
+    "          \n" +
+    "          <label for=\"input_game_title\" class=\"c-input__label\">\n" +
+    "            <span class=\"c-input__label-content\">Game title</span>\n" +
+    "          </label>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"c-input\">\n" +
+    "          \n" +
+    "          <input placeholder=\"Password (Optional)\" name=\"input_game_password\" id=\"input_game_password\" maxlength=\"28\" class=\"form-control lob-form-input input-lg\" type=\"password\" ng-model=\"modalCtrl.game.password\" ng-change=\"modalCtrl.game.private = modalCtrl.game.password ? true : false\">\n" +
+    "          \n" +
+    "          <label for=\"input_game_password\" class=\"c-input__label\">\n" +
+    "            <span class=\"c-input__label-content\">Password (Optional)</span>\n" +
+    "          </label>\n" +
+    "\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"form-group input_dropdown__halfsize\">\n" +
+    "          <select name=\"select_map\" id=\"select_map\" class=\"form-control lob-select\" ng-options=\"map as map.name for map in modalCtrl.maps track by map.id\" ng-model=\"modalCtrl.selected.map\" ng-change=\"modalCtrl.game.map = modalCtrl.selected.map.id\">\n" +
+    "\n" +
+    "          </select>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"form-group input_dropdown__halfsize\">\n" +
+    "          <select name=\"select_mode\" id=\"select_mode\" class=\"form-control lob-select\" ng-options=\"gameMode as gameMode.name for gameMode in modalCtrl.gameModes track by gameMode.id\" ng-model=\"modalCtrl.selected.gameMode\" ng-change=\"modalCtrl.game.gameMode = modalCtrl.selected.gameMode.id\">\n" +
+    "\n" +
+    "          </select>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  </form>\n" +
+    "  \n" +
+    "  <div class=\"modal-footer\">\n" +
+    "    \n" +
+    "    <input type=\"submit\" class=\"lob-btn\" ng-disabled=\"createForm.$invalid\" ng-click=\"modalCtrl.createGame(modalCtrl.game, modalCtrl.user)\" value=\"Create Game\" />\n" +
+    "    <input type=\"submit\" class=\"lob-btn\" ng-click=\"modalCtrl.cancel()\" value=\"Go back\" />\n" +
+    "  </div>\n" +
+    "\n" +
+    "</div>");
+}]);
+
 angular.module("gamelobby/views/enterModal.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("gamelobby/views/enterModal.tpl.html",
-    "<div class=\"modal-header\">\n" +
-    "  <h3 class=\"modal-title\">\n" +
-    "  Your nickname\n" +
-    "  </h3>\n" +
-    "</div>\n" +
-    "<div class=\"modal-body\">\n" +
-    "  <input ng-model=\"user.nickname\" type=\"text\">\n" +
-    "</div>\n" +
-    "<div class=\"modal-footer\">\n" +
-    "  <button class=\"btn btn-success\" ng-click=\"user !== null && modalCtrl.ok(user)\">Join</button>\n" +
-    "  <button class=\"btn btn-warning\" ng-click=\"modalCtrl.cancel()\">Cancel</button>\n" +
+    "<div class=\"modal-content-container modal-content-container--has-graphic join-lobby\">\n" +
+    "  <span class=\"modal-graphic modal-graphic--create-game\"></span>\n" +
+    "  <div class=\"modal-header\">\n" +
+    "    <h2 class=\"modal-title\">\n" +
+    "    Your name, summoner\n" +
+    "    </h2>\n" +
+    "  </div>\n" +
+    "  <div class=\"modal-body\">\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col-sm-8\">\n" +
+    "      <form name=\"loginForm\">\n" +
+    "        <input ng-model=\"modalCtrl.user.nickname\" placeholder=\"Write your nickname\" maxlength=\"28\" class=\"form-control lob-form-input input-lg\" type=\"text\" required>\n" +
+    "        <input ng-model=\"modalCtrl.password\" placeholder=\"Password\" maxlength=\"28\" class=\"form-control lob-form-input input-lg\" type=\"password\" ng-if=\"modalCtrl.game.private\" required>\n" +
+    "      </div>\n" +
+    "      </form>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"modal-footer\">\n" +
+    "    \n" +
+    "    <input type=\"submit\" class=\"lob-btn\" ng-disabled=\"loginForm.$invalid\" ng-click=\"modalCtrl.user !== null && modalCtrl.ok(modalCtrl.user, modalCtrl.game.id, modalCtrl.password)\" value=\"Join Game\" />\n" +
+    "    <input type=\"submit\" class=\"lob-btn\" ng-click=\"modalCtrl.cancel()\" value=\"Go back\" />\n" +
+    "\n" +
+    "  </div>\n" +
     "</div>");
 }]);
 
 angular.module("gamelobby/views/game-lobby.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("gamelobby/views/game-lobby.tpl.html",
-    "<main>\n" +
-    "  <aside class=\"sidebar pull--left\">\n" +
-    "    <ul class=\"players list-unstyled\" layout=\"column\" layout-align=\"center center\">\n" +
-    "      <li\n" +
-    "      class=\"player\"\n" +
-    "      data-champion=\"Jax\" layout=\"row\" layout-align=\"center center\">\n" +
-    "        <div ng-include='\"assets/app/gamelobby/views/player-token-left.tpl.html\"'></div>\n" +
-    "      </li>\n" +
-    "    </ul>\n" +
-    "  </aside>\n" +
-    "  <section class=\"content-container\">\n" +
-    "  <div class=\"col-xs-6 col-xs-offset-3\" style=\"text-align: center;\">\n" +
-    "            <div class=\"btn-group\">\n" +
-    "            <button ng-if=\"gameLobby.userOwnsGame()\" ng-click=\"gameLobby.rollBuilds(gameLobby.game)\" id=\"lobby_btn-roll\" class=\"btn ub-custom-btn custom-btn-red center\">ROLL ALL</button>\n" +
-    "            <button ng-if=\"gameLobby.userOwnsGame()\" ng-click=\"gameLobby.resetBuilds(gameLobby.game.id)\" id=\"lobby_btn-roll\" class=\"btn ub-custom-btn custom-btn-grey center\">RESET ALL</button>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    <div class=\"card-deck centered-container\">\n" +
-    "      <div class=\"notification\">Draw a card...</div>\n" +
-    "      <article class=\"card\" style=\"z-index: 100;\">\n" +
-    "        <div class=\"card__back\"></div>\n" +
-    "        <div class=\"card__front fluid-background\" ng-style=\"{{gameLobby.getChampionBackground(gameLobby.game.spots[0])}}\">\n" +
-    "          <div class=\"card__title\">{{gameLobby.game.spots[0].build.champion}}</div>\n" +
-    "          <div class=\"card__meta-icon fluid-background\" style=\"background-image: url({{gameLobby.getChampionSkillImageFromBuild(gameLobby.game.spots[0].build,gameLobby.game.spots[0].champion)}})\" data-sub-icon=\"\"><p>{{gameLobby.getBuildFromGame(gameLobby.game, gameLobby.game.spots[0].build).skill_to_level}}</p></div>\n" +
-    "            <div class=\"grid\">\n" +
-    "              <div class=\"grid__parent grid__parent--4\">\n" +
-    "                \n" +
-    "                  <div class=\"pill-bar\">\n" +
-    "                    <div class=\"pill\" data-mastery-points=\"10\"></div>\n" +
-    "                    <div class=\"pill\" data-mastery-points=\"10\"></div>\n" +
-    "                    <div class=\"pill\" data-mastery-points=\"10\"></div>\n" +
-    "                  </div>\n" +
-    "                \n" +
-    "                <div class=\"sub-container group\">\n" +
-    "                  <div class=\"grid__child rounded grid__parent--2 float--left revealer\" data-summoner-spell=\"Heal\"></div>\n" +
-    "\n" +
-    "                  <div class=\"grid__child rounded grid__parent--2 float--left revealer\" data-summoner-spell=\"Lightning\"></div>\n" +
-    "                 \n" +
-    "                </div>\n" +
-    "                \n" +
-    "                \n" +
-    "              </div>\n" +
-    "              <div class=\"grid__parent grid__parent--2\">\n" +
-    "                <div class=\"grid__child revealer\" data-item=\"\"></div>\n" +
-    "                <div class=\"grid__child revealer\" data-item=></div>\n" +
-    "              </div>\n" +
-    "              <div class=\"grid__parent grid__parent--2\">\n" +
-    "                <div class=\"grid__child revealer\" data-item=\"\"></div>\n" +
-    "                <div class=\"grid__child revealer\" data-item=\"\"></div>  \n" +
-    "              </div>\n" +
-    "              <div class=\"grid__parent grid__parent--2\">\n" +
-    "                <div class=\"grid__child revealer\" data-item=\"\"></div>\n" +
-    "                <div class=\"grid__child revealer\" data-item=\"\"></div>                \n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "      </article> <!-- /card --> \n" +
-    "      \n" +
-    "       <div class=\"card-interactions\">\n" +
-    "        <button class=\"btn btn--success\" ng-click=\"addBuildToPlayer\">Accept Build</button>\n" +
-    "        <button class=\"btn btn--danger\" ng-click=\"requestReroll\">Request Re-Roll</button>\n" +
-    "      </div> \n" +
-    "    </div>\n" +
+    "<div class=\"c-lobby-top-bar\" >\n" +
+    "  <div class=\"l-wrapped\" layout=\"row\" layout-align=\"start center\">\n" +
+    "  <div class=\"das-boot-wrapper dropdown-toggle\" title=\"Kick a player\" tooltip=\"Get outta' here!\" layout layout-align=\"center end\" data-toggle=\"dropdown\" ng-if=\"gameLobby.userOwnsGame()\">\n" +
+    "    <div class=\"das-boot-icon\">\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "<ul class=\"dropdown-menu\" role=\"menu\" id=\"das-boot-dropdown\" ng-if=\"gameLobby.userOwnsGame()\">\n" +
+    "    <li role=\"presentation\" layout=\"column\" layout-align=\"center center\" ng-repeat=\"user in gameLobby.game.users\" ng-if=\"user.id !== gameLobby.game.user.id \" ng-click=\"gameLobby.kickUser(gameLobby.game, user)\">\n" +
+    "      <a role=\"menuitem\" class=\"text-overflow-ellipsis\" tabindex=\"-1\" href=\"#\">{{user.nickname}}</a>\n" +
+    "      <hr>\n" +
+    "    </li>\n" +
+    "  </ul>\n" +
+    "   <span class=\"c-lobby-top-bar__item\">Game: {{ gameLobby.game.title }}</span>\n" +
+    "   <span class=\"c-lobby-top-bar__item\" ng-if=\"gameLobby.game.private\">Private</span>\n" +
     "   \n" +
-    "  </section>\n" +
-    "  <aside class=\"sidebar pull--right\">\n" +
+    "   <span flex></span>\n" +
+    "   <span class=\"c-lobby-top-bar__item\">{{ gameLobby.game.spots.length }} / {{ gameLobby.game.numberOfSpots }} spots</span>\n" +
+    "   <input type=\"submit\" class=\"lob-btn\" value=\"Add spot\" ng-click=\"gameLobby.addSpot(gameLobby.game)\" ng-if=\"gameLobby.userOwnsGame()\" />\n" +
+    "  \n" +
+    "   <input type=\"submit\" class=\"lob-btn\" value=\"Join game\" ng-click=\"gameLobby.joinGame(gameLobby.game)\" ng-if=\"!gameLobby.currentUser && !gameLobby.game.gameStarted\" />\n" +
+    "   </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<main id=\"lobby-faction-wrapper\">\n" +
+    "<div id=\"team-color-bg\">\n" +
+    "<div id=\"game-welcome-container\" flex layout=\"column\" layout-align=\"center center\" ng-class=\"{'pull-back-up' : gameLobby.game.gameStarted}\">\n" +
+    "  <div layout=\"row\" class=\"rope-wrapper\">\n" +
+    "    <div id=\"rope-left\"></div>\n" +
+    "    <span flex></span>\n" +
+    "    <div id=\"rope-right\"></div>\n" +
+    "  </div>\n" +
+    "  <div class=\"welcome-message-wrapper dark-wall-pattern_gold\" layout=\"column\" layout-align=\"start center\">\n" +
+    "    <p class=\"welcome-text\">Welcome, {{gameLobby.currentUser.nickname}}!</p>\n" +
+    "    <p>This game is playing <span>{{gameLobby.game.gameMode}} mode</span>.</p>\n" +
+    "      <p>If you would like to review the rules for this game mode, you can find them <a href=\"/rules\" target=\"_blank\">here</a>.</p>\n" +
+    "    <div ng-if=\"gameLobby.game.gameMode !== 'draft'\">\n" +
+    "      <p>{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : 'The game cannot start until everyone has taken a spot, so..' }}</p>\n" +
+    "      <p class=\"pick-spot-text\">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? 'Waiting for other players...' : gameLobby.currentUser.nickname + ', pick a spot!' }}</p>\n" +
+    "    </div>\n" +
+    "    <div ng-if=\"gameLobby.game.gameMode === 'draft'\">\n" +
+    "      <p>Once the host starts the game, you will each take turns to pick a slot with a predefined build.</p>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "  <aside class=\"sidebar pull--left\" ng-if=\"!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')\">\n" +
     "    <ul class=\"players list-unstyled\" layout=\"column\" layout-align=\"center center\">\n" +
-    "      <li\n" +
-    "      class=\"player\"\n" +
-    "      data-champion=\"Jax\" layout=\"row\" layout-align=\"center center\">\n" +
-    "        \n" +
-    "        <div class=\"player__token-wrapper\" layout=\"column\" layout-align=\"center center\">\n" +
-    "          <div class=\"player__option-icon option--one\" layout=\"row\" layout-align=\"center center\">\n" +
-    "            \n" +
-    "          </div>\n" +
-    "          <div class=\"player__option-icon option--two\" layout=\"row\" layout-align=\"center center\">\n" +
-    "            \n" +
-    "          </div>\n" +
-    "          <div class=\"player__option-icon option--three\" layout=\"row\" layout-align=\"center center\">\n" +
-    "            \n" +
-    "          </div>\n" +
-    "          <div class=\"player__token-image\"></div>\n" +
-    "          <div class=\"player__token-polygon\"></div>\n" +
-    "          <div class=\"player__token-nameplate\">\n" +
-    "            <p class=\"token-nameplate__player-name\">\n" +
-    "              Lichine\n" +
-    "            </p>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "        <p class=\"player__hero-name\">Jax</p>\n" +
-    "        <div class=\"player__portrait-bg\"></div>\n" +
-    "        <span flex></span>\n" +
+    "      <li ng-repeat=\"spot in gameLobby.game.spots track by $index\" ng-if=\"$even\" ng-class=\"{'shield__expanded':gameLobby.expandedSpots[spot.id]}\"\n" +
+    "      class=\"player\" ng-disabled=\"!gameLobby.game.gameStarted\" ng-click=\"!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)\"\n" +
+    "      data-champion=\"Jax\" layout=\"row\" layout-align=\"center center\" ng-include=\"'gamelobby/views/player-token-left.tpl.html'\">\n" +
     "      </li>\n" +
     "    </ul>\n" +
     "  </aside>\n" +
-    "</main>\n" +
     "\n" +
-    "<script>\n" +
+    "  <section class=\"content-container\" ng-include=\"'gamelobby/views/gamelobby-main-content.tpl.html'\" layout=\"column\" layout-align=\"center center\">\n" +
+    "  </section>\n" +
+    "  <aside class=\"sidebar pull--right\" ng-if=\"!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')\">\n" +
+    "    <ul class=\"players list-unstyled\" layout=\"column\" layout-align=\"center center\" >\n" +
+    "      <li ng-repeat=\"spot in gameLobby.game.spots track by $index\" ng-if=\"$odd\" ng-class=\"{'shield__expanded':gameLobby.expandedSpots[spot.id]}\"\n" +
+    "      class=\"player\" ng-disabled=\"!gameLobby.game.gameStarted\" ng-click=\"!gameLobby.game.gameStarted || gameLobby.toggleSpot(spot)\"\n" +
+    "      data-champion=\"Jax\" layout=\"row\" layout-align=\"center center\" ng-include=\"'gamelobby/views/player-token-right.tpl.html'\">\n" +
+    "      </li>\n" +
+    "    </ul>\n" +
+    "  </aside>\n" +
+    "  </div>\n" +
+    "</main>");
+}]);
+
+angular.module("gamelobby/views/gamelobby-main-content.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/gamelobby-main-content.tpl.html",
+    "<!-- <div class=\"notification\" ng-if=\"!gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'\">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div> -->\n" +
+    "<div class=\"notification\" ng-if=\"gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft'\">{{ !gameLobby.getNextUser(gameLobby.game) ? '' : gameLobby.getNextUser(gameLobby.game).nickname + ', pick a slot...' }}</div>\n" +
+    "<div class=\"notification\" ng-if=\"gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'\">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>\n" +
+    "\n" +
+    "\n" +
+    "<button class=\"lob-btn btn--card-draw\" ng-click=\"gameLobby.startGame(gameLobby.game.id)\" ng-if=\"gameLobby.showStartGame(gameLobby.game)\">Start card draw</button>\n" +
+    "\n" +
+    "\n" +
+    "<button class=\"lob-btn btn--end-game\" ng-click=\"gameLobby.endGame(gameLobby.game.id)\" ng-if=\"gameLobby.game.gameStarted && gameLobby.userOwnsGame()\">Start over</button> \n" +
+    "<!-- ::::::::::::::::::::::::::::::::: -->\n" +
+    "<!-- Unassigned player Hexagon section -->\n" +
+    "<!-- ::::::::::::::::::::::::::::::::: -->\n" +
+    "    \n" +
+    "    <section class=\"hexagon-wrapper\" layout=\"column\" layout-align=\"center center\" ng-if=\"!gameLobby.game.gameStarted || gameLobby.game.gameMode === 'draft'\">\n" +
+    "      <div class=\"incogneto-player-hexagon {{$index+1}}\" ng-include=\"'gamelobby/views/incogneto-hexagon.tpl.html'\" ng-repeat=\"user in gameLobby.unpickedUsers track by user.id\" ng-hide=\"gameLobby.userInSpot(user.id, gameLobby.game)\">\n" +
+    "      </div>\n" +
+    "    </section>    \n" +
+    "    \n" +
+    "<!-- ::::::::::::::::::::::::::::::::: -->\n" +
+    "<!-- Card deck section                 -->\n" +
+    "<!-- ::::::::::::::::::::::::::::::::: -->\n" +
+    "    <div class=\"card-deck-container\" ng-if=\"gameLobby.game.gameStarted && !gameLobby.allSpotsAccepted(gameLobby.game) && gameLobby.game.gameMode !== 'draft'\">\n" +
+    "     <!--  <button \n" +
+    "        ng-if=\"gameLobby.userOwnsGame()\" \n" +
+    "        ng-click=\"gameLobby.rollBuilds(gameLobby.game)\" \n" +
+    "        id=\"lobby_btn-roll\" \n" +
+    "        class=\"btn btn--success\">\n" +
+    "        ROLL ALL\n" +
+    "      </button> -->\n" +
+    "      <div class=\"card-deck\">\n" +
+    "        <article class=\"card\" ng-click=\"spot.drawn || gameLobby.drawCard(gameLobby.game.id, spot)\" ng-class=\"{'card--rotate-horizontally': spot.build.drawn, 'card--gets-overlayed': spot.build.denied, 'card--flies-to-player': spot.build.accepted}\" ng-repeat=\"spot in gameLobby.game.spots track by $index\" ng-include=\"'gamelobby/views/card.tpl.html'\" style=\"z-index: {{ 10 - $index}};\"></article>\n" +
+    "\n" +
+    "       \n" +
+    "        <div class=\"overlay\" data-overlay-text=\"Admin is deciding your fate...\"></div>\n" +
+    "      </div>\n" +
+    "       <div class=\"card-interactions\" ng-class=\"{'slides-out-from-bottom': gameLobby.getNextRollableSpot(gameLobby.game).build.drawn}\">\n" +
+    "          <button class=\"lob-btn btn--build-choice lob-btn--has-pulse\" ng-if=\"gameLobby.userOwnsGame() || (gameLobby.userHasTurn(gameLobby.game) && !gameLobby.getNextRollableSpot(gameLobby.game).build.denied)\" ng-click=\"gameLobby.acceptBuild(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))\">Accept Build</button>\n" +
+    "          <button class=\"lob-btn btn--build-choice\" ng-if=\"gameLobby.userHasTurn(gameLobby.game)\" ng-click=\"gameLobby.denied(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))\" ng-class=\"{'disabled' : gameLobby.getNextRollableSpot(gameLobby.game).build.denied}\">Request Re-Roll</button>\n" +
+    "\n" +
+    "          <button class=\"lob-btn btn--build-choice\" ng-if=\"gameLobby.userOwnsGame() && gameLobby.getNextRollableSpot(gameLobby.game).build.denied\" ng-click=\"gameLobby.rerollSpot(gameLobby.game, gameLobby.getNextRollableSpot(gameLobby.game))\" ng-class=\"{'disabled' : spot.build.denied}\">Reroll</button>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <script>\n" +
     "(function() {\n" +
     "  $(function() {\n" +
     "    var card, deck, initialCard, layer, notificationInitialState, rerollButtonInitialState, _i, _len;\n" +
     "    initialCard = $('.card').html();\n" +
     "    notificationInitialState = $('.notification').text();\n" +
-    "    deck = ['', '', '', '', '', '', '', ''];\n" +
-    "    layer = 0;\n" +
-    "    for (_i = 0, _len = deck.length; _i < _len; _i++) {\n" +
-    "      card = deck[_i];\n" +
-    "      $('.card-deck').append(\"<article class=\\\"card\\\" style=\\\"z-index:\" + layer + \"\\\">\" + initialCard + \"</article>\");\n" +
-    "      layer++;\n" +
-    "    }\n" +
+    "    \n" +
     "    $('.card').on(\"click\", function() {\n" +
     "      return $(this).toggleClass(\"card--rotate-horizontally\");\n" +
     "    });\n" +
@@ -317,10 +414,8 @@ angular.module("gamelobby/views/gamelobby.tpl.html", []).run(["$templateCache", 
     "        <div id=\"player_shield_container\">\n" +
     "            <div class=\"row partition_row\" ng-repeat=\"spot in gameLobby.game.spots\">\n" +
     "                <div class=\"col-sm-12\">\n" +
-    "                 <div class=\"row\" ng-include=\"'gamelobby/views/championShield.tpl.html'\">\n" +
-    "                       \n" +
-    "                </div>\n" +
-    "                                \n" +
+    "                 <div class=\"row\" ng-include=\"'gamelobby/views/championShield.tpl.html'\"> \n" +
+    "                </div>         \n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
@@ -339,163 +434,240 @@ angular.module("gamelobby/views/gamelobby.tpl.html", []).run(["$templateCache", 
     "</script> -->");
 }]);
 
-angular.module("gamelobby/views/player-token-left.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("gamelobby/views/player-token-left.tpl.html",
-    "<div class=\"player__build-wrapper\" flex layout=\"column\" layout-align=\"start start\">\n" +
-    "          <div class=\"build__main-spells\" flex layout=\"row\" layout-align=\"space-around center\">\n" +
-    "            <div class=\"main-spell-wrapper\" layout=\"row\" layout-align=\"center end\">\n" +
-    "                <div class=\"main-spell\"></div>\n" +
-    "                <div class=\"main-spell-letter\" layout layout-align=\"center center\">\n" +
-    "                  <p>W</p>\n" +
-    "              </div>\n" +
-    "              </div>\n" +
-    "            <div class=\"spell-separator\"></div>\n" +
-    "            <div class=\"summoner-spell spell-one\"></div>\n" +
-    "            <div class=\"summoner-spell spell-two\"></div>\n" +
-    "          </div>\n" +
-    "          \n" +
-    "          <div class=\"build__main-talents\" flex layout=\"row\" layout-align=\"center center\">\n" +
-    "            <div class=\"talents-wrapper\" layout=\"row\" layout-align=\"center center\">\n" +
-    "              <div class=\"talent\" layout layout-align=\"center center\">\n" +
-    "                <p>10</p>\n" +
-    "              </div>\n" +
-    "              <div class=\"talent\" layout layout-align=\"center center\">\n" +
-    "                <p>10</p>\n" +
-    "              </div>\n" +
-    "              <div class=\"talent\" layout layout-align=\"center center\">\n" +
-    "                <p>10</p>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "          \n" +
-    "          <div class=\"build__main-items\" flex layout=\"row\" layout-align=\"space-around center\">\n" +
-    "            <div class=\"item\"></div>\n" +
-    "            <div class=\"item\"></div>\n" +
-    "            <div class=\"item\"></div>\n" +
-    "            <div class=\"item\"></div>\n" +
-    "            <div class=\"item\"></div>\n" +
-    "            <div class=\"item\"></div>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "        <span flex></span>\n" +
-    "        <div class=\"player__portrait-bg\"></div>\n" +
-    "        <div class=\"player__token-wrapper\" layout=\"column\" layout-align=\"center center\">\n" +
-    " \n" +
-    "          <div class=\"player__option-icon option--one\" layout=\"row\" layout-align=\"center center\">\n" +
-    "          </div>\n" +
-    "          <div class=\"player__option-icon option--two\" layout=\"row\" layout-align=\"center center\">\n" +
-    "          </div>\n" +
-    "          <div class=\"player__option-icon option--three\" layout=\"row\" layout-align=\"center center\">\n" +
-    "          </div>\n" +
-    "          \n" +
-    "          <div class=\"player__token-image\"></div>\n" +
-    "          <div class=\"player__token-polygon\"></div>\n" +
-    "          <div class=\"player__token-nameplate\">\n" +
-    "            <p class=\"token-nameplate__player-name\">\n" +
-    "              Scrappycoco\n" +
+angular.module("gamelobby/views/incogneto-hexagon.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/incogneto-hexagon.tpl.html",
+    "<div class=\"hexagon-bg\"></div>\n" +
+    "    <div class=\"hexagon-edge\"></div>\n" +
+    "    <div class=\"hexagon-banner\">\n" +
+    "    <div class=\"player__token-nameplate\">\n" +
+    "    	 <p class=\"token-nameplate__player-name\">\n" +
+    "              {{::user.nickname}}\n" +
     "            </p>\n" +
-    "          </div>\n" +
-    "        </div>");
+    "           </div>\n" +
+    "    </div>");
 }]);
 
-angular.module("header/views/header.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("header/views/header.tpl.html",
-    "<div ng-controller=\"HeaderCtrl\" ng-cloak>\n" +
-    "    <div id=\"top-bar\"  class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n" +
-    "      <div class=\"container\">\n" +
-    "        <div class=\"navbar-header\">\n" +
-    "          <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n" +
-    "            <span class=\"sr-only\">Toggle navigation</span>\n" +
-    "            <span class=\"icon-bar\"></span>\n" +
-    "            <span class=\"icon-bar\"></span>\n" +
-    "            <span class=\"icon-bar\"></span>\n" +
-    "          </button>\n" +
-    "          <a class=\"navbar-brand\" href=\"/home\">UB Team Builder</a>\n" +
+angular.module("gamelobby/views/partials/main-items.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/partials/main-items.tpl.html",
+    "<div class=\"item shadow-inset\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'bootsEnchantment')}});\" title=\"{{gameLobby.getItemFromBuild(spot.build, 'boots').name}}\"></div>\n" +
+    "  <div class=\"item shadow-inset\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item1')}});\" title=\"{{gameLobby.getItemFromBuild(spot.build, 'item1').name}}\"></div>\n" +
+    "  <div class=\"item shadow-inset\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item2')}});\" title=\"{{gameLobby.getItemFromBuild(spot.build, 'item2').name}}\"></div>\n" +
+    "  <div class=\"item shadow-inset\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item3')}});\" title=\"{{gameLobby.getItemFromBuild(spot.build, 'item3').name}}\"></div>\n" +
+    "  <div class=\"item shadow-inset\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item4')}});\" title=\"{{gameLobby.getItemFromBuild(spot.build, 'item4').name}}\"></div>\n" +
+    "  <div class=\"item shadow-inset\" style=\"background-image: url({{gameLobby.getItemImageFromBuild(spot.build, 'item5')}});\" title=\"{{gameLobby.getItemFromBuild(spot.build, 'item5').name}}\"></div>");
+}]);
+
+angular.module("gamelobby/views/partials/main-talents.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/partials/main-talents.tpl.html",
+    "<div class=\"build__main-talents\" flex layout=\"row\" layout-align=\"center center\">\n" +
+    "  <div class=\"talents-wrapper shadow-inset\" layout=\"row\" layout-align=\"center center\">\n" +
+    "    <div class=\"talent\" layout layout-align=\"center center\">\n" +
+    "      <p>{{ spot.build.mastery1 }}</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"talent\" layout layout-align=\"center center\">\n" +
+    "      <p>{{ spot.build.mastery2 }}</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"talent\" layout layout-align=\"center center\">\n" +
+    "      <p>{{ spot.build.mastery3 }}</p>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>");
+}]);
+
+angular.module("gamelobby/views/partials/summoner-spells.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/partials/summoner-spells.tpl.html",
+    "<div class=\"summoner-spell shadow-inset spell-one\" style=\"background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner1')}});\"></div>\n" +
+    "<div class=\"summoner-spell shadow-inset spell-two\" style=\"background-image: url({{gameLobby.getSummonerImageFromBuild(spot.build, 'summoner2')}});\"></div>");
+}]);
+
+angular.module("gamelobby/views/player-token-left.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/player-token-left.tpl.html",
+    "<div class=\"player__build-wrapper\" flex layout=\"column\" layout-align=\"start start\" ng-if=\"spot.build && spot.build.accepted\">\n" +
+    "    <div class=\"build__main-spells\" flex layout=\"row\" layout-align=\"space-around center\">\n" +
+    "        <div class=\"main-spell-wrapper\" layout=\"row\" layout-align=\"center end\">\n" +
+    "            <div class=\"main-spell shadow-inset\" style=\"background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.build.champion)}})\"></div>\n" +
+    "            <div class=\"main-spell-letter\" layout layout-align=\"center center\">\n" +
+    "                <p>{{spot.build.skill_to_level}}</p>\n" +
+    "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"collapse navbar-collapse\">\n" +
-    "          <ul class=\"nav navbar-nav pull-right\">\n" +
-    "            <li ng-repeat=\"navItem in navItems\">\n" +
-    "                <a href=\"{{navItem.url}}\"><i class=\"{{navItem.cssClass}}\"></i> {{navItem.title}}</a>\n" +
-    "            </li>\n" +
+    "        <div class=\"spell-separator\"></div>\n" +
+    "        <ng-include layout=\"row\" layout-align=\"center center\" src=\"'gamelobby/views/partials/summoner-spells.tpl.html'\" ng-if=\"spot.build\"></ng-include>\n" +
     "\n" +
-    "            <li class=\"divider-vertical\"></li>\n" +
+    "    </div>\n" +
     "\n" +
-    "            <li ng-if=\"currentUser\" id=\"current-user-dropdown\" class=\"dropdown\">\n" +
-    "                <div class=\"btn-group\">\n" +
-    "                    <a class=\"btn btn-default btn-sm dropdown-toggle\">\n" +
-    "                        <i class=\"fa fa-user\"></i> {{currentUser.email}}    <span class=\"caret\"></span>\n" +
-    "                    </a>\n" +
-    "                    <ul class=\"dropdown-menu\">\n" +
-    "                        <li><a href=\"/logout\"><i class=\"fa fa-share\"></i> Logout</a></li>\n" +
-    "                    </ul>\n" +
-    "                </div>\n" +
-    "            </li>\n" +
+    "    <ng-include class=\"full-width-wrapper\" src=\"'gamelobby/views/partials/main-talents.tpl.html'\" ng-if=\"spot.build\"></ng-include>\n" +
     "\n" +
-    "          </ul>\n" +
-    "        </div><!--/.nav-collapse -->\n" +
-    "      </div>\n" +
+    "    <div class=\"build__main-items\" flex layout=\"row\" layout-align=\"space-around center\" ng-include=\"'gamelobby/views/partials/main-items.tpl.html'\"></div>\n" +
+    "</div>\n" +
+    "<span flex></span>\n" +
+    "<div class=\"player__portrait-bg\"></div>\n" +
+    "<div class=\"player__token-wrapper\" layout=\"column\" layout-align=\"center center\" >\n" +
+    "\n" +
+    "    <div\n" +
+    "        class=\"player__option-icon option--one\"\n" +
+    "        layout=\"row\"\n" +
+    "        layout-align=\"center center\">\n" +
+    "        <i\n" +
+    "        class=\"fa fa-rocket\">\n" +
+    "        </i>\n" +
+    "    </div>\n" +
+    "    <div class=\"player__option-icon option--two\" layout=\"row\" layout-align=\"center center\" ng-click=\"gameLobby.removeSpot(gameLobby.game, spot)\" ng-if=\"gameLobby.userOwnsGame() && !gameLobby.game.gameStarted\">\n" +
+    "        <i class=\"fa fa-external-link\"> </i>\n" +
+    "    </div>\n" +
+    "    <div class=\"player__option-icon option--three\" layout=\"row\" layout-align=\"center center\" ng-click=\"gameLobby.removeUserFromSpot(gameLobby.game, spot)\" ng-if=\"(gameLobby.currentUser.id === spot.user || gameLobby.userOwnsGame(spot.user))  && !gameLobby.game.gameStarted && spot.user\">\n" +
+    "        <i class=\"fa fa-times\"> </i>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"player__token-backdrop\"></div>\n" +
+    "    <div class=\"player__token-image\" ng-class=\"{'invisible':!gameLobby.isBuildAccepted(spot)}\" style=\"background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}});\"></div>\n" +
+    "    <div class=\"player__token-polygon\" ng-click=\"gameLobby.joinSpot(gameLobby.game, spot)\" ng-disabled=\"gameLobby.game.gameStarted\"></div>\n" +
+    "    <div class=\"player__token-nameplate\" ng-if=\"spot.user && spot.user !== gameLobby.game.user.id\"layout=\"row\">\n" +
+    "        <p class=\"token-nameplate__player-name\">\n" +
+    "        {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}\n" +
+    "        </p>\n" +
+    "    </div>\n" +
+    "    <div class=\"admin__token-nameplate\" ng-if=\"spot.user === gameLobby.game.user.id\" layout=\"row\">\n" +
+    "        <div class=\"admin__nameplate-wrapper\" layout=\"row\" layout-align=\"center center\">\n" +
+    "            <img src=\"images/admin-crown.png\" class=\"admin-crown\" />\n" +
+    "            <p class=\"token-nameplate__player-name\">\n" +
+    "            {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}\n" +
+    "            </p>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>");
 }]);
 
+angular.module("gamelobby/views/player-token-right.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("gamelobby/views/player-token-right.tpl.html",
+    "<div class=\"player__token-wrapper\" layout=\"column\" layout-align=\"center center\">\n" +
+    "          \n" +
+    "         <div class=\"player__option-icon option--one\" layout=\"row\" layout-align=\"center center\">\n" +
+    "          <i class=\"fa fa-rocket\"> </i>\n" +
+    "          </div>\n" +
+    "          <div class=\"player__option-icon option--two\" layout=\"row\" layout-align=\"center center\" ng-click=\"gameLobby.removeSpot(gameLobby.game, spot)\" ng-if=\"gameLobby.userOwnsGame() && !gameLobby.game.gameStarted\">\n" +
+    "\n" +
+    "            <i class=\"fa fa-external-link\"></i>\n" +
+    "          </div>\n" +
+    "          <div class=\"player__option-icon option--three\" layout=\"row\" layout-align=\"center center\" ng-click=\"gameLobby.removeUserFromSpot(gameLobby.game, spot)\" ng-if=\"(gameLobby.currentUser.id === spot.user || gameLobby.userOwnsGame(spot.user)) && !gameLobby.game.gameStarted && spot.user\">\n" +
+    "            <i class=\"fa fa-times\"></i>\n" +
+    "          </div>\n" +
+    "\n" +
+    "           <div class=\"player__token-backdrop\"></div>\n" +
+    "          <div class=\"player__token-image\" ng-class=\"{'invisible':!gameLobby.isBuildAccepted(spot)}\" style=\"background-image: url({{gameLobby.getChampionBackground(spot.build.champion)}} );\"></div>\n" +
+    "          <div class=\"player__token-polygon\" ng-click=\"gameLobby.joinSpot(gameLobby.game, spot)\" ng-disabled=\"gameLobby.game.gameStarted\"></div>\n" +
+    "          <div class=\"player__token-nameplate\" ng-if=\"spot.user && spot.user !== gameLobby.game.user.id\">\n" +
+    "            <p class=\"token-nameplate__player-name\">\n" +
+    "              {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}\n" +
+    "            </p>\n" +
+    "          </div>\n" +
+    "          <div class=\"admin__token-nameplate\" ng-if=\"spot.user === gameLobby.game.user.id\" layout=\"row\">\n" +
+    "            <div class=\"admin__nameplate-wrapper\" layout=\"row\" layout-align=\"center center\">\n" +
+    "            <img src=\"images/admin-crown.png\" class=\"admin-crown\" />\n" +
+    "            <p class=\"token-nameplate__player-name\">\n" +
+    "              {{gameLobby.getUserFromGame(spot.user, gameLobby.game).nickname}}\n" +
+    "            </p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        \n" +
+    "        <span flex></span>\n" +
+    "        <div class=\"player__portrait-bg\"></div>\n" +
+    "        <div class=\"player__build-wrapper\" flex layout=\"column\" layout-align=\"start end\" ng-if=\"spot.build && spot.build.accepted\">\n" +
+    "          <div class=\"build__main-spells\" flex layout=\"row\" layout-align=\"space-around center\">\n" +
+    "          <div class=\"main-spell-wrapper\" layout=\"row\" layout-align=\"center end\">\n" +
+    "                <div class=\"main-spell shadow-inset\" ng-class=\"{'invisible':!gameLobby.isBuildAccepted(spot)}\" style=\"background-image: url({{gameLobby.getChampionSkillImageFromBuild(spot.build,spot.champion)}})\"></div>\n" +
+    "                <div class=\"main-spell-letter\" layout layout-align=\"center center\">\n" +
+    "                  <p>{{spot.build.skill_to_level}}</p>\n" +
+    "              </div>\n" +
+    "              </div>\n" +
+    "            <div class=\"spell-separator\"></div>\n" +
+    "            <ng-include layout=\"row\" layout-align=\"center center\" src=\"'gamelobby/views/partials/summoner-spells.tpl.html'\" ng-if=\"spot.build\"></ng-include>\n" +
+    "\n" +
+    "            \n" +
+    "          </div>\n" +
+    "          \n" +
+    "          <ng-include class=\"full-width-wrapper\" src=\"'gamelobby/views/partials/main-talents.tpl.html'\" ng-if=\"spot.build\"></ng-include>\n" +
+    "          \n" +
+    "          <div class=\"build__main-items\" flex layout=\"row\" layout-align=\"space-around center\" ng-include=\"'gamelobby/views/partials/main-items.tpl.html'\"></div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("header/views/header.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("header/views/header.tpl.html",
+    "<header class=\"c-header\">\n" +
+    "  <div class=\"l-wrapped\" layout=\"row\">\n" +
+    "    <div class=\"c-site-logo\"><a href=\"/\">L<span class=\"c-site-logo__subtext\">eague</span> <sup>o<span class=\"c-site-logo__subtext\">f</span></sup> B<span class=\"c-site-logo__subtext\">ravery</span></a></div>\n" +
+    "    \n" +
+    "    <nav class=\"c-navbar\">\n" +
+    "      <a href=\"/about\" class=\"c-navbar__item\">About</a>\n" +
+    "      <a href=\"/rules\" class=\"c-navbar__item\">Rules</a>\n" +
+    "    </nav>\n" +
+    "\n" +
+    "    <span flex></span>\n" +
+    "\n" +
+    "    <input type=\"submit\" class=\"lob-btn lob-btn--has-pulse\" value=\"New Game\" ng-click=\"home.createGame()\" />\n" +
+    "  </div>\n" +
+    "</header>");
+}]);
+
 angular.module("home/views/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/views/home.tpl.html",
-    "<!-- BG animated -->\n" +
-    "    <div id=\"single-login-bg-container\">\n" +
-    "    <div class=\"col-xs-12\" style=\"padding: 0px;\">\n" +
-    "        <video autoplay loop id=\"login_bg-render\">\n" +
-    "        <source src=\"../../images/webm/BG_animated.webm\" type=\"video/webm\">\n" +
-    "        </video>\n" +
-    "    </div>\n" +
-    "    </div>\n" +
+    "<div ng-include=\"'header/views/header.tpl.html'\" ng-show=\"main.state.current.name == 'home'\"></div>\n" +
     "\n" +
-    "\n" +
-    "  <div class=\"home_content-wrapper content-bg\">\n" +
-    "        <div class=\"col-md-4 main-sidebar-wrapper\">\n" +
-    "            <div class=\"main-sidebar\">\n" +
-    "                <div class=\"col-xs-8 col-xs-offset-2\">\n" +
-    "                    <p class=\"p_bluetext\">JOIN OR CREATE A GAME</p>\n" +
-    "                    <div class=\"form-group\">\n" +
-    "                        <label for=\"game_name\">GAME ID</label>\n" +
-    "                        <input type=\"text\" class=\"form-control\" name=\"\" value=\"\" placeholder=\"Enter game id\" ng-model=\"home.game.id\">     \n" +
-    "                         <button type=\"button\" class=\"btn ub-custom-btn custom-btn-red\" ng-click=\"home.joinGame(home.game.id)\">Join game</button>\n" +
-    "                    </div>\n" +
-    "                    <input type=\"submit\" class=\"btn ub-custom-btn custom-btn-red\" style=\"width: auto !important;\"value=\"Create a new game\" ng-click=\"main.go('/new/game')\">\n" +
-    "                </div>              \n" +
-    "            </div>    \n" +
-    "        </div>\n" +
-    "        <div class=\"content-wrapper col-md-7\" id=\"home-content\">\n" +
-    "           <div>\n" +
-    "               <h2>Games</h2>\n" +
-    "               <div class=\"games-list\">\n" +
-    "                   <div class=\"panel panel-default\">\n" +
-    "                   <div class=\"panel-body\">\n" +
-    "                   <div class=\"row\">\n" +
-    "                    <div class=\"col-md-2\"> TITLE</div>\n" +
-    "                     <div class=\"col-md-2\"> CREATED AT</div>\n" +
-    "                     <div class=\"col-md-3\"> OWNER</div>\n" +
-    "                     <div class=\"col-md-1\"> SPOTS</div>\n" +
-    "                     <div class=\"col-md-2\"> MAP</div>\n" +
-    "                     <div class=\"col-md-2\"></div>\n" +
-    "                    </div>\n" +
-    "                     <div ng-repeat=\"game in home.games\" class=\"row\" ng-hide=\"game.private\"> \n" +
-    "\n" +
-    "                     <div class=\"col-md-2\"> <b>{{game.title}}</b></div>\n" +
-    "                     <div class=\"col-md-2\"> <span am-time-ago=\"game.createdAt\"></span></div>\n" +
-    "                       <div class=\"col-md-3\"> {{game.user.username}}</div>\n" +
-    "                     <div class=\"col-md-1\"> Coming soon <!-- {{game.spotsTaken}}/{{game.numberOfSpots}} --></div>\n" +
-    "                     <div class=\"col-md-2\"> Summoners Rift</div>\n" +
-    "                     <div class=\"col-md-2\">\n" +
-    "                     <button class=\"btn btn-success\" ng-click=\"home.joinGame(game.id)\">JOIN</button>   \n" +
-    "                     </div>\n" +
-    "                    \n" +
-    "\n" +
-    "\n" +
+    "<div class=\"c-hero-banner l-wrapped\" layout=\"row\" layout-align=\"center center\">\n" +
+    "  <h1 class=\"c-logo-graphic\">\n" +
+    "    <span>League</span>\n" +
+    "    <span>of</span>\n" +
+    "    <span>Bravery</span>\n" +
+    "    <div class=\"c-logo-graphic__subtext\">the Ultimate Bravery Team Builder App</div>\n" +
+    "  </h1>\n" +
+    "  <span class=\"c-hero-banner__graphic\"></span>\n" +
     "</div>\n" +
-    "                   </div>\n" +
-    "                   </div>\n" +
-    "               </div>\n" +
-    "           </div>\n" +
+    "\n" +
+    "<main layout=\"column\" flex layout-align=\"center center\">\n" +
+    "  \n" +
+    "  <section class=\"l-games-list-container is-framed\" layout=\"column\" flex=\"80\">\n" +
+    "    \n" +
+    "    <div class=\"frame frame--center\"></div>\n" +
+    "\n" +
+    "    <header class=\"l-games-list-container__header\">\n" +
+    "      <div class=\"row\">\n" +
+    "        <div class=\"col-sm-12\">\n" +
+    "          <input type=\"search\" class=\"form-control input input-lg input--search lob-form-input\" placeholder=\"Search for a game\" ng-model=\"home.searchTerm\" api-search=\"home.games\">\n" +
     "        </div>\n" +
-    "    </div>");
+    "      </div>\n" +
+    "    </header>\n" +
+    "\n" +
+    "    <ul class=\"c-games-list list-unstyled\">\n" +
+    "      <li class=\"c-games-list__item\" ng-repeat=\"game in home.games track by $index\" ng-hide=\"game.private\" layout=\"row\" flex>\n" +
+    "        \n" +
+    "         <div class=\"c-games-list__item-meta\" flex>\n" +
+    "         <div layout=\"row\" layout-align=\"start center\" flex>\n" +
+    "           <div layout=\"column\" layout-align=\"center start\" flex>\n" +
+    "             <div class=\"c-games-list__item-title\">{{game.title}}</div>\n" +
+    "             <div layout=\"row\">\n" +
+    "             <span am-time-ago=\"game.createdAt\"></span>, by \n" +
+    "             <strong class=\"c-games-list__item-username\">{{ game.user.nickname }}</strong>\n" +
+    "             </div>\n" +
+    "             </div>\n" +
+    "             <div layout=\"row\" flex=\"33\" layout-align=\"center center\">\n" +
+    "              <div class=\"c-games-list__item-spots\">{{game.gameMode}}</div>\n" +
+    "             </div>\n" +
+    "             <div layout=\"row\" flex=\"33\" layout-align=\"end center\">\n" +
+    "             <div class=\"c-games-list__item-spots\">{{game.users.length}}/{{game.numberOfSpots}} players</div>\n" +
+    "             </div>\n" +
+    "           \n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "\n" +
+    "         <button class=\"lob-btn c-games-list__item-button\" ng-click=\"home.joinGame(game.id)\">Join</button>  \n" +
+    "      </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "  </section>\n" +
+    "\n" +
+    "</main>\n" +
+    "");
 }]);
