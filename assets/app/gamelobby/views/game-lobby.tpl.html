@@ -18,12 +18,30 @@
    <input type="submit" class="lob-btn" value="Add spot" ng-click="gameLobby.addSpot(gameLobby.game)" ng-if="gameLobby.userOwnsGame()" />
   
    <input type="submit" class="lob-btn" value="Join game" ng-click="gameLobby.joinGame(gameLobby.game)" ng-if="!gameLobby.currentUser && !gameLobby.game.gameStarted" />
-   
    </div>
 </div>
 
 <main id="lobby-faction-wrapper">
 <div id="team-color-bg">
+<div id="game-welcome-container" flex layout="column" layout-align="center center" ng-class="{'pull-back-up' : gameLobby.game.gameStarted}">
+  <div layout="row" class="rope-wrapper">
+    <div id="rope-left"></div>
+    <span flex></span>
+    <div id="rope-right"></div>
+  </div>
+  <div class="welcome-message-wrapper dark-wall-pattern_gold" layout="column" layout-align="start center">
+    <p class="welcome-text">Welcome, {{gameLobby.currentUser.nickname}}!</p>
+    <p>This game is playing <span>{{gameLobby.game.gameMode}} mode</span>.</p>
+      <p>If you would like to review the rules for this game mode, you can find them <a href="/rules" target="_blank">here</a>.</p>
+    <div ng-if="gameLobby.game.gameMode !== 'draft'">
+      <p>{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : 'The game cannot start until everyone has taken a spot, so..' }}</p>
+      <p class="pick-spot-text">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? 'Waiting for other players...' : gameLobby.currentUser.nickname + ', pick a spot!' }}</p>
+    </div>
+    <div ng-if="gameLobby.game.gameMode === 'draft'">
+      <p>Once the host starts the game, you will each take turns to pick a slot with a predefined build.</p>
+    </div>
+  </div>
+</div>
   <aside class="sidebar pull--left" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
     <ul class="players list-unstyled" layout="column" layout-align="center center">
       <li ng-repeat="spot in gameLobby.game.spots track by $index" ng-if="$even" ng-class="{'shield__expanded':gameLobby.expandedSpots[spot.id]}"

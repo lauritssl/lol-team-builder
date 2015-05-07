@@ -1,5 +1,5 @@
 
-<div class="notification" ng-if="!gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div>
+<!-- <div class="notification" ng-if="!gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ gameLobby.userInSpot(gameLobby.currentUser.id, gameLobby.game) ? '' : gameLobby.currentUser.nickname + ', pick a slot...' }}</div> -->
 <div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft'">{{ !gameLobby.getNextUser(gameLobby.game) ? '' : gameLobby.getNextUser(gameLobby.game).nickname + ', pick a slot...' }}</div>
 <div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
