@@ -236,8 +236,15 @@ body {
   @-webkit-keyframes dropIn{
     to{-webkit-transform: translateY(-10%);}
   }
+    @keyframes dropIn{
+    to{transform: translateY(-10%);}
+  }
     @-webkit-keyframes pullUp{
       from{-webkit-transform: translateY(-10%);}
+    to{-webkit-transform: translateY(-100%);}
+  }
+    @keyframes pullUp{
+      from{transform: translateY(-10%);}
     to{transform: translateY(-100%);}
   }
 }
