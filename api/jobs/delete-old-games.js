@@ -11,8 +11,8 @@ module.exports = {
     	}
 
         return Game.destroy(filter)
-		.then(function (err) {
-			console.log(err);
+		.then(function (result) {
+
 		});
     }
 };
