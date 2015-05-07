@@ -100,7 +100,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	//functions
 	vm.isUserInGame = function(game){
-		if(typeof vm.currentUser == 'undefined') return true;
+		if(typeof vm.currentUser == 'undefined') {return true;}
 		var users = [];
 		for(var user in game.users){
 			users.push(game.users[user].username)
@@ -161,7 +161,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.userHasTurn = function(game){
 		var nextRollableSpot = vm.getNextRollableSpot(game);
-		if(typeof nextRollableSpot !== 'undefined' && nextRollableSpot.user === vm.currentUser.id) return true;
+		if(typeof nextRollableSpot !== 'undefined' && nextRollableSpot.user === vm.currentUser.id) {return true;}
 		return false;
 	}
 
@@ -179,8 +179,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.getNextRollableSpot = function(game){
 		var spot = _.find(game.spots, function(spot){
-			if(typeof spot.build !== 'undefined') return spot.build.drawn !== true || spot.build.drawn && !spot.build.accepted ;
-			else return typeof spot.build === 'undefined'
+			if(typeof spot.build !== 'undefined') {return spot.build.drawn !== true || spot.build.drawn && !spot.build.accepted ;}
+			else {return typeof spot.build === 'undefined'}
 			});
 		return spot;
 	}
@@ -208,8 +208,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.userOwnsGame = function (){
-		if(vm.currentUser == null) return false;
-		if(vm.game.user.id === vm.currentUser.id) return true;
+		if(vm.currentUser == null) {return false;}
+		if(vm.game.user.id === vm.currentUser.id) {return true;}
 			return false;
 	};
 
@@ -283,7 +283,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	 * @return {Boolean}
 	 */
 	vm.isUserInSpot = function(spot){
-		if(typeof spot.user == 'undefined' || spot.user == null) return false;
+		if(typeof spot.user == 'undefined' || spot.user == null) {return false;}
 		return true;
 	};
 	/**
@@ -358,7 +358,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.getColWidth = function(game) {
 		var colWidth = "col-lg-" +Math.floor(12/(game.numberOfSpots/2));
 
-		if(colWidth == "col-lg-2") colWidth = "player_shield_regulator";
+		if(colWidth == "col-lg-2") {colWidth = "player_shield_regulator";}
 		return colWidth;
 	};
 
@@ -435,14 +435,20 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	}
 
 	vm.showStartGame = function (game) {
-		if(!vm.userOwnsGame()) {return false;}
-		if(game.gameStarted){return false;}
-		if(game.gameMode === 'normal' && vm.unpickedUsers.length !== 0){return false}
+		if(!vm.userOwnsGame()) {
+			return false;
+		}
+		if(game.gameStarted){
+			return false;
+		}
+		if(game.gameMode === 'normal' && vm.unpickedUsers.length !== 0){
+			return false
+		}
 
 		return true;
 	}
 	vm.isBuildAccepted = function(spot){
-		if(typeof spot.build === 'undefined') return false
+		if(typeof spot.build === 'undefined') {return false}
 		return spot.build.accepted
 	}
 

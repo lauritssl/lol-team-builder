@@ -14,13 +14,22 @@ function ChampionService ($http, $q) {
 
 
 	return {
+
         cdnVersion : cdnVersion,
+        champions: {},
+        items: {},
+        summoners: {},
+
 		 getChampions: function () {
             var deferred = $q.defer();
             var queryParameters = "champData=image,passive,spells,stats,tags&api_key="+apiKey;
             var url = lolBasePath + staticPath + "/champion?" + queryParameters;
+            var self = this;
+            //var url = cdnUrl +"/"+this.cdnVersion + "/data/"+ localization  +"/champion.json";
+
             var test = "";
             $http({url:url, cache:true, method: 'GET'}).success(function(result) {
+                self.champions = result.data;
                 return deferred.resolve(result.data);
             });
 
@@ -48,7 +57,7 @@ function ChampionService ($http, $q) {
         },
         getVersion: function () {
             var deferred = $q.defer();
-            var url = lolBasePath +staticPath + "/versions?api_key="+apiKey;
+            var url = lolBasePath +staticPath + "/realm?api_key="+apiKey;
             $http({url:url, cache:true, method: 'GET'}).success(function(result) {
                 return deferred.resolve(result);
             });
@@ -57,16 +66,29 @@ function ChampionService ($http, $q) {
         },
 
 
+        getChampion: function(championId) {
+            var self = this;
+            if(typeof self.champions === 'undefined') {throw new Error("The champions object must be defined")}
+
+            return self.champions[championId];
+
+        },
+
         getChampionImage: function(championsImageId){
         	url = cdnUrl +"/"+this.cdnVersion + "/img/champion/";
 
         	return url + championsImageId;
         },
+        getChampionBackground: function(championsImageId){
+            url = cdnUrl + "/img/champion/loading/";
+
+            return url + championsImageId + '_0.jpg';
+        },
 
         getItemImage: function(itemImageId){
             url = cdnUrl +"/"+this.cdnVersion + "/img/item/";
 
-            return url + itemImageId;
+            return url + itemImageId + '.png';
         },
 
         getSummonerImage: function(itemImageId){
