@@ -61,9 +61,16 @@ module.exports = {
 	
 	getAll: function(_options) {
 
+		var sort;
+		if(_options.sort){
+			sort = _option.sort;
+			var order = _options.ascending ? 'ASC' : 'DESC';
+			sort + ' ' + order;
+		}
 		filter = {
 			limit: _options.limit || 10, 
-			skip: _options.skip || 0
+			skip: _options.skip || 0,
+			sort: sort
 		};
 
 		if(typeof _options.name !== 'undefined' && !_.isEmpty(_options.name)) {
