@@ -2,6 +2,7 @@
 // Ultimate Bravery Teambuilder
 //-------------------------------------
 @import (less) "../variables.less";
+
 html { box-sizing: border-box; font-size: 10px; }
 *,*:before,*:after { box-sizing: inherit; position: relative; tap-highlight-color: rgba(0,0,0,0); }
 html,body { height: 100%; }
@@ -732,13 +733,9 @@ body {
   .transform(translateY(-100%));
 }
 .slides-out-from-bottom {
-  -webkit-animation: slideOutFromBottom .48s @core-transition forwards;
-  -moz-animation: slideOutFromBottom .48s @core-transition forwards;
-  animation: slideOutFromBottom .48s @core-transition forwards;
+  .animation(slideOutFromBottom .48s @core-transition forwards);
   @delay: 1.25s;
-  -webkit-animation-delay: @delay;
-  -moz-animation-delay: @delay;
-  animation-delay: @delay;
+  .animation-delay(@delay);
 }
 @-webkit-keyframes slideOutFromBottom {
   to {
@@ -952,19 +949,19 @@ body {
   .flip-container {
       perspective: 1000;
       &:nth-child(2) .flipper{
-        // .animation-delay(1.25s);
+        .animation-delay(1.25s);
       }
       &:nth-child(3) .flipper{
-        // .animation-delay(1.3s);
+        .animation-delay(1.3s);
       }
       &:nth-child(4) .flipper{
-        // .animation-delay(1.35s);
+        .animation-delay(1.35s);
       }
       &:nth-child(5) .flipper{
-        // .animation-delay(1.4s);
+        .animation-delay(1.4s);
       }
       &:nth-child(6) .flipper{
-        // .animation-delay(1.45s);
+        .animation-delay(1.45s);
       }
   }
   .flip-container, .front, .back{
