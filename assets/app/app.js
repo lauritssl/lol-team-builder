@@ -32,23 +32,22 @@ angular.module('ubteambuilder', [
 	});
 	$locationProvider.html5Mode(true);
 })
+.run( ['$rootScope', '$location', 'DSCacheFactory', '$http',
+	function($rootScope, $location, DSCacheFactory, $http) {
 
-    .run( ['$rootScope', '$location', 'DSCacheFactory', '$http',
-    	function($rootScope, $location, DSCacheFactory, $http) {
+		moment.lang('en');
 
-    		moment.lang('en');
+		 DSCacheFactory('defaultCache', {
+    maxAge: 900000, // Items added to this cache expire after 15 minutes.
+    cacheFlushInterval: 6000000, // This cache will clear itself every hour.
+    deleteOnExpire: 'aggressive', // Items will be deleted from this cache right when they expire.
+    storageMode: 'localStorage', // This cache will sync itself with `localStorage`.
+});
 
-    		 DSCacheFactory('defaultCache', {
-        maxAge: 900000, // Items added to this cache expire after 15 minutes.
-        cacheFlushInterval: 6000000, // This cache will clear itself every hour.
-        deleteOnExpire: 'aggressive', // Items will be deleted from this cache right when they expire.
-        storageMode: 'localStorage', // This cache will sync itself with `localStorage`.
-    });
+$http.defaults.cache = DSCacheFactory.get('defaultCache');
 
-    $http.defaults.cache = DSCacheFactory.get('defaultCache');
-
-    		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-    			
-    			
-			});
-	}]);
+		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+			
+			
+		});
+}]);

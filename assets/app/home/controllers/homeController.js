@@ -49,7 +49,7 @@ HomeCtrl.$inject = ['titleService', 'GameModel', '$location', '$sails', 'lodash'
 		GameModel.delete(game).then(function(model) {
 		});
 	};
-
+	
 	vm.joinGame = function(gameId){
 		$state.go('game.lobby', {id: gameId});
 	}
@@ -59,8 +59,8 @@ HomeCtrl.$inject = ['titleService', 'GameModel', '$location', '$sails', 'lodash'
 	}
 
 	vm.getMapName = function(mapId){
-		if(mapId === 11) return "Summoners Rift";
-		if(mapId === 12) return "Howling Abyss";
+		if(mapId === 11) {return "Summoners Rift";}
+		if(mapId === 12) {return "Howling Abyss";}
 	}
 
 	GameModel.getAll(vm).then(function(models) {
