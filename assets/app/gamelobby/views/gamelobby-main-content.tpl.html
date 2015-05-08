@@ -4,9 +4,6 @@
 <div class="notification" ng-if="gameLobby.game.gameStarted && gameLobby.game.gameMode !== 'draft'">{{ !gameLobby.getUserWithTurn(gameLobby.game) ? '' : gameLobby.getUserWithTurn(gameLobby.game).nickname + ', pick a card...' }}</div>
 
 
-<button class="lob-btn btn--card-draw" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="gameLobby.showStartGame(gameLobby.game)">Start card draw</button>
-
-
 <button class="lob-btn btn--end-game" ng-click="gameLobby.endGame(gameLobby.game.id)" ng-if="gameLobby.game.gameStarted && gameLobby.userOwnsGame()">Start over</button> 
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Unassigned player Hexagon section -->
@@ -15,7 +12,7 @@
     <section class="hexagon-wrapper" layout="column" layout-align="center center" ng-if="!gameLobby.game.gameStarted || gameLobby.game.gameMode === 'draft'">
       <div class="incogneto-player-hexagon {{$index+1}}" ng-include="'gamelobby/views/incogneto-hexagon.tpl.html'" ng-repeat="user in gameLobby.unpickedUsers track by user.id" ng-hide="gameLobby.userInSpot(user.id, gameLobby.game)">
       </div>
-    </section>    
+    </section>
     
 <!-- ::::::::::::::::::::::::::::::::: -->
 <!-- Card deck section                 -->
