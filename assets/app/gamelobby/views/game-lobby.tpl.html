@@ -40,8 +40,6 @@
     <div ng-if="gameLobby.game.gameMode === 'draft'">
       <p>Once the host starts the game, you will each take turns to pick a slot with a predefined build.</p>
     </div>
-    <button class="lob-btn btn--card-draw" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="gameLobby.showStartGame(gameLobby.game) && gameLobby.game.gameMode !== 'draft' ">Start card draw</button>
-    <button class="lob-btn btn--card-draw" ng-click="gameLobby.startGame(gameLobby.game.id)" ng-if="gameLobby.showStartGame(gameLobby.game) && gameLobby.game.gameMode === 'draft'">Roll builds</button>
   </div>
 </div>
   <aside class="sidebar pull--left" ng-if="!(!gameLobby.game.gameStarted && gameLobby.game.gameMode === 'draft')">
