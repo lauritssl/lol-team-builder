@@ -109,9 +109,19 @@ module.exports = {
 	rollBoots: function(items, groups, callback){
 		var build = {};
 
-		var boots = items.filter(function(item){return item.tags.indexOf('Boots') > -1 && item.depth == 2});
+		// Get the ID for BootsNormal
+		var bootsNormal = _.find(items, function (item) {
+			return typeof item.group !== 'undefined' && item.group === "BootsNormal";
+		});
 
-		var enchantmentGroups = groups.filter(function(group){return group.id.indexOf('Boots') > -1 && group.id.indexOf('BootsNormal') < 0});
+		//Retrieve all basic boots
+		var boots = items.filter(function(item){
+			return _.some(item.from, function (fromItem) {
+				return bootsNormal.id === fromItem;
+			})
+		});
+		
+		var enchantmentGroups = groups.filter(function(group){return group.id.indexOf('Boots') > -1});
 
 		var enchantment =  enchantmentGroups[Math.floor(Math.random()*(enchantmentGroups.length))].id
 
@@ -119,8 +129,10 @@ module.exports = {
 		var bootEnchantments = items.filter(function(item){
 			return typeof item.group != 'undefined' && item.group == enchantment;
 		});
-		bootEnchantments = bootEnchantments.filter(function(boot){
-			return boot.from.indexOf(build.boots) > -1;
+		bootEnchantments = _.filter(bootEnchantments, function (bEnchantment) {
+			return _.some(bEnchantment.from, function (id) {
+				return id === build.boots;
+			});
 		});
 
 		build.bootsEnchantment = bootEnchantments[Math.floor(Math.random()*(bootEnchantments.length))].id;
