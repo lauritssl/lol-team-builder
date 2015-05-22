@@ -129,13 +129,13 @@ module.exports = {
 		var bootEnchantments = items.filter(function(item){
 			return typeof item.group != 'undefined' && item.group == enchantment;
 		});
-		bootEnchantments = _.filter(bootEnchantments, function (bEnchantment) {
+		bootEnchantments = _.find(bootEnchantments, function (bEnchantment) {
 			return _.some(bEnchantment.from, function (id) {
 				return id === build.boots;
 			});
 		});
 
-		build.bootsEnchantment = bootEnchantments[Math.floor(Math.random()*(bootEnchantments.length))].id;
+		build.bootsEnchantment = bootEnchantments.id;
 		
 		callback(build);
 	},
