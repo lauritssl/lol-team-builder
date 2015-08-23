@@ -134,6 +134,7 @@ module.exports = {
 				return id === build.boots;
 			});
 		});
+		
 
 		build.bootsEnchantment = bootEnchantments.id;
 		
