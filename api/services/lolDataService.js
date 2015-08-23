@@ -145,7 +145,8 @@ module.exports = {
 	getMaps: function(){
     	var deferred = Q.defer();
 
-		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/map.json";
+    	// TODO: Replace version with dynamic value when Riots' Api is fixed
+		var url = this.cdnUrl +"/"+'5.14.1' + "/data/"+ this.localization  +"/map.json";
 		request({
 			url: url,
 			json: true
