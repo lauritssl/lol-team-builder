@@ -2,30 +2,31 @@
   "name": "ubteambuilder",
   "version": "0.1.0",
   "devDependencies": {
-    "angular": "~1.4.4",
-    "angular-mocks": "~1.4.4",
+    "angular-mocks": "~1.5"
+  },
+  "dependencies": {
+    "angular-cache": "~3.2.5",
+    "angular-cookies": "~1.5",
+    "angular-audio": "~1.4.1",
+    "angular-notify": "~2.0.2",
+    "angular-animate": "~1.5",
+    "angular": "^1.5.0",
     "bootstrap": "~3.1.1",
     "angular-bootstrap": "~0.10.0",
-    "angular-ui-router": "~0.2.10",
     "angular-ui-utils": "~0.1.1",
     "socket.io-client": "0.9.16",
     "sails.io.js": "0.11.5",
-    "angular-sails": "1.1.0",
+    "angular-sails": "^1.1.4",
     "lodash": "~2.4.1",
     "angular-moment": "~0.6.2",
     "angular-translate": "~2.1.0",
-    "angular-translate-loader-static-files": "~2.1.0"
-  },
-  "dependencies": {
-    "angular-pmkr-components": "*",
-    "angular-cache": "~3.2.5",
-    "angular-cookies": "~1.4.4",
-    "angular-audio": "~1.4.1",
-    "angular-notify": "~2.0.2",
-    "angular-animate": "~1.4.4"
+    "angular-translate-loader-static-files": "~2.1.0",
+    "angular-ui-router": "^0.2.18",
+    "angular-pmkr-components": "*"
   },
   "resolutions": {
     "angular-cache": "~3.2.5",
-    "angular": "1.4.4"
+    "angular": "^1.5.0",
+    "angular-sails": "^1.1.4"
   }
 }
