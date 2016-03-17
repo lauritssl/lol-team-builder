@@ -70,7 +70,6 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	$rootScope.$on("$locationChangeStart", function (event, current) {
 		//vm.leaveGame(vm.game);
   });
-
 	$sails.on('game', function (envelope) {
 		switch(envelope.verb) {
 			case 'created':
@@ -129,14 +128,14 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 
 
-		if(!spot.user){		
+		if(!spot.user){
 
 		if(game.gameMode == 'draft' && !game.gameStarted){return;}
 		if(game.gameMode == 'normal' && game.gameStarted){return;}
 
 		GameModel.addUserToSpot(game.id, vm.currentUser.id, spot.id)
 		.then(function(model){
-			
+
 		});
 		}
 	};
@@ -144,7 +143,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.removeUserFromSpot = function(game, spot){
 		GameModel.removeUserFromSpot(game.id, spot.user, spot.id)
 		.then(function(model){
-			
+
 		});
 	};
 
@@ -167,11 +166,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.getUserWithTurn = function (game) {
 		var spot = vm.getNextRollableSpot(game);
-		
+
 		if(typeof spot === 'undefined') { return null;}
-		
+
 		if(!spot.user){ return null;}
-		
+
 		return _.find(game.users, function(user) {
 			return user.id === spot.user;
 		})
@@ -188,7 +187,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.getNextUser = function (game) {
 		var gameUsers = _.map(game.users, function(user){ return user.id});
 		var spotUsers = _.map(game.spots, function (spot) { return spot.user});
-		
+
 
 		var difference = _.difference(gameUsers, spotUsers);
 		var nextTurn = _.first(difference);
@@ -310,12 +309,12 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.rerollSpot = function(game, spot){
 		if (vm.game.user.id == vm.currentUser.id) {
 			GameModel.rollBuild(game.id, spot.id).then(function(model) {
-				
+
 			});
 		}
 	}
 	vm.drawCard = function(id, spot) {
-		
+
 		if((spot.user === vm.currentUser.id || vm.userOwnsGame()) && angular.isUndefined(spot.build) && !vm.cardDrawn){
 			vm.cardDrawn = true;
 			GameModel.drawCard(id, spot.id)
@@ -330,7 +329,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.startGame = function(id) {
 		// if (spot.user.id == vm.currentUser.id) {
-			
+
 		// }
 		//ngAudio.play("http://www.myinstants.com/media/sounds/leroy.swf.mp3");
 		GameModel.startGame(id).then(function(model) {
@@ -340,7 +339,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.endGame = function(id) {
 		// if (spot.user.id == vm.currentUser.id) {
-			
+
 		// }
 		GameModel.endGame(id).then(function(model) {
 				vm.expandedSpots = {};
@@ -382,13 +381,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 					vm.expandedSpots[spot.id] = true;
 				}
 			}
-			
+
 		}
 	}
 	vm.toggleSpot = function(spot){
 		vm.expandedSpots[spot.id] = vm.expandedSpots[spot.id] ? false : true;
 	}
-	
+
 
 	vm.denied = function(game, spot) {
 		GameModel.denied(game.id, spot.id)
@@ -399,9 +398,9 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.acceptBuild = function(game, spot) {
 		GameModel.acceptBuild(game.id, spot.id)
 		.then(function(result){
-			
+
 			// if(vm.userHasTurn(vm.game)) //ngAudio.play('http://soundbible.com/mp3/Air%20Horn-SoundBible.com-964603082.mp3');
-			
+
 
 		});
 	};
@@ -409,7 +408,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	vm.removeSpot = function (game, spot) {
 		GameModel.removeSpot(game.id, spot.id)
 		.then(function(result) {
-			
+
 		})
 		.catch(function(err) {
 		})

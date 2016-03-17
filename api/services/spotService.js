@@ -1,7 +1,7 @@
 var Q = require("q");
 
 module.exports = {
-	
+
 	/**
 	 * Adds the specified user to the specified spot
 	 * @param {Object} _options Object{gameId, spotId, userId)
@@ -33,7 +33,7 @@ module.exports = {
 				var difference = _.difference(gameUsers, spotUsers);
 				console.log("difference: " + difference);
 				var nextTurn = _.first(difference);
-				
+
 				if(nextTurn !== userId){
 					var error = new Error();
 					error.message = "user doesn't have the turn";
@@ -67,15 +67,15 @@ module.exports = {
 			/*
 			Update the game
 			 */
-			game.save(function(err, result){
+			game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;  
+            return deferred.promise;
 		});
 	},
 
@@ -115,15 +115,15 @@ module.exports = {
 			/*
 			Update the game
 			 */
-			game.save(function(err, result){
+			game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;  
+            return deferred.promise;
 		});
 	},
 	/**
@@ -152,27 +152,27 @@ module.exports = {
 
 
 			if(game.numberOfSpots <= game.spots.length+1) throw new Error("There is no more space in the game");
-			
+
 			var spot = {
 				id: utilsService.generateGUID()
 			}
 			game.spots.push(spot);
-			
 
-			
+
+
 
 			/*
 			Update the game
 			 */
-			game.save(function(err, result){
+			game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;  
+            return deferred.promise;
 		})
 		.catch(function(err) {
 			return err;
@@ -185,9 +185,9 @@ module.exports = {
 	 */
 	deleteSpot: function(_options) {
 		var deferred = Q.defer();
-		var gameId = _options.id;	
-		var spotId = _options.spotId;	
-	
+		var gameId = _options.id;
+		var spotId = _options.spotId;
+
 
 		return Game.findOne(gameId)
 		.then(function(game){
@@ -196,20 +196,20 @@ module.exports = {
 			// Remove spot
 			_.remove(game.spots, function(_spot){
 				return _spot.id === spotId;
-			});			
+			});
 
 			/*
 			Update the game
 			 */
-			game.save(function(err, result){
+			game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;  
+            return deferred.promise;
 		})
 		.catch(function(err) {
 			throw err;

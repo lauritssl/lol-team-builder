@@ -5,8 +5,8 @@ var Q = require("q");
 
 
 module.exports = {
-	
-	
+
+
 	/**
 	 * Adds the specified user to the specified game
 	 * @param {Object} _options Object{gameId, spotId, userId)
@@ -15,7 +15,7 @@ module.exports = {
 		var deferred = Q.defer();
 		var gameId = _options.id;
 		var user = _options.user
-		
+
 
 		/*
 		Check whether the _options object contains the required parameters
@@ -45,7 +45,7 @@ module.exports = {
 				throw new Error("There is no more space in the game");
 				 return;
 			}
-			
+
 			// User already exists
 			var userExists = _.some(game.users,function(_user) {
 				return _user.id === user.id;
@@ -56,25 +56,25 @@ module.exports = {
 					id: user.id,
 					nickname : user.nickname
 				});
-				
+
 				//Add a spot for the given user
 				game.spots.push({id: utilsService.generateGUID()});
 			}
 
-			
+
 
 			/*
 			Update the game
 			 */
-			game.save(function(err, result){
+			game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;  
+            return deferred.promise;
 		})
 		.catch(function(err) {
 			throw err;
@@ -88,8 +88,8 @@ module.exports = {
 	 */
 	deleteUser: function(_options) {
 		var deferred = Q.defer();
-		var gameId = _options.id;	
-		var userId = _options.userId;	
+		var gameId = _options.id;
+		var userId = _options.userId;
 
 		/*
 		Check whether the _options object contains the required parameters
@@ -103,7 +103,7 @@ module.exports = {
 			// Remove spot
 			var removals = _.remove(game.users, function(_user){
 				return _user.id === userId;
-			});			
+			});
 
 			game.spotsTaken -= removals.length;
 
@@ -118,15 +118,15 @@ module.exports = {
 			/*
 			Update the game
 			 */
-			game.save(function(err, result){
+			game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;  
+            return deferred.promise;
 		})
 		.catch(function(err) {
 			return err;

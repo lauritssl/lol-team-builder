@@ -3,23 +3,23 @@ var async = require("async");
 module.exports = {
 	rollBuild: function(currentMapId,  items, summoners, champions, maps, callback){
 
-	
 
-		groups = Object.keys(items.groups).map(function(k) { 
+
+		groups = Object.keys(items.groups).map(function(k) {
 			return items.groups[k]
 			 });
-		items = Object.keys(items.data).map(function(k) { 
+		items = Object.keys(items.data).map(function(k) {
 			items.data[k].id = k;
 			return items.data[k]
 			 });
 
-		summoners = Object.keys(summoners.data).map(function(k) { 
+		summoners = Object.keys(summoners.data).map(function(k) {
 			return summoners.data[k]
 			 });
 
 		maps = maps.data;
-		
-		
+
+
 
 		var vm = this;
 		var build = {};
@@ -44,7 +44,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollMasteriesCat(function(result){
+				vm.rollMasteries(function(result){
 					build.masteries = result;
 					callback();
 				});
@@ -66,7 +66,7 @@ module.exports = {
 								champion: build.champion,
 								randomIndex: build.randomIndex,
 								boots: build.boots.boots,
-								bootsEnchantment: build.boots.bootsEnchantment, 
+								bootsEnchantment: build.boots.bootsEnchantment,
 								item1: build.items.item1,
 								item2: build.items.item2,
 								item3: build.items.item3,
@@ -76,7 +76,7 @@ module.exports = {
 								mastery1: build.masteries.mastery1,
 								mastery2: build.masteries.mastery2,
 								mastery3: build.masteries.mastery3,
-								summoner1: build.summoners.summoner1,									
+								summoner1: build.summoners.summoner1,
 								summoner2: build.summoners.summoner2,
 								skill_to_level: build.skill_to_level,
 								drawn: false,
@@ -88,14 +88,14 @@ module.exports = {
 		// vm.rollBoots(build, items, groups, function(result1){
 		// 	vm.rollItems(result1, items, function(result2){
 		// 		vm.rollMasteries(result2, function(result3){
-		// 			vm.rollSummoners(result3, summoners, function(result4){						
+		// 			vm.rollSummoners(result3, summoners, function(result4){
 		// 				callback();
 		// 			})
 		// 		});
 		// 	});
-		// });	
+		// });
 
-		
+
 	},
 
 	rollChampion: function(champions, callback) {
@@ -120,7 +120,7 @@ module.exports = {
 				return bootsNormal.id === fromItem;
 			})
 		});
-		
+
 		var enchantmentGroups = groups.filter(function(group){return group.id.indexOf('Boots') > -1});
 
 		var enchantment =  enchantmentGroups[Math.floor(Math.random()*(enchantmentGroups.length))].id
@@ -134,10 +134,10 @@ module.exports = {
 				return id === build.boots;
 			});
 		});
-		
+
 
 		build.bootsEnchantment = bootEnchantments.id;
-		
+
 		callback(build);
 	},
 	rollItems: function(currentMapId, items, maps, championID, callback){
@@ -157,8 +157,8 @@ module.exports = {
 
 
 		var items = items.filter(function(item){return item.into.length === 0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0  && item.name.indexOf("Wrig") < 0});
-		
-		
+
+
 		items = items.filter(function(item) {
 				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  && item.group.indexOf("JungleItems") < 0  || typeof item.group == 'undefined';
 		});
@@ -172,7 +172,7 @@ module.exports = {
 
 		var itemBuild = [];
 
-		//special case for viktor so he gets his hexcore 
+		//special case for viktor so he gets his hexcore
 		if (championID === 'Viktor') {
 
 			itemBuild = rollNumberOfItems(4, items, jungleEnchantments, build);
@@ -197,20 +197,20 @@ module.exports = {
 			for(var i = 0; i < number; i++){
 				var randomNumber = Math.floor(Math.random()*(items.length));
 				itemBuild[i] = items[randomNumber].id;
-				
+
 				if(items[randomNumber].group === "JungleItems"){
-					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, itemBuild[i])}); 		
+					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, itemBuild[i])});
 					var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
 					build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
 				};
 
 				if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") {
-					items = removeSingleTypeItemsIfTaken(items[randomNumber], items);		
+					items = removeSingleTypeItemsIfTaken(items[randomNumber], items);
 				}
 				else {
 					items.splice(randomNumber, 1)
 				};
-			}	
+			}
 
 			return itemBuild;
 		}
@@ -230,12 +230,12 @@ module.exports = {
 
 	rollMasteries: function(callback){
 		//Roll the masteries on a point by point basis and add them to the build
-		var build = {}; 
+		var build = {};
 
 		var masteriesLeft = 30;
 		var tempMasteryArray = [0,0,0];
 		var randomNumber = 0;
-				
+
 		while (masteriesLeft > 0){
 			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
 			tempMasteryArray[randomNumber] += 1;
@@ -244,98 +244,18 @@ module.exports = {
 		};
 
 		for (i = 0 ; i < tempMasteryArray.length; i++) {
-			build["mastery"+(i+1)] = tempMasteryArray[i];			
+			build["mastery"+(i+1)] = tempMasteryArray[i];
 		}
 
 
 		callback(build);
 	},
 
-	rollMasteriesCat: function(callback){
-		//Roll the masteries one category at a time and add them to the build
-		var build = {}; 
-
-		var masteriesLeft = 30;
-		var tempMasteryArray = [0,0,0];
-		var randomNumber = 0;
-		// Add random numbers of matery point to all but one of the categories 
-		for (i = 0; i < tempMasteryArray.length-1; i++){
-			randomNumber =  Math.floor(Math.random()*(masteriesLeft + 1))
-			tempMasteryArray[i] += randomNumber;
-
-			masteriesLeft = masteriesLeft - randomNumber;
-		};
-		// add the remaining points to the last category 
-		tempMasteryArray[tempMasteryArray.length-1] += masteriesLeft;
-
-		_.shuffle(tempMasteryArray);
-
-		for (i = 0 ; i < tempMasteryArray.length; i++) {
-			build["mastery"+(i+1)] = tempMasteryArray[i];			
-		}
-
-		callback(build);
-	},
-
-
-	rollMasteriesOneByOne: function(callback){
-		//Roll the masteries on a point by point basis and add them to the build
-		var build = {}; 
-
-		var masteriesLeft = 30;
-		var tempMasteryArray = [0,0,0];
-		var randomNumber = 0;
-				
-		while (masteriesLeft > 0){
-			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
-			tempMasteryArray[randomNumber] += 1;
-
-			masteriesLeft--;
-		};
-
-		for (i = 0 ; i < tempMasteryArray.length; i++) {
-			build["mastery"+(i+1)] = tempMasteryArray[i];			
-		}
-
-
-		callback(build);
-	},
-
-	rollMasteriesByNumber: function(number,callback){
-		//Roll masteries in blocks of 'number' until less than 'number' is left. Then roll the remainder on a point by point basis
-		var build = {}; 
-
-
-		var masteriesLeft = 30;
-		var tempMasteryArray = [0,0,0];
-		var randomNumber = 0;
-				
-		while (masteriesLeft >= number){
-			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
-			tempMasteryArray[randomNumber] += number;
-
-			masteriesLeft = masteriesLeft - number;
-		};
-
-		while (masteriesLeft > 0){
-			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
-			tempMasteryArray[randomNumber] += 1;
-
-			masteriesLeft--;
-		};
-
-
-		for (i = 0 ; i < tempMasteryArray.length; i++) {
-			build["mastery"+(i+1)] = tempMasteryArray[i];			
-		}
-
-		callback(build);
-	},
 
 	rollSummoners: function(summoners, jungleItem, callback){
 		var build = {};
 
-		
+
 		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1});
 		var i = summoners.length;
 		while( i-- ) {
@@ -343,7 +263,7 @@ module.exports = {
 		}
 		summoners.splice(i, 1);
 
-		
+
 		var randomNumber = Math.floor(Math.random()*(summoners.length));
 
 		if (jungleItem){

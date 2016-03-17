@@ -47,11 +47,11 @@
 
 
  	create: function (req,res) {
- 		
+
  		var user = {
  			id: utilsService.generateGUID(),
  		    nickname: req.param('user').nickname
- 		};  		
+ 		};
 
  		var options = {
  			title : req.param('title'),
@@ -72,7 +72,7 @@
 
  	},
 
-	
+
 	destroy: function(req, res){
 
 		var id = req.param('id');
@@ -146,7 +146,7 @@
 		var options = {
 			id : id,
 		}
-		
+
 		spotService.addSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
@@ -161,7 +161,7 @@
 		var userId = req.param('user');
 		var id = req.param('id');
 		var spotId = req.param('spotId');
-		
+
 
 		var options = {
 			userId: userId,
@@ -170,7 +170,7 @@
 		}
 		spotService.addUserToSpot(options)
 		.then(function(result){
-			Game.publishUpdate(id, result);
+			console.log( id+" "+result+" "+Game.publishUpdate(id, result));
 			return res.json(result);
 		})
 		.catch(function(err){
@@ -183,7 +183,7 @@
 		var userId = req.param('userId');
 		var id = req.param('id');
 		var spotId = req.param('spotId');
-		
+
 
 		var options = {
 			userId: userId,
@@ -218,7 +218,7 @@
 		.catch(function(err){
 			return res.serverError(err);
 		})
-		
+
 	},
 	destroySpot: function(req, res) {
 		var spotId = req.param('spotId');
@@ -232,7 +232,7 @@
 		spotService.deleteSpot(options)
 		.then(function(result){
 			Game.publishUpdate(id, result);
-			return res.json(result);			
+			return res.json(result);
 		})
 		.catch(function(err){
 			return res.serverError(err);
@@ -391,4 +391,3 @@
  	});
  }
 };
-

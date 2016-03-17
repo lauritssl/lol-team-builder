@@ -122,14 +122,14 @@ module.exports = {
 			return game;
 		});
 	},
-	
+
 
 
 	republishGame : function(id){
 		var game = Game.findOne(id);
 		game.then(function(result){
+			console.log(id + ', ' + result);
 			Game.publishUpdate(id, result)
 		});
 	}
 };
-

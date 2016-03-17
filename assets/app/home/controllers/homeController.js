@@ -2,10 +2,10 @@ angular.module( 'ubteambuilder.home', [])
 .config(["$stateProvider",function ($stateProvider){
 
 	$stateProvider.state( 'home', {
-		url: '/home',	
+		url: '/home',
 		controller: 'HomeCtrl',
 		templateUrl: 'home/views/home.tpl.html',
-		controllerAs: 'home'			
+		controllerAs: 'home'
 	})
 }]).controller( 'HomeCtrl', HomeCtrl);
 
@@ -14,9 +14,9 @@ HomeCtrl.$inject = ['titleService', 'GameModel', '$location', '$sails', 'lodash'
  function HomeCtrl(titleService, GameModel, $location,$sails, lodash, $state ) {
 
 
- 	var vm = this;  
+ 	var vm = this;
 	vm.game = {};
-	vm.newGame = {};	
+	vm.newGame = {};
    	titleService.setTitle('Home');
 	vm.games = [];
 	vm.searchTerm = "";
@@ -49,7 +49,7 @@ HomeCtrl.$inject = ['titleService', 'GameModel', '$location', '$sails', 'lodash'
 		GameModel.delete(game).then(function(model) {
 		});
 	};
-	
+
 	vm.joinGame = function(gameId){
 		$state.go('game.lobby', {id: gameId});
 	}

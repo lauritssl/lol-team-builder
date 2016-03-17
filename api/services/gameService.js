@@ -42,7 +42,7 @@ module.exports = {
 
 
 
-        return Game.create(model);      
+        return Game.create(model);
 
     },
 
@@ -58,7 +58,7 @@ module.exports = {
         .then(function(game){
             if (typeof game==='undefined'||game===null){
                 throw new Error ("game wasnt found");
-                return; 
+                return;
             }
         Game.destroy({id: game.id}).exec(function destroyCB(err, destroyed){
                 if (err){
@@ -72,7 +72,7 @@ module.exports = {
     },
 
     rollBuildForGame: function(_options) {
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
         var spotId = _options.spotId;
@@ -93,16 +93,16 @@ module.exports = {
             _.forEach(game.spots, function(spot, key) {
                 if (spot.id === spotId) spot.build = build
             });
-            
-            game.save(function(err, result){
+
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;            
+            return deferred.promise;
         });
     },
     rollBuild: function(_options) {
@@ -187,21 +187,21 @@ module.exports = {
             _.forEach(game.spots, function(spot, key) {
                 spot.build = builds[key];
             });
-            
-            game.save(function(err, result){
+
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
             return deferred.promise;
         });
 
-        
+
     },
     acceptBuild: function(_options){
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
         var spotId = _options.spotId;
@@ -211,22 +211,22 @@ module.exports = {
         return Game.findOne(id)
         .then(function(game){
             game.spots.forEach(function(spot){
-                if(spot.id === spotId)spot.build.accepted = true;                
+                if(spot.id === spotId)spot.build.accepted = true;
             });
 
-            game.save(function(err, result){
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             })
             return deferred.promise;
         })
     },
 
     denyBuild: function(_options){
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
         var spotId = _options.spotId;
@@ -236,21 +236,21 @@ module.exports = {
         return Game.findOne(id)
         .then(function(game){
             game.spots.forEach(function(spot){
-                if(spot.id === spotId)spot.build.denied = true;                
+                if(spot.id === spotId)spot.build.denied = true;
             });
 
-            game.save(function(err, result){
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             })
             return deferred.promise;
         })
     },
     startGame: function(_options){
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
 
@@ -266,10 +266,10 @@ module.exports = {
 
             if(game.gameMode === 'draft'){
                 return self.startDraft({game:game})
-                
+
             }else{
                 return self.startNormal({game:game})
-            }            
+            }
         })
     },
     /**
@@ -278,16 +278,16 @@ module.exports = {
      * @return {[type]}          [description]
      */
     startNormal : function(_options) {
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var game = _options.game;
 
-        game.save(function(err, result){
+        game.save(function(err){
             if(err){
                 deferred.reject(err);
                 return;
             }
-            deferred.resolve(result);
+            deferred.resolve(game);
         })
         return deferred.promise;
     },
@@ -297,7 +297,7 @@ module.exports = {
      * @return {[type]}          [description]
      */
     startDraft: function(_options) {
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var game = _options.game;
 
@@ -322,18 +322,18 @@ module.exports = {
             });
 
             game.users = _.shuffle(game.users);
-            game.save(function(err, result){
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             })
             return deferred.promise;
         });
     },
     endGame: function(_options){
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
 
@@ -350,18 +350,18 @@ module.exports = {
                 delete spot.user;
             });
 
-            game.save(function(err, result){
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             })
             return deferred.promise;
         })
     },
     drawCard: function(_options) {
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
         var spotId = _options.spotId;
@@ -385,20 +385,20 @@ module.exports = {
                     spot.build = build
                 }
             });
-            
-            game.save(function(err, result){
+
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;            
+            return deferred.promise;
         });
     },
     rerollBuild: function(_options) {
-        var deferred = Q.defer();        
+        var deferred = Q.defer();
         var self = this;
         var id = _options.id;
         var spotId = _options.spotId;
@@ -421,16 +421,16 @@ module.exports = {
                     spot.build = build
                 }
             });
-            
-            game.save(function(err, result){
+
+            game.save(function(err){
                 if(err){
                     deferred.reject(err);
                     return;
                 }
-                deferred.resolve(result);
+                deferred.resolve(game);
             });
 
-            return deferred.promise;            
+            return deferred.promise;
         });
     },
     getNonPickedChampions: function(game, champions) {
