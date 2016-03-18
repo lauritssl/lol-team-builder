@@ -141,21 +141,20 @@ module.exports = {
 		/*
 		Check whether the _options object contains the required parameters
 		 */
-		if(gameId === null) throw new Error("addSpot did not receive the required parameters");
-
+		if(gameId === null)
+			throw new Error("addSpot did not receive the required parameters");
 
 		return Game.findOne(gameId)
 		.then(function(model){
 			game = model;
 			game.spots = game.spots || [];
 
-
-
-			if(game.numberOfSpots <= game.spots.length+1) throw new Error("There is no more space in the game");
+			if(game.numberOfSpots < game.spots.length+1)
+				throw new Error("There is no more space in the game");
 
 			var spot = {
 				id: utilsService.generateGUID()
-			}
+			};
 			game.spots.push(spot);
 
 
