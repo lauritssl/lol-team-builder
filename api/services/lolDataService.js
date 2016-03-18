@@ -6,9 +6,9 @@ var Q = require("q");
 module.exports = {
 	apiKey : "9b6c3016-6c52-4c6f-9deb-8d5fcfbf0fde",
     lolBasePath : "https://global.api.pvp.net",
-    staticPath : "/api/lol/static-data/euw/v1.2",   
+    staticPath : "/api/lol/static-data/euw/v1.2",
     cdnUrl:    "http://ddragon.leagueoflegends.com/cdn",
-    cdnVersion: "5.6.1", 
+    cdnVersion: "6.5.1",
     localization: "en_GB",
 
 
@@ -17,7 +17,7 @@ module.exports = {
 
 
     	var self = this;
-    	var champions, items, summoners, maps = {}
+    	var champions, items, summoners, maps = {};
 
     	self.getVersion()
     	.then(function(result){
@@ -78,9 +78,9 @@ module.exports = {
 			// 		maps: maps
 			// 	};
 			// 	callback(null, result);
-			// });		
+			// });
    //  	});
-    	
+
     },
     getChampions: function() {
     	var deferred = Q.defer();
@@ -93,8 +93,8 @@ module.exports = {
 		}, function(error, response, body){
 
 			if (!error && response.statusCode === 200) {
-				var array = Object.keys(body.data).map(function(k) { 
-				return body.data[k]
+				var array = Object.keys(body.data).map(function(k) {
+				return body.data[k];
 				 });
 				deferred.resolve(array);
 				return;
@@ -116,7 +116,7 @@ module.exports = {
 
 			if (!error && response.statusCode === 200) {
 				deferred.resolve(body);
-				return;				
+				return;
 			}
 			deferred.reject(error);
 
@@ -136,17 +136,16 @@ module.exports = {
 
 			if (!error && response.statusCode === 200) {
 				 deferred.resolve(body);
-				return;		
+				return;
 			}
 			deferred.reject(error);
 		});
 		return deferred.promise;
 	},
+
 	getMaps: function(){
     	var deferred = Q.defer();
-
-    	// TODO: Replace version with dynamic value when Riots' Api is fixed
-		var url = this.cdnUrl +"/"+'5.14.1' + "/data/"+ this.localization  +"/map.json";
+		var url = this.cdnUrl +"/"+this.cdnVersion + "/data/"+ this.localization  +"/map.json";
 		request({
 			url: url,
 			json: true
@@ -154,7 +153,7 @@ module.exports = {
 
 			if (!error && response.statusCode === 200) {
 				 deferred.resolve(body);
-				return;		
+				return;
 			}
 			deferred.reject(error);
 		});
@@ -172,10 +171,10 @@ module.exports = {
 
 			if (!error && response.statusCode === 200) {
 				 deferred.resolve(body);
-				return;		
+				return;
 			}
 			deferred.reject(error);
 		});
 		return deferred.promise;
 	}
-}
+};

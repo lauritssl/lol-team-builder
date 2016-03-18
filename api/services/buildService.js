@@ -121,16 +121,23 @@ module.exports = {
 			});
 		});
 
-		var enchantmentGroups = groups.filter(function(group){return group.id.indexOf('Boots') > -1});
-
-		var enchantment =  enchantmentGroups[Math.floor(Math.random()*(enchantmentGroups.length))].id;
+		var enchantmentGroups = groups.filter(function(group){
+			return (group.id.indexOf('Boots') > -1) && (group.id.indexOf('BootsTeleport') === -1) && (group.id.indexOf('BootsHomeguard') === -1) && (group.id.indexOf('BootsNormal') === -1);
+		});
+		var randomNumber = Math.floor(Math.random()*(enchantmentGroups.length));
+		// console.log("rng: " + randomNumber);
+		var enchantment =  enchantmentGroups[randomNumber].id;
+		// console.log("enchantment group: " + enchantment);
 
 		build.boots = boots[Math.floor(Math.random()*(boots.length))].id;
 		var bootEnchantments = items.filter(function(item){
 			return typeof item.group != 'undefined' && item.group == enchantment;
 		});
 		bootEnchantments = _.find(bootEnchantments, function (bEnchantment) {
+			// console.log("enchantment name: " + bEnchantment.name);
 			return _.some(bEnchantment.from, function (id) {
+				// console.log("id of boots with enchantment: " + id);
+				// console.log("id of boots in build: " + build.boots);
 				return id === build.boots;
 			});
 		});
@@ -156,18 +163,28 @@ module.exports = {
 
 
 
-		var items = items.filter(function(item){return item.into.length === 0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0  && item.name.indexOf("Wrig") < 0});
+
+		items = items.filter(function(item){return item.into.length === 0 && item.depth > 1 && typeof item.requiredChampion == 'undefined' && item.name.indexOf("Sightstone") < 0  && item.name.indexOf("Wrig") < 0;});
 
 
 		items = items.filter(function(item) {
-				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  && item.group.indexOf("JungleItems") < 0  || typeof item.group == 'undefined';
+				return (typeof item.group != 'undefined' && item.group.indexOf("Boots") < 0 && item.group.indexOf("RelicBase") < 0)  && item.group.indexOf("JungleItems") < 0  && item.group.indexOf("FlaskGroup") || typeof item.group == 'undefined';
 		});
+
+		// filter the remaining buggy jungle enchantments as of cdn version 6.5.1
+		items = items.filter(function(item){
+			return !(item.name.startsWith("Enchantment"));
+		});
+
+
 
 		//add the jungle items back in.
 		items = items.concat(jungleItems);
 		//sort out unpurchasable items
+
 		items = items.filter(function(item){
-			return !_.contains(maps[currentMapId].UnpurchasableItemList, item.id);
+			//return !_.contains(maps[currentMapId].UnpurchasableItemList, item.id);
+			return item.maps[currentMapId];
 		});
 
 		var itemBuild = [];
@@ -176,7 +193,9 @@ module.exports = {
 		if (championID === 'Viktor') {
 
 			itemBuild = rollNumberOfItems(4, items, jungleEnchantments, build);
-			itemBuild[itemBuild.length] = _.first(items, function(item){return item.id === 3198});
+			itemBuild[itemBuild.length] = _.first(items, function(item){
+				return item.id === 3198;
+			});
 		}
 
 		else {
@@ -199,7 +218,9 @@ module.exports = {
 				itemBuild[i] = items[randomNumber].id;
 
 				if(items[randomNumber].group === "JungleItems"){
-					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, itemBuild[i])});
+					jungleEnchantments = jungleEnchantments.filter(function(item) {
+							return _.contains(item.from, itemBuild[i]);
+						});
 					var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
 					build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
 				}
@@ -277,7 +298,9 @@ module.exports = {
 		var build = {};
 
 
-		var summoners = summoners.filter(function(summoner){return summoner.modes.indexOf("CLASSIC") > -1});
+		summoners = summoners.filter(function(summoner){
+			return summoner.modes.indexOf("CLASSIC") > -1;
+		});
 		var i = summoners.length;
 		while( i-- ) {
  		   if( summoners[i].id === 'SummonerSmite') break;

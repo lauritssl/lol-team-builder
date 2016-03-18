@@ -34,7 +34,7 @@
  	getOne: function(req, res) {
  		Game.getOne(req.param('id'))
  		.spread(function(model) {
- 			if(model == null){
+ 			if(model === null){
  				return res.send(404);
  			}
  			Game.subscribe(req.socket, model);
@@ -170,7 +170,7 @@
 		}
 		spotService.addUserToSpot(options)
 		.then(function(result){
-			console.log( id+" "+result+" "+Game.publishUpdate(id, result));
+			Game.publishUpdate(id, result);
 			return res.json(result);
 		})
 		.catch(function(err){
