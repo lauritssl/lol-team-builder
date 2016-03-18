@@ -6,15 +6,15 @@ module.exports = {
 
 
 		groups = Object.keys(items.groups).map(function(k) {
-			return items.groups[k]
+			return items.groups[k];
 			 });
 		items = Object.keys(items.data).map(function(k) {
 			items.data[k].id = k;
-			return items.data[k]
+			return items.data[k];
 			 });
 
 		summoners = Object.keys(summoners.data).map(function(k) {
-			return summoners.data[k]
+			return summoners.data[k];
 			 });
 
 		maps = maps.data;
@@ -53,13 +53,13 @@ module.exports = {
 				vm.rollSummoners(summoners, build.items.jungleItemEnchantment, function(result){
 					build.summoners = result;
 					callback();
-				})
+				});
 			},
 			function(callback){
 				vm.rollAbility(function(result){
 					build.skill_to_level = result.skill_to_level;
 					callback();
-				})
+				});
 			}], function(err){
 
 				var buildDto = {
@@ -118,12 +118,12 @@ module.exports = {
 		var boots = items.filter(function(item){
 			return _.some(item.from, function (fromItem) {
 				return bootsNormal.id === fromItem;
-			})
+			});
 		});
 
 		var enchantmentGroups = groups.filter(function(group){return group.id.indexOf('Boots') > -1});
 
-		var enchantment =  enchantmentGroups[Math.floor(Math.random()*(enchantmentGroups.length))].id
+		var enchantment =  enchantmentGroups[Math.floor(Math.random()*(enchantmentGroups.length))].id;
 
 		build.boots = boots[Math.floor(Math.random()*(boots.length))].id;
 		var bootEnchantments = items.filter(function(item){
@@ -192,7 +192,7 @@ module.exports = {
 
 		function rollNumberOfItems(number, items, jungleEnchantments, build) {
 
-			var itemBuild = []
+			var itemBuild = [];
 
 			for(var i = 0; i < number; i++){
 				var randomNumber = Math.floor(Math.random()*(items.length));
@@ -202,14 +202,14 @@ module.exports = {
 					jungleEnchantments = jungleEnchantments.filter(function(item) {	return _.contains(item.from, itemBuild[i])});
 					var jungleRandomNumber = Math.floor(Math.random()*(jungleEnchantments.length));
 					build.jungleItemEnchantment = jungleEnchantments[jungleRandomNumber].id;
-				};
+				}
 
 				if(items[randomNumber].group == "JungleItems" || items[randomNumber].group == "GoldBase") {
 					items = removeSingleTypeItemsIfTaken(items[randomNumber], items);
 				}
 				else {
-					items.splice(randomNumber, 1)
-				};
+					items.splice(randomNumber, 1);
+				}
 			}
 
 			return itemBuild;
@@ -221,7 +221,7 @@ module.exports = {
 			if(item.group == "JungleItems"||item.group == "GoldBase"){
 				 items = _.filter(items, function(i){
 					return (typeof i.group !== 'undefined' && i.group.indexOf("JungleItems") < 0 && i.group.indexOf("GoldBase") < 0) || typeof i.group === 'undefined';
-				})
+				});
 			}
 			return items;
 		}
@@ -229,24 +229,45 @@ module.exports = {
 
 
 	rollMasteries: function(callback){
-		//Roll the masteries on a point by point basis and add them to the build
+		//Roll the masteries on point by point basis and add them to the build
 		var build = {};
 
 		var masteriesLeft = 30;
 		var tempMasteryArray = [0,0,0];
 		var randomNumber = 0;
+		var categoryMax = 18;
 
 		while (masteriesLeft > 0){
-			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length))
-			tempMasteryArray[randomNumber] += 1;
-
-			masteriesLeft--;
-		};
+			randomNumber =  Math.floor(Math.random()*(tempMasteryArray.length));
+			if(tempMasteryArray[randomNumber] < categoryMax)
+			{
+					tempMasteryArray[randomNumber] += 1;
+					masteriesLeft--;
+		 	}
+		}
 
 		for (i = 0 ; i < tempMasteryArray.length; i++) {
 			build["mastery"+(i+1)] = tempMasteryArray[i];
 		}
+		callback(build);
+	},
 
+	rollMasteriesKeystone: function(callback){
+		//Roll the masteries in a garenteed 18/12 destribution and add them to the build
+		var build = {};
+
+		var masteriesLeft = 30;
+		var tempMasteryArray = [0,0,0];
+		var randomNumber = 0;
+		var categoryMax = 18;
+		// Add random numbers of matery point to all but one of the categories
+		tempMasteryArray = [categoryMax,masteriesLeft-categoryMax,0];
+
+		_.shuffle(tempMasteryArray);
+
+		for (i = 0 ; i < tempMasteryArray.length; i++) {
+			build["mastery"+(i+1)] = tempMasteryArray[i];
+		}
 
 		callback(build);
 	},
@@ -290,4 +311,4 @@ module.exports = {
 
 		callback(build);
 	}
-}
+};
