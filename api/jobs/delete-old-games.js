@@ -8,7 +8,7 @@ module.exports = {
     	var filter = {
 
     		updatedAt: { '<': new Date(twoHoursAgo)}
-    	}
+    	};
 
         return Game.destroy(filter)
 		.then(function (result) {

@@ -4,12 +4,12 @@ angular.module( 'ubteambuilder.gamelobby.services', []).factory('ChampionService
 ChampionService.$inject =  ['$http', '$q'];
 
 function ChampionService ($http, $q) {
-	
+
     var apiKey = "9b6c3016-6c52-4c6f-9deb-8d5fcfbf0fde";
     var lolBasePath = "https://global.api.pvp.net";
-    var staticPath = "/api/lol/static-data/euw/v1.2";   
+    var staticPath = "/api/lol/static-data/euw/v1.2";
     var cdnUrl =    "http://ddragon.leagueoflegends.com/cdn";
-    var cdnVersion = "5.2.2"; 
+    var cdnVersion = "5.2.2";
     var localization = "en_GB";
 
 
@@ -68,7 +68,7 @@ function ChampionService ($http, $q) {
 
         getChampion: function(championId) {
             var self = this;
-            if(typeof self.champions === 'undefined') {throw new Error("The champions object must be defined")}
+            if(typeof self.champions === 'undefined') {throw new Error("The champions object must be defined");}
 
             return self.champions[championId];
 
@@ -96,9 +96,9 @@ function ChampionService ($http, $q) {
 
             return url + itemImageId;
         },
-        
+
         getAbilityImage: function(champion, ability){
-            
+
             url = cdnUrl +"/"+this.cdnVersion + "/img/spell/";
 
             return url + ability;
@@ -110,4 +110,4 @@ function ChampionService ($http, $q) {
             return url + mapImageId+".png";
         }
 	};
-};
+}

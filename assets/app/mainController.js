@@ -15,5 +15,5 @@ function MainCtrl($scope, $location, ChampionService, $state) {
 
     vm.go = function(location) {
         $location.path(location);
-    }
+    };
 }

@@ -50,7 +50,7 @@ module.exports = {
 				});
 			},
 			function(callback){
-				vm.rollSummoners(summoners, build.items.jungleItemEnchantment, function(result){
+				vm.rollSummoners(currentMapId, summoners, build.items.jungleItemEnchantment, function(result){
 					build.summoners = result;
 					callback();
 				});
@@ -294,12 +294,16 @@ module.exports = {
 	},
 
 
-	rollSummoners: function(summoners, jungleItem, callback){
+	rollSummoners: function(currentMapId, summoners, jungleItem, callback){
 		var build = {};
 
 
 		summoners = summoners.filter(function(summoner){
-			return summoner.modes.indexOf("CLASSIC") > -1;
+			if(currentMapId === 12){
+				return summoner.modes.indexOf("ARAM") > -1;
+			} else {
+				return summoner.modes.indexOf("CLASSIC") > -1;
+			}
 		});
 		var i = summoners.length;
 		while( i-- ) {

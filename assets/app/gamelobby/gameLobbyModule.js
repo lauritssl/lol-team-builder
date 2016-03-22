@@ -74,7 +74,6 @@ $stateProvider
 		    	return $state.go('home');
 		    });
 		}]
-	})
+	});
 
-}])
-
+}]);

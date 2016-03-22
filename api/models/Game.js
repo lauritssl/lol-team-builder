@@ -58,7 +58,7 @@ module.exports = {
 		    return obj;
 	  	}
 	},
-	
+
 	getAll: function(_options) {
 
 		var sort;
@@ -69,7 +69,7 @@ module.exports = {
 			console.log(sort);
 		}
 		filter = {
-			limit: _options.limit || 10, 
+			limit: _options.limit || 10,
 			skip: _options.skip || 0,
 			sort: sort || 'createdAt DESC'
 		};
@@ -77,7 +77,7 @@ module.exports = {
 		if(typeof _options.name !== 'undefined' && !_.isEmpty(_options.name)) {
 			filter.where = {
 				title: {contains: _options.name}
-			}
+			};
 		}
 
 		filter.where = filter.where || {};
@@ -104,11 +104,11 @@ module.exports = {
 				return res.serverError(err);
 			}
 			else if(typeof game != 'undefined'){
-				game.users.remove(userId)
+				game.users.remove(userId);
 				game.save(function(err){});
 				return game;
 			}
-		})
+		});
 	},
 
 	removeUserFromAllSpots: function(id, userId){
@@ -129,7 +129,7 @@ module.exports = {
 		var game = Game.findOne(id);
 		game.then(function(result){
 			console.log(id + ', ' + result);
-			Game.publishUpdate(id, result)
+			Game.publishUpdate(id, result);
 		});
 	}
 };

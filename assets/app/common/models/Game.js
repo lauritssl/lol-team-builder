@@ -6,7 +6,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 
 
 		var filter = {
-			limit: _options.limit || 10, 
+			limit: _options.limit || 10,
 			skip: _options.skip || 0,
 			name: _options.name
 		};
@@ -19,7 +19,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 				url = utils.addQueryParameter(url, key, value);
 			}
 		});
-		
+
 
 		$sails.get(url, function(models) {
 			return deferred.resolve(models);
@@ -153,7 +153,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		});
 
 		return deferred.promise;
-	}
+	};
 
 	this.drawCard = function(gameId, spotId){
 		var url = utils.prepareUrl('game/'+gameId+'/actions/draw');
@@ -162,7 +162,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 			return model;
 		});
 
-	}
+	};
 
 	this.acceptBuild = function(gameId, spotId){
 		var url = utils.prepareUrl('game/'+gameId+'/actions/accept');
@@ -170,7 +170,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return $sails.put(url, {spotId: spotId}).then(function(model) {
 			return model.data;
 		});
-	}
+	};
 
 	this.denied = function(gameId, spotId){
 		var url = utils.prepareUrl('game/'+gameId+'/actions/denied');
@@ -178,7 +178,7 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		return $sails.put(url, {spotId: spotId}).then(function(model) {
 			return model.data;
 		});
-	}
+	};
 
 	this.resetBuilds = function(gameId) {
 		var deferred = $q.defer();
@@ -189,5 +189,5 @@ angular.module('models.game', ['lodash', 'services', 'ngSails',])
 		});
 
 		return deferred.promise;
-	}
+	};
 });

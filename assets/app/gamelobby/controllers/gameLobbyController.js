@@ -103,7 +103,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		if(typeof vm.currentUser == 'undefined') {return true;}
 		var users = [];
 		for(var user in game.users){
-			users.push(game.users[user].username)
+			users.push(game.users[user].username);
 		}
 
 		return lodash.contains(users, vm.currentUser.username);
@@ -117,7 +117,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.joinGame = function(game){
-		$state.go('game.join', {id: game.id})
+		$state.go('game.join', {id: game.id});
 		// GameModel.addUser(vm.game.id, vm.currentUser).then(function(model){
 		// 	NotificationService.success(vm.currentUser.nickName + " joined the game");
 
@@ -206,7 +206,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	};
 
 	vm.userOwnsGame = function (){
-		if(vm.currentUser == null) {return false;}
+		if(vm.currentUser === null) {return false;}
 		if(vm.game.user.id === vm.currentUser.id) {return true;}
 			return false;
 	};
@@ -291,8 +291,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	 * @return {Boolean}
 	 */
 	vm.userInSpot = function(userId, game) {
-		return _.some(game.spots, function(spot){return spot.user === userId});
-	}
+		return _.some(game.spots, function(spot){return spot.user === userId;});
+	};
 	/**
 	 * Get the specified user from the game object
 	 * @param  userId{Number}
@@ -300,9 +300,11 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	 * @return user{Object}
 	 */
 	vm.getUserFromGame = function(userId, game){
-		var user = _.find(game.users, function(user){return user.id == userId});
+		var user = _.find(game.users, function(user){
+      return user.id == userId;
+    });
 		return user;
-	}
+	};
 
 
 	vm.rerollSpot = function(game, spot){
@@ -311,7 +313,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 			});
 		}
-	}
+	};
 	vm.drawCard = function(id, spot) {
 
 		if((spot.user === vm.currentUser.id || vm.userOwnsGame()) && angular.isUndefined(spot.build) && !vm.cardDrawn){

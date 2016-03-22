@@ -137,7 +137,7 @@
 				return res.send('The provide password was invalid');
 			}
 			return res.serverError(err);
-		})
+		});
 	},
 	addSpot: function  (req,res) {
 		var user = req.param('user');
@@ -145,7 +145,7 @@
 
 		var options = {
 			id : id,
-		}
+		};
 
 		spotService.addSpot(options)
 		.then(function(result){
@@ -154,7 +154,7 @@
 		})
 		.catch(function(err){
 			return res.serverError(err);
-		})
+		});
 
 	},
 	addUserToSpot : function(req, res){
@@ -270,13 +270,13 @@
  */
  drawCard : function(req, res){
 
- 	var id = req.param('id')
- 	var spotId = req.param('spotId')
+ 	var id = req.param('id');
+ 	var spotId = req.param('spotId');
 
  	var options = {
  		id: id,
  		spotId: spotId
- 	}
+ 	};
 
  	gameService.drawCard(options)
  	.then(function(result){
