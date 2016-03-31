@@ -65,7 +65,7 @@ module.exports = {
 		if(_options.sort){
 			sort = _option.sort || 'createdAt';
 			var order = _options.ascending ? 'ASC' : 'DESC';
-			sort + ' ' + order;
+			sort = sort + ' ' + order;
 			console.log(sort);
 		}
 		filter = {

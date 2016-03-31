@@ -15,8 +15,8 @@ angular.module('ubteambuilder', [
 	'services',
 	'ubteambuilder.header',
 	'ubteambuilder.gamelobby',
-	'ubteambuilder.home'
-
+	'ubteambuilder.home',
+	'ubteambuilder.solobuild'
     //MOCKSERVICE
     //'cardable.services.MockService' //TODO: Delete when done with mocking
     ]).config( function  ( $stateProvider, $urlRouterProvider, $locationProvider ) {
@@ -47,7 +47,7 @@ angular.module('ubteambuilder', [
 $http.defaults.cache = DSCacheFactory.get('defaultCache');
 
 		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
-			
-			
+
+
 		});
 }]);

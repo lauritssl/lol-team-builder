@@ -155,13 +155,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		GameModel.removeUser(game.id, user.id).then(function (model) {
 			NotificationService.success(user.nickname + ' has been kicked from the game!');
 		});
-	}
+	};
 
 	vm.userHasTurn = function(game){
 		var nextRollableSpot = vm.getNextRollableSpot(game);
 		if(typeof nextRollableSpot !== 'undefined' && nextRollableSpot.user === vm.currentUser.id) {return true;}
 		return false;
-	}
+	};
 
 	vm.getUserWithTurn = function (game) {
 		var spot = vm.getNextRollableSpot(game);
@@ -172,20 +172,20 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 		return _.find(game.users, function(user) {
 			return user.id === spot.user;
-		})
-	}
+		});
+	};
 
 	vm.getNextRollableSpot = function(game){
 		var spot = _.find(game.spots, function(spot){
 			if(typeof spot.build !== 'undefined') {return spot.build.drawn !== true || spot.build.drawn && !spot.build.accepted ;}
-			else {return typeof spot.build === 'undefined'}
+			else {return typeof spot.build === 'undefined';}
 			});
 		return spot;
-	}
+	};
 
 	vm.getNextUser = function (game) {
-		var gameUsers = _.map(game.users, function(user){ return user.id});
-		var spotUsers = _.map(game.spots, function (spot) { return spot.user});
+		var gameUsers = _.map(game.users, function(user){ return user.id;});
+		var spotUsers = _.map(game.spots, function (spot) { return spot.user;});
 
 
 		var difference = _.difference(gameUsers, spotUsers);
@@ -193,8 +193,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 		return _.find(game.users, function (user) {
 			return user.id === nextTurn;
-		})
-	}
+		});
+	};
 
 	vm.destroyGame = function(game) {
 		// check here if this message belongs to the currentUser
@@ -222,10 +222,13 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 		return ChampionService.getChampionImage(championImageId);
 	};
 
-	vm.getItemImageFromBuild = function(build, type){
-
-		return ChampionService.getItemImage(build[type]);
-	};
+  vm.getItemImageFromBuild = function(build, type){
+    if(items[build[type]].group && items[build[type]].group.lastIndexOf("JungleItems",0) === 0){
+      return ChampionService.getItemImage(build.jungleItemEnchantment);
+    } else {
+      return ChampionService.getItemImage(build[type]);
+    }
+  };
 
 	vm.getSummonerImageFromBuild = function(build, type){
 
@@ -235,7 +238,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.getChampion = function(championId) {
 		return ChampionService.getChampion(championId);
-	}
+	};
+
 	vm.getChampionSkillImageFromBuild = function(build, champion){
 		var spell = vm.getSkillFromChampion(build, champion);
 
@@ -244,16 +248,21 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 	vm.getItemFromBuild = function(build, type) {
 		var item = angular.copy(vm.items[build[type]]);
+    var combinedName;
 		if(item.group === "JungleItems") {
 			item = angular.copy(vm.items[build.jungleItemEnchantment]);
-			var name = vm.items[build[type]].name + " with " + item.name;
+			combinedName = vm.items[build[type]].name + " with " + item.name;
 			item.name = name;
 		}else if(type === "boots"){
 			item = angular.copy(vm.items[build.bootsEnchantment]);
-			var name = vm.items[build[type]].name + " with " + item.name;
-			item.name = name;
+			combinedName = vm.items[build[type]].name + " with " + item.name;
+			item.name = combinedName;
 		}
 		return item;
+	};
+
+  vm.getChampionBackground = function(championImageId) {
+			return ChampionService.getChampionBackground(championImageId);
 	};
 
 	vm.getSkillFromChampion = function(build) {
@@ -281,7 +290,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 	 * @return {Boolean}
 	 */
 	vm.isUserInSpot = function(spot){
-		if(typeof spot.user == 'undefined' || spot.user == null) {return false;}
+		if(typeof spot.user == 'undefined' || spot.user === null) {return false;}
 		return true;
 	};
 	/**
@@ -347,9 +356,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			});
 	};
 
-	vm.getChampionBackground = function(championImageId) {
-			return ChampionService.getChampionBackground(championImageId);
-	}
+
 
 	vm.resetBuilds = function(gameId) {
 		GameModel.resetBuilds(gameId).then(function(result){});
@@ -384,10 +391,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			}
 
 		}
-	}
+	};
 	vm.toggleSpot = function(spot){
 		vm.expandedSpots[spot.id] = vm.expandedSpots[spot.id] ? false : true;
-	}
+	};
 
 
 	vm.denied = function(game, spot) {
@@ -412,8 +419,8 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 
 		})
 		.catch(function(err) {
-		})
-	}
+		});
+	};
 
 
 	vm.addSpot = function(game) {
@@ -421,10 +428,10 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 				GameModel.addSpot(game.id)
 				.then(function(result) {
 					// body...
-				})
+				});
 		}
 
-	}
+	};
 
 	vm.allSpotsAccepted = function(game){
 		var allAccepted = !_.some(game.spots, function(spot){
@@ -432,7 +439,7 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 							return spot.build.accepted === false;
 						  });
 		return allAccepted;
-	}
+	};
 
 	vm.showStartGame = function (game) {
 		if(!vm.userOwnsGame()) {
@@ -442,17 +449,15 @@ GameLobbyCtrl.$inject = [ '$sails', 'lodash', 'titleService', 'GameModel', 'game
 			return false;
 		}
 		if(game.gameMode === 'normal' && vm.unpickedUsers.length !== 0){
-			return false
+			return false;
 		}
 
 		return true;
-	}
+	};
 	vm.isBuildAccepted = function(spot){
-		if(typeof spot.build === 'undefined') {return false}
-		return spot.build.accepted
-	}
+		if(typeof spot.build === 'undefined') {return false;}
+		return spot.build.accepted;
+	};
 
 
-
-
-};
+}

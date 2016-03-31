@@ -42,7 +42,7 @@ function CreateModalCtrl ($modalInstance, GameModel, $cookieStore, NotificationS
  	 vm.selected = {
  	 	map: {name: 'Summoners Rift', id:11},
  	 	gameMode: {name: 'normal', id: 'normal'}
- 	 }
+	};
 
  	 /**
  	  * Create the game object
@@ -62,7 +62,7 @@ function CreateModalCtrl ($modalInstance, GameModel, $cookieStore, NotificationS
 
  	 vm.getTitle = function() {
  	 	return vm.user.nickname + ' ' + _.random(0, 10000, false);
- 	 }
+	};
 
  	 /**
  	  * Method for creating a new game
@@ -82,8 +82,8 @@ function CreateModalCtrl ($modalInstance, GameModel, $cookieStore, NotificationS
  	 	.catch(function(error){
  	 		NotificationService.error('Error! - ' + error.summary +' - Check console.log');
  	 		$modalInstance.dismiss('cancel');
- 	 	});  
- 	 }
+ 	 	});
+	};
 
  	 vm.cancel = function() {
  	 	$modalInstance.dismiss('cancel');

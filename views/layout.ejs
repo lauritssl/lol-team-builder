@@ -1,9 +1,9 @@
 <!doctype html>
-    
+
 <html style="background-color: #14181F !important;">
   <head>
     <title>Ultimate Bravery Team Builder - League Of Bravery</title>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="jhrN0ta4u89TVSgKbX8ouI9PckwisngHQkIHNm-ednU" />
@@ -11,32 +11,32 @@
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
     <meta name="fragment" content="!" />
-  
+
     <meta property="og:url" content="http://<%= request.headers.host + request.url %>">
     <meta name="twitter:url" content="http://<%= request.headers.host + request.url %>">
 
     <meta property="og:description" content="Going to play Ultimate Bravery? Use our handy team builder tool to quickly generate a team and get your LoL game on!">
-    <meta name="description" content="Going to play Ultimate Bravery? Use our handy team builder tool to quickly generate a team and get your LoL game on!">    
+    <meta name="description" content="Going to play Ultimate Bravery? Use our handy team builder tool to quickly generate a team and get your LoL game on!">
 
     <meta property="og:image" content="/assets/images/facebook-share-image.png">
     <meta name="twitter:image:src" content="/assets/images/twitter-share-image.png">
 
-    <!--  
+    <!--
         Stylesheets and Preprocessors
         ==============================
 
         You can always bring in CSS files manually with `<link>` tags, or asynchronously
-        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage 
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage
         of Sails' conventional asset pipeline (boilerplate Gruntfile).
 
         By default, stylesheets from your `assets/styles` folder are included
         here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
         are supported. In production, your styles will be minified and concatenated into
         a single file.
-        
+
         To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
         For example, here are a few things you could do:
-            
+
             + Change the order of your CSS files
             + Import stylesheets from other directories
             + Use a different or additional preprocessor, like SASS, SCSS or Stylus
@@ -44,9 +44,10 @@
 <!-- font awesome from BootstrapCDN -->
     <link href='//fonts.googleapis.com/css?family=Milonga|Roboto:400,700,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    
+
 
     <!--STYLES-->
+    <link rel="stylesheet" href="/bower_components/angular-notify/dist/angular-notify.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
 
@@ -64,17 +65,17 @@
       ========================
 
       You can always bring in JS files manually with `script` tags, or asynchronously
-      on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can
       take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
 
       By default, files in your `assets/js` folder are included here
       automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
       CoffeeScript (.coffee) are supported. In production, your scripts will be minified
       and concatenated into a single file.
-      
+
       To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
       For example, here are a few things you could do:
-          
+
           + Change the order of your scripts
           + Import scripts from other directories
           + Use a different preprocessor, like TypeScript
@@ -102,12 +103,15 @@
     <script src="/bower_components/angular-notify/dist/angular-notify.js"></script>
     <script src="/scripts/browser-selector.js"></script>
     <script src="/app/app.js"></script>
+    <script src="/app/common/components/cards/cardController.js"></script>
+    <script src="/app/common/components/cards/index.js"></script>
     <script src="/app/common/directives/index.js"></script>
     <script src="/app/common/directives/search.directive.js"></script>
     <script src="/app/common/models/Game.js"></script>
     <script src="/app/common/models/Message.js"></script>
     <script src="/app/common/models/User.js"></script>
     <script src="/app/common/models/index.js"></script>
+    <script src="/app/common/services/championService.js"></script>
     <script src="/app/common/services/config.js"></script>
     <script src="/app/common/services/index.js"></script>
     <script src="/app/common/services/lodash.js"></script>
@@ -118,15 +122,16 @@
     <script src="/app/gamelobby/controllers/enterModal.controller.js"></script>
     <script src="/app/gamelobby/controllers/gameLobbyController.js"></script>
     <script src="/app/gamelobby/gameLobbyModule.js"></script>
-    <script src="/app/gamelobby/services/championService.js"></script>
     <script src="/app/gamelobby/services/gamelobby.service.js"></script>
     <script src="/app/header/controllers/headerController.js"></script>
     <script src="/app/header/headerModule.js"></script>
     <script src="/app/home/controllers/homeController.js"></script>
     <script src="/app/mainController.js"></script>
+    <script src="/app/solobuild/controllers/soloBuildController.js"></script>
+    <script src="/app/solobuild/solobuildModule.js"></script>
     <!--SCRIPTS END-->
 
-    
+
     <!--
         Client-side Templates
         ========================
@@ -138,7 +143,7 @@
         By default, your Gruntfile is configured to automatically load and precompile
         client-side JST templates in your `assets/templates` folder, then
         include them here automatically (between TEMPLATES and TEMPLATES END).
-        
+
         To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
         For example, here are a few things you could do:
 

@@ -4,7 +4,7 @@ module.exports = {
     create: function(_options) {
         var deferred = Q.defer();
         var self = this;
-        var user = _options.user
+        var user = _options.user;
 
         if (typeof user === 'undefined' || user === null) {
             throw new Error("The user was either null or undefined");
@@ -20,7 +20,7 @@ module.exports = {
         var spots = [];
         var spot = {
             id: utilsService.generateGUID()
-        }
+        };
         spots.push(spot);
 
         var users = [];
@@ -35,10 +35,10 @@ module.exports = {
             private: _options.private,
             spots: spots,
             gameMode: _options.gameMode
-        }
+        };
 
         if(typeof _options.numberOfSpots !== 'undefined' || _options.numberOfSpots === null) {model.numberOfSpots = _options.numberOfSpots;}
-        if(model.private){ model.password = _options.password};
+        if(model.private){ model.password = _options.password;}
 
 
 
@@ -84,14 +84,14 @@ module.exports = {
                 summoners: gameData.summoners,
                 maps: gameData.maps,
                 game: gameModel
-            }
+            };
             game = gameModel;
             return self.rollBuild(options);
         }).then(function(build) {
             //Since it is a single draw it will be changed to drawn
             build.drawn = true;
             _.forEach(game.spots, function(spot, key) {
-                if (spot.id === spotId) spot.build = build
+                if (spot.id === spotId) spot.build = build;
             });
 
             game.save(function(err){
@@ -137,7 +137,7 @@ module.exports = {
         //Get non picked champions
         var newChampions = this.getNonPickedChampions(game, champions);
         //Roll build
-        buildService.rollBuild(game.map || 1, items, summoners, newChampions, maps, function(result) {
+        buildService.rollBuild(game.map || 11, items, summoners, newChampions, maps, function(result) {
             deferred.resolve(result);
         }, function(err) {
             deferred.reject(err);
@@ -180,7 +180,7 @@ module.exports = {
                 summoners: gameData.summoners,
                 maps: gameData.maps,
                 game: gameModel
-            }
+            };
             game = gameModel;
             return self.rollBuilds(options);
         }).then(function(builds) {
@@ -220,9 +220,9 @@ module.exports = {
                     return;
                 }
                 deferred.resolve(game);
-            })
+            });
             return deferred.promise;
-        })
+        });
     },
 
     denyBuild: function(_options){
@@ -245,9 +245,9 @@ module.exports = {
                     return;
                 }
                 deferred.resolve(game);
-            })
+            });
             return deferred.promise;
-        })
+        });
     },
     startGame: function(_options){
         var deferred = Q.defer();
@@ -265,12 +265,12 @@ module.exports = {
             game.gameStarted = true;
 
             if(game.gameMode === 'draft'){
-                return self.startDraft({game:game})
+                return self.startDraft({game:game});
 
             }else{
-                return self.startNormal({game:game})
+                return self.startNormal({game:game});
             }
-        })
+        });
     },
     /**
      * Method for starting a normal game
@@ -288,7 +288,7 @@ module.exports = {
                 return;
             }
             deferred.resolve(game);
-        })
+        });
         return deferred.promise;
     },
     /**
@@ -309,7 +309,7 @@ module.exports = {
                 summoners: gameData.summoners,
                 maps: gameData.maps,
                 game: game
-            }
+            };
 
             return self.rollBuilds(options);
 
@@ -328,7 +328,7 @@ module.exports = {
                     return;
                 }
                 deferred.resolve(game);
-            })
+            });
             return deferred.promise;
         });
     },
@@ -356,9 +356,9 @@ module.exports = {
                     return;
                 }
                 deferred.resolve(game);
-            })
+            });
             return deferred.promise;
-        })
+        });
     },
     drawCard: function(_options) {
         var deferred = Q.defer();
@@ -373,16 +373,16 @@ module.exports = {
                 summoners: gameData.summoners,
                 maps: gameData.maps,
                 game: gameModel
-            }
+            };
             game = gameModel;
-            if(_.some(game.spots, function(spot){return (spot.id === spotId && typeof spot.build !== 'undefined' && spot.build.drawn)})) throw new Error("Card is already drawn");
+            if(_.some(game.spots, function(spot){return (spot.id === spotId && typeof spot.build !== 'undefined' && spot.build.drawn);})) throw new Error("Card is already drawn");
             return self.rollBuild(options);
         }).then(function(build) {
             //Since it is a single draw it will be changed to drawn
             build.drawn = true;
             _.forEach(game.spots, function(spot, key) {
                 if (spot.id == spotId) {
-                    spot.build = build
+                    spot.build = build;
                 }
             });
 
@@ -410,7 +410,7 @@ module.exports = {
                 summoners: gameData.summoners,
                 maps: gameData.maps,
                 game: gameModel
-            }
+            };
             game = gameModel;
             return self.rollBuild(options);
         }).then(function(build) {
@@ -418,7 +418,7 @@ module.exports = {
             build.drawn = true;
             _.forEach(game.spots, function(spot, key) {
                 if (spot.id == spotId) {
-                    spot.build = build
+                    spot.build = build;
                 }
             });
 
@@ -443,8 +443,8 @@ module.exports = {
         });
         //filter away the existing champions
         champions = champions.filter(function(champion) {
-            return existingChampions.indexOf(champion.id) < 0
+            return existingChampions.indexOf(champion.id) < 0;
         });
         return champions;
     }
-}
+};
